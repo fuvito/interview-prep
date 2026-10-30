@@ -2,9 +2,9 @@ import { create } from 'zustand'
 import { userPreferencesRepository } from '@/database/repositories'
 
 type Theme = 'dark' | 'light'
-type FontSize = 'sm' | 'md' | 'lg'
+type FontSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'
 
-const FONT_PX: Record<FontSize, number> = { sm: 13, md: 15, lg: 17 }
+const FONT_PX: Record<FontSize, number> = { xs: 12, sm: 13, md: 15, lg: 17, xl: 19, '2xl': 21 }
 
 interface ThemeState {
   theme: Theme
@@ -46,7 +46,7 @@ export const useThemeStore = create<ThemeState>((set, get) => ({
   },
 
   increaseFontSize: async () => {
-    const order: FontSize[] = ['sm', 'md', 'lg']
+    const order: FontSize[] = ['xs', 'sm', 'md', 'lg', 'xl', '2xl']
     const current = get().fontSize
     const next = order[Math.min(order.indexOf(current) + 1, order.length - 1)]
     if (next === current) return
@@ -56,7 +56,7 @@ export const useThemeStore = create<ThemeState>((set, get) => ({
   },
 
   decreaseFontSize: async () => {
-    const order: FontSize[] = ['sm', 'md', 'lg']
+    const order: FontSize[] = ['xs', 'sm', 'md', 'lg', 'xl', '2xl']
     const current = get().fontSize
     const next = order[Math.max(order.indexOf(current) - 1, 0)]
     if (next === current) return

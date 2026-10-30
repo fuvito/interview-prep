@@ -66,7 +66,7 @@ export function TopBar() {
 
         <button
           onClick={() => void decreaseFontSize()}
-          disabled={fontSize === 'sm'}
+          disabled={fontSize === 'xs'}
           className="text-gray-500 hover:text-gray-300 transition-colors px-0.5 disabled:opacity-30 disabled:cursor-not-allowed leading-none"
           aria-label="Decrease font size"
         >
