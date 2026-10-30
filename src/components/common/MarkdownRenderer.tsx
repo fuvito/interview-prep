@@ -1,6 +1,6 @@
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-import rehypeHighlight from 'rehype-highlight'
+import { rehypeHighlightTs } from '@/lib/rehypeHighlightTs'
 
 interface Props {
   children: string
@@ -24,7 +24,7 @@ export function MarkdownRenderer({ children, className, inline }: Props) {
     <div className={`text-gray-200 leading-relaxed space-y-2 ${className ?? ''}`}>
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
-        rehypePlugins={[rehypeHighlight]}
+        rehypePlugins={[rehypeHighlightTs]}
         components={{
           h1: ({ children: c }) => <h1 className="text-lg font-bold text-white">{c}</h1>,
           h2: ({ children: c }) => <h2 className="text-base font-semibold text-white">{c}</h2>,

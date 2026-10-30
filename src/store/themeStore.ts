@@ -4,7 +4,7 @@ import { userPreferencesRepository } from '@/database/repositories'
 type Theme = 'dark' | 'light'
 type FontSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'
 
-const FONT_PX: Record<FontSize, number> = { xs: 12, sm: 13, md: 15, lg: 17, xl: 19, '2xl': 21 }
+const FONT_PX: Record<FontSize, number> = { xs: 14, sm: 15, md: 17, lg: 19, xl: 21, '2xl': 23 }
 
 interface ThemeState {
   theme: Theme

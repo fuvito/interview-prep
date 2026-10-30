@@ -17,11 +17,11 @@
   },
   "dependencies": {
     "dexie": "^4.4.7",
+    "lowlight": "^3.3.0",
     "lucide-react": "^1.64.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-markdown": "^10.1.0",
-    "rehype-highlight": "^7.0.2",
     "remark-gfm": "^4.0.1",
     "zustand": "^5.0.16"
   },
