@@ -51,9 +51,24 @@ export interface ResizeHandle {
 }
 
 function applyToBody(w: number, h: number) {
-  document.body.style.width = `${w}px`
-  document.body.style.height = `${h}px`
-  document.body.style.overflow = 'hidden'
+  const b = document.body.style
+  b.width = `${w}px`
+  b.maxWidth = `${w}px`
+  b.height = `${h}px`
+  b.maxHeight = `${h}px`
+  b.overflow = 'hidden'
+  // Also lock the html element so no scrollbar can appear at any level
+  const d = document.documentElement.style
+  d.overflow = 'hidden'
+  d.maxWidth = `${w}px`
+  d.maxHeight = `${h}px`
+}
+
+const CURSORS: Record<Dir, string> = {
+  n: 'ns-resize', s: 'ns-resize',
+  e: 'ew-resize', w: 'ew-resize',
+  ne: 'nesw-resize', nw: 'nwse-resize',
+  se: 'nwse-resize', sw: 'nesw-resize',
 }
 
 export function useResizable() {
@@ -77,6 +92,8 @@ export function useResizable() {
   useEffect(() => {
     function onMove(e: globalThis.MouseEvent) {
       if (!drag.current) return
+      // Prevent scroll and text selection during drag
+      e.preventDefault()
       const { dir, x0, y0, w0, h0 } = drag.current
       const dx = e.clientX - x0
       const dy = e.clientY - y0
@@ -93,10 +110,12 @@ export function useResizable() {
     function onUp() {
       if (!drag.current) return
       drag.current = null
+      document.body.style.userSelect = ''
+      document.body.style.cursor = ''
       localStorage.setItem(STORAGE_KEY, JSON.stringify(sizeRef.current))
     }
 
-    window.addEventListener('mousemove', onMove)
+    window.addEventListener('mousemove', onMove, { passive: false })
     window.addEventListener('mouseup', onUp)
     return () => {
       window.removeEventListener('mousemove', onMove)
@@ -110,6 +129,9 @@ export function useResizable() {
     onMouseDown(e: MouseEvent) {
       e.preventDefault()
       drag.current = { dir, x0: e.clientX, y0: e.clientY, w0: sizeRef.current.w, h0: sizeRef.current.h }
+      // Lock cursor and block selection for the entire drag, even outside the handle
+      document.body.style.userSelect = 'none'
+      document.body.style.cursor = CURSORS[dir]
     },
   }))
 
