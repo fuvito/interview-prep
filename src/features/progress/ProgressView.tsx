@@ -2,12 +2,14 @@ import { useEffect, useState } from 'react'
 import { AlertTriangle, RotateCcw } from 'lucide-react'
 import { progressTracker } from '@/core/progress-engine'
 import { questionRepository } from '@/core/question-engine'
+import { useNavigationStore } from '@/store'
 import { ScoreBar, ProgressBar, Button } from '@/components/common'
 import { useIconSize } from '@/hooks/useIconSize'
 import type { SubjectStats } from '@/types'
 
 export function ProgressView() {
   const iconSize = useIconSize()
+  const { currentSubjectId } = useNavigationStore()
   const [stats, setStats] = useState<SubjectStats | null>(null)
   const [showConfirm, setShowConfirm] = useState(false)
   const [resetting, setResetting] = useState(false)
@@ -15,10 +17,12 @@ export function ProgressView() {
   function loadStats() {
     const subjects = questionRepository.getAllSubjects()
     if (subjects.length === 0) return
-    void progressTracker.getSubjectStats(subjects[0].id).then(setStats)
+    const id = currentSubjectId ?? subjects[0].id
+    void progressTracker.getSubjectStats(id).then(setStats)
   }
 
-  useEffect(() => { loadStats() }, [])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => { loadStats() }, [currentSubjectId])
 
   async function handleReset() {
     setResetting(true)

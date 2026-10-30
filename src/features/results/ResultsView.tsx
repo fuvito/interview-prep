@@ -78,7 +78,7 @@ export function ResultsView() {
       </div>
 
       <div className="px-4 py-3 border-t border-gray-800 shrink-0">
-        <Button variant="secondary" className="w-full" onClick={() => { store.reset(); navigateRoot({ name: 'subjects' }) }}>
+        <Button variant="secondary" className="w-full" onClick={() => { store.reset(); navigateRoot({ name: 'dashboard' }) }}>
           Done
         </Button>
       </div>

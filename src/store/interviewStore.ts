@@ -79,12 +79,14 @@ export const useInterviewStore = create<InterviewState>((set, get) => ({
   },
 
   advanceOrFinish: async () => {
-    const { questions, currentIndex, results, subjectId, sessionId, startedAt } = get()
+    const { questions, currentIndex, results, subjectId, sessionId, startedAt, completedSession } = get()
 
     if (currentIndex < questions.length - 1) {
       set({ currentIndex: currentIndex + 1, selectedAnswerIds: [], phase: 'answering' })
       return false
     }
+
+    if (completedSession) return true
 
     const correctCount = Object.values(results).filter((r) => r.isCorrect).length
     const now = new Date().toISOString()

@@ -27,7 +27,7 @@ export function TopBar() {
   const { current, stack, navigate, goBack, currentSubjectId } = useNavigationStore()
   const { theme, toggle, fontSize, increaseFontSize, decreaseFontSize } = useThemeStore()
   const { expanded, toggle: toggleSize } = usePopupSize()
-  const canGoBack = stack.length > 0
+  const canGoBack = stack.length > 0 && current.name !== 'interview'
   const isDashboard = current.name === 'dashboard'
   const hasSubject = isDashboard && currentSubjectId !== null
 

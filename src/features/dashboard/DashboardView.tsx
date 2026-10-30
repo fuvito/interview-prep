@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { ChevronRight, AlertTriangle } from 'lucide-react'
+import { ChevronRight, AlertTriangle, Zap } from 'lucide-react'
 import { useNavigationStore } from '@/store'
 import { progressTracker } from '@/core/progress-engine'
 import { questionRepository } from '@/core/question-engine'
@@ -76,6 +76,18 @@ export function DashboardView() {
           </div>
         </section>
       )}
+
+      {/* Interview shortcut */}
+      <button
+        onClick={() => navigate({ name: 'interview-setup', subjectId: currentSubjectId! })}
+        className="w-full flex items-center justify-between p-3 bg-blue-900/20 border border-blue-800/50 rounded-lg hover:bg-blue-900/30 transition-colors text-left"
+      >
+        <div>
+          <p className="text-sm font-medium text-blue-300">Practice Interview</p>
+          <p className="text-xs text-blue-400/70">Timed quiz with score tracking</p>
+        </div>
+        <Zap size={iconSize(16)} className="text-blue-400 shrink-0" />
+      </button>
 
       {/* Topics for current subject */}
       <section>
