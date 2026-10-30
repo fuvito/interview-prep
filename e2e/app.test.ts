@@ -77,6 +77,58 @@ test.describe('Theme toggle', () => {
   })
 })
 
+test.describe('Subjects screen', () => {
+  test('shows a "built-in" badge on bundled subjects', async ({ page }) => {
+    await page.goto('/')
+    await page.getByRole('button', { name: 'Subjects' }).click()
+    await expect(page.getByText('built-in')).toBeVisible()
+  })
+
+  test('shows the TypeScript subject with question count', async ({ page }) => {
+    await page.goto('/')
+    await page.getByRole('button', { name: 'Subjects' }).click()
+    await expect(page.getByText('TypeScript', { exact: true }).first()).toBeVisible()
+    // Each subject card shows a question count like "150 questions · 6 topics"
+    await expect(page.getByText(/\d+ questions/).first()).toBeVisible()
+  })
+})
+
+test.describe('Bookmarks empty state', () => {
+  test('shows an empty state when no bookmarks exist', async ({ page }) => {
+    await page.goto('/')
+    await page.getByRole('button', { name: 'Bookmarks' }).click()
+    // Fresh install — no bookmarks yet
+    await expect(page.getByText('No bookmarks')).toBeVisible()
+  })
+})
+
+test.describe('Dashboard with subject selected', () => {
+  test('shows Practice Interview shortcut after selecting a subject', async ({ page }) => {
+    await page.goto('/')
+    // Select TypeScript from dashboard subject cards
+    await page.getByText('TypeScript').click()
+    await page.getByRole('button', { name: 'Go back' }).click()
+    // Now back on Dashboard with TypeScript set as current subject
+    await expect(page.getByText('Practice Interview')).toBeVisible()
+  })
+})
+
+test.describe('About screen', () => {
+  test('shows all documentation links', async ({ page }) => {
+    await page.goto('/')
+    await page.getByRole('button', { name: 'About' }).click()
+    await expect(page.getByText('User Guide')).toBeVisible()
+    await expect(page.getByText('Privacy Policy')).toBeVisible()
+    await expect(page.getByText('Terms of Use')).toBeVisible()
+  })
+
+  test('shows the GitHub repository link', async ({ page }) => {
+    await page.goto('/')
+    await page.getByRole('button', { name: 'About' }).click()
+    await expect(page.getByText('GitHub Repository')).toBeVisible()
+  })
+})
+
 test.describe('Font size controls', () => {
   test('increase and decrease font size buttons are visible', async ({ page }) => {
     await page.goto('/')

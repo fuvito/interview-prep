@@ -154,6 +154,117 @@ describe('progressTracker.getWeakAreas', () => {
   })
 })
 
+describe('progressTracker.getProgress', () => {
+  it('returns the progress record for a given question', async () => {
+    const progress = makeProgress({ questionId: 'q1' })
+    mockQP.get.mockResolvedValue(progress)
+
+    const result = await progressTracker.getProgress('q1')
+
+    expect(mockQP.get).toHaveBeenCalledWith('q1')
+    expect(result).toEqual(progress)
+  })
+
+  it('returns undefined for a question with no history', async () => {
+    mockQP.get.mockResolvedValue(undefined)
+
+    const result = await progressTracker.getProgress('q-new')
+
+    expect(result).toBeUndefined()
+  })
+})
+
+describe('progressTracker.getAllProgress', () => {
+  it('returns all progress records', async () => {
+    const records = [makeProgress({ questionId: 'q1' }), makeProgress({ questionId: 'q2' })]
+    mockQP.getAll.mockResolvedValue(records)
+
+    const result = await progressTracker.getAllProgress()
+
+    expect(result).toEqual(records)
+    expect(mockQP.getAll).toHaveBeenCalledOnce()
+  })
+
+  it('returns an empty array when there is no progress', async () => {
+    mockQP.getAll.mockResolvedValue([])
+    expect(await progressTracker.getAllProgress()).toEqual([])
+  })
+})
+
+describe('progressTracker.getTopicStats', () => {
+  it('calculates correct stats for a topic with mixed results', async () => {
+    mockQR.getByTopic.mockReturnValue([makeQuestion('q1', 't1'), makeQuestion('q2', 't1')])
+    mockQP.getByIds.mockResolvedValue([
+      makeProgress({ questionId: 'q1', correctAttempts: 3, incorrectAttempts: 1 }),
+      makeProgress({ questionId: 'q2', correctAttempts: 1, incorrectAttempts: 1 }),
+    ])
+
+    const stats = await progressTracker.getTopicStats('t1')
+
+    expect(stats.topicId).toBe('t1')
+    expect(stats.totalQuestions).toBe(2)
+    expect(stats.attemptedQuestions).toBe(2)
+    expect(stats.correctAttempts).toBe(4)
+    expect(stats.incorrectAttempts).toBe(2)
+    expect(stats.completionRate).toBe(1)
+    expect(stats.correctRate).toBeCloseTo(4 / 6)
+  })
+
+  it('returns zero rates when no attempts have been made', async () => {
+    mockQR.getByTopic.mockReturnValue([makeQuestion('q1', 't1')])
+    mockQP.getByIds.mockResolvedValue([])
+
+    const stats = await progressTracker.getTopicStats('t1')
+
+    expect(stats.attemptedQuestions).toBe(0)
+    expect(stats.completionRate).toBe(0)
+    expect(stats.correctRate).toBe(0)
+  })
+
+  it('handles a topic with no questions without dividing by zero', async () => {
+    mockQR.getByTopic.mockReturnValue([])
+    mockQP.getByIds.mockResolvedValue([])
+
+    const stats = await progressTracker.getTopicStats('empty-topic')
+
+    expect(stats.completionRate).toBe(0)
+    expect(stats.correctRate).toBe(0)
+  })
+})
+
+describe('progressTracker.getSubjectStats', () => {
+  it('aggregates stats across all topics in a subject', async () => {
+    mockQR.getTopicsBySubject.mockReturnValue([makeTopic('t1'), makeTopic('t2')])
+    mockQR.getByTopic
+      .mockReturnValueOnce([makeQuestion('q1', 't1')])
+      .mockReturnValueOnce([makeQuestion('q2', 't2')])
+    mockQP.getByIds
+      .mockResolvedValueOnce([makeProgress({ questionId: 'q1', correctAttempts: 4, incorrectAttempts: 1 })])
+      .mockResolvedValueOnce([makeProgress({ questionId: 'q2', correctAttempts: 2, incorrectAttempts: 3 })])
+
+    const stats = await progressTracker.getSubjectStats('typescript')
+
+    expect(stats.subjectId).toBe('typescript')
+    expect(stats.totalQuestions).toBe(2)
+    expect(stats.attemptedQuestions).toBe(2)
+    expect(stats.correctAttempts).toBe(6)
+    expect(stats.totalAttempts).toBe(10)
+    expect(stats.topicStats).toHaveLength(2)
+  })
+
+  it('returns zero totals for a subject with no attempts', async () => {
+    mockQR.getTopicsBySubject.mockReturnValue([makeTopic('t1')])
+    mockQR.getByTopic.mockReturnValue([makeQuestion('q1', 't1')])
+    mockQP.getByIds.mockResolvedValue([])
+
+    const stats = await progressTracker.getSubjectStats('typescript')
+
+    expect(stats.correctAttempts).toBe(0)
+    expect(stats.totalAttempts).toBe(0)
+    expect(stats.attemptedQuestions).toBe(0)
+  })
+})
+
 describe('progressTracker.getRecentlyAttempted', () => {
   it('returns progress sorted by most recent first', async () => {
     const old = makeProgress({ questionId: 'q1', lastAttemptAt: '2024-01-01T00:00:00Z' })
