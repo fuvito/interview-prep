@@ -18,7 +18,7 @@ export function InterviewSetupView({ subjectId }: Props) {
     setSelectedTopics((prev) => prev.includes(id) ? prev.filter((t) => t !== id) : [...prev, id])
 
   const available = (() => {
-    let pool = selectedTopics.length > 0
+    const pool = selectedTopics.length > 0
       ? questionRepository.getBySubject(subjectId).filter((q) => selectedTopics.includes(q.topicId))
       : questionRepository.getBySubject(subjectId)
     return pool.filter((q) => q.type !== 'text').length

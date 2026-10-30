@@ -37,6 +37,10 @@ npm-debug.log*
 *.crx
 *.pem
 
+# Playwright
+test-results/
+playwright-report/
+
 # IntelliJ IDEA
 .idea/
 
