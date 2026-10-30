@@ -38,7 +38,8 @@ export const useLearningStore = create<LearningState>((set, get) => ({
     const questions = questionRepository.getByTopic(topicId, filter)
     const progressList = await questionProgressRepository.getByIds(questions.map((q) => q.id))
     const attemptsById = new Map(progressList.map((p) => [p.questionId, p.attempts]))
-    const sorted = [...questions].sort((a, b) => (attemptsById.get(a.id) ?? 0) - (attemptsById.get(b.id) ?? 0))
+    const shuffled = [...questions].sort(() => Math.random() - 0.5)
+    const sorted = shuffled.sort((a, b) => (attemptsById.get(a.id) ?? 0) - (attemptsById.get(b.id) ?? 0))
     set({ questions: sorted, currentIndex: 0, phase: 'answering', selectedAnswerIds: [], textInput: '', evaluationResult: null })
   },
 
