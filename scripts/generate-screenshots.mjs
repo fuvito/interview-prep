@@ -6,13 +6,18 @@
  */
 
 import { chromium } from 'playwright'
-import { mkdirSync } from 'fs'
+import { mkdirSync, readFileSync } from 'fs'
 import { join, dirname } from 'path'
 import { fileURLToPath } from 'url'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
-const OUT_DIR = join(__dirname, '..', 'store-assets')
+const ROOT = join(__dirname, '..')
+const OUT_DIR = join(ROOT, 'store-assets')
 mkdirSync(OUT_DIR, { recursive: true })
+
+// Read subjects dynamically so screen4 stays current as subjects are added
+const registry = JSON.parse(readFileSync(join(ROOT, 'public', 'registry.json'), 'utf8'))
+const SUBJECTS = registry.subjects
 
 // ─── Light mode design tokens ─────────────────────────────────────────────────
 const BG_MAIN   = '#f1f5f9'   // slate-100
@@ -413,51 +418,18 @@ function screen4() {
     <div class="page-sub">Choose a subject to study or switch your active subject</div>
 
     <div class="subject-grid">
-      <div class="subject-card" style="border-color:${BLUE};background:${BLUE_BG};">
+      ${SUBJECTS.map((s, i) => `<div class="subject-card"${i === 0 ? ` style="border-color:${BLUE};background:${BLUE_BG};"` : ''}>
         <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
-          <span style="font-size:24px;">📘</span>
-          <div class="subject-card-name" style="color:${BLUE};">TypeScript</div>
-          <span style="font-size:11px;background:${BLUE};color:#fff;border-radius:20px;padding:2px 8px;font-weight:600;margin-left:auto;">Active</span>
+          <span style="font-size:24px;">📚</span>
+          <div class="subject-card-name"${i === 0 ? ` style="color:${BLUE};"` : ''}>${s.name}</div>
+          ${i === 0 ? `<span style="font-size:11px;background:${BLUE};color:#fff;border-radius:20px;padding:2px 8px;font-weight:600;margin-left:auto;">Active</span>` : ''}
         </div>
-        <div class="subject-card-desc">Types, generics, classes, advanced patterns &amp; compiler internals</div>
+        <div class="subject-card-desc">${s.description.replace(/&/g, '&amp;').slice(0, 80)}…</div>
         <div class="subject-card-footer">
-          <span class="subject-q-count">155 questions · 6 topics</span>
+          <span class="subject-q-count">${s.questionCount} questions · ${s.topicCount} topics</span>
           <span class="start-btn">Study →</span>
         </div>
-      </div>
-      <div class="subject-card">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
-          <span style="font-size:24px;">🟢</span>
-          <div class="subject-card-name">Node.js</div>
-        </div>
-        <div class="subject-card-desc">Event loop, streams, Express, core modules &amp; async patterns</div>
-        <div class="subject-card-footer">
-          <span class="subject-q-count">150 questions · 6 topics</span>
-          <span class="start-btn">Study →</span>
-        </div>
-      </div>
-      <div class="subject-card">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
-          <span style="font-size:24px;">🐳</span>
-          <div class="subject-card-name">DevOps</div>
-        </div>
-        <div class="subject-card-desc">Docker, Kubernetes, CI/CD, Linux, Terraform &amp; monitoring</div>
-        <div class="subject-card-footer">
-          <span class="subject-q-count">150 questions · 6 topics</span>
-          <span class="start-btn">Study →</span>
-        </div>
-      </div>
-      <div class="subject-card">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
-          <span style="font-size:24px;">☕</span>
-          <div class="subject-card-name">Java</div>
-        </div>
-        <div class="subject-card-desc">OOP, Collections, Concurrency, JVM, Spring &amp; Streams</div>
-        <div class="subject-card-footer">
-          <span class="subject-q-count">150 questions · 6 topics</span>
-          <span class="start-btn">Study →</span>
-        </div>
-      </div>
+      </div>`).join('\n      ')}
     </div>
 
     <div style="border:2px dashed ${BORDER_D};border-radius:12px;padding:20px;display:flex;align-items:center;gap:14px;margin-top:16px;cursor:pointer;">

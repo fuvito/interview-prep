@@ -100,7 +100,7 @@ Get-ChildItem -Exclude node_modules,dist,.git | Compress-Archive -DestinationPat
 | **Summary** | Max 250 characters |
 | **Description** | Full description using Markdown or plain text |
 | **Category** | Education |
-| **Screenshots** | At least one 800×600 PNG |
+| **Screenshots** | At least one PNG between 500×375 and 3840×2400. Run `node scripts/generate-screenshots.mjs` — the generated 1280×800 images in `store-assets/` are accepted by AMO. |
 | **Support email** | Your contact email |
 | **Build instructions** | `npm install && npm run build` — include this in the source submission notes |
 

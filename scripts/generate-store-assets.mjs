@@ -1,23 +1,34 @@
 /**
  * Generates Chrome Web Store assets using Playwright:
  * - Extension icons: 16, 32, 48, 128 px
+ * - App Store icon: 1024×1024 (no rounded corners — for Safari/App Store)
  * - Small promo tile: 440×280
  * - Large promo tile: 920×680
  * - Marquee image: 1400×560
+ *
+ * Subject names and counts are read dynamically from public/registry.json
+ * so promo assets stay accurate as new subjects are added.
  *
  * Run: node scripts/generate-store-assets.mjs
  */
 
 import { chromium } from 'playwright'
-import { mkdirSync, copyFileSync } from 'fs'
+import { mkdirSync, copyFileSync, readFileSync } from 'fs'
 import { join, dirname } from 'path'
 import { fileURLToPath } from 'url'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
-const OUT_DIR = join(__dirname, '..', 'store-assets')
-const ICONS_DIR = join(__dirname, '..', 'public', 'icons')
+const ROOT = join(__dirname, '..')
+const OUT_DIR = join(ROOT, 'store-assets')
+const ICONS_DIR = join(ROOT, 'public', 'icons')
 mkdirSync(OUT_DIR, { recursive: true })
 mkdirSync(ICONS_DIR, { recursive: true })
+
+// ─── Read subjects dynamically from registry ──────────────────────────────────
+const registry = JSON.parse(readFileSync(join(ROOT, 'public', 'registry.json'), 'utf8'))
+const SUBJECTS = registry.subjects
+const TOTAL_QUESTIONS = SUBJECTS.reduce((sum, s) => sum + s.questionCount, 0)
+const TOTAL_QUESTIONS_LABEL = `${Math.floor(TOTAL_QUESTIONS / 50) * 50}+`
 
 // ─── Design tokens (light mode) ───────────────────────────────────────────────
 const BG_DEEP     = '#f1f5f9'   // slate-100
@@ -88,6 +99,40 @@ function iconHtml(size) {
   </body></html>`
 }
 
+// ─── App Store icon 1024×1024 (no border-radius — Apple applies its own mask) ─
+function appStoreIconHtml() {
+  const size = 1024
+  const ipSize = Math.round(size * 0.42)
+  const prepSize = Math.round(size * 0.11)
+  const dotR = Math.round(size * 0.08)
+  const dotOff = Math.round(size * 0.06)
+  return `<!DOCTYPE html><html><head>
+  <meta charset="utf-8"/>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html, body { width:${size}px; height:${size}px; overflow:hidden; }
+    body {
+      background: linear-gradient(145deg, #1d4ed8 0%, #2563eb 50%, #1e40af 100%);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      font-family: 'Segoe UI', Arial, system-ui, sans-serif;
+      position: relative;
+    }
+    .letters { font-size:${ipSize}px; font-weight:900; letter-spacing:-0.05em; color:#fff; line-height:1; z-index:1;
+      text-shadow: 0 6px 24px rgba(0,0,0,0.35); }
+    .prep { font-size:${prepSize}px; font-weight:700; letter-spacing:0.22em; color:rgba(255,255,255,0.72);
+      margin-top:${Math.round(size*0.025)}px; z-index:1; }
+    .dot { width:${dotR}px; height:${dotR}px; background:${AMBER}; border-radius:50%;
+      position:absolute; bottom:${dotOff}px; right:${dotOff}px;
+      box-shadow:0 0 ${Math.round(size*0.05)}px ${AMBER}99; }
+  </style>
+  </head><body>
+    <div class="letters">IP</div>
+    <div class="prep">PREP</div>
+    <div class="dot"></div>
+  </body></html>`
+}
+
 // ─── Small promo tile 440×280 (light mode) ───────────────────────────────────
 function smallPromoHtml() {
   return `<!DOCTYPE html><html><head>
@@ -139,15 +184,13 @@ function smallPromoHtml() {
       <div class="name">InterviewPrep</div>
       <div class="tagline">Master technical interviews. Study offline, track progress.</div>
       <div>
-        <div class="count">605+</div>
+        <div class="count">${TOTAL_QUESTIONS_LABEL}</div>
         <div class="count-label">Practice Questions</div>
       </div>
     </div>
     <div class="right">
-      <div class="badge"><div class="badge-dot"></div>TypeScript</div>
-      <div class="badge"><div class="badge-dot"></div>Node.js</div>
-      <div class="badge"><div class="badge-dot"></div>DevOps</div>
-      <div class="badge"><div class="badge-dot"></div>Java</div>
+      ${SUBJECTS.slice(0, 4).map(s => `<div class="badge"><div class="badge-dot"></div>${s.name}</div>`).join('\n      ')}
+      ${SUBJECTS.length > 4 ? `<div class="badge"><div class="badge-dot"></div>+${SUBJECTS.length - 4} more</div>` : ''}
       <div class="offline-tag">100% Offline</div>
     </div>
   </body></html>`
@@ -225,34 +268,24 @@ function largePromoHtml() {
     </div>
 
     <div class="stat-row">
-      <div class="stat"><div class="stat-n">605+</div><div class="stat-l">Questions</div></div>
+      <div class="stat"><div class="stat-n">${TOTAL_QUESTIONS_LABEL}</div><div class="stat-l">Questions</div></div>
       <div class="stat-div"></div>
-      <div class="stat"><div class="stat-n">4</div><div class="stat-l">Subjects</div></div>
+      <div class="stat"><div class="stat-n">${SUBJECTS.length}</div><div class="stat-l">Subjects</div></div>
       <div class="stat-div"></div>
       <div class="stat"><div class="stat-n">100%</div><div class="stat-l">Offline</div></div>
     </div>
 
     <div class="cards">
-      <div class="card">
-        <div class="card-icon">📘</div>
-        <div class="card-title">TypeScript</div>
-        <div class="card-desc">Types, generics, advanced patterns &amp; compiler internals</div>
-      </div>
-      <div class="card">
-        <div class="card-icon">🟢</div>
-        <div class="card-title">Node.js</div>
-        <div class="card-desc">Event loop, streams, Express &amp; async patterns</div>
-      </div>
-      <div class="card">
-        <div class="card-icon">🐳</div>
-        <div class="card-title">DevOps</div>
-        <div class="card-desc">Docker, Kubernetes, CI/CD, Linux &amp; Terraform</div>
-      </div>
-      <div class="card">
-        <div class="card-icon">☕</div>
-        <div class="card-title">Java</div>
-        <div class="card-desc">OOP, Collections, Concurrency, JVM &amp; Spring</div>
-      </div>
+      ${SUBJECTS.slice(0, 4).map(s => `<div class="card">
+        <div class="card-icon">📚</div>
+        <div class="card-title">${s.name}</div>
+        <div class="card-desc">${s.questionCount} questions · ${s.topicCount} topics</div>
+      </div>`).join('\n      ')}
+      ${SUBJECTS.length > 4 ? `<div class="card">
+        <div class="card-icon">➕</div>
+        <div class="card-title">+${SUBJECTS.length - 4} more</div>
+        <div class="card-desc">More subjects available to download</div>
+      </div>` : ''}
     </div>
 
     <div class="features">
@@ -336,10 +369,8 @@ function marqueeHtml() {
         Study offline, track progress, and simulate real interview sessions.
       </div>
       <div class="pills">
-        <span class="pill">TypeScript</span>
-        <span class="pill">Node.js</span>
-        <span class="pill">DevOps</span>
-        <span class="pill">Java</span>
+        ${SUBJECTS.slice(0, 5).map(s => `<span class="pill">${s.name}</span>`).join('\n        ')}
+        ${SUBJECTS.length > 5 ? `<span class="pill">+${SUBJECTS.length - 5} more</span>` : ''}
         <span class="pill">+ Upload your own</span>
       </div>
     </div>
@@ -347,7 +378,7 @@ function marqueeHtml() {
     <div class="right">
       <div class="col">
         <div class="stat-card">
-          <div class="stat-n">605+</div>
+          <div class="stat-n">${TOTAL_QUESTIONS_LABEL}</div>
           <div class="stat-l">Questions</div>
         </div>
         <div class="stat-card">
@@ -386,6 +417,12 @@ async function main() {
     console.log(`✓ icon-${size}.png  →  store-assets/  +  public/icons/`)
   }
 
+  // App Store icon 1024×1024 (no border-radius — Safari / Mac App Store)
+  await page.setViewportSize({ width: 1024, height: 1024 })
+  await page.setContent(appStoreIconHtml(), { waitUntil: 'networkidle' })
+  await page.screenshot({ path: join(OUT_DIR, 'icon-1024-appstore.png'), clip: { x: 0, y: 0, width: 1024, height: 1024 } })
+  console.log('✓ icon-1024-appstore.png  (Safari / Mac App Store)')
+
   // Small promo tile 440×280
   await page.setViewportSize({ width: 440, height: 280 })
   await page.setContent(smallPromoHtml(), { waitUntil: 'networkidle' })
@@ -407,13 +444,15 @@ async function main() {
   await browser.close()
 
   console.log(`\nAll assets saved to: store-assets/`)
-  console.log('\nWeb Store upload sizes:')
+  console.log(`\nSubjects included: ${SUBJECTS.map(s => s.name).join(', ')}`)
+  console.log(`Total questions: ${TOTAL_QUESTIONS_LABEL}`)
+  console.log('\nChrome Web Store:')
   console.log('  Icons:       icon-16.png, icon-32.png, icon-48.png, icon-128.png')
-  console.log('  Small tile:  promo-small-440x280.png  (440×280)')
-  console.log('  Large tile:  promo-large-920x680.png  (920×680)')
-  console.log('  Marquee:     promo-marquee-1400x560.png (1400×560)')
-  console.log('\nAdd icons to manifest.json:')
-  console.log('  "icons": { "16":"icons/icon-16.png","32":"icons/icon-32.png","48":"icons/icon-48.png","128":"icons/icon-128.png" }')
+  console.log('  Small tile:  promo-small-440x280.png')
+  console.log('  Large tile:  promo-large-920x680.png')
+  console.log('  Marquee:     promo-marquee-1400x560.png')
+  console.log('\nSafari / Mac App Store:')
+  console.log('  App icon:    icon-1024-appstore.png  (1024×1024, no alpha)')
 }
 
 main().catch(console.error)

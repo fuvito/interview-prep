@@ -52,8 +52,8 @@ Open the generated `.xcodeproj` in Xcode:
 
 ### App Store metadata (minimum)
 
-- App icon — 1024×1024 PNG (no alpha channel)
-- At least one screenshot per platform you're submitting for
+- **App icon** — 1024×1024 PNG (no alpha channel). Run `node scripts/generate-store-assets.mjs` to generate `store-assets/icon-1024-appstore.png`. Apple applies the rounded-corner mask itself — the icon must be square with no transparency.
+- **Screenshots** — at least one per platform. The existing 1280×800 screenshots in `store-assets/` are an accepted Mac App Store size. Run `node scripts/generate-screenshots.mjs` to regenerate them.
 
 ---
 
