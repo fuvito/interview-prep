@@ -1,0 +1,445 @@
+[
+  {
+    "id": "functions-001",
+    "subjectId": "typescript",
+    "topicId": "functions",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is the difference between an optional parameter and a default parameter?\n\n```typescript\nfunction a(x?: number) { return x; }\nfunction b(x = 0)      { return x; }\n```",
+    "options": [
+      { "id": "a", "text": "They are identical — both accept `undefined` and use 0 when omitted" },
+      { "id": "b", "text": "`a` returns `number | undefined`; `b` always returns `number` because the default fills in `undefined`" },
+      { "id": "c", "text": "`b` is a compile error — default values are not allowed in TypeScript" },
+      { "id": "d", "text": "`a` infers type `number`; `b` infers type `number | undefined`" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "An **optional parameter** (`x?: number`) has type `number | undefined` — callers may omit it, but inside the function you must handle `undefined`.\n\nA **default parameter** (`x = 0`) infers type `number`. TypeScript substitutes the default when the argument is `undefined` or omitted, so the function body always receives a `number`.\n\n```typescript\nfunction a(x?: number) { return x; }  // returns number | undefined\nfunction b(x = 0)      { return x; }  // returns number\n```",
+    "keyConcepts": ["optional parameters", "default parameters", "undefined"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "functions-002",
+    "subjectId": "typescript",
+    "topicId": "functions",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What are function overloads in TypeScript and why are they used?",
+    "options": [
+      { "id": "a", "text": "A way to define multiple implementations of a function" },
+      { "id": "b", "text": "A way to provide multiple call signatures for a function with one implementation" },
+      { "id": "c", "text": "A runtime polymorphism mechanism similar to Java" },
+      { "id": "d", "text": "A way to override a parent class method" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "TypeScript function overloads let you define **multiple type signatures** for a single function implementation. The overload signatures are compile-time only; only the implementation signature exists at runtime.\n\n```typescript\nfunction format(value: string): string;\nfunction format(value: number, decimals: number): string;\nfunction format(value: string | number, decimals?: number): string {\n  if (typeof value === 'string') return value.trim();\n  return value.toFixed(decimals ?? 2);\n}\n\nformat('hello');    // ✓ matches first overload\nformat(3.14159, 2); // ✓ matches second overload\nformat(3.14159);    // ✗ no overload matches\n```\n\nThis gives callers precise type information without exposing the messy union implementation signature.",
+    "keyConcepts": ["function overloads", "call signatures", "polymorphism"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "functions-003",
+    "subjectId": "typescript",
+    "topicId": "functions",
+    "type": "code",
+    "difficulty": "beginner",
+    "question": "What does the following code output?\n\n```typescript\nconst greet = (name: string, greeting = 'Hello'): string =>\n  `${greeting}, ${name}!`;\n\nconsole.log(greet('Alice'));\nconsole.log(greet('Bob', 'Hi'));\nconsole.log(greet('Carol', undefined));\n```",
+    "options": [
+      { "id": "a", "text": "`Hello, Alice!`\n`Hi, Bob!`\n`undefined, Carol!`" },
+      { "id": "b", "text": "`Hello, Alice!`\n`Hi, Bob!`\n`Hello, Carol!`" },
+      { "id": "c", "text": "`Hello, Alice!`\n`Hi, Bob!`\n`Carol!`" },
+      { "id": "d", "text": "Compile error — `undefined` cannot be passed for a default parameter" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "Default parameter values are used when the argument is **`undefined`** (whether omitted or explicitly passed).\n\n- `greet('Alice')` — `greeting` is omitted → defaults to `'Hello'`\n- `greet('Bob', 'Hi')` — `greeting` is `'Hi'`\n- `greet('Carol', undefined)` — `greeting` is `undefined` → defaults to `'Hello'`\n\nPassing `undefined` explicitly is equivalent to omitting the argument.",
+    "keyConcepts": ["default parameters", "undefined", "arrow functions"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "functions-004",
+    "subjectId": "typescript",
+    "topicId": "functions",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the type of `rest` in the following function?\n\n```typescript\nfunction combine(first: string, ...rest: string[]) {\n  return [first, ...rest].join(', ');\n}\n```",
+    "options": [
+      { "id": "a", "text": "`string`" },
+      { "id": "b", "text": "`string[]`" },
+      { "id": "c", "text": "`...string[]`" },
+      { "id": "d", "text": "`IArguments`" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "A **rest parameter** (`...rest`) collects all remaining arguments into an array. Its type is `string[]` here — an array of whatever element type you declare.\n\n```typescript\ncombine('a');              // rest = []\ncombine('a', 'b', 'c');   // rest = ['b', 'c']\n```\n\nRest parameters must be the last parameter and cannot have a default value.",
+    "keyConcepts": ["rest parameters", "variadic functions", "spread"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "functions-005",
+    "subjectId": "typescript",
+    "topicId": "functions",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the key difference between arrow functions and regular functions regarding `this`?\n\n```typescript\nclass Timer {\n  seconds = 0;\n\n  startRegular() {\n    setInterval(function() {\n      this.seconds++; // (A)\n    }, 1000);\n  }\n\n  startArrow() {\n    setInterval(() => {\n      this.seconds++; // (B)\n    }, 1000);\n  }\n}\n```",
+    "options": [
+      { "id": "a", "text": "Both (A) and (B) correctly increment `this.seconds`" },
+      { "id": "b", "text": "(A) will error at runtime — `this` in a regular function callback refers to `undefined` (strict mode) or the global object; (B) captures the enclosing `this`" },
+      { "id": "c", "text": "(B) will error — arrow functions have no `this` binding at all" },
+      { "id": "d", "text": "TypeScript detects both at compile time as errors" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "Arrow functions **lexically bind `this`** — they capture `this` from the enclosing scope at definition time. Regular functions define their own `this` based on how they are called.\n\nIn `startRegular`, the callback is called by `setInterval` (not by `Timer`), so `this` is `undefined` in strict mode.\n\nIn `startArrow`, the arrow captures `this` from `startArrow`'s context — the `Timer` instance.\n\n```typescript\n// TypeScript can detect the issue with strictPropertyInitialization:\n// error: 'this' context of type 'void' is not assignable to 'Timer'\n```\n\nAlways use arrow functions for callbacks that need access to the enclosing `this`.",
+    "keyConcepts": ["arrow functions", "this binding", "lexical this", "callbacks"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "functions-006",
+    "subjectId": "typescript",
+    "topicId": "functions",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "When should you explicitly annotate a function's return type instead of letting TypeScript infer it?",
+    "options": [
+      { "id": "a", "text": "Always — TypeScript inference is unreliable" },
+      { "id": "b", "text": "Never — explicit return types are just boilerplate" },
+      { "id": "c", "text": "For public API / exported functions where you want to document the contract and catch implementation errors early" },
+      { "id": "d", "text": "Only when the function returns `void`" }
+    ],
+    "correctAnswers": ["c"],
+    "explanation": "TypeScript's inference is reliable and usually sufficient for internal helpers. However, **explicit return types are valuable for:**\n\n1. **Public APIs** — the type becomes part of the documented contract; callers see it clearly\n2. **Error detection** — if the function body accidentally returns the wrong type, the annotation catches it immediately rather than letting the error propagate to call sites\n3. **Recursive functions** — TypeScript sometimes cannot infer the return type of recursive functions\n\n```typescript\n// Without annotation: error surfaces at call site\nfunction getData() {\n  return Math.random() > 0.5 ? 'data' : 42; // inferred as string | number\n}\n\n// With annotation: error surfaces at the function body\nfunction getData(): string {\n  return Math.random() > 0.5 ? 'data' : 42; // Error here\n}\n```",
+    "keyConcepts": ["return type annotation", "type inference", "API design", "error detection"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "functions-007",
+    "subjectId": "typescript",
+    "topicId": "functions",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the difference between `void` and `undefined` as a function return type?\n\n```typescript\nfunction a(): void     { }          // no return\nfunction b(): undefined { return undefined; }\n\ntype Callback = () => void;\nconst cb: Callback = () => 42;      // (A) — is this an error?\n```",
+    "options": [
+      { "id": "a", "text": "`void` and `undefined` are identical; (A) is an error" },
+      { "id": "b", "text": "`void` means the return value is intentionally ignored; (A) compiles fine — the `42` is discarded" },
+      { "id": "c", "text": "`void` cannot be assigned to a variable; `undefined` can" },
+      { "id": "d", "text": "Both cause an error if the function actually returns a value" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`void` means the return value **should not be used** — it doesn't mean the function can't return something.\n\nWhen `void` appears in a **contextual type** (like a callback type), TypeScript intentionally allows functions that return values. This is so that array methods like `forEach` accept callbacks that return anything:\n\n```typescript\nconst numbers = [1, 2, 3];\nnumbers.forEach(n => n * 2); // returns number, but forEach's callback is () => void\n```\n\nHowever, if you explicitly annotate a function as `(): void`, it can still return `undefined` but the caller cannot use the return value meaningfully.\n\nThe rule: `(): undefined` enforces that nothing (or only `undefined`) is returned. `() => void` in a type just says \"I won't use your return value.\"",
+    "keyConcepts": ["void", "undefined", "contextual typing", "callback types"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "functions-008",
+    "subjectId": "typescript",
+    "topicId": "functions",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does TypeScript infer for `T` in this call?\n\n```typescript\nfunction identity<T>(value: T): T {\n  return value;\n}\n\nconst result = identity('hello');\n```",
+    "options": [
+      { "id": "a", "text": "`T` is inferred as `string`; `result` is `string`" },
+      { "id": "b", "text": "`T` is inferred as `unknown`; you must cast `result`" },
+      { "id": "c", "text": "`T` stays as `T`; `result` is `T`" },
+      { "id": "d", "text": "Compile error — type parameters must be specified explicitly" }
+    ],
+    "correctAnswers": ["a"],
+    "explanation": "TypeScript **infers generic type parameters** from the argument types at the call site:\n\n```typescript\nconst result = identity('hello'); // T inferred as string\n// result: string\n\nconst n = identity(42);          // T inferred as number\n// n: number\n```\n\nYou can also specify `T` explicitly: `identity<string>('hello')`. Explicit type arguments are useful when inference fails or when you want a wider type:\n\n```typescript\nconst wide = identity<string | number>('hello');\n// wide: string | number\n```",
+    "keyConcepts": ["generics", "type inference", "type argument inference"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "functions-009",
+    "subjectId": "typescript",
+    "topicId": "functions",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the difference between a function type expression and a call signature?\n\n```typescript\n// A: function type expression\ntype Add = (a: number, b: number) => number;\n\n// B: call signature inside an object type\ntype AddSig = { (a: number, b: number): number };\n```",
+    "options": [
+      { "id": "a", "text": "They are functionally equivalent — both describe a function taking two numbers and returning a number" },
+      { "id": "b", "text": "`A` is for arrow functions only; `B` is for regular functions" },
+      { "id": "c", "text": "`A` cannot be used as a generic; `B` can" },
+      { "id": "d", "text": "`B` is only valid inside an interface" }
+    ],
+    "correctAnswers": ["a"],
+    "explanation": "Both describe the same callable type. The syntactic difference is:\n\n- **Function type expression** `(a: number, b: number) => number` — concise, used in most places\n- **Call signature** `{ (a: number, b: number): number }` — verbose, but allows you to add additional properties to the same object type:\n\n```typescript\ntype AddWithMeta = {\n  (a: number, b: number): number;\n  description: string;  // function AND property\n};\n```\n\nCall signatures in object/interface types are the only way to describe objects that are both callable and have properties.",
+    "keyConcepts": ["function type expression", "call signature", "callable types", "hybrid types"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "functions-010",
+    "subjectId": "typescript",
+    "topicId": "functions",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the `never` return type and when should you use it?\n\n```typescript\nfunction fail(message: string): never {\n  throw new Error(message);\n}\n\nfunction processInput(input: string | number) {\n  if (typeof input === 'string') return input.toUpperCase();\n  if (typeof input === 'number') return input * 2;\n  fail('Unexpected input'); // ← what does this enable?\n}\n```",
+    "options": [
+      { "id": "a", "text": "`never` means the function returns `null`" },
+      { "id": "b", "text": "`never` means the function never returns normally (throws or loops forever); it helps TypeScript know the remaining code is unreachable" },
+      { "id": "c", "text": "`never` is the same as `void`" },
+      { "id": "d", "text": "`never` means the return type is unknown and should not be used" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`never` is the type of values that **never occur**. A function returning `never` either always throws, or runs forever.\n\nBecause TypeScript knows `fail()` never returns, the code after it is unreachable — narrowing continues correctly:\n\n```typescript\nfunction processInput(input: string | number) {\n  if (typeof input === 'string') return input.toUpperCase(); // string\n  if (typeof input === 'number') return input * 2;           // number\n  fail('Unexpected'); // never — exhausted all cases\n}                     // TypeScript knows we always return or throw\n```\n\n`never` also appears as the bottom of exhaustive switches:\n```typescript\nconst _: never = input; // Error if 'input' has remaining cases\n```",
+    "keyConcepts": ["never", "exhaustive checks", "control flow", "unreachable code"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "functions-011",
+    "subjectId": "typescript",
+    "topicId": "functions",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "How do you correctly type a callback parameter that may or may not be provided?\n\n```typescript\nfunction fetchData(\n  url: string,\n  onSuccess: (data: unknown) => void,\n  onError?: (err: Error) => void\n) {\n  // ...\n}\n```",
+    "options": [
+      { "id": "a", "text": "`onError` is typed as `((err: Error) => void) | undefined` and must be checked before calling" },
+      { "id": "b", "text": "`onError` can be called directly because `?` makes it safe" },
+      { "id": "c", "text": "Optional callback parameters are not allowed in TypeScript" },
+      { "id": "d", "text": "`onError` defaults to `() => {}` automatically" }
+    ],
+    "correctAnswers": ["a"],
+    "explanation": "An optional parameter `cb?: T` is shorthand for `cb: T | undefined`. When a callback is optional, you must check it before calling:\n\n```typescript\nfunction fetchData(url: string, onError?: (err: Error) => void) {\n  try {\n    // fetch logic\n  } catch (e) {\n    onError?.(e as Error); // optional chaining\n    // or: if (onError) onError(e as Error);\n  }\n}\n```\n\nUsing optional chaining `onError?.(args)` is the idiomatic way to conditionally call an optional function.",
+    "keyConcepts": ["optional callbacks", "optional chaining", "undefined check"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "functions-012",
+    "subjectId": "typescript",
+    "topicId": "functions",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is a `this` parameter in TypeScript, and what does it do?\n\n```typescript\ninterface User { name: string; greet(this: User): string; }\n\nconst user: User = {\n  name: 'Alice',\n  greet() { return `Hello, ${this.name}`; },\n};\n\nconst fn = user.greet;\nfn(); // (A) — what happens?\n```",
+    "options": [
+      { "id": "a", "text": "(A) outputs `Hello, undefined` — `this` is the global object" },
+      { "id": "b", "text": "(A) is a compile-time error — `fn` is called without a `User` context" },
+      { "id": "c", "text": "(A) outputs `Hello, Alice` — `this` is captured at assignment" },
+      { "id": "d", "text": "Compile error — `this` parameters are not valid in interfaces" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "A **`this` parameter** is a fake first parameter (erased at runtime) that tells TypeScript what `this` must be when the function is called:\n\n```typescript\ninterface User {\n  greet(this: User): string;\n}\n```\n\nWhen you extract `greet` into `fn`, TypeScript knows it needs a `User` context. Calling `fn()` without binding it triggers a compile error:\n\n```\nError: The 'this' context of type 'void' is not assignable to type 'User'\n```\n\nYou must call it with the right context:\n```typescript\nfn.call(user); // ✓\nuser.greet();  // ✓\n```\n\nThis catches the common bug of detached method calls before they reach production.",
+    "keyConcepts": ["this parameter", "this context", "method extraction", "compile-time safety"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "functions-013",
+    "subjectId": "typescript",
+    "topicId": "functions",
+    "type": "code",
+    "difficulty": "beginner",
+    "question": "What does this destructured parameter function output?\n\n```typescript\nfunction display({ name, age = 25 }: { name: string; age?: number }) {\n  console.log(`${name} is ${age}`);\n}\n\ndisplay({ name: 'Alice' });\ndisplay({ name: 'Bob', age: 30 });\n```",
+    "options": [
+      { "id": "a", "text": "`Alice is undefined`\n`Bob is 30`" },
+      { "id": "b", "text": "`Alice is 25`\n`Bob is 30`" },
+      { "id": "c", "text": "Compile error — cannot destructure with defaults" },
+      { "id": "d", "text": "`Alice is 25`\n`Bob is 25`" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "Destructured parameters support default values just like regular parameters. When `age` is absent or `undefined`, it defaults to `25`:\n\n```typescript\ndisplay({ name: 'Alice' });        // age = undefined → 25\ndisplay({ name: 'Bob', age: 30 }); // age = 30\n```\n\nThe type annotation goes on the whole destructured object, not on individual defaults:\n\n```typescript\nfunction display({ name, age = 25 }: { name: string; age?: number }) {\n  //                           ^default   ^type of the whole object^\n}\n```",
+    "keyConcepts": ["destructured parameters", "default values", "object types"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "functions-014",
+    "subjectId": "typescript",
+    "topicId": "functions",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "How do you type a higher-order function that takes a callback and returns its result?\n\n```typescript\nfunction withLogging<T>(fn: () => T): T {\n  console.log('Calling...');\n  const result = fn();\n  console.log('Done:', result);\n  return result;\n}\n```",
+    "options": [
+      { "id": "a", "text": "The generic `T` is unnecessary — it should be typed as `() => unknown`" },
+      { "id": "b", "text": "`T` lets the function preserve the exact return type of `fn` without losing information" },
+      { "id": "c", "text": "This is a compile error — generics cannot be used with function parameters" },
+      { "id": "d", "text": "`T` is inferred as `void` because the function uses `console.log`" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "Using a generic `T` captures the specific return type of `fn` and threads it through to the return type of `withLogging`:\n\n```typescript\nconst n = withLogging(() => 42);         // n: number\nconst s = withLogging(() => 'hello');    // s: string\nconst obj = withLogging(() => ({ x: 1 })); // obj: { x: number }\n```\n\nIf we typed it as `() => unknown`, the return type of `withLogging` would be `unknown`, losing all type information.\n\nHigher-order functions typically use generic `T` (or `R` for \"return\") to preserve the relationship between input callback and output value.",
+    "keyConcepts": ["higher-order functions", "generics", "return type preservation"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "functions-015",
+    "subjectId": "typescript",
+    "topicId": "functions",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "Is a function with a more specific parameter type assignable to one with a broader parameter type?\n\n```typescript\ntype Handler = (event: Event) => void;\ntype MouseHandler = (event: MouseEvent) => void;\n\nlet handler: Handler;\nconst mouseHandler: MouseHandler = (e) => console.log(e.clientX);\n\nhandler = mouseHandler; // (A) — valid?\n```",
+    "options": [
+      { "id": "a", "text": "(A) is valid — `MouseHandler` is a subtype of `Handler` because `MouseEvent extends Event`" },
+      { "id": "b", "text": "(A) is a type error — function parameters are contravariant, so a more specific parameter makes it a supertype, not a subtype" },
+      { "id": "c", "text": "(A) is valid in TypeScript because function parameters are bivariant by default" },
+      { "id": "d", "text": "(A) is always a runtime error" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "Function parameters are **contravariant**: a function that accepts a *more general* type is a subtype of one that accepts a *more specific* type.\n\n`MouseHandler` only works with `MouseEvent` — it calls `e.clientX`. But `Handler` might be called with any `Event` (e.g., `KeyboardEvent`), which has no `clientX`. Assigning `mouseHandler` to `handler` would be unsafe.\n\nWith `--strictFunctionTypes` (included in `--strict`), TypeScript enforces this:\n```typescript\nhandler = mouseHandler; // Error under strictFunctionTypes\n```\n\nNote: **method** syntax (`obj.method(e: E): void`) uses bivariance for historical reasons; only **function property** syntax enforces contravariance.",
+    "keyConcepts": ["contravariance", "strictFunctionTypes", "function compatibility", "variance"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "functions-016",
+    "subjectId": "typescript",
+    "topicId": "functions",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "When writing function overloads, which signatures are visible to callers?\n\n```typescript\nfunction process(x: string): string;     // overload 1\nfunction process(x: number): number;     // overload 2\nfunction process(x: string | number): string | number { // implementation\n  return typeof x === 'string' ? x.trim() : x * 2;\n}\n```",
+    "options": [
+      { "id": "a", "text": "Only the implementation signature is visible — overloads are internal" },
+      { "id": "b", "text": "Only the overload signatures (1 and 2) are visible; the implementation signature is hidden" },
+      { "id": "c", "text": "All three signatures are visible to callers" },
+      { "id": "d", "text": "The implementation signature replaces the overloads after compilation" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "The **implementation signature** is hidden from callers — TypeScript only exposes the overload signatures:\n\n```typescript\nprocess('hello');       // ✓ matches overload 1 → returns string\nprocess(42);            // ✓ matches overload 2 → returns number\nprocess('a' as string | number); // ✗ no overload matches union\n```\n\nThis is why the implementation signature must be compatible with all overloads (more general), but callers never see it. It's a common pitfall — if you forget to add enough overloads, callers can't express valid use cases.",
+    "keyConcepts": ["overload signatures", "implementation signature", "function overloads"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "functions-017",
+    "subjectId": "typescript",
+    "topicId": "functions",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the inferred return type of an `async` function?\n\n```typescript\nasync function loadUser(id: number) {\n  const response = await fetch(`/users/${id}`);\n  return response.json() as Promise<{ name: string }>;\n}\n```",
+    "options": [
+      { "id": "a", "text": "`{ name: string }`" },
+      { "id": "b", "text": "`Promise<{ name: string }>`" },
+      { "id": "c", "text": "`Promise<Promise<{ name: string }>>` — double-wrapped because of the extra `Promise` cast" },
+      { "id": "d", "text": "`unknown`" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "An `async` function **always returns a `Promise`**. The return type wraps whatever the function body returns:\n\n- If the body returns `T`, the function type is `Promise<T>`\n- If the body returns `Promise<T>`, TypeScript **automatically flattens** to `Promise<T>` (not `Promise<Promise<T>>`)\n\n```typescript\nasync function loadUser(id: number): Promise<{ name: string }> { ... }\n```\n\n`Awaited<ReturnType<typeof loadUser>>` would give you `{ name: string }` — the resolved inner type.",
+    "keyConcepts": ["async functions", "Promise", "Awaited", "return type"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "functions-018",
+    "subjectId": "typescript",
+    "topicId": "functions",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is the return type of a generator function?\n\n```typescript\nfunction* range(start: number, end: number): Generator<number> {\n  for (let i = start; i < end; i++) {\n    yield i;\n  }\n}\n\nconst gen = range(0, 3);\n```",
+    "options": [
+      { "id": "a", "text": "`number[]`" },
+      { "id": "b", "text": "`Generator<number>` — an iterator-like object with `next()`, `return()`, and `throw()` methods" },
+      { "id": "c", "text": "`Iterable<number>` — a plain iterable with `[Symbol.iterator]()`" },
+      { "id": "d", "text": "`Promise<number>` — generators are async by default" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "A generator function returns a `Generator<T, TReturn, TNext>` — the full iterator protocol object:\n\n```typescript\nconst gen = range(0, 3);\ngen.next(); // { value: 0, done: false }\ngen.next(); // { value: 1, done: false }\ngen.next(); // { value: 2, done: false }\ngen.next(); // { value: undefined, done: true }\n```\n\n`Generator<number>` is short for `Generator<number, void, unknown>` where:\n- `number` — type of yielded values\n- `void` — type returned when generator completes\n- `unknown` — type passed via `next(value)` to resume\n\nGenerators are iterable, so you can `for...of` over them.",
+    "keyConcepts": ["generators", "Generator type", "yield", "iterator protocol"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "functions-019",
+    "subjectId": "typescript",
+    "topicId": "functions",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What does this tuple rest parameter allow?\n\n```typescript\ntype Strings = [string, ...string[]];\ntype Numbers = [number, ...number[]];\n\nfunction concat<T extends unknown[]>(...args: T): T {\n  return args;\n}\n\nconst result = concat(1, 'two', true);\n```",
+    "options": [
+      { "id": "a", "text": "Compile error — `concat` must specify a single element type" },
+      { "id": "b", "text": "`result` is typed as `[number, string, boolean]` — a heterogeneous tuple" },
+      { "id": "c", "text": "`result` is typed as `(number | string | boolean)[]` — a union array" },
+      { "id": "d", "text": "`result` is typed as `unknown[]`" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "With `...args: T` where `T extends unknown[]`, TypeScript infers `T` as a **tuple** of the exact argument types:\n\n```typescript\nconst result = concat(1, 'two', true);\n// T inferred as [number, string, boolean]\n// result: [number, string, boolean]\n```\n\nThis is more precise than `...args: (number | string | boolean)[]` because the tuple preserves both types and positions.\n\nTuple rest parameters combined with variadic generics (`...T`) enable powerful type-safe utilities like `pipe`, `compose`, `bind`, and `partial`.",
+    "keyConcepts": ["variadic tuple types", "rest parameters", "tuple inference", "generics"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "functions-020",
+    "subjectId": "typescript",
+    "topicId": "functions",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "Why is `unknown` safer than `any` as a parameter type for a general-purpose function?\n\n```typescript\nfunction safeProcess(value: unknown) {\n  value.toUpperCase(); // (A)\n\n  if (typeof value === 'string') {\n    value.toUpperCase(); // (B)\n  }\n}\n```",
+    "options": [
+      { "id": "a", "text": "Both (A) and (B) compile fine — `unknown` allows all operations" },
+      { "id": "b", "text": "(A) is a compile error; (B) is fine after the type guard narrows `unknown` to `string`" },
+      { "id": "c", "text": "Both (A) and (B) are compile errors with `unknown`" },
+      { "id": "d", "text": "`unknown` and `any` behave identically for parameters" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`unknown` is the type-safe counterpart of `any`. With `unknown`, you cannot perform any operations until you narrow the type:\n\n```typescript\nvalue.toUpperCase(); // ✗ Error: Object is of type 'unknown'\n\nif (typeof value === 'string') {\n  value.toUpperCase(); // ✓ narrowed to string\n}\n```\n\nWith `any`, both lines would compile, potentially hiding bugs that surface at runtime.\n\nUse `unknown` when you genuinely don't know the type but want to force callers and implementers to handle narrowing explicitly. Reserve `any` for interfacing with truly untyped external code where you accept all risks.",
+    "keyConcepts": ["unknown", "any", "type narrowing", "type safety"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "functions-021",
+    "subjectId": "typescript",
+    "topicId": "functions",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does `typeof` do when used in a type position with a function?\n\n```typescript\nfunction add(a: number, b: number): number {\n  return a + b;\n}\n\ntype AddFn = typeof add;\n\nconst subtract: AddFn = (a, b) => a - b;\n```",
+    "options": [
+      { "id": "a", "text": "`AddFn` is `'function'` — the runtime `typeof` string" },
+      { "id": "b", "text": "`AddFn` is `(a: number, b: number) => number` — the full function type of `add`" },
+      { "id": "c", "text": "`AddFn` is `number` — the return type of `add`" },
+      { "id": "d", "text": "Compile error — `typeof` cannot be used in a type position" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`typeof` in **type position** queries the TypeScript type of a value (not the JavaScript runtime `typeof` string):\n\n```typescript\ntype AddFn = typeof add;\n// (a: number, b: number) => number\n\nconst subtract: AddFn = (a, b) => a - b; // ✓ — same signature\n```\n\nThis is especially useful with complex types you don't want to duplicate:\n```typescript\nconst config = { host: 'localhost', port: 8080 };\ntype Config = typeof config; // { host: string; port: number }\n```\n\nCombined with `ReturnType` and `Parameters`, `typeof` lets you derive types from existing values and functions.",
+    "keyConcepts": ["typeof in type position", "type queries", "function types"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "functions-022",
+    "subjectId": "typescript",
+    "topicId": "functions",
+    "type": "code",
+    "difficulty": "intermediate",
+    "question": "What is the output of this overloaded function call?\n\n```typescript\nfunction describe(value: string): string;\nfunction describe(value: number): string;\nfunction describe(value: string | number): string {\n  if (typeof value === 'string') return `String: \"${value}\"`;\n  return `Number: ${value}`;\n}\n\nconsole.log(describe('hello'));\nconsole.log(describe(42));\n```",
+    "options": [
+      { "id": "a", "text": "`String: \"hello\"`\n`Number: 42`" },
+      { "id": "b", "text": "`hello`\n`42`" },
+      { "id": "c", "text": "Compile error — overloads cannot use union types in the implementation" },
+      { "id": "d", "text": "`String: hello`\n`Number: 42`" }
+    ],
+    "correctAnswers": ["a"],
+    "explanation": "The implementation routes to the correct branch based on `typeof value`:\n\n- `describe('hello')` → `typeof value === 'string'` → `String: \"hello\"`\n- `describe(42)` → falls through to `Number: 42`\n\nNote the quotes in the string branch: `` `String: \"${value}\"` `` produces `String: \"hello\"` with literal quote characters.\n\nThe overload signatures tell callers the return type is always `string`, and the implementation handles both cases.",
+    "keyConcepts": ["function overloads", "typeof guard", "template literals"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "functions-023",
+    "subjectId": "typescript",
+    "topicId": "functions",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What does this conditional return type express?\n\n```typescript\nfunction parse<T extends 'json' | 'text'>(\n  data: string,\n  format: T\n): T extends 'json' ? object : string {\n  return format === 'json' ? JSON.parse(data) : data;\n}\n\nconst obj = parse('{}', 'json');   // type?\nconst txt = parse('hi', 'text');   // type?\n```",
+    "options": [
+      { "id": "a", "text": "Both `obj` and `txt` are `object | string`" },
+      { "id": "b", "text": "`obj` is `object`; `txt` is `string`" },
+      { "id": "c", "text": "Compile error — conditional types cannot be used as return types" },
+      { "id": "d", "text": "Both are `unknown` because the conditional cannot be resolved at compile time" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "**Conditional return types** resolve based on the actual generic argument:\n\n```typescript\nconst obj = parse('{}', 'json');  // T = 'json' → object\nconst txt = parse('hi', 'text'); // T = 'text' → string\n```\n\nTypeScript resolves `T extends 'json' ? object : string` when `T` is known at the call site:\n- `T = 'json'` → `'json' extends 'json'` → `true` → `object`\n- `T = 'text'` → `'text' extends 'json'` → `false` → `string`\n\nThis pattern is useful for overload-like behavior without writing multiple overload signatures. The implementation must use a type assertion (`as`) internally because TypeScript can't verify the conditional type in the body.",
+    "keyConcepts": ["conditional return types", "generics", "type-level branching"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "functions-024",
+    "subjectId": "typescript",
+    "topicId": "functions",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is a type predicate, and what does the following function enable?\n\n```typescript\nfunction isString(value: unknown): value is string {\n  return typeof value === 'string';\n}\n\nfunction process(input: string | number) {\n  if (isString(input)) {\n    console.log(input.toUpperCase()); // (A)\n  }\n}\n```",
+    "options": [
+      { "id": "a", "text": "(A) is a compile error — TypeScript doesn't track narrowing through external functions" },
+      { "id": "b", "text": "(A) is valid — the `value is string` predicate tells TypeScript that `input` is narrowed to `string` inside the `if` block" },
+      { "id": "c", "text": "(A) requires casting: `(input as string).toUpperCase()`" },
+      { "id": "d", "text": "`value is string` is a runtime assertion that throws if the value is not a string" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "A **type predicate** (`paramName is Type`) is a special return type annotation that teaches TypeScript how to narrow types through a custom function call:\n\n```typescript\nfunction isString(value: unknown): value is string {\n  return typeof value === 'string'; // runtime check\n}\n```\n\nWhen TypeScript sees `if (isString(input))`, it narrows `input` from `string | number` to `string` inside the `if` block — without needing an inline `typeof` check.\n\nType predicates are essential for reusable guard functions — they let you extract typeof/instanceof checks into named, composable utilities without losing narrowing.",
+    "keyConcepts": ["type predicates", "user-defined type guards", "narrowing", "value is Type"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "functions-025",
+    "subjectId": "typescript",
+    "topicId": "functions",
+    "type": "text",
+    "difficulty": "intermediate",
+    "question": "Explain the difference between function overloads and a single function with a union parameter type. When would you choose each approach?",
+    "explanation": "## Overloads vs Union Parameters\n\n### Union parameter approach\n```typescript\nfunction process(value: string | number): string | number {\n  return typeof value === 'string' ? value.trim() : value * 2;\n}\n\nconst result = process('hello'); // string | number — too wide!\n```\n\nThe caller loses the relationship between input and output — they get `string | number` regardless of what they pass.\n\n### Overload approach\n```typescript\nfunction process(value: string): string;\nfunction process(value: number): number;\nfunction process(value: string | number): string | number {\n  return typeof value === 'string' ? value.trim() : value * 2;\n}\n\nconst s = process('hello'); // string ✓\nconst n = process(42);      // number ✓\n```\n\nThe caller gets the exact return type correlated to their input.\n\n### When to use each\n\n**Use a union parameter when:**\n- The return type doesn't depend on which union branch was passed\n- The API is simple and internal\n- You want to accept mixed types from a collection\n\n**Use overloads when:**\n- The return type *changes* based on the input type\n- You want to express that certain combinations of arguments are invalid\n- You're building a public library API where precise types improve DX\n\nA practical rule: start with a union; add overloads when callers are forced to assert or narrow the return type unnecessarily.",
+    "keyConcepts": ["function overloads", "union types", "return type correlation", "API design"],
+    "commonInterviewQuestion": true
+  }
+]

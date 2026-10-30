@@ -1,0 +1,535 @@
+[
+  {
+    "id": "ts-basics-001",
+    "subjectId": "typescript",
+    "topicId": "ts-basics",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What type does TypeScript infer for `x` in the following code?\n\n```typescript\nconst x = [1, 2, 3];\n```",
+    "options": [
+      { "id": "a", "text": "`number[]`" },
+      { "id": "b", "text": "`[number, number, number]`" },
+      { "id": "c", "text": "`Array<any>`" },
+      { "id": "d", "text": "`readonly number[]`" }
+    ],
+    "correctAnswers": ["a"],
+    "explanation": "TypeScript infers `number[]` for array literals when all values share a type. It does **not** infer a tuple unless you use `as const` or an explicit tuple annotation.\n\n```typescript\nconst x = [1, 2, 3];           // number[]\nconst y = [1, 2, 3] as const; // readonly [1, 2, 3]\n```",
+    "keyConcepts": ["type inference", "array types", "const assertions"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "ts-basics-002",
+    "subjectId": "typescript",
+    "topicId": "ts-basics",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "With `strictNullChecks` enabled, which assignment causes a compile error?\n\n```typescript\nlet a: string = 'hello';\nlet b: string | null = 'hello';\n\na = null; // (A)\nb = null; // (B)\n```",
+    "options": [
+      { "id": "a", "text": "Only (A)" },
+      { "id": "b", "text": "Only (B)" },
+      { "id": "c", "text": "Both (A) and (B)" },
+      { "id": "d", "text": "Neither" }
+    ],
+    "correctAnswers": ["a"],
+    "explanation": "With `strictNullChecks: true`, `null` is not part of the `string` type, so **(A)** is a compile error. `string | null` explicitly includes `null`, so **(B)** is valid.",
+    "keyConcepts": ["strictNullChecks", "nullable types", "strict mode"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "ts-basics-003",
+    "subjectId": "typescript",
+    "topicId": "ts-basics",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the key difference between `unknown` and `any`?",
+    "options": [
+      { "id": "a", "text": "They are identical — TypeScript uses the terms interchangeably" },
+      { "id": "b", "text": "`any` disables type checking entirely; `unknown` requires narrowing before use" },
+      { "id": "c", "text": "`unknown` only accepts `undefined` and `null`" },
+      { "id": "d", "text": "`any` is for library code; `unknown` is for application code" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`any` opts out of the type system — you can call any method or access any property. `unknown` requires you to narrow the type first:\n\n```typescript\nfunction process(value: unknown) {\n  value.toUpperCase(); // ✗ Error\n  if (typeof value === 'string') {\n    value.toUpperCase(); // ✓ OK\n  }\n}\n```\n\nPrefer `unknown` at trust boundaries (API responses, `JSON.parse`).",
+    "keyConcepts": ["unknown", "any", "type narrowing", "type safety"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "ts-basics-004",
+    "subjectId": "typescript",
+    "topicId": "ts-basics",
+    "type": "code",
+    "difficulty": "intermediate",
+    "question": "What does the following code output?\n\n```typescript\nfunction getType(value: string | number): string {\n  if (typeof value === 'string') {\n    return 'string: ' + value;\n  }\n  return 'number: ' + value;\n}\n\nconsole.log(getType(42));\nconsole.log(getType('hello'));\n```",
+    "options": [
+      { "id": "a", "text": "`number: 42`\n`string: hello`" },
+      { "id": "b", "text": "`string: 42`\n`string: hello`" },
+      { "id": "c", "text": "Compile error" },
+      { "id": "d", "text": "`42`\n`hello`" }
+    ],
+    "correctAnswers": ["a"],
+    "explanation": "`typeof` is a type guard that narrows a union type. When `value` is `42` the check returns `'number'`, so the function returns `'number: 42'`.",
+    "keyConcepts": ["type guards", "typeof", "union types", "type narrowing"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "ts-basics-005",
+    "subjectId": "typescript",
+    "topicId": "ts-basics",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "Which keyword creates a type alias in TypeScript?",
+    "options": [
+      { "id": "a", "text": "`interface`" },
+      { "id": "b", "text": "`type`" },
+      { "id": "c", "text": "`alias`" },
+      { "id": "d", "text": "`typedef`" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "The `type` keyword creates a type alias for any type expression:\n\n```typescript\ntype UserId = string;\ntype Status = 'active' | 'inactive';\ntype Callback = (event: MouseEvent) => void;\n```",
+    "keyConcepts": ["type alias", "type keyword"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "ts-basics-006",
+    "subjectId": "typescript",
+    "topicId": "ts-basics",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is a **literal type** in TypeScript?",
+    "options": [
+      { "id": "a", "text": "A type that only exists in `.d.ts` files" },
+      { "id": "b", "text": "A type whose value is exactly one specific string, number, or boolean" },
+      { "id": "c", "text": "A type that is only valid at runtime" },
+      { "id": "d", "text": "Any primitive type" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "A **literal type** constrains a value to exactly one specific value:\n\n```typescript\ntype Direction = 'north' | 'south' | 'east' | 'west';\ntype One = 1;\ntype True = true;\n\nlet dir: Direction = 'north'; // ✓\ndir = 'up';                   // ✗ not assignable\n```\n\nLiteral types are the building block of discriminated unions and type-safe string enums.",
+    "keyConcepts": ["literal types", "string literals", "union types"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "ts-basics-007",
+    "subjectId": "typescript",
+    "topicId": "ts-basics",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the runtime difference between `enum` and `const enum`?\n\n```typescript\nenum Color { Red, Green, Blue }\nconst enum Size { Small, Medium, Large }\n```",
+    "options": [
+      { "id": "a", "text": "None — they compile to identical JavaScript" },
+      { "id": "b", "text": "`enum` compiles to a JavaScript object; `const enum` values are inlined at compile time and produce no runtime object" },
+      { "id": "c", "text": "`const enum` compiles to a frozen object; `enum` compiles to a regular object" },
+      { "id": "d", "text": "`const enum` can only have string values" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "A regular `enum` compiles to a JavaScript object:\n```javascript\nvar Color;\n(function (Color) {\n  Color[Color['Red'] = 0] = 'Red';\n})(Color || (Color = {}));\n```\n\nA `const enum` is erased entirely — usages are replaced with the literal values at compile time:\n```javascript\n// const enum Size usage compiles to just: 1\n```\n\nUse `const enum` when you want zero runtime overhead. Avoid `const enum` across package boundaries (it causes issues with `isolatedModules`).",
+    "keyConcepts": ["enum", "const enum", "compilation", "runtime overhead"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "ts-basics-008",
+    "subjectId": "typescript",
+    "topicId": "ts-basics",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is a **tuple type** and how does it differ from an array type?\n\n```typescript\nconst pair: [string, number] = ['Alice', 30];\n```",
+    "options": [
+      { "id": "a", "text": "Tuples are faster than arrays at runtime" },
+      { "id": "b", "text": "A tuple fixes the number and type of each element at a specific position; an array allows any number of elements of the same type" },
+      { "id": "c", "text": "Tuples are immutable; arrays are mutable" },
+      { "id": "d", "text": "They are identical — tuple is just an alias for array" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "A **tuple** is an array with a fixed length and a specific type per position:\n\n```typescript\nconst pair: [string, number] = ['Alice', 30];\npair[0]; // string\npair[1]; // number\npair[2]; // ✗ Tuple has no index 2\n\n// vs array\nconst arr: string[] = ['a', 'b', 'c']; // any number of strings\n```\n\nTuples are useful for functions that return multiple values of different types.",
+    "keyConcepts": ["tuple types", "positional types", "fixed-length arrays"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "ts-basics-009",
+    "subjectId": "typescript",
+    "topicId": "ts-basics",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "When does TypeScript use the `never` type?",
+    "options": [
+      { "id": "a", "text": "When a variable has not been assigned yet" },
+      { "id": "b", "text": "When a function can never return (throws or infinite loops) or a type is the empty union" },
+      { "id": "c", "text": "As a placeholder for `void`" },
+      { "id": "d", "text": "When the compiler cannot infer a type" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`never` represents a value that can never occur. Two main uses:\n\n1. **Functions that never return:**\n```typescript\nfunction fail(msg: string): never {\n  throw new Error(msg); // never returns\n}\n```\n\n2. **Exhaustiveness checks in switch statements:**\n```typescript\ntype Shape = 'circle' | 'square';\nfunction area(s: Shape) {\n  switch (s) {\n    case 'circle': return Math.PI;\n    case 'square': return 1;\n    default:\n      const _exhaustive: never = s; // error if Shape grows\n  }\n}\n```\n\nThe empty union `string & number` also resolves to `never`.",
+    "keyConcepts": ["never", "exhaustiveness checking", "unreachable code"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "ts-basics-010",
+    "subjectId": "typescript",
+    "topicId": "ts-basics",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What does `typeof` do when used in a **type position** (not at runtime)?\n\n```typescript\nconst config = { host: 'localhost', port: 3000 };\ntype Config = typeof config;\n```",
+    "options": [
+      { "id": "a", "text": "Returns the string `'object'` — same as the JavaScript runtime `typeof`" },
+      { "id": "b", "text": "Creates a type that mirrors the shape of the value: `{ host: string; port: number }`" },
+      { "id": "c", "text": "Creates a reference to the variable itself" },
+      { "id": "d", "text": "Compile error — `typeof` can only be used at runtime" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`typeof` in a type position extracts the **TypeScript type** of a value:\n\n```typescript\nconst config = { host: 'localhost', port: 3000 };\ntype Config = typeof config;\n// Config = { host: string; port: number }\n\nfunction update(c: typeof config) { ... }\n```\n\nThis is different from the JavaScript runtime `typeof` which returns a string like `'object'`. In TypeScript, `typeof` in type position gives you the static type.",
+    "keyConcepts": ["typeof operator", "type queries", "type inference"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "ts-basics-011",
+    "subjectId": "typescript",
+    "topicId": "ts-basics",
+    "type": "code",
+    "difficulty": "beginner",
+    "question": "What is the inferred type of `value` after the optional chain?\n\n```typescript\nconst user: { address?: { city: string } } = {};\nconst value = user.address?.city;\n```",
+    "options": [
+      { "id": "a", "text": "`string`" },
+      { "id": "b", "text": "`string | undefined`" },
+      { "id": "c", "text": "`string | null`" },
+      { "id": "d", "text": "`undefined`" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "Optional chaining (`?.`) short-circuits and returns `undefined` when the left side is `null` or `undefined`. TypeScript reflects this in the type:\n\n```typescript\nconst value = user.address?.city;\n// type: string | undefined\n// (city is string, but if address is undefined, the whole expression is undefined)\n```\n\nThis is a safe access pattern that avoids runtime `TypeError`.",
+    "keyConcepts": ["optional chaining", "undefined", "type inference"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "ts-basics-012",
+    "subjectId": "typescript",
+    "topicId": "ts-basics",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is the difference between `??` (nullish coalescing) and `||` (logical OR) for providing a default value?",
+    "options": [
+      { "id": "a", "text": "They are identical" },
+      { "id": "b", "text": "`||` falls back for any falsy value (0, '', false); `??` only falls back for `null` or `undefined`" },
+      { "id": "c", "text": "`??` falls back for any falsy value; `||` only for `null` or `undefined`" },
+      { "id": "d", "text": "`??` works only with strings; `||` works with all types" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "```typescript\nconst a = 0 || 'default';  // 'default'  — 0 is falsy\nconst b = 0 ?? 'default';  // 0         — 0 is NOT null/undefined\n\nconst c = '' || 'fallback'; // 'fallback'\nconst d = '' ?? 'fallback'; // ''\n\nconst e = null ?? 'fallback'; // 'fallback'\n```\n\nUse `??` when `0`, `false`, and `''` are valid values you want to preserve.",
+    "keyConcepts": ["nullish coalescing", "falsy values", "default values"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "ts-basics-013",
+    "subjectId": "typescript",
+    "topicId": "ts-basics",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does the non-null assertion operator `!` do, and what is its risk?",
+    "options": [
+      { "id": "a", "text": "Converts a value to boolean" },
+      { "id": "b", "text": "Tells TypeScript that a value is definitely not `null` or `undefined`, with no runtime check — if wrong, causes a runtime error" },
+      { "id": "c", "text": "Throws an error at runtime if the value is null" },
+      { "id": "d", "text": "Removes `null` from the type permanently across the codebase" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "The `!` postfix operator is a **compile-time assertion only** — it tells the type system \"trust me, this is not null.\"\n\n```typescript\nfunction getElement(): HTMLElement | null {\n  return document.getElementById('app');\n}\n\nconst el = getElement()!; // type: HTMLElement (null removed)\nel.style.color = 'red';   // no compile error\n\n// But if getElement() returns null at runtime:\n// TypeError: Cannot read properties of null\n```\n\nUse `!` only when you can **guarantee** the value is not null. Prefer explicit narrowing with an `if` check.",
+    "keyConcepts": ["non-null assertion", "type safety", "runtime errors"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "ts-basics-014",
+    "subjectId": "typescript",
+    "topicId": "ts-basics",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the difference between `void` and `undefined` as a function return type?",
+    "options": [
+      { "id": "a", "text": "They are identical" },
+      { "id": "b", "text": "`void` means the return value is ignored by callers; `undefined` means the function explicitly returns `undefined`" },
+      { "id": "c", "text": "`void` functions cannot return anything; `undefined` functions must return `undefined`" },
+      { "id": "d", "text": "`void` is for async functions; `undefined` is for sync functions" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`void` signals that the return value is **intentionally discarded**. A `void`-typed function CAN technically return a value — it just means callers shouldn't use it.\n\n```typescript\ntype Callback = () => void;\n\n// Array.forEach's callback is typed as () => void\n// so this is valid even though map returns numbers:\n[1, 2, 3].forEach((n) => n * 2); // ✓ return value ignored\n\n// undefined return type is strict:\nfunction greet(): undefined {\n  // must explicitly return undefined or nothing\n}\n```\n\nCallback types almost always use `void` not `undefined`.",
+    "keyConcepts": ["void", "undefined", "return types", "callbacks"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "ts-basics-015",
+    "subjectId": "typescript",
+    "topicId": "ts-basics",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the difference between `object`, `Object`, and `{}` in TypeScript?",
+    "options": [
+      { "id": "a", "text": "They are identical" },
+      { "id": "b", "text": "`object` excludes primitives; `Object`/`{}` accept almost everything including primitives" },
+      { "id": "c", "text": "`{}` is an empty object that accepts no properties" },
+      { "id": "d", "text": "`Object` is deprecated; use `object` instead" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "```typescript\n// object — non-primitive types only\nlet a: object = {}; // ✓\nlet b: object = 42; // ✗ Error\n\n// {} and Object — any non-null/non-undefined value\nlet c: {} = 42;      // ✓ primitives OK\nlet d: {} = 'hello'; // ✓\nlet e: {} = null;    // ✗ Error (with strictNullChecks)\n\n// Object adds methods like .toString(), .hasOwnProperty()\nlet f: Object = 42;  // ✓\n```\n\nIn practice: avoid `Object` and `{}` as types. Use specific interfaces, `Record<string, unknown>`, or `object` as appropriate.",
+    "keyConcepts": ["object type", "Object type", "primitive types", "type hierarchy"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "ts-basics-016",
+    "subjectId": "typescript",
+    "topicId": "ts-basics",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does `as const` do when applied to an object literal?\n\n```typescript\nconst config = {\n  env: 'production',\n  port: 8080\n} as const;\n```",
+    "options": [
+      { "id": "a", "text": "Makes the object reference immutable (same as `const`)" },
+      { "id": "b", "text": "Makes all properties `readonly` and narrows value types to literal types" },
+      { "id": "c", "text": "Prevents the object from being passed to functions" },
+      { "id": "d", "text": "Freezes the object at runtime" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`as const` is a **const assertion** that:\n1. Makes all properties `readonly`\n2. Narrows string/number values to their exact literal types\n\n```typescript\nconst config = { env: 'production', port: 8080 } as const;\n// type: { readonly env: 'production'; readonly port: 8080 }\n\nconfig.env = 'dev'; // ✗ Cannot assign to 'env'\n\n// Without as const:\n// type: { env: string; port: number }\n```\n\nEspecially useful for defining readonly maps and discriminated union discriminants.",
+    "keyConcepts": ["const assertions", "as const", "readonly", "literal types"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "ts-basics-017",
+    "subjectId": "typescript",
+    "topicId": "ts-basics",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "How does the `in` operator work as a type guard?\n\n```typescript\ntype Cat = { meow: () => void };\ntype Dog = { bark: () => void };\n\nfunction speak(animal: Cat | Dog) {\n  if ('meow' in animal) {\n    animal.meow(); // (A)\n  }\n}\n```",
+    "options": [
+      { "id": "a", "text": "Compile error — `in` only works with objects, not types" },
+      { "id": "b", "text": "TypeScript narrows `animal` to `Cat` inside the `if` block because only `Cat` has a `meow` property" },
+      { "id": "c", "text": "`animal` stays as `Cat | Dog` inside the `if` block" },
+      { "id": "d", "text": "The `in` check removes `Cat` from the union" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "The `in` operator checks if a property exists on an object. TypeScript uses this to **narrow union types**: if `'meow' in animal` is true, TypeScript knows it must be a `Cat`.\n\n```typescript\nfunction speak(animal: Cat | Dog) {\n  if ('meow' in animal) {\n    animal; // type: Cat\n    animal.meow();\n  } else {\n    animal; // type: Dog\n    animal.bark();\n  }\n}\n```",
+    "keyConcepts": ["in operator", "type narrowing", "type guards", "union types"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "ts-basics-018",
+    "subjectId": "typescript",
+    "topicId": "ts-basics",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does `instanceof` check in a TypeScript type guard?",
+    "options": [
+      { "id": "a", "text": "Whether two objects are the same reference" },
+      { "id": "b", "text": "Whether a value was created by a specific constructor function (class), narrowing the type accordingly" },
+      { "id": "c", "text": "Whether a type is a subtype of another type" },
+      { "id": "d", "text": "Whether an interface is implemented" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`instanceof` checks the prototype chain at runtime. TypeScript narrows the type based on the class:\n\n```typescript\nclass HttpError extends Error {\n  constructor(public status: number, message: string) {\n    super(message);\n  }\n}\n\nfunction handle(err: Error) {\n  if (err instanceof HttpError) {\n    err; // type: HttpError\n    console.log(err.status); // ✓\n  }\n}\n```\n\nWorks with classes but NOT with interfaces (interfaces are erased at compile time).",
+    "keyConcepts": ["instanceof", "type narrowing", "class types", "runtime checks"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "ts-basics-019",
+    "subjectId": "typescript",
+    "topicId": "ts-basics",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is a **type predicate** function (`value is Type`)?\n\n```typescript\nfunction isString(value: unknown): value is string {\n  return typeof value === 'string';\n}\n```",
+    "options": [
+      { "id": "a", "text": "A function that converts a value to a string" },
+      { "id": "b", "text": "A custom type guard: when it returns `true`, TypeScript narrows the argument to the specified type in the calling scope" },
+      { "id": "c", "text": "A compile-time assertion with no runtime effect" },
+      { "id": "d", "text": "A way to add methods to a type" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "A **type predicate** is a return type of the form `paramName is Type`. When the function returns `true`, TypeScript narrows the type in the calling scope:\n\n```typescript\nfunction isString(value: unknown): value is string {\n  return typeof value === 'string';\n}\n\nfunction process(value: unknown) {\n  if (isString(value)) {\n    value; // type: string\n    value.toUpperCase(); // ✓\n  }\n}\n```\n\nThis is the way to create reusable, named type guards that can be extracted into utility functions.",
+    "keyConcepts": ["type predicates", "type guards", "is keyword", "narrowing"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "ts-basics-020",
+    "subjectId": "typescript",
+    "topicId": "ts-basics",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does `keyof typeof` do in this pattern?\n\n```typescript\nconst STATUS = { Active: 'active', Inactive: 'inactive' } as const;\ntype StatusKey = keyof typeof STATUS;\n```",
+    "options": [
+      { "id": "a", "text": "Returns the string `'object'`" },
+      { "id": "b", "text": "`StatusKey` becomes `'Active' | 'Inactive'`" },
+      { "id": "c", "text": "`StatusKey` becomes `'active' | 'inactive'`" },
+      { "id": "d", "text": "Compile error — `keyof` cannot be combined with `typeof`" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`typeof STATUS` extracts the type `{ readonly Active: 'active'; readonly Inactive: 'inactive' }`. Then `keyof` produces the union of its key names:\n\n```typescript\nconst STATUS = { Active: 'active', Inactive: 'inactive' } as const;\ntype StatusKey = keyof typeof STATUS;\n// 'Active' | 'Inactive'\n\ntype StatusValue = (typeof STATUS)[StatusKey];\n// 'active' | 'inactive'\n```\n\nThis pattern lets you derive types from values without duplication.",
+    "keyConcepts": ["keyof", "typeof", "object keys", "type derivation"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "ts-basics-021",
+    "subjectId": "typescript",
+    "topicId": "ts-basics",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What does this **template literal type** produce?\n\n```typescript\ntype EventName<T extends string> = `on${Capitalize<T>}`;\ntype ClickEvent = EventName<'click'>;\n```",
+    "options": [
+      { "id": "a", "text": "`'onclick'`" },
+      { "id": "b", "text": "`'onClick'`" },
+      { "id": "c", "text": "`'onCLICK'`" },
+      { "id": "d", "text": "Compile error" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "**Template literal types** construct string types at the type level. `Capitalize<'click'>` produces `'Click'`, so `EventName<'click'>` produces `'onClick'`.\n\n```typescript\ntype EventName<T extends string> = `on${Capitalize<T>}`;\ntype A = EventName<'click'>;  // 'onClick'\ntype B = EventName<'change'>; // 'onChange'\ntype C = EventName<'submit'>; // 'onSubmit'\n\n// Works with unions too:\ntype D = EventName<'click' | 'focus'>; // 'onClick' | 'onFocus'\n```\n\nBuilt-in string manipulation types: `Uppercase`, `Lowercase`, `Capitalize`, `Uncapitalize`.",
+    "keyConcepts": ["template literal types", "Capitalize", "string manipulation types"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "ts-basics-022",
+    "subjectId": "typescript",
+    "topicId": "ts-basics",
+    "type": "multiple",
+    "difficulty": "intermediate",
+    "question": "Which checks does enabling `strict: true` in `tsconfig.json` activate? (Select all that apply)",
+    "options": [
+      { "id": "a", "text": "`strictNullChecks`" },
+      { "id": "b", "text": "`noImplicitAny`" },
+      { "id": "c", "text": "`strictFunctionTypes`" },
+      { "id": "d", "text": "`noUnusedLocals`" }
+    ],
+    "correctAnswers": ["a", "b", "c"],
+    "explanation": "`strict: true` is a shorthand that enables a bundle of type-checking flags:\n\n- `strictNullChecks` — `null`/`undefined` are not assignable to other types\n- `noImplicitAny` — error when TypeScript infers `any`\n- `strictFunctionTypes` — stricter checking of function parameter types\n- `strictBindCallApply` — `bind`, `call`, `apply` are type-checked\n- `strictPropertyInitialization` — class properties must be initialized\n- `strictNullChecks` (included)\n- `useUnknownInCatchVariables` — caught errors are `unknown` not `any`\n\n`noUnusedLocals` is **not** part of `strict` — it must be enabled separately.",
+    "keyConcepts": ["strict mode", "tsconfig", "compiler options"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "ts-basics-023",
+    "subjectId": "typescript",
+    "topicId": "ts-basics",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is the purpose of a `.d.ts` declaration file?",
+    "options": [
+      { "id": "a", "text": "It contains the compiled JavaScript for a TypeScript module" },
+      { "id": "b", "text": "It describes the type shape of JavaScript code (or external modules) without containing any implementation" },
+      { "id": "c", "text": "It is the entry point for a TypeScript project" },
+      { "id": "d", "text": "It stores runtime type information" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "Declaration files (`.d.ts`) contain **only type information** — no JavaScript. They let TypeScript understand the shape of JavaScript libraries or ambient APIs:\n\n```typescript\n// math.d.ts\nexport declare function add(a: number, b: number): number;\nexport declare const PI: number;\n```\n\nThe `@types/*` packages on npm (e.g., `@types/node`, `@types/react`) are collections of `.d.ts` files for popular JavaScript libraries.",
+    "keyConcepts": ["declaration files", ".d.ts", "@types", "type definitions"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "ts-basics-024",
+    "subjectId": "typescript",
+    "topicId": "ts-basics",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is **type erasure** in TypeScript?",
+    "options": [
+      { "id": "a", "text": "Removing `any` types from your codebase" },
+      { "id": "b", "text": "The process where TypeScript type annotations are stripped away during compilation, leaving plain JavaScript with no type information" },
+      { "id": "c", "text": "Deleting unused types from the type cache" },
+      { "id": "d", "text": "Narrowing a type until no values remain" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "TypeScript's type system is **erased at compile time**. The emitted JavaScript has no type annotations:\n\n```typescript\n// TypeScript:\nfunction greet(name: string): string {\n  return `Hello, ${name}`;\n}\n\n// Emitted JavaScript:\nfunction greet(name) {\n  return `Hello, ${name}`;\n}\n```\n\nThis means:\n- Type errors only exist at compile time\n- Interfaces, type aliases, and generics leave no runtime trace\n- `instanceof` cannot check interfaces (they don't exist at runtime)",
+    "keyConcepts": ["type erasure", "compilation", "runtime types"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "ts-basics-025",
+    "subjectId": "typescript",
+    "topicId": "ts-basics",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "Are `Array<string>` and `string[]` equivalent in TypeScript?",
+    "options": [
+      { "id": "a", "text": "No — `Array<string>` is an interface; `string[]` is a primitive" },
+      { "id": "b", "text": "Yes — they are two syntaxes for the same type" },
+      { "id": "c", "text": "`string[]` is readonly; `Array<string>` is mutable" },
+      { "id": "d", "text": "`Array<string>` allows `null`; `string[]` does not" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`string[]` is syntactic sugar for `Array<string>`. They are identical in every way — assignable to each other, same methods, same behavior:\n\n```typescript\nconst a: string[] = ['hello'];\nconst b: Array<string> = ['hello'];\n\n// Both work identically:\na.push('world');\nb.push('world');\n```\n\nConvention: prefer `T[]` for simple types, `Array<T>` when the type is complex (e.g., `Array<string | number>`).",
+    "keyConcepts": ["array types", "generic syntax", "type equivalence"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "ts-basics-026",
+    "subjectId": "typescript",
+    "topicId": "ts-basics",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is the difference in inferred type between `let` and `const` for a string?\n\n```typescript\nconst a = 'hello';\nlet b = 'hello';\n```",
+    "options": [
+      { "id": "a", "text": "Both infer `string`" },
+      { "id": "b", "text": "`a` infers the literal type `'hello'`; `b` infers `string`" },
+      { "id": "c", "text": "`a` infers `string`; `b` infers `'hello'`" },
+      { "id": "d", "text": "Both infer `'hello'`" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "TypeScript **widens** `let` variables to the general type because they can be reassigned. `const` variables are narrowed to the **literal type** since they cannot change:\n\n```typescript\nconst a = 'hello'; // type: 'hello' (literal)\nlet b = 'hello';   // type: string (widened)\n\nb = 'world'; // ✓ valid — b is string\na = 'world'; // ✗ error — a is const\n```\n\nThis is called **type widening** — TypeScript assumes a `let` variable will be reassigned.",
+    "keyConcepts": ["type widening", "literal types", "const vs let", "inference"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "ts-basics-027",
+    "subjectId": "typescript",
+    "topicId": "ts-basics",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What does the `satisfies` operator (TypeScript 4.9+) do?\n\n```typescript\ntype Colors = 'red' | 'green' | 'blue';\nconst palette = {\n  red: [255, 0, 0],\n  green: '#00ff00',\n} satisfies Record<Colors, string | number[]>;\n```",
+    "options": [
+      { "id": "a", "text": "Casts `palette` to `Record<Colors, string | number[]>`" },
+      { "id": "b", "text": "Validates that `palette` matches the type, but preserves the more specific inferred type for each property" },
+      { "id": "c", "text": "Makes all properties of `palette` optional" },
+      { "id": "d", "text": "Identical to `as Record<Colors, string | number[]>`" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`satisfies` checks that the value matches a type constraint but **does not widen** the inferred type:\n\n```typescript\nconst palette = {\n  red: [255, 0, 0],\n  green: '#00ff00',\n} satisfies Record<Colors, string | number[]>;\n\n// TypeScript knows the specific types:\npalette.red;   // number[] (not string | number[])\npalette.green; // string (not string | number[])\npalette.red.map(x => x); // ✓ — number[] methods available\n```\n\nWith `as`: all properties become `string | number[]`, losing the specifics. `satisfies` keeps the best of both.",
+    "keyConcepts": ["satisfies operator", "type checking", "type inference"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "ts-basics-028",
+    "subjectId": "typescript",
+    "topicId": "ts-basics",
+    "type": "code",
+    "difficulty": "intermediate",
+    "question": "What is the output?\n\n```typescript\nfunction process(x: string | number | boolean) {\n  if (typeof x === 'string') {\n    return x.length;\n  } else if (typeof x === 'number') {\n    return x * 2;\n  } else {\n    return !x;\n  }\n}\n\nconsole.log(process('hi'));\nconsole.log(process(5));\nconsole.log(process(false));\n```",
+    "options": [
+      { "id": "a", "text": "`2`\n`10`\n`true`" },
+      { "id": "b", "text": "`2`\n`10`\n`false`" },
+      { "id": "c", "text": "`'hi'`\n`5`\n`false`" },
+      { "id": "d", "text": "Compile error" }
+    ],
+    "correctAnswers": ["a"],
+    "explanation": "Each branch narrows to a specific type:\n- `'hi'` → string branch → `.length` = 2\n- `5` → number branch → `5 * 2` = 10\n- `false` → boolean branch → `!false` = `true`\n\nThe `typeof` type guard exhaustively narrows the union.",
+    "keyConcepts": ["type narrowing", "typeof", "exhaustive narrowing"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "ts-basics-029",
+    "subjectId": "typescript",
+    "topicId": "ts-basics",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is **type widening** and when does it occur?",
+    "options": [
+      { "id": "a", "text": "When TypeScript cannot determine the type and falls back to `any`" },
+      { "id": "b", "text": "When TypeScript expands a specific literal type to a broader base type (e.g., `'hello'` → `string`) because the value is mutable" },
+      { "id": "c", "text": "When a union type gains new members" },
+      { "id": "d", "text": "When a type cast broadens a type" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "Widening occurs when TypeScript infers the general type of a mutable value:\n\n```typescript\nlet x = 'hello';    // widened to string (let is mutable)\nconst y = 'hello';  // kept as 'hello' (const cannot change)\n\nlet arr = [1, 'two']; // widened to (string | number)[]\n\n// Prevent widening:\nconst z = 'hello' as const; // type: 'hello'\nconst arr2 = [1, 'two'] as const; // type: readonly [1, 'two']\n```\n\nWidening is generally desirable — it reflects that a `let` variable can hold different values over its lifetime.",
+    "keyConcepts": ["type widening", "literal types", "mutability", "const assertions"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "ts-basics-030",
+    "subjectId": "typescript",
+    "topicId": "ts-basics",
+    "type": "text",
+    "difficulty": "intermediate",
+    "question": "Explain the concept of **control flow analysis** in TypeScript. How does it affect type narrowing inside `if` blocks?",
+    "explanation": "**Control flow analysis** means TypeScript tracks which types are possible at each point in the code based on the branches taken.\n\n```typescript\nfunction example(value: string | null | number) {\n  // Here: string | null | number\n\n  if (value === null) {\n    // Here: null\n    return;\n  }\n\n  // Here: string | number (null eliminated by return above)\n\n  if (typeof value === 'string') {\n    // Here: string\n    value.toUpperCase();\n  } else {\n    // Here: number\n    value.toFixed(2);\n  }\n}\n```\n\nTypeScript's control flow analysis:\n- Narrows types based on `typeof`, `instanceof`, `in`, equality checks, and type predicates\n- Understands that after a `return`, `throw`, or `break`, certain types are eliminated\n- Propagates narrowing through `&&` and `||` short-circuit evaluation",
+    "keyConcepts": ["control flow analysis", "type narrowing", "dead code elimination"],
+    "commonInterviewQuestion": true
+  }
+]

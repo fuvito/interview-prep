@@ -1,0 +1,445 @@
+[
+  {
+    "id": "interfaces-types-001",
+    "subjectId": "typescript",
+    "topicId": "interfaces-types",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "Which of the following is a capability of `interface` that `type` alias does **not** support?",
+    "options": [
+      { "id": "a", "text": "Defining object shapes" },
+      { "id": "b", "text": "Declaration merging" },
+      { "id": "c", "text": "Extending other types" },
+      { "id": "d", "text": "Being used as a generic constraint" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "**Declaration merging** is exclusive to `interface`. When you declare the same interface name twice, TypeScript merges them into one:\n\n```typescript\ninterface Window {\n  title: string;\n}\ninterface Window {\n  innerWidth: number;\n}\n// Merged: Window has both title and innerWidth\n```\n\nThis is how libraries augment built-in types (e.g., adding properties to `Window` or `Request`).\n\nA duplicate `type` alias is always a compile error.",
+    "keyConcepts": ["declaration merging", "interface", "type alias", "module augmentation"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "interfaces-types-002",
+    "subjectId": "typescript",
+    "topicId": "interfaces-types",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "TypeScript uses structural typing. What does this mean?\n\n```typescript\ninterface Point { x: number; y: number; }\n\nfunction print(p: Point) {\n  console.log(p.x, p.y);\n}\n\nconst obj = { x: 1, y: 2, label: 'origin' };\nprint(obj);\n```",
+    "options": [
+      { "id": "a", "text": "Compile error — `obj` is not declared as `Point`" },
+      { "id": "b", "text": "Works — `obj` has all required properties of `Point`, so it's compatible" },
+      { "id": "c", "text": "Runtime error — extra properties are not allowed" },
+      { "id": "d", "text": "Works, but `label` is stripped from `obj` at compile time" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "TypeScript uses **structural typing** (also called duck typing): a type is compatible if it has at least the required properties, regardless of its declared name.\n\n`obj` has `x` and `y` (both `number`), so it satisfies `Point` — the extra `label` property is allowed when passing through a variable.\n\nNote: direct object literals trigger **excess property checking**, which would flag `label`. Assigning to a variable first bypasses this check.",
+    "keyConcepts": ["structural typing", "duck typing", "excess property checking", "compatibility"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "interfaces-types-003",
+    "subjectId": "typescript",
+    "topicId": "interfaces-types",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does the `readonly` modifier do on an interface property?\n\n```typescript\ninterface Config {\n  readonly apiUrl: string;\n  timeout: number;\n}\n\nconst config: Config = { apiUrl: 'https://api.example.com', timeout: 30 };\nconfig.timeout = 60;     // (A)\nconfig.apiUrl = 'other'; // (B)\n```",
+    "options": [
+      { "id": "a", "text": "Both (A) and (B) are errors" },
+      { "id": "b", "text": "Only (B) is a compile error; (A) is allowed" },
+      { "id": "c", "text": "Only (A) is a compile error; (B) is allowed" },
+      { "id": "d", "text": "Both compile; `readonly` only applies at runtime" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`readonly` prevents reassignment of that specific property after initialization — only **(B)** is a compile error.\n\n`timeout` has no modifier so **(A)** is valid.\n\n```typescript\nconfig.timeout = 60;     // ✓ OK\nconfig.apiUrl = 'other'; // ✗ Cannot assign to 'apiUrl' — it is a read-only property\n```\n\n`readonly` is a compile-time constraint only. It has no effect at runtime.",
+    "keyConcepts": ["readonly", "immutability", "compile-time checks"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "interfaces-types-004",
+    "subjectId": "typescript",
+    "topicId": "interfaces-types",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is an index signature used for?\n\n```typescript\ninterface StringMap {\n  [key: string]: string;\n}\n```",
+    "options": [
+      { "id": "a", "text": "To enforce that all keys must be numeric" },
+      { "id": "b", "text": "To describe an object with any number of string-keyed properties, all mapping to `string` values" },
+      { "id": "c", "text": "To make the interface behave like a `Map<string, string>`" },
+      { "id": "d", "text": "To restrict the interface to only the specified key" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "An **index signature** describes the shape of an object whose keys are not known in advance:\n\n```typescript\ninterface StringMap {\n  [key: string]: string;\n}\n\nconst headers: StringMap = {\n  'Content-Type': 'application/json',\n  Authorization: 'Bearer token',\n};\n```\n\nAll values must match the value type (`string` here). You can mix named properties with an index signature, but named properties must be assignable to the index signature's value type.",
+    "keyConcepts": ["index signatures", "dynamic keys", "dictionary types"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "interfaces-types-005",
+    "subjectId": "typescript",
+    "topicId": "interfaces-types",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What does interface extension with `extends` do?\n\n```typescript\ninterface Animal {\n  name: string;\n}\n\ninterface Dog extends Animal {\n  breed: string;\n}\n\nconst rex: Dog = { name: 'Rex', breed: 'German Shepherd' };\n```",
+    "options": [
+      { "id": "a", "text": "`Dog` replaces `Animal`; `name` is no longer required" },
+      { "id": "b", "text": "`Dog` inherits all properties of `Animal` and adds `breed`; both are required" },
+      { "id": "c", "text": "`Dog` only inherits `Animal` if they share the same properties" },
+      { "id": "d", "text": "Compile error — interfaces cannot extend other interfaces" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`extends` copies all members of the parent interface into the child. `Dog` has both `name` (from `Animal`) and `breed` — omitting either causes a compile error.\n\n```typescript\nconst bad: Dog = { breed: 'Lab' };\n// Error: Property 'name' is missing\n```\n\nAn interface can extend multiple interfaces:\n```typescript\ninterface C extends A, B { ... }\n```",
+    "keyConcepts": ["interface extension", "inheritance", "extends keyword"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "interfaces-types-006",
+    "subjectId": "typescript",
+    "topicId": "interfaces-types",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "An interface extends two others that both have a `name` property. When is this allowed?\n\n```typescript\ninterface A { name: string; }\ninterface B { name: string; age: number; }\n\ninterface C extends A, B { }\n```",
+    "options": [
+      { "id": "a", "text": "Always allowed — the last declaration wins" },
+      { "id": "b", "text": "Allowed only if the shared property has the same type in both parents" },
+      { "id": "c", "text": "Never allowed — duplicate property names cause a compile error" },
+      { "id": "d", "text": "Allowed, but the property type is widened to `string | number`" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "When extending multiple interfaces that share a property, the types must be **identical** (or the child's type must be a subtype of both). Here `name: string` is the same in `A` and `B`, so the extension is valid.\n\n```typescript\ninterface A { name: string; }\ninterface B { name: number; } // different type\ninterface C extends A, B { }  // Error: 'name' types conflict\n```\n\nTypeScript does not automatically create a union — you must resolve the conflict explicitly by overriding with a compatible type in `C`.",
+    "keyConcepts": ["multiple extends", "property conflict", "interface compatibility"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "interfaces-types-007",
+    "subjectId": "typescript",
+    "topicId": "interfaces-types",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the result of an intersection type?\n\n```typescript\ntype A = { x: number };\ntype B = { y: string };\ntype C = A & B;\n\nconst c: C = { x: 1, y: 'hello' };\n```",
+    "options": [
+      { "id": "a", "text": "`C` is either `A` or `B` — only one set of properties is required" },
+      { "id": "b", "text": "`C` must satisfy both `A` and `B` — all properties from both are required" },
+      { "id": "c", "text": "Compile error — `type` aliases cannot be combined with `&`" },
+      { "id": "d", "text": "`C` only keeps properties common to both types" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "The `&` operator creates an **intersection type**: the result must satisfy **all** member types simultaneously.\n\n```typescript\ntype C = A & B; // has x: number AND y: string\n\nconst bad: C = { x: 1 }; // Error: missing 'y'\n```\n\nIntersection vs union:\n- `A & B` — must have all properties (AND)\n- `A | B` — must have at least one set (OR)\n\nIntersection is most useful for composing object shapes and for mixin patterns.",
+    "keyConcepts": ["intersection types", "union types", "type composition"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "interfaces-types-008",
+    "subjectId": "typescript",
+    "topicId": "interfaces-types",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What type does `Pick` produce?\n\n```typescript\ninterface User {\n  id: number;\n  name: string;\n  email: string;\n  role: 'admin' | 'user';\n}\n\ntype UserSummary = Pick<User, 'id' | 'name'>;\n```",
+    "options": [
+      { "id": "a", "text": "`{ id: number; name: string; email: string; role: 'admin' | 'user' }`" },
+      { "id": "b", "text": "`{ id: number; name: string }`" },
+      { "id": "c", "text": "`{ email: string; role: 'admin' | 'user' }`" },
+      { "id": "d", "text": "Compile error — `Pick` only accepts one key at a time" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`Pick<T, K>` creates a new type with only the specified keys from `T`:\n\n```typescript\ntype UserSummary = Pick<User, 'id' | 'name'>;\n// Equivalent to:\n// { id: number; name: string }\n```\n\nUse `Pick` when you need a subset of a type — e.g., for API responses, view models, or form state.\n\nThe complement is `Omit<T, K>`, which keeps everything *except* the listed keys.",
+    "keyConcepts": ["Pick", "utility types", "type transformation"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "interfaces-types-009",
+    "subjectId": "typescript",
+    "topicId": "interfaces-types",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does `Omit<User, 'password' | 'salt'>` produce?\n\n```typescript\ninterface User {\n  id: number;\n  name: string;\n  password: string;\n  salt: string;\n}\n\ntype SafeUser = Omit<User, 'password' | 'salt'>;\n```",
+    "options": [
+      { "id": "a", "text": "`{ password: string; salt: string }`" },
+      { "id": "b", "text": "`{ id: number; name: string }`" },
+      { "id": "c", "text": "`User` with `password` and `salt` set to `never`" },
+      { "id": "d", "text": "A union of all remaining property types" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`Omit<T, K>` creates a type with all properties of `T` *except* those in `K`:\n\n```typescript\ntype SafeUser = Omit<User, 'password' | 'salt'>;\n// { id: number; name: string }\n```\n\nThis is the inverse of `Pick`. It's particularly useful when you want to expose most of a type but hide sensitive or internal fields.\n\nInternally, `Omit` is implemented as `Pick<T, Exclude<keyof T, K>>`.",
+    "keyConcepts": ["Omit", "utility types", "type exclusion"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "interfaces-types-010",
+    "subjectId": "typescript",
+    "topicId": "interfaces-types",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What does `Partial<T>` do to an interface?\n\n```typescript\ninterface Config {\n  host: string;\n  port: number;\n  debug: boolean;\n}\n\ntype PartialConfig = Partial<Config>;\n```",
+    "options": [
+      { "id": "a", "text": "Makes all properties required" },
+      { "id": "b", "text": "Makes all properties optional (`?`)" },
+      { "id": "c", "text": "Makes all properties `readonly`" },
+      { "id": "d", "text": "Removes half the properties" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`Partial<T>` transforms every property in `T` to optional:\n\n```typescript\ntype PartialConfig = Partial<Config>;\n// Equivalent to:\n// {\n//   host?: string;\n//   port?: number;\n//   debug?: boolean;\n// }\n```\n\nThis is the most common utility type. Use it for update/patch payloads, configuration overrides, or anywhere you want to accept a subset of an object's properties.\n\nThe complement is `Required<T>`, which removes all optionality.",
+    "keyConcepts": ["Partial", "optional properties", "utility types"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "interfaces-types-011",
+    "subjectId": "typescript",
+    "topicId": "interfaces-types",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does `Required<T>` do, and when would you use it?\n\n```typescript\ninterface Options {\n  timeout?: number;\n  retries?: number;\n  verbose?: boolean;\n}\n\ntype StrictOptions = Required<Options>;\n```",
+    "options": [
+      { "id": "a", "text": "Makes all optional properties required by removing the `?` modifier" },
+      { "id": "b", "text": "Adds `readonly` to all properties" },
+      { "id": "c", "text": "Makes all properties `null`able" },
+      { "id": "d", "text": "Removes all properties that have a `?` modifier" }
+    ],
+    "correctAnswers": ["a"],
+    "explanation": "`Required<T>` is the inverse of `Partial<T>` — it removes the `?` from every property:\n\n```typescript\ntype StrictOptions = Required<Options>;\n// {\n//   timeout: number;\n//   retries: number;\n//   verbose: boolean;\n// }\n```\n\nUse `Required` when you want to ensure all fields are present — for example, after validating or defaulting an incoming object:\n\n```typescript\nfunction withDefaults(opts: Options): Required<Options> {\n  return { timeout: 5000, retries: 3, verbose: false, ...opts };\n}\n```",
+    "keyConcepts": ["Required", "optional removal", "utility types"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "interfaces-types-012",
+    "subjectId": "typescript",
+    "topicId": "interfaces-types",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the difference between `readonly` on an interface property and `Readonly<T>`?\n\n```typescript\ninterface A {\n  readonly x: number;\n  y: number;\n}\n\ntype B = Readonly<{ x: number; y: number }>;\n```",
+    "options": [
+      { "id": "a", "text": "`A` makes only `x` readonly; `B` makes both `x` and `y` readonly" },
+      { "id": "b", "text": "They are identical — `Readonly<T>` is just shorthand for `readonly` on one property" },
+      { "id": "c", "text": "`A` and `B` both make only listed properties readonly" },
+      { "id": "d", "text": "`Readonly<T>` applies at runtime; `readonly` is compile-time only" }
+    ],
+    "correctAnswers": ["a"],
+    "explanation": "`readonly` on a single property affects only that property. `Readonly<T>` applies `readonly` to **every** property of `T`:\n\n```typescript\ntype B = Readonly<{ x: number; y: number }>;\n// { readonly x: number; readonly y: number }\n\nconst b: B = { x: 1, y: 2 };\nb.x = 5; // Error\nb.y = 5; // Error\n```\n\nBoth are compile-time only — neither prevents mutation in JavaScript at runtime. For deep immutability, consider `as const` or a library like Immer.",
+    "keyConcepts": ["Readonly", "readonly modifier", "immutability", "utility types"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "interfaces-types-013",
+    "subjectId": "typescript",
+    "topicId": "interfaces-types",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does `Record<K, V>` create?\n\n```typescript\ntype Scores = Record<string, number>;\n\nconst playerScores: Scores = {\n  alice: 42,\n  bob: 17,\n};\n```",
+    "options": [
+      { "id": "a", "text": "A `Map<string, number>` object" },
+      { "id": "b", "text": "An object type where keys are `string` and values are `number`" },
+      { "id": "c", "text": "A tuple of `[string, number]` entries" },
+      { "id": "d", "text": "Equivalent to `{ [key in string]?: number }`" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`Record<K, V>` is a mapped type that constructs an object type with keys of type `K` and values of type `V`:\n\n```typescript\ntype Record<K extends string | number | symbol, T> = {\n  [P in K]: T;\n};\n```\n\nIt's especially useful when `K` is a union of literal types, enforcing that every variant is handled:\n\n```typescript\ntype Status = 'pending' | 'active' | 'closed';\ntype StatusLabel = Record<Status, string>;\n\nconst labels: StatusLabel = {\n  pending: 'Pending',\n  active:  'Active',\n  closed:  'Closed',\n}; // compile error if any key is missing\n```",
+    "keyConcepts": ["Record", "mapped types", "utility types", "exhaustive keys"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "interfaces-types-014",
+    "subjectId": "typescript",
+    "topicId": "interfaces-types",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What does `Exclude<T, U>` produce?\n\n```typescript\ntype Status = 'pending' | 'active' | 'closed' | 'archived';\ntype ActiveStatus = Exclude<Status, 'closed' | 'archived'>;\n```",
+    "options": [
+      { "id": "a", "text": "`'closed' | 'archived'`" },
+      { "id": "b", "text": "`'pending' | 'active'`" },
+      { "id": "c", "text": "`'pending' | 'active' | 'closed' | 'archived'`" },
+      { "id": "d", "text": "`never`" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`Exclude<T, U>` removes from union `T` all members that are assignable to `U`:\n\n```typescript\ntype ActiveStatus = Exclude<Status, 'closed' | 'archived'>;\n// 'pending' | 'active'\n```\n\nInternally it's a distributive conditional type:\n```typescript\ntype Exclude<T, U> = T extends U ? never : T;\n```\n\nEach member of `T` is checked against `U`. Members that extend `U` become `never` and are eliminated from the union.",
+    "keyConcepts": ["Exclude", "distributive conditional types", "union manipulation"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "interfaces-types-015",
+    "subjectId": "typescript",
+    "topicId": "interfaces-types",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What does `Extract<T, U>` return?\n\n```typescript\ntype All = string | number | boolean | null;\ntype Primitives = Extract<All, string | number>;\n```",
+    "options": [
+      { "id": "a", "text": "`boolean | null`" },
+      { "id": "b", "text": "`string | number`" },
+      { "id": "c", "text": "`string | number | boolean | null`" },
+      { "id": "d", "text": "`never`" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`Extract<T, U>` keeps only the members of `T` that are assignable to `U` — the opposite of `Exclude`:\n\n```typescript\ntype Primitives = Extract<All, string | number>;\n// string | number\n```\n\nInternally:\n```typescript\ntype Extract<T, U> = T extends U ? T : never;\n```\n\nMembers of `T` that *do* extend `U` are kept; others become `never`.\n\nPractical use:\n```typescript\ntype EventNames = Extract<keyof HTMLElement, `on${string}`>;\n// all event handler property names\n```",
+    "keyConcepts": ["Extract", "distributive conditional types", "union filtering"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "interfaces-types-016",
+    "subjectId": "typescript",
+    "topicId": "interfaces-types",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does `NonNullable<T>` produce?\n\n```typescript\ntype MaybeString = string | null | undefined;\ntype DefiniteString = NonNullable<MaybeString>;\n```",
+    "options": [
+      { "id": "a", "text": "`string | null`" },
+      { "id": "b", "text": "`string | undefined`" },
+      { "id": "c", "text": "`string`" },
+      { "id": "d", "text": "`never`" }
+    ],
+    "correctAnswers": ["c"],
+    "explanation": "`NonNullable<T>` removes `null` and `undefined` from the type:\n\n```typescript\ntype DefiniteString = NonNullable<string | null | undefined>;\n// string\n```\n\nIt's implemented as:\n```typescript\ntype NonNullable<T> = T & {};\n```\n\nThis intersecting with `{}` excludes nullish types because `null` and `undefined` are not assignable to `{}`.\n\nUseful after a null check when you want to express the narrowed type explicitly in a type alias.",
+    "keyConcepts": ["NonNullable", "null removal", "utility types"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "interfaces-types-017",
+    "subjectId": "typescript",
+    "topicId": "interfaces-types",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does `ReturnType<T>` extract?\n\n```typescript\nfunction fetchUser(id: number): Promise<{ name: string; age: number }> {\n  return fetch(`/users/${id}`).then(r => r.json());\n}\n\ntype FetchResult = ReturnType<typeof fetchUser>;\n```",
+    "options": [
+      { "id": "a", "text": "`number` — the parameter type" },
+      { "id": "b", "text": "`Promise<{ name: string; age: number }>` — the return type" },
+      { "id": "c", "text": "`{ name: string; age: number }` — the resolved type, unwrapped from `Promise`" },
+      { "id": "d", "text": "`typeof fetchUser` — the function type itself" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`ReturnType<T>` extracts the **declared** return type of a function type — it does not unwrap `Promise`:\n\n```typescript\ntype FetchResult = ReturnType<typeof fetchUser>;\n// Promise<{ name: string; age: number }>\n```\n\nTo get the resolved inner type, use `Awaited<ReturnType<typeof fetchUser>>`, which recursively unwraps `Promise` types:\n\n```typescript\ntype Inner = Awaited<ReturnType<typeof fetchUser>>;\n// { name: string; age: number }\n```\n\n`ReturnType` is especially handy when you don't control the source — you can derive types from existing functions rather than duplicating them.",
+    "keyConcepts": ["ReturnType", "Awaited", "utility types", "type inference"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "interfaces-types-018",
+    "subjectId": "typescript",
+    "topicId": "interfaces-types",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does `Parameters<T>` return?\n\n```typescript\nfunction createUser(name: string, age: number, admin: boolean): void {}\n\ntype CreateUserArgs = Parameters<typeof createUser>;\n```",
+    "options": [
+      { "id": "a", "text": "`string | number | boolean` — a union of argument types" },
+      { "id": "b", "text": "`[string, number, boolean]` — a tuple of argument types in order" },
+      { "id": "c", "text": "`{ name: string; age: number; admin: boolean }` — an object type" },
+      { "id": "d", "text": "`void` — the return type" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`Parameters<T>` returns the parameter types as a **tuple** in the same order as the function signature:\n\n```typescript\ntype CreateUserArgs = Parameters<typeof createUser>;\n// [string, number, boolean]\n```\n\nThis preserves argument order, so spreading the tuple gives a valid call:\n\n```typescript\nconst args: CreateUserArgs = ['Alice', 30, true];\ncreateUser(...args); // valid\n```\n\nUseful for wrapping, decorating, or proxying functions without manually re-declaring their parameter types.",
+    "keyConcepts": ["Parameters", "tuple types", "utility types", "function types"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "interfaces-types-019",
+    "subjectId": "typescript",
+    "topicId": "interfaces-types",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is a callable interface signature, and what does this code describe?\n\n```typescript\ninterface Formatter {\n  (value: number, decimals?: number): string;\n  locale: string;\n}\n```",
+    "options": [
+      { "id": "a", "text": "A class with a static `locale` property" },
+      { "id": "b", "text": "A function that is also an object with a `locale` property" },
+      { "id": "c", "text": "A compile error — interfaces cannot have both call and property signatures" },
+      { "id": "d", "text": "A type that can only be used as a constructor" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "A **call signature** inside an interface makes the type callable like a function. Combined with regular properties, it describes objects that are both functions and objects (common in JavaScript):\n\n```typescript\nconst fmt: Formatter = Object.assign(\n  (v: number, d = 2) => v.toFixed(d),\n  { locale: 'en-US' }\n);\n\nfmt(3.14159, 2); // '3.14'\nfmt.locale;      // 'en-US'\n```\n\nThis pattern is used internally by libraries — for example, jQuery's `$` is both a function and an object with methods.",
+    "keyConcepts": ["call signature", "callable interface", "hybrid types", "function objects"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "interfaces-types-020",
+    "subjectId": "typescript",
+    "topicId": "interfaces-types",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "Why can't an `interface` represent a union type, but a `type` alias can?\n\n```typescript\n// Which of these compiles?\ntype Result = 'success' | 'error'; // (A)\ninterface Result = 'success' | 'error'; // (B)\n```",
+    "options": [
+      { "id": "a", "text": "Both compile — they are equivalent" },
+      { "id": "b", "text": "Only (A) compiles — `interface` can only describe object shapes, not unions" },
+      { "id": "c", "text": "Only (B) compiles — `type` aliases cannot represent literals" },
+      { "id": "d", "text": "Neither compiles — unions require the `union` keyword" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`interface` is syntactically limited to describing **object/class shapes** — it cannot represent primitive unions, tuples, or mapped types directly:\n\n```typescript\ntype Result = 'success' | 'error'; // ✓ valid type alias\ninterface Result = 'success' | 'error'; // ✗ syntax error\n```\n\n`type` aliases are more general — they can represent any type expression. This is the primary reason to use `type` over `interface` when working with union types, discriminated unions, or complex computed types.",
+    "keyConcepts": ["interface limitations", "type alias versatility", "union types", "interface vs type"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "interfaces-types-021",
+    "subjectId": "typescript",
+    "topicId": "interfaces-types",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "Why does this code fail but a similar one through a variable succeeds?\n\n```typescript\ninterface Point { x: number; y: number; }\n\nfunction plot(p: Point) {}\n\nplot({ x: 1, y: 2, z: 3 });           // (A) — direct literal\n\nconst pt = { x: 1, y: 2, z: 3 };\nplot(pt);                              // (B) — through variable\n```",
+    "options": [
+      { "id": "a", "text": "Both (A) and (B) compile successfully" },
+      { "id": "b", "text": "Only (A) is an error — direct object literals trigger excess property checking" },
+      { "id": "c", "text": "Only (B) is an error — TypeScript cannot infer variable types" },
+      { "id": "d", "text": "Both fail — TypeScript always disallows extra properties" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "TypeScript applies **excess property checking** only to **fresh object literals** passed directly to a typed location. Once an object is assigned to a variable, it is no longer considered \"fresh\" and structural compatibility takes over.\n\n```typescript\nplot({ x: 1, y: 2, z: 3 }); // Error: 'z' does not exist in type 'Point'\n\nconst pt = { x: 1, y: 2, z: 3 }; // type inferred as { x:number; y:number; z:number }\nplot(pt); // OK — structurally compatible (has x and y)\n```\n\nExcess property checking is a deliberate friction to catch typos in object literals, not a fundamental constraint of the type system.",
+    "keyConcepts": ["excess property checking", "fresh objects", "structural typing"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "interfaces-types-022",
+    "subjectId": "typescript",
+    "topicId": "interfaces-types",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is the difference between an optional property and a property with `undefined` in its type?\n\n```typescript\ninterface A { name?: string; }          // optional\ninterface B { name: string | undefined; } // explicit undefined\n```",
+    "options": [
+      { "id": "a", "text": "There is no difference — they are exactly equivalent" },
+      { "id": "b", "text": "In `A`, the key can be absent; in `B`, the key must be present but can be `undefined`" },
+      { "id": "c", "text": "In `B`, the key can be absent; in `A`, it must be present" },
+      { "id": "d", "text": "`A` allows `undefined` only in strict mode" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "With `exactOptionalPropertyTypes` enabled (or just conceptually):\n\n- `A` (`name?: string`) — the `name` key may be **entirely absent** from the object\n- `B` (`name: string | undefined`) — the `name` key **must be present**, but its value may be `undefined`\n\n```typescript\nconst a: A = {};              // ✓ key absent\nconst b: B = {};              // ✗ missing key 'name'\nconst b2: B = { name: undefined }; // ✓\n```\n\nWith default TypeScript settings (`exactOptionalPropertyTypes: false`), `?` also allows `undefined` values, making them similar — but the key-presence distinction remains under `exactOptionalPropertyTypes`.",
+    "keyConcepts": ["optional properties", "exactOptionalPropertyTypes", "undefined", "interface design"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "interfaces-types-023",
+    "subjectId": "typescript",
+    "topicId": "interfaces-types",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "TypeScript allows recursive type aliases. What does this type represent?\n\n```typescript\ntype JSONValue =\n  | string\n  | number\n  | boolean\n  | null\n  | JSONValue[]\n  | { [key: string]: JSONValue };\n```",
+    "options": [
+      { "id": "a", "text": "A compile error — type aliases cannot reference themselves" },
+      { "id": "b", "text": "Any valid JSON value: primitives, arrays, or objects whose values are also JSON" },
+      { "id": "c", "text": "A type that only accepts flat objects with primitive values" },
+      { "id": "d", "text": "An infinite loop at compile time" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "TypeScript supports **recursive type aliases** as long as the recursion goes through an object type or array:\n\n```typescript\nconst data: JSONValue = {\n  name: 'Alice',\n  scores: [1, 2, 3],\n  meta: { active: true, tags: ['a', null] },\n};\n```\n\nDirect self-reference in a union (`type X = X | string`) is disallowed — it must be wrapped in a container (`JSONValue[]` or `{ [key]: JSONValue }`).\n\nRecursive types are essential for modeling trees, ASTs, nested configs, and anything self-similar.",
+    "keyConcepts": ["recursive types", "JSON type", "self-referential types", "type alias"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "interfaces-types-024",
+    "subjectId": "typescript",
+    "topicId": "interfaces-types",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What does a mapped type with `keyof` produce?\n\n```typescript\ninterface User {\n  id: number;\n  name: string;\n  email: string;\n}\n\ntype Flags<T> = { [K in keyof T]: boolean };\ntype UserFlags = Flags<User>;\n```",
+    "options": [
+      { "id": "a", "text": "`{ id: number; name: string; email: string }`" },
+      { "id": "b", "text": "`{ id: boolean; name: boolean; email: boolean }`" },
+      { "id": "c", "text": "`boolean`" },
+      { "id": "d", "text": "Compile error — you cannot iterate over interface keys" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "A **mapped type** iterates over a union of keys (here `keyof User = 'id' | 'name' | 'email'`) and produces a new type with the same keys but transformed values:\n\n```typescript\ntype UserFlags = Flags<User>;\n// { id: boolean; name: boolean; email: boolean }\n```\n\nMapped types are the foundation of all built-in utility types:\n```typescript\ntype Partial<T> = { [K in keyof T]?: T[K] };\ntype Readonly<T> = { readonly [K in keyof T]: T[K] };\ntype Record<K, V> = { [P in K extends string ? K : never]: V };\n```\n\nYou can also use `as` in the key position to remap or filter keys.",
+    "keyConcepts": ["mapped types", "keyof", "type transformation", "utility type internals"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "interfaces-types-025",
+    "subjectId": "typescript",
+    "topicId": "interfaces-types",
+    "type": "text",
+    "difficulty": "intermediate",
+    "question": "When should you use `interface` versus `type` alias in TypeScript? Describe the key differences and give a practical rule for choosing.",
+    "explanation": "## interface vs type — key differences\n\n**Prefer `interface` when:**\n- Describing the shape of an **object or class**\n- You need **declaration merging** (e.g., augmenting third-party library types)\n- Defining a public API in a library (interfaces produce cleaner error messages)\n\n**Prefer `type` when:**\n- Defining **unions** or **intersections**: `type ID = string | number`\n- Using **computed/mapped types**: `type Partial<T> = { [K in keyof T]?: T[K] }`\n- Aliasing **primitives, tuples, or function types**\n- Working with **conditional types**: `type IsString<T> = T extends string ? true : false`\n\n**Key rule: interface cannot represent unions; type cannot merge.**\n\n```typescript\n// Only type can do this:\ntype Status = 'active' | 'inactive';\ntype Nullable<T> = T | null;\n\n// Only interface can do this (declaration merging):\ninterface Window { myPlugin: Plugin; } // augments the global Window\n```\n\nIn practice, the TypeScript team recommends **interface by default** for object shapes (it's faster for the compiler), and **type when you need the extra power**. Many teams settle on `type` everywhere for consistency — both approaches are valid.",
+    "keyConcepts": ["interface vs type", "declaration merging", "union types", "mapped types", "design decision"],
+    "commonInterviewQuestion": true
+  }
+]

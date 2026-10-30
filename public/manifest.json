@@ -1,0 +1,10 @@
+{
+  "manifest_version": 3,
+  "name": "InterviewPrep",
+  "version": "0.1.0",
+  "description": "Offline-first technical interview preparation for developers.",
+  "action": {
+    "default_popup": "index.html",
+    "default_title": "InterviewPrep"
+  }
+}

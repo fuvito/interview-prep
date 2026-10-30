@@ -1,0 +1,445 @@
+[
+  {
+    "id": "classes-001",
+    "subjectId": "typescript",
+    "topicId": "classes",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "Which access modifier makes a class member accessible only within the class itself?",
+    "options": [
+      { "id": "a", "text": "`public`" },
+      { "id": "b", "text": "`protected`" },
+      { "id": "c", "text": "`private`" },
+      { "id": "d", "text": "`internal`" }
+    ],
+    "correctAnswers": ["c"],
+    "explanation": "TypeScript has three access modifiers:\n\n| Modifier | Class | Subclass | Outside |\n|---|---|---|---|\n| `public` | ✓ | ✓ | ✓ |\n| `protected` | ✓ | ✓ | ✗ |\n| `private` | ✓ | ✗ | ✗ |\n\n`private` restricts access to the declaring class only — subclasses cannot access it. Properties are `public` by default.\n\nNote: TypeScript `private` is compile-time only. For a true runtime-private field use the `#` syntax (ECMAScript private fields).",
+    "keyConcepts": ["access modifiers", "private", "protected", "public", "encapsulation"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "classes-002",
+    "subjectId": "typescript",
+    "topicId": "classes",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What does the constructor shorthand do in TypeScript?\n\n```typescript\nclass Point {\n  constructor(public x: number, private y: number) {}\n}\n```",
+    "options": [
+      { "id": "a", "text": "Declares `x` and `y` as local variables inside the constructor" },
+      { "id": "b", "text": "Declares and initializes class properties `x` and `y` in a single step" },
+      { "id": "c", "text": "Compile error — access modifiers are not allowed in constructors" },
+      { "id": "d", "text": "Creates getters for `x` and `y` automatically" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "Prefixing a constructor parameter with an access modifier (`public`, `private`, `protected`, or `readonly`) is TypeScript shorthand that:\n1. Declares the property on the class\n2. Assigns the argument to it\n\n```typescript\n// These two are equivalent:\nclass Point {\n  constructor(public x: number, private y: number) {}\n}\n\nclass Point {\n  public x: number;\n  private y: number;\n  constructor(x: number, y: number) {\n    this.x = x;\n    this.y = y;\n  }\n}\n```",
+    "keyConcepts": ["constructor shorthand", "parameter properties", "access modifiers"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "classes-003",
+    "subjectId": "typescript",
+    "topicId": "classes",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is an abstract class in TypeScript?",
+    "options": [
+      { "id": "a", "text": "A class that cannot have any methods" },
+      { "id": "b", "text": "A class that cannot be instantiated directly and may contain abstract methods that subclasses must implement" },
+      { "id": "c", "text": "A class that all other classes automatically extend" },
+      { "id": "d", "text": "An interface that can contain implementation" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "An `abstract` class cannot be instantiated with `new` directly. It serves as a base class that defines a contract through **abstract methods** — method signatures without implementations that concrete subclasses must provide.\n\n```typescript\nabstract class Shape {\n  abstract area(): number; // subclasses must implement\n\n  describe(): string {     // concrete method — inherited as-is\n    return `Area: ${this.area()}`;\n  }\n}\n\nclass Circle extends Shape {\n  constructor(private radius: number) { super(); }\n  area(): number { return Math.PI * this.radius ** 2; }\n}\n\nnew Shape();  // ✗ Cannot create instance of abstract class\nnew Circle(5); // ✓\n```",
+    "keyConcepts": ["abstract classes", "abstract methods", "inheritance", "polymorphism"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "classes-004",
+    "subjectId": "typescript",
+    "topicId": "classes",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the difference between TypeScript `private` and JavaScript `#` private fields?",
+    "options": [
+      { "id": "a", "text": "They are identical — `private` compiles to `#`" },
+      { "id": "b", "text": "TypeScript `private` is compile-time only; `#` is enforced at runtime and is truly inaccessible" },
+      { "id": "c", "text": "`#` only works in Node.js; `private` works everywhere" },
+      { "id": "d", "text": "TypeScript `private` allows subclass access; `#` does not" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "TypeScript's `private` modifier is **erased at compile time** — the emitted JavaScript has no enforcement:\n\n```typescript\nclass Foo {\n  private secret = 42;\n}\n// Emitted JS: class Foo { secret = 42; }\n// Runtime: new Foo().secret === 42  ✓ accessible!\n```\n\nECMAScript `#` private fields are enforced **at runtime** by the JavaScript engine:\n\n```typescript\nclass Foo {\n  #secret = 42;\n}\n// Runtime: new Foo().#secret  ✗ SyntaxError\n```\n\nPrefer `#` when you need genuine runtime privacy.",
+    "keyConcepts": ["private", "ECMAScript private fields", "runtime vs compile-time", "encapsulation"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "classes-005",
+    "subjectId": "typescript",
+    "topicId": "classes",
+    "type": "code",
+    "difficulty": "intermediate",
+    "question": "What does this code output?\n\n```typescript\nclass Animal {\n  speak(): string { return 'Generic sound'; }\n}\n\nclass Dog extends Animal {\n  speak(): string { return `${super.speak()} — Woof!`; }\n}\n\nconst dog = new Dog();\nconsole.log(dog.speak());\n```",
+    "options": [
+      { "id": "a", "text": "`Generic sound`" },
+      { "id": "b", "text": "`Generic sound — Woof!`" },
+      { "id": "c", "text": "`Woof!`" },
+      { "id": "d", "text": "Compile error — `super` cannot be used in overridden methods" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`super.method()` calls the **parent class's version** of the method from inside the overriding method:\n\n- `Dog.speak()` calls `super.speak()` → `Animal.speak()` returns `'Generic sound'`\n- The result is interpolated: `'Generic sound — Woof!'`\n\n```typescript\ndog.speak(); // 'Generic sound — Woof!'\n```\n\nThis is the standard way to **extend** a parent method's behavior rather than completely replace it. Always call `super()` in the constructor when extending a class.",
+    "keyConcepts": ["method overriding", "super", "inheritance", "polymorphism"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "classes-006",
+    "subjectId": "typescript",
+    "topicId": "classes",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is the difference between a static member and an instance member?\n\n```typescript\nclass Counter {\n  static count = 0;\n  id: number;\n\n  constructor() {\n    Counter.count++;\n    this.id = Counter.count;\n  }\n}\n\nconst a = new Counter();\nconst b = new Counter();\nconsole.log(Counter.count); // ?\nconsole.log(a.id);          // ?\n```",
+    "options": [
+      { "id": "a", "text": "`Counter.count = 2`, `a.id = 1`" },
+      { "id": "b", "text": "`Counter.count = 1`, `a.id = 2`" },
+      { "id": "c", "text": "`Counter.count = 0`, `a.id = 0`" },
+      { "id": "d", "text": "Compile error — static members cannot reference instance members" }
+    ],
+    "correctAnswers": ["a"],
+    "explanation": "**Static members** belong to the class itself, shared across all instances. **Instance members** belong to each individual object.\n\n- Creating `a`: `Counter.count` (static) goes from 0 → 1; `a.id` (instance) = 1\n- Creating `b`: `Counter.count` goes from 1 → 2; `b.id` = 2\n\n```typescript\nconsole.log(Counter.count); // 2\nconsole.log(a.id);          // 1\nconsole.log(b.id);          // 2\n```\n\nAccess static members via the class name (`Counter.count`), not via an instance (`a.count` would be `undefined`).",
+    "keyConcepts": ["static members", "instance members", "class state"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "classes-007",
+    "subjectId": "typescript",
+    "topicId": "classes",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "How does a class implement an interface in TypeScript?\n\n```typescript\ninterface Serializable {\n  serialize(): string;\n  deserialize(data: string): void;\n}\n\nclass User implements Serializable {\n  constructor(public name: string) {}\n  serialize(): string { return JSON.stringify({ name: this.name }); }\n  // deserialize is missing\n}\n```",
+    "options": [
+      { "id": "a", "text": "Compiles — `implements` is optional and just for documentation" },
+      { "id": "b", "text": "Compile error — `User` must implement all members declared in `Serializable`" },
+      { "id": "c", "text": "Compiles — missing members are given `undefined` implementations" },
+      { "id": "d", "text": "Compile error — classes cannot implement interfaces" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`implements` declares that a class satisfies an interface's contract. TypeScript checks that the class provides **all required members** with compatible types:\n\n```typescript\nclass User implements Serializable {\n  // Error: Property 'deserialize' is missing\n}\n```\n\nKey points:\n- A class can implement **multiple interfaces**: `class Foo implements A, B {}`\n- `implements` does NOT inherit implementation — it only enforces the shape\n- Interface members must be public (no `private`/`protected` on the interface)\n\nThis is used for dependency injection and polymorphism without class inheritance.",
+    "keyConcepts": ["implements", "interface contract", "multiple interfaces"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "classes-008",
+    "subjectId": "typescript",
+    "topicId": "classes",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "When can a subclass access a `protected` member from the parent?\n\n```typescript\nclass Base {\n  protected value = 42;\n}\n\nclass Child extends Base {\n  double() { return this.value * 2; } // (A)\n}\n\nconst c = new Child();\nconsole.log(c.value); // (B)\n```",
+    "options": [
+      { "id": "a", "text": "Both (A) and (B) compile" },
+      { "id": "b", "text": "(A) compiles — `protected` is accessible inside subclasses; (B) is a compile error — `protected` is not accessible outside the class hierarchy" },
+      { "id": "c", "text": "Both fail — `protected` is like `private`, inaccessible everywhere except the declaring class" },
+      { "id": "d", "text": "(B) compiles — accessing an instance property externally is always allowed" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`protected` members are accessible:\n- Inside the declaring class ✓\n- Inside subclasses ✓\n- Outside the class hierarchy ✗\n\n```typescript\nclass Child extends Base {\n  double() { return this.value * 2; } // ✓ — inside subclass\n}\n\nconst c = new Child();\nc.value; // ✗ — 'value' is protected and only accessible within 'Base' and subclasses\n```\n\nUse `protected` when you need shared internal state or template method patterns between a class and its subclasses, but don't want to expose it publicly.",
+    "keyConcepts": ["protected", "subclass access", "encapsulation", "access modifiers"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "classes-009",
+    "subjectId": "typescript",
+    "topicId": "classes",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What do TypeScript getter and setter accessors do?\n\n```typescript\nclass Temperature {\n  private _celsius: number = 0;\n\n  get fahrenheit(): number {\n    return this._celsius * 9/5 + 32;\n  }\n\n  set fahrenheit(f: number) {\n    this._celsius = (f - 32) * 5/9;\n  }\n}\n\nconst t = new Temperature();\nt.fahrenheit = 212;\nconsole.log(t.fahrenheit);\n```",
+    "options": [
+      { "id": "a", "text": "Compile error — getters and setters are not supported in TypeScript classes" },
+      { "id": "b", "text": "Outputs `212` — the getter/setter pair makes `fahrenheit` act like a property with computed logic" },
+      { "id": "c", "text": "Outputs `100` — the setter converts to Celsius and the getter returns Celsius" },
+      { "id": "d", "text": "Outputs `373.15` — temperature in Kelvin" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "Accessor methods (`get`/`set`) let a class **expose computed values** with property-like syntax:\n\n```typescript\nt.fahrenheit = 212;     // calls the setter → _celsius = (212-32)*5/9 = 100\nconsole.log(t.fahrenheit); // calls the getter → 100 * 9/5 + 32 = 212\n```\n\nFrom the outside, `fahrenheit` looks like a regular property — callers don't know it's computed.\n\nTypescript rules:\n- A getter without a setter makes the property read-only\n- The setter parameter type must be assignable to the getter's return type\n- Useful for validation, lazy computation, and derived state",
+    "keyConcepts": ["getters", "setters", "accessor properties", "encapsulation"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "classes-010",
+    "subjectId": "typescript",
+    "topicId": "classes",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does the `override` keyword do in TypeScript 4.3+?\n\n```typescript\nclass Base {\n  greet(): string { return 'Hello'; }\n}\n\nclass Child extends Base {\n  override greet(): string { return 'Hi'; }   // (A)\n  override farewell(): string { return 'Bye'; } // (B)\n}\n```",
+    "options": [
+      { "id": "a", "text": "`override` is optional documentation — both (A) and (B) compile" },
+      { "id": "b", "text": "(A) compiles — `greet` exists in `Base`; (B) is a compile error — `farewell` does not exist in `Base`" },
+      { "id": "c", "text": "Both (A) and (B) compile — `override` prevents calling `super` accidentally" },
+      { "id": "d", "text": "Compile error — `override` requires abstract methods" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "The `override` keyword (with `noImplicitOverride: true` in tsconfig) requires that overridden methods **actually exist** in the parent class:\n\n```typescript\n// (A): 'greet' exists in Base → OK\noverride greet(): string { return 'Hi'; }\n\n// (B): 'farewell' does not exist in Base → Error\n// This method overrides nothing.\noverride farewell(): string { return 'Bye'; }\n```\n\nThis catches a common refactoring bug: you rename a method in the base class but forget to update the subclass — with `override`, TypeScript alerts you immediately.\n\nEnable `noImplicitOverride: true` to **require** `override` whenever a subclass overrides a method.",
+    "keyConcepts": ["override keyword", "noImplicitOverride", "method overriding", "refactoring safety"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "classes-011",
+    "subjectId": "typescript",
+    "topicId": "classes",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "In TypeScript, a class name refers to two different things depending on context. What are they?\n\n```typescript\nclass Counter {\n  count = 0;\n  increment() { this.count++; }\n}\n\nconst instance: Counter = new Counter(); // (A)\nconst Ctor: typeof Counter = Counter;   // (B)\n```",
+    "options": [
+      { "id": "a", "text": "Both (A) and (B) reference the same thing: the class itself" },
+      { "id": "b", "text": "In type position, `Counter` refers to the instance type; `typeof Counter` refers to the constructor type" },
+      { "id": "c", "text": "`typeof Counter` is `Function` — all class constructors share the same type" },
+      { "id": "d", "text": "Compile error — `typeof` cannot be used with class names" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "A class declaration in TypeScript creates **two things simultaneously**:\n\n1. **A value** — the constructor function (accessible at runtime)\n2. **A type** — the instance type (accessible at compile time)\n\n```typescript\nconst instance: Counter = new Counter(); // Counter as TYPE = instance shape\nconst Ctor: typeof Counter = Counter;   // typeof Counter = constructor type\n```\n\n`typeof Counter` gives you the constructor type — useful for factory functions or when passing a class as a value:\n\n```typescript\nfunction create<T>(Ctor: new () => T): T {\n  return new Ctor();\n}\ncreate(Counter); // T inferred as Counter\n```",
+    "keyConcepts": ["class as type", "typeof class", "constructor type", "instance type"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "classes-012",
+    "subjectId": "typescript",
+    "topicId": "classes",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does `readonly` do on a class property, and where can it be assigned?\n\n```typescript\nclass Config {\n  readonly maxConnections: number;\n\n  constructor(max: number) {\n    this.maxConnections = max; // (A)\n  }\n\n  resize(newMax: number) {\n    this.maxConnections = newMax; // (B)\n  }\n}\n```",
+    "options": [
+      { "id": "a", "text": "Both (A) and (B) are valid — `readonly` only restricts external access" },
+      { "id": "b", "text": "(A) is valid — `readonly` properties can be assigned in the constructor; (B) is a compile error" },
+      { "id": "c", "text": "Both (A) and (B) are compile errors — `readonly` properties must use a declaration initializer" },
+      { "id": "d", "text": "`readonly` and `const` behave identically on class properties" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`readonly` class properties can only be assigned:\n- In the **property declaration** (initializer): `readonly x = 42`\n- In the **constructor**\n\nAfter construction, any assignment is a compile error:\n\n```typescript\nthis.maxConnections = max;    // ✓ in constructor\nthis.maxConnections = newMax; // ✗ in any other method\n```\n\nThis is the class equivalent of declaring a `const` value — immutable after initialization. Use it for configuration values, IDs, and invariants that must not change.",
+    "keyConcepts": ["readonly properties", "constructor initialization", "immutability"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "classes-013",
+    "subjectId": "typescript",
+    "topicId": "classes",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "TypeScript classes use structural typing. What does this mean for class compatibility?\n\n```typescript\nclass Dog {\n  name: string = 'Rex';\n  bark() { return 'Woof'; }\n}\n\nclass Cat {\n  name: string = 'Whiskers';\n  bark() { return 'Meow'; } // Cat has a 'bark' method!\n}\n\nfunction makeNoise(animal: Dog): string {\n  return animal.bark();\n}\n\nconst cat = new Cat();\nmakeNoise(cat); // (A) — valid?\n```",
+    "options": [
+      { "id": "a", "text": "(A) is a compile error — `Cat` is not a `Dog`" },
+      { "id": "b", "text": "(A) is valid — `Cat` has all the same properties as `Dog`, so it is structurally compatible" },
+      { "id": "c", "text": "(A) is valid only if `Cat extends Dog`" },
+      { "id": "d", "text": "(A) is a runtime error" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "TypeScript uses **structural typing** even for classes — compatibility is determined by shape, not by declaration hierarchy.\n\n`Cat` has the same structure as `Dog` (`name: string`, `bark(): string`), so it satisfies `Dog`:\n\n```typescript\nmakeNoise(cat); // ✓ — Cat is structurally Dog-compatible\n```\n\nThis differs from Java/C# where `Cat` would need to `extends Dog` or `implements Animal`.\n\nException: classes with `private` or `protected` members have **nominal-ish** behavior — two classes with different private fields are not interchangeable even if their public shapes match.",
+    "keyConcepts": ["structural typing", "class compatibility", "duck typing", "private nominal behavior"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "classes-014",
+    "subjectId": "typescript",
+    "topicId": "classes",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the difference between implementing an interface and extending a class?\n\n```typescript\ninterface Loggable { log(): void; }\nclass Base { id = 1; }\n\nclass Service extends Base implements Loggable {\n  log() { console.log(this.id); }\n}\n```",
+    "options": [
+      { "id": "a", "text": "Both `extends` and `implements` do the same thing" },
+      { "id": "b", "text": "`extends` inherits implementation (including `id`); `implements` only enforces the contract (no `log` implementation is inherited)" },
+      { "id": "c", "text": "`implements` inherits implementation; `extends` only enforces the contract" },
+      { "id": "d", "text": "Compile error — a class cannot both `extends` and `implements`" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "- `extends`: **inherits** the parent class's properties and methods. `Service` gets `id = 1` from `Base` for free.\n- `implements`: **enforces a contract** — TypeScript checks that the class has all interface members, but nothing is inherited.\n\n```typescript\nconst svc = new Service();\nsvc.id;   // ✓ inherited from Base\nsvc.log(); // ✓ implemented by Service (not inherited from Loggable)\n```\n\nA class can:\n- `extends` only **one** class (no multiple inheritance)\n- `implements` **multiple** interfaces: `implements A, B, C`",
+    "keyConcepts": ["extends vs implements", "inheritance", "interface contract", "multiple interfaces"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "classes-015",
+    "subjectId": "typescript",
+    "topicId": "classes",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is the mixin pattern, and what problem does it solve?\n\n```typescript\ntype Constructor<T = {}> = new (...args: any[]) => T;\n\nfunction Timestamped<Base extends Constructor>(Superclass: Base) {\n  return class extends Superclass {\n    createdAt = new Date();\n  };\n}\n\nfunction Tagged<Base extends Constructor>(Superclass: Base) {\n  return class extends Superclass {\n    tags: string[] = [];\n  };\n}\n\nclass User { name = 'Alice'; }\nclass TimestampedTaggedUser extends Tagged(Timestamped(User)) {}\n```",
+    "options": [
+      { "id": "a", "text": "Compile error — TypeScript does not support class composition" },
+      { "id": "b", "text": "A way to compose behaviors from multiple sources without full multiple inheritance — `TimestampedTaggedUser` has `name`, `createdAt`, and `tags`" },
+      { "id": "c", "text": "Equivalent to `class TimestampedTaggedUser extends User, Timestamped, Tagged`" },
+      { "id": "d", "text": "A runtime-only pattern with no TypeScript types involved" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "**Mixins** solve the lack of multiple inheritance by composing classes functionally:\n\n```typescript\nconst u = new TimestampedTaggedUser();\nu.name;      // 'Alice' — from User\nu.createdAt; // Date — from Timestamped\nu.tags;      // [] — from Tagged\n```\n\nEach mixin function takes a class and returns a new class that extends it, adding behavior. Composing them chains the extensions.\n\nThis is more flexible than inheritance chains because each mixin is independent and reusable with different base classes.",
+    "keyConcepts": ["mixins", "class composition", "multiple inheritance alternative", "higher-order class"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "classes-016",
+    "subjectId": "typescript",
+    "topicId": "classes",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does `strictPropertyInitialization` catch?\n\n```typescript\nclass Service {\n  private client: HttpClient; // (A)\n\n  init(url: string) {\n    this.client = new HttpClient(url);\n  }\n\n  fetch(): Promise<Response> {\n    return this.client.get('/data'); // (B) — what if init wasn't called?\n  }\n}\n```",
+    "options": [
+      { "id": "a", "text": "No issue — TypeScript assumes all properties are initialized" },
+      { "id": "b", "text": "(A) is a compile error — `client` is not definitely initialized in the constructor; `strictPropertyInitialization` enforces this" },
+      { "id": "c", "text": "(B) is a compile error — you cannot call methods on a `private` property" },
+      { "id": "d", "text": "Both (A) and (B) compile fine under strict mode" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`strictPropertyInitialization` (part of `--strict`) requires that every class property is **definitely assigned in the constructor** or has a definite initializer.\n\n`client` is assigned in `init()`, not the constructor — TypeScript flags this:\n\n```\nError: Property 'client' has no initializer and is not definitely assigned in the constructor.\n```\n\nFixes:\n1. Initialize in constructor: `constructor() { this.client = new HttpClient(); }`\n2. Use the definite assignment assertion: `private client!: HttpClient;` (tells TS you know what you're doing)\n3. Use optional type: `private client?: HttpClient;` (but then handle `undefined` at usage site)",
+    "keyConcepts": ["strictPropertyInitialization", "definite assignment", "class invariants"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "classes-017",
+    "subjectId": "typescript",
+    "topicId": "classes",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is a generic class, and how does TypeScript infer the type parameter?\n\n```typescript\nclass Pair<T, U> {\n  constructor(public first: T, public second: U) {}\n  swap(): Pair<U, T> {\n    return new Pair(this.second, this.first);\n  }\n}\n\nconst p = new Pair(1, 'hello');\nconst swapped = p.swap();\n```",
+    "options": [
+      { "id": "a", "text": "`p` is `Pair<any, any>`; `swapped` is `Pair<any, any>`" },
+      { "id": "b", "text": "`p` is `Pair<number, string>`; `swapped` is `Pair<string, number>`" },
+      { "id": "c", "text": "Compile error — generics must be specified explicitly: `new Pair<number, string>(1, 'hello')`" },
+      { "id": "d", "text": "`swapped` is `Pair<number, string>` — swap does not change the types" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "TypeScript infers `T` and `U` from the constructor arguments:\n\n```typescript\nconst p = new Pair(1, 'hello');\n// T = number, U = string\n// p: Pair<number, string>\n\nconst swapped = p.swap();\n// swap(): Pair<U, T> = Pair<string, number>\n// swapped: Pair<string, number>\n```\n\nThe return type of `swap()` uses the generic parameters in reverse order, and TypeScript tracks this precisely — `swapped.first` is `string`, `swapped.second` is `number`.",
+    "keyConcepts": ["generic classes", "type inference", "multiple type parameters"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "classes-018",
+    "subjectId": "typescript",
+    "topicId": "classes",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What does the `abstract` modifier on a constructor type allow?\n\n```typescript\nabstract class Animal {\n  abstract sound(): string;\n  describe() { return `I say ${this.sound()}`; }\n}\n\nfunction create<T extends Animal>(\n  Ctor: abstract new () => T\n): T {\n  // ...\n}\n```",
+    "options": [
+      { "id": "a", "text": "Compile error — abstract classes cannot be passed as values" },
+      { "id": "b", "text": "`abstract new () => T` is a constructor type that allows abstract classes to be passed as type arguments without requiring direct instantiation" },
+      { "id": "c", "text": "`create` can only be called with concrete classes, not abstract ones" },
+      { "id": "d", "text": "`abstract new` automatically makes `create` return an abstract type" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "TypeScript 4.2 introduced `abstract` constructor types. `abstract new () => T` describes a constructor that may or may not be directly instantiable — it allows abstract classes to be passed as type parameters:\n\n```typescript\nfunction withLogging<T extends Animal>(Base: abstract new () => T) {\n  abstract class Logged extends Base {\n    // can extend abstract classes!\n  }\n  return Logged;\n}\n```\n\nWithout `abstract` in the constructor type, you could only pass concrete (non-abstract) classes. This enables mixin patterns built on top of abstract base classes.",
+    "keyConcepts": ["abstract constructor type", "abstract new", "mixin with abstract classes"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "classes-019",
+    "subjectId": "typescript",
+    "topicId": "classes",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is the difference between an abstract class and an interface when choosing between them for dependency injection?\n\n```typescript\n// Option A:\nabstract class Logger {\n  abstract log(msg: string): void;\n  error(msg: string) { this.log(`ERROR: ${msg}`); }\n}\n\n// Option B:\ninterface Logger {\n  log(msg: string): void;\n  error(msg: string): void;\n}\n```",
+    "options": [
+      { "id": "a", "text": "They are equivalent — choose either based on preference" },
+      { "id": "b", "text": "Option A can provide shared `error` implementation to all subclasses; Option B cannot — implementors must write `error` themselves" },
+      { "id": "c", "text": "Option B is better for DI — abstract classes cannot be used for dependency injection" },
+      { "id": "d", "text": "Option A prevents mocking in tests; Option B allows it" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "**Abstract class (A):** can provide **default implementations** that all subclasses inherit, while still requiring specific methods to be implemented:\n\n```typescript\nclass ConsoleLogger extends Logger {\n  log(msg: string) { console.log(msg); }\n  // error() is inherited — delegates to log()\n}\n```\n\n**Interface (B):** only a contract — every implementor must write all methods themselves, including `error`.\n\n**Practical rules:**\n- Use **interface** when you want maximum flexibility (any shape can implement it, including plain objects)\n- Use **abstract class** when subclasses share behavior and you want to avoid duplicating it\n- For DI, interfaces are often preferred because they allow object literal mock implementations in tests",
+    "keyConcepts": ["abstract class vs interface", "dependency injection", "shared implementation", "testability"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "classes-020",
+    "subjectId": "typescript",
+    "topicId": "classes",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What happens when you use `instanceof` with TypeScript classes?\n\n```typescript\nclass HttpError extends Error {\n  constructor(public status: number, message: string) {\n    super(message);\n    this.name = 'HttpError';\n  }\n}\n\nfunction handle(err: unknown) {\n  if (err instanceof HttpError) {\n    console.log(err.status); // (A)\n  }\n}\n```",
+    "options": [
+      { "id": "a", "text": "(A) is a compile error — `instanceof` does not narrow the type" },
+      { "id": "b", "text": "(A) works — `instanceof` narrows `err` from `unknown` to `HttpError` inside the `if` block" },
+      { "id": "c", "text": "`instanceof` only works with built-in types like `Error`, not custom classes" },
+      { "id": "d", "text": "(A) outputs `undefined` — `status` is not initialized in the `Error` constructor" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`instanceof` is a runtime operator that TypeScript understands for **type narrowing**:\n\n```typescript\nif (err instanceof HttpError) {\n  // err narrowed from unknown to HttpError\n  err.status; // ✓ — number\n  err.message; // ✓ — inherited from Error\n}\n```\n\n`instanceof` checks the prototype chain at runtime. It works correctly with class hierarchies:\n\n```typescript\nerr instanceof HttpError; // checks: err.__proto__ === HttpError.prototype\nerr instanceof Error;     // also true (HttpError extends Error)\n```\n\nBest practice for error handling: always wrap `catch` with `instanceof` rather than casting, since `catch` receives `unknown` in strict mode.",
+    "keyConcepts": ["instanceof", "type narrowing", "error handling", "prototype chain"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "classes-021",
+    "subjectId": "typescript",
+    "topicId": "classes",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does the `declare` keyword do on a class property?\n\n```typescript\nclass Widget {\n  declare title: string; // (A)\n  name!: string;         // (B)\n}\n```",
+    "options": [
+      { "id": "a", "text": "Both (A) and (B) emit property declarations in the compiled JavaScript" },
+      { "id": "b", "text": "`declare` (A) is a type-only declaration — it emits nothing to JavaScript; `!` (B) emits the field and asserts it will be initialized" },
+      { "id": "c", "text": "Both suppress `strictPropertyInitialization` errors without emitting anything" },
+      { "id": "d", "text": "`declare` and `!` are identical — just different syntax" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "**`declare title: string`** — a **type-only field declaration**. Tells TypeScript the shape, but emits **nothing** in JavaScript output. Useful when a base class or decorator initializes the field at runtime and you just need TypeScript to know it exists.\n\n**`name!: string`** — a **definite assignment assertion**. TypeScript emits the field declaration in JavaScript (`name;`) but suppresses the `strictPropertyInitialization` error. You're asserting that it will be assigned before use.\n\n```typescript\n// Emitted JS for declare: (nothing)\n// Emitted JS for !: class Widget { name; }\n```\n\n`declare` is most common with decorators or when extending classes whose JS initializes properties externally.",
+    "keyConcepts": ["declare modifier", "definite assignment assertion", "type-only declaration", "emit"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "classes-022",
+    "subjectId": "typescript",
+    "topicId": "classes",
+    "type": "code",
+    "difficulty": "intermediate",
+    "question": "What is the output of this code?\n\n```typescript\nclass Animal {\n  type = 'Animal';\n  static kingdom = 'Animalia';\n\n  describe() {\n    return `${this.type} from ${Animal.kingdom}`;\n  }\n}\n\nclass Dog extends Animal {\n  type = 'Dog';\n}\n\nconst d = new Dog();\nconsole.log(d.describe());\nconsole.log(Dog.kingdom);\n```",
+    "options": [
+      { "id": "a", "text": "`Animal from Animalia`\n`Animalia`" },
+      { "id": "b", "text": "`Dog from Animalia`\n`Animalia`" },
+      { "id": "c", "text": "`Dog from Animalia`\n`undefined`" },
+      { "id": "d", "text": "`Animal from Animalia`\n`undefined`" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "- `d.describe()`: `this.type` resolves to the instance property — `Dog` overrides it with `'Dog'`, so `this.type === 'Dog'`. `Animal.kingdom === 'Animalia'`. Output: `Dog from Animalia`.\n\n- `Dog.kingdom`: static members are **inherited** by subclasses in JavaScript. `Dog.kingdom` accesses the same property as `Animal.kingdom`. Output: `'Animalia'`.\n\nKey insight: **instance properties** in the subclass shadow parent properties; **static properties** are inherited through the prototype chain of the constructor.",
+    "keyConcepts": ["static inheritance", "instance property override", "prototype chain"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "classes-023",
+    "subjectId": "typescript",
+    "topicId": "classes",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What happens when `strictPropertyInitialization` is enabled and you use a definite assignment assertion (`!`)?\n\n```typescript\nclass Database {\n  private connection!: DbConnection; // asserting it will be set\n\n  async connect(url: string) {\n    this.connection = await createConnection(url);\n  }\n\n  async query(sql: string) {\n    return this.connection.execute(sql); // ✓ or ✗?\n  }\n}\n```",
+    "options": [
+      { "id": "a", "text": "Compile error — `!` is not recognized by TypeScript" },
+      { "id": "b", "text": "Compiles fine — `!` tells TypeScript you guarantee initialization before use; if `connect` was never called, this fails at runtime only" },
+      { "id": "c", "text": "TypeScript verifies that `connect` is called before `query` at compile time" },
+      { "id": "d", "text": "`!` makes the property optional — `connection` can be `undefined`" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "The **definite assignment assertion** (`!`) tells TypeScript: *I guarantee this will be set before it's used — trust me*. TypeScript suppresses the `strictPropertyInitialization` error.\n\nThis is a **one-way promise** from developer to compiler. If you break it (call `query` before `connect`), TypeScript won't warn you — the error is purely at runtime:\n\n```\nTypeError: Cannot read properties of undefined (reading 'execute')\n```\n\nUse `!` sparingly and only when the initialization is genuinely guaranteed by a protocol that TypeScript can't verify (dependency injection frameworks, lifecycle hooks, lazy initialization).",
+    "keyConcepts": ["definite assignment assertion", "strictPropertyInitialization", "runtime safety"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "classes-024",
+    "subjectId": "typescript",
+    "topicId": "classes",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "Can a `private` constructor be used to prevent external instantiation?\n\n```typescript\nclass Singleton {\n  private static instance: Singleton | null = null;\n\n  private constructor(public value: number) {}\n\n  static create(v: number): Singleton {\n    if (!Singleton.instance) {\n      Singleton.instance = new Singleton(v);\n    }\n    return Singleton.instance;\n  }\n}\n\nnew Singleton(1);         // (A)\nSingleton.create(1);      // (B)\n```",
+    "options": [
+      { "id": "a", "text": "Both (A) and (B) compile" },
+      { "id": "b", "text": "(A) is a compile error — constructor is private; (B) works — `create` is static and can call the private constructor" },
+      { "id": "c", "text": "Both (A) and (B) fail at runtime" },
+      { "id": "d", "text": "(B) fails — static methods cannot call private constructors" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "A `private` constructor prevents external instantiation — only code inside the class can call `new`:\n\n```typescript\nnew Singleton(1);    // ✗ Constructor is private\nSingleton.create(1); // ✓ static method inside the class\n```\n\nThis is the classic **Singleton pattern**: the private constructor forces all instantiation through a controlled factory method.\n\nOther uses of private constructors:\n- Factory methods with validation\n- Pure utility classes (no instances needed)\n- Named constructors for clarity\n\nNote: this is still compile-time only — JavaScript won't enforce it at runtime.",
+    "keyConcepts": ["private constructor", "singleton pattern", "factory method", "static methods"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "classes-025",
+    "subjectId": "typescript",
+    "topicId": "classes",
+    "type": "text",
+    "difficulty": "intermediate",
+    "question": "When should you use a TypeScript class versus a plain object or a function? Describe the trade-offs.",
+    "explanation": "## Class vs plain object vs function\n\n### Use a class when:\n1. **You need multiple instances** with shared behavior and independent state\n2. **Inheritance or polymorphism** is required (especially with abstract base types)\n3. **Access control** matters — `private`/`protected` fields communicate intent\n4. **`instanceof` checks** are needed at runtime\n5. **Lifecycle is meaningful** — constructor validates and initializes; methods operate on encapsulated state\n\n```typescript\nclass HttpClient {\n  private baseUrl: string;\n  private headers: Record<string, string> = {};\n  constructor(baseUrl: string) { this.baseUrl = baseUrl; }\n  get(path: string) { ... }\n}\n```\n\n### Use a plain object when:\n1. **Data containers** — no behavior, just shape\n2. **Immutability** is preferred (easier with `as const` or `Readonly<T>`)\n3. **Serialization** is common (JSON-friendly, no prototype overhead)\n\n```typescript\nconst config = { host: 'localhost', port: 8080 } as const;\n```\n\n### Use a function (or module of functions) when:\n1. **Stateless operations** — the function transforms input → output without side effects\n2. **Functional composition** is the design goal\n3. **One-off utilities** that don't need to be instantiated\n\n```typescript\nconst formatDate = (d: Date): string => d.toISOString().split('T')[0];\n```\n\n### Rule of thumb\nPrefer the **simplest abstraction that solves the problem**. Many TypeScript patterns that Java uses classes for can be handled with plain objects and functions — reach for classes when you genuinely need their features, not out of habit.",
+    "keyConcepts": ["class vs function", "object-oriented vs functional", "design decisions", "TypeScript patterns"],
+    "commonInterviewQuestion": true
+  }
+]

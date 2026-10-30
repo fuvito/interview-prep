@@ -1,0 +1,445 @@
+[
+  {
+    "id": "advanced-types-001",
+    "subjectId": "typescript",
+    "topicId": "advanced-types",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is a discriminated union and why is it useful?\n\n```typescript\ntype Shape =\n  | { kind: 'circle';    radius: number }\n  | { kind: 'rectangle'; width: number; height: number };\n```",
+    "options": [
+      { "id": "a", "text": "A union where TypeScript randomly picks one type at runtime" },
+      { "id": "b", "text": "A union where a shared literal property (`kind`) lets TypeScript narrow to the correct variant in each branch" },
+      { "id": "c", "text": "A union that can only contain primitive types" },
+      { "id": "d", "text": "A pattern only valid for enums" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "A **discriminated union** (also called a tagged union) uses a common **discriminant property** with unique literal values to identify each variant. TypeScript can narrow the full type based on that property:\n\n```typescript\nfunction area(shape: Shape): number {\n  switch (shape.kind) {\n    case 'circle':\n      return Math.PI * shape.radius ** 2; // TS knows radius exists\n    case 'rectangle':\n      return shape.width * shape.height;   // TS knows width & height exist\n  }\n}\n```\n\nThis pattern enables exhaustive checking — if you add a new variant without handling it, TypeScript warns you.",
+    "keyConcepts": ["discriminated unions", "tagged unions", "type narrowing", "exhaustive checks"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "advanced-types-002",
+    "subjectId": "typescript",
+    "topicId": "advanced-types",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What does this mapped type produce?\n\n```typescript\ntype Nullable<T> = {\n  [K in keyof T]: T[K] | null;\n};\n\ntype NullableUser = Nullable<{ id: number; name: string }>;\n```",
+    "options": [
+      { "id": "a", "text": "`{ id: number; name: string }`" },
+      { "id": "b", "text": "`{ id: number | null; name: string | null }`" },
+      { "id": "c", "text": "`null`" },
+      { "id": "d", "text": "`{ id?: number; name?: string }`" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "A **mapped type** iterates over the keys of a type and transforms each value type.\n\n`[K in keyof T]` iterates over all keys of `T`. `T[K] | null` takes the original value type and adds `null`.\n\n```typescript\ntype NullableUser = Nullable<{ id: number; name: string }>;\n// Result:\n// {\n//   id: number | null;\n//   name: string | null;\n// }\n```\n\nBuilt-in mapped types like `Partial`, `Required`, `Readonly`, and `Record` use the same mechanism.",
+    "keyConcepts": ["mapped types", "keyof", "index types", "type transformation"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "advanced-types-003",
+    "subjectId": "typescript",
+    "topicId": "advanced-types",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What does this conditional type resolve to?\n\n```typescript\ntype IsString<T> = T extends string ? 'yes' : 'no';\n\ntype A = IsString<string>;\ntype B = IsString<number>;\ntype C = IsString<string | number>;\n```",
+    "options": [
+      { "id": "a", "text": "`A = 'yes'`, `B = 'no'`, `C = 'yes'`" },
+      { "id": "b", "text": "`A = 'yes'`, `B = 'no'`, `C = 'yes' | 'no'`" },
+      { "id": "c", "text": "`A = 'yes'`, `B = 'no'`, `C = 'no'`" },
+      { "id": "d", "text": "`A = 'yes'`, `B = 'yes'`, `C = 'yes' | 'no'`" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "Conditional types follow `T extends U ? X : Y`.\n\nFor `A` and `B` the resolution is straightforward:\n- `string extends string` → `'yes'`\n- `number extends string` → `'no'`\n\nFor `C` (`string | number`), TypeScript **distributes** the conditional over the union:\n- `string extends string ? 'yes' : 'no'` → `'yes'`\n- `number extends string ? 'yes' : 'no'` → `'no'`\n- Result: `'yes' | 'no'`\n\nThis distributive behavior is what makes conditional types so powerful for type-level filtering.",
+    "keyConcepts": ["conditional types", "distributive conditionals", "union types", "type-level programming"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "advanced-types-004",
+    "subjectId": "typescript",
+    "topicId": "advanced-types",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does an intersection type (`&`) do?\n\n```typescript\ntype Admin = User & { role: 'admin'; permissions: string[] };\n```",
+    "options": [
+      { "id": "a", "text": "Creates a type that can be either `User` or the admin extension" },
+      { "id": "b", "text": "Creates a type that must satisfy both `User` and the admin extension simultaneously" },
+      { "id": "c", "text": "Removes the admin properties from `User`" },
+      { "id": "d", "text": "Creates a type alias for `User`" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "An **intersection type** combines multiple types into one. A value of an intersection type must satisfy all constituent types at the same time:\n\n```typescript\ntype Admin = User & { role: 'admin'; permissions: string[] };\n\n// An Admin value must have all User properties\n// AND role AND permissions.\nconst admin: Admin = {\n  id: 1,\n  name: 'Alice',\n  email: 'a@b.com',\n  role: 'admin',\n  permissions: ['read', 'write'],\n};\n```\n\nContrast with **union** (`|`) which requires satisfying *at least one* of the types.",
+    "keyConcepts": ["intersection types", "union types", "type composition"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "advanced-types-005",
+    "subjectId": "typescript",
+    "topicId": "advanced-types",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is control flow analysis, and what does TypeScript infer after the early return?\n\n```typescript\nfunction greet(name: string | null): string {\n  if (name === null) {\n    return 'Hello, stranger!';\n  }\n  // What is the type of `name` here?\n  return `Hello, ${name.toUpperCase()}`;\n}\n```",
+    "options": [
+      { "id": "a", "text": "`name` is still `string | null` — TypeScript doesn't track early returns" },
+      { "id": "b", "text": "`name` is narrowed to `string` — TypeScript knows `null` was ruled out by the early return" },
+      { "id": "c", "text": "`name` is `never` — the function always returns before this line" },
+      { "id": "d", "text": "Compile error — you must add a non-null assertion: `name!.toUpperCase()`" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "**Control flow analysis** (CFA) tracks type narrowing through branches, assignments, and early returns.\n\nAfter `if (name === null) return`, TypeScript knows `name` cannot be `null` in the remaining code:\n\n```typescript\n// Before if: name: string | null\nif (name === null) { return '...'; }\n// After if: name: string  ← narrowed!\nname.toUpperCase(); // ✓ — no non-null assertion needed\n```\n\nCFA works with:\n- `if` / `else` / `switch` branches\n- `null` / `undefined` checks\n- `typeof` and `instanceof` guards\n- Truthiness checks\n- Assignment narrowing",
+    "keyConcepts": ["control flow analysis", "narrowing", "early return", "nullability"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "advanced-types-006",
+    "subjectId": "typescript",
+    "topicId": "advanced-types",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the exhaustive check pattern and how does `never` enable it?\n\n```typescript\ntype Action = { type: 'ADD' } | { type: 'REMOVE' } | { type: 'UPDATE' };\n\nfunction reduce(action: Action): string {\n  switch (action.type) {\n    case 'ADD':    return 'adding';\n    case 'REMOVE': return 'removing';\n    default:\n      const _: never = action; // (A)\n      throw new Error(`Unhandled: ${JSON.stringify(action)}`);\n  }\n}\n```",
+    "options": [
+      { "id": "a", "text": "(A) always compiles — assigning to `never` is always valid" },
+      { "id": "b", "text": "(A) compiles here because after `ADD` and `REMOVE`, only `UPDATE` remains. If you add a new variant without a case, (A) becomes a compile error" },
+      { "id": "c", "text": "(A) is a runtime check — `never` is a runtime type" },
+      { "id": "d", "text": "Compile error — you cannot assign `action` to `never`" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "After handling `ADD` and `REMOVE`, TypeScript narrows `action` in the `default` branch to `{ type: 'UPDATE' }`. But wait — we need to make the check exhaustive.\n\n```typescript\nconst _: never = action; // ✓ if all variants are handled\n```\n\nIf you add `{ type: 'RESET' }` to `Action` without a new `case`:\n```\nError: Type '{ type: \"RESET\" }' is not assignable to type 'never'\n```\n\nThis forces you to handle every variant — the compiler catches missing cases at **build time**, not at runtime.\n\nThis pattern is essential in reducers, command handlers, and anywhere you switch on a discriminated union.",
+    "keyConcepts": ["never", "exhaustive checks", "discriminated unions", "switch narrowing"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "advanced-types-007",
+    "subjectId": "typescript",
+    "topicId": "advanced-types",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What are branded (opaque) types, and what problem do they solve?\n\n```typescript\ndeclare const __brand: unique symbol;\ntype Brand<T, B> = T & { readonly [__brand]: B };\n\ntype UserId = Brand<number, 'UserId'>;\ntype OrderId = Brand<number, 'OrderId'>;\n\ndeclare function getUser(id: UserId): void;\n\nconst userId = 1 as UserId;\nconst orderId = 1 as OrderId;\n\ngetUser(userId);  // (A)\ngetUser(orderId); // (B)\ngetUser(1);       // (C)\n```",
+    "options": [
+      { "id": "a", "text": "All three compile — they're all `number` at runtime" },
+      { "id": "b", "text": "(A) compiles; (B) and (C) are compile errors — branded types are nominally distinct despite identical runtime values" },
+      { "id": "c", "text": "(A) and (C) compile; (B) fails" },
+      { "id": "d", "text": "Compile error — `unique symbol` cannot be used in branded types" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "**Branded types** add a phantom property (never present at runtime) to make structurally identical types nominally distinct:\n\n- `UserId` = `number & { [__brand]: 'UserId' }`\n- `OrderId` = `number & { [__brand]: 'OrderId' }`\n\n```typescript\ngetUser(userId);  // ✓ — UserId is UserId\ngetUser(orderId); // ✗ — OrderId is not UserId (different brand)\ngetUser(1);       // ✗ — plain number is not UserId\n```\n\nThis prevents passing an `OrderId` where a `UserId` is expected — a real-world bug when APIs accept raw `number` IDs.\n\nBranded types have **no runtime overhead** — the brand property is erased. They are compile-time-only nominal typing built on top of TypeScript's structural system.",
+    "keyConcepts": ["branded types", "opaque types", "nominal typing", "unique symbol", "type safety"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "advanced-types-008",
+    "subjectId": "typescript",
+    "topicId": "advanced-types",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is an assertion function and how does it differ from a type predicate?\n\n```typescript\nfunction assertIsString(value: unknown): asserts value is string {\n  if (typeof value !== 'string') {\n    throw new TypeError(`Expected string, got ${typeof value}`);\n  }\n}\n\nfunction process(input: unknown) {\n  assertIsString(input);\n  input.toUpperCase(); // (A) — valid?\n}\n```",
+    "options": [
+      { "id": "a", "text": "(A) is a compile error — assertion functions don't narrow the type" },
+      { "id": "b", "text": "(A) is valid — after `assertIsString`, TypeScript narrows `input` to `string` for the rest of the function scope" },
+      { "id": "c", "text": "(A) is valid only inside an `if` block" },
+      { "id": "d", "text": "`asserts value is string` is a runtime annotation — TypeScript ignores it for narrowing" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "An **assertion function** uses `asserts param is Type` as its return type. When the function returns normally (without throwing), TypeScript narrows the type for the **remainder of the calling function's scope**:\n\n```typescript\nassertIsString(input);    // if this returns, input is string\ninput.toUpperCase();      // ✓ — narrowed to string\n```\n\nDifference from type predicates:\n- **Type predicate** (`value is string`): returns `boolean` — used inside `if` conditions\n- **Assertion function** (`asserts value is string`): returns `void`, throws on failure — narrows in the current scope after the call\n\n```typescript\n// Type predicate usage:\nif (isString(x)) { x.toUpperCase(); } // narrowed inside if\n\n// Assertion function usage:\nassertIsString(x);\nx.toUpperCase(); // narrowed after the call\n```",
+    "keyConcepts": ["assertion functions", "asserts keyword", "type narrowing", "type predicates"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "advanced-types-009",
+    "subjectId": "typescript",
+    "topicId": "advanced-types",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does the `satisfies` operator do, and how does it differ from a type annotation?\n\n```typescript\ntype Palette = Record<string, string | [number, number, number]>;\n\nconst colors = {\n  red:   [255, 0, 0],\n  green: '#00ff00',\n  blue:  [0, 0, 255],\n} satisfies Palette;\n\nconst r = colors.red;   // type?\nconst g = colors.green; // type?\n```",
+    "options": [
+      { "id": "a", "text": "`r` is `string | [number, number, number]`; `g` is `string | [number, number, number]` — same as annotating with `Palette`" },
+      { "id": "b", "text": "`r` is `[number, number, number]`; `g` is `string` — `satisfies` validates the shape but preserves the narrower inferred type" },
+      { "id": "c", "text": "Compile error — `satisfies` requires an explicit `as` cast" },
+      { "id": "d", "text": "`r` and `g` are both `unknown`" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`satisfies` checks that a value matches a type **without widening the inferred type**:\n\n```typescript\n// With annotation: const colors: Palette = {...}\n// colors.red type would be: string | [number, number, number]  (widened)\n\n// With satisfies:\n// colors.red type is: [number, number, number]  (preserved!)\n// colors.green type is: string  (preserved!)\n```\n\nYou get the **validation of a type annotation** AND the **precision of inference**:\n\n```typescript\ncolors.red.map(c => c * 2); // ✓ — TS knows it's an array\ncolors.green.toUpperCase(); // ✓ — TS knows it's a string\n```\n\nWith a plain annotation (`const colors: Palette`), both would be `string | [number, number, number]`, requiring runtime checks.",
+    "keyConcepts": ["satisfies operator", "type widening", "type inference preservation", "TypeScript 4.9"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "advanced-types-010",
+    "subjectId": "typescript",
+    "topicId": "advanced-types",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What does a `const` type parameter do in TypeScript 5.0+?\n\n```typescript\nfunction first<const T extends readonly unknown[]>(arr: T): T[0] {\n  return arr[0];\n}\n\nconst result = first([1, 'two', true]);\n```",
+    "options": [
+      { "id": "a", "text": "`result` is `number | string | boolean`" },
+      { "id": "b", "text": "`result` is `1` — `const T` infers a literal/const tuple, so `T[0]` is the literal type `1`" },
+      { "id": "c", "text": "`result` is `never`" },
+      { "id": "d", "text": "Compile error — `const` is not valid on type parameters" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "TypeScript 5.0 introduced **const type parameters**. Adding `const` to a type parameter infers the most literal type possible, similar to `as const` on the argument:\n\n```typescript\n// Without const T:\nfunction first<T>(arr: T[]) { ... }\nfirst([1, 'two', true]); // T = number | string | boolean, result: number | string | boolean\n\n// With const T:\nfunction first<const T extends readonly unknown[]>(arr: T): T[0] { ... }\nfirst([1, 'two', true]); // T = readonly [1, 'two', true], result: 1\n```\n\nThe argument is inferred as a const tuple `readonly [1, 'two', true]`, making `T[0]` the literal type `1` instead of `number`.\n\nThis is more ergonomic than requiring callers to write `first([1, 'two', true] as const)`.",
+    "keyConcepts": ["const type parameter", "literal inference", "as const", "TypeScript 5.0"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "advanced-types-011",
+    "subjectId": "typescript",
+    "topicId": "advanced-types",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is a template literal type, and what does it generate?\n\n```typescript\ntype HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';\ntype Endpoint = '/users' | '/orders';\n\ntype ApiRoute = `${HttpMethod} ${Endpoint}`;\n```",
+    "options": [
+      { "id": "a", "text": "`string` — template literal types always widen to `string`" },
+      { "id": "b", "text": "A union of all 8 combinations: `'GET /users' | 'GET /orders' | 'POST /users' | ...`" },
+      { "id": "c", "text": "`'${HttpMethod} ${Endpoint}'` — the literal template string" },
+      { "id": "d", "text": "Compile error — template literal types cannot include unions" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "Template literal types **automatically distribute** over union members, generating every combination:\n\n```typescript\ntype ApiRoute = `${HttpMethod} ${Endpoint}`;\n// 'GET /users' | 'GET /orders'\n// | 'POST /users' | 'POST /orders'\n// | 'PUT /users' | 'PUT /orders'\n// | 'DELETE /users' | 'DELETE /orders'\n```\n\nThis makes it easy to create exhaustive route types, event name unions, CSS property prefixes, and more — all from small primitive unions.\n\nWith `as const` objects or string manipulation types (`Uppercase`, `Capitalize`), template literal types become a powerful type-generation tool.",
+    "keyConcepts": ["template literal types", "union cross-product", "string literal types"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "advanced-types-012",
+    "subjectId": "typescript",
+    "topicId": "advanced-types",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What does the `infer` keyword allow you to do inside a conditional type?\n\n```typescript\ntype UnpackPromise<T> = T extends Promise<infer U> ? U : T;\n\ntype A = UnpackPromise<Promise<string>>;         // ?\ntype B = UnpackPromise<Promise<Promise<number>>>; // ?\ntype C = UnpackPromise<boolean>;                 // ?\n```",
+    "options": [
+      { "id": "a", "text": "`A = string`, `B = Promise<number>`, `C = boolean`" },
+      { "id": "b", "text": "`A = string`, `B = number`, `C = boolean`" },
+      { "id": "c", "text": "`A = Promise<string>`, `B = Promise<Promise<number>>`, `C = never`" },
+      { "id": "d", "text": "Compile error — `infer` cannot be used inside generic types" }
+    ],
+    "correctAnswers": ["a"],
+    "explanation": "`infer U` captures the type that matches at a given position when the `extends` check succeeds. It **does not recurse automatically**:\n\n- `A`: `Promise<string> extends Promise<infer U>` → `U = string` → `string`\n- `B`: `Promise<Promise<number>> extends Promise<infer U>` → `U = Promise<number>` → `Promise<number>` (only one level unwrapped)\n- `C`: `boolean extends Promise<infer U>` → false → falls through to `T` → `boolean`\n\nFor deep unwrapping (like `B` → `number`), you need recursion:\n```typescript\ntype DeepUnpack<T> = T extends Promise<infer U> ? DeepUnpack<U> : T;\n// DeepUnpack<Promise<Promise<number>>> = number\n```\n\nThe built-in `Awaited<T>` does this recursively.",
+    "keyConcepts": ["infer", "conditional types", "type extraction", "Awaited"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "advanced-types-013",
+    "subjectId": "typescript",
+    "topicId": "advanced-types",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does `readonly` on an array type enforce?\n\n```typescript\nfunction sum(numbers: readonly number[]): number {\n  numbers.push(99); // (A)\n  return numbers.reduce((a, b) => a + b, 0);\n}\n```",
+    "options": [
+      { "id": "a", "text": "(A) compiles — `readonly` only prevents reassigning the variable, not mutation" },
+      { "id": "b", "text": "(A) is a compile error — `readonly number[]` does not have `push`, `pop`, or other mutating methods" },
+      { "id": "c", "text": "(A) is a runtime error — `readonly` adds a runtime guard" },
+      { "id": "d", "text": "`readonly number[]` is the same as `number[]`" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`readonly number[]` (equivalent to `ReadonlyArray<number>`) removes all **mutating methods**: `push`, `pop`, `splice`, `sort`, `reverse`, etc.\n\n```typescript\nnumbers.push(99);   // ✗ — Property 'push' does not exist on readonly number[]\nnumbers.length;     // ✓ — reading is fine\nnumbers[0];         // ✓\nnumbers.map(x => x); // ✓ — non-mutating methods are available\n```\n\n`readonly T[]` is a **supertype** of `T[]` — a mutable array is assignable to a readonly parameter, but not vice versa:\n\n```typescript\nconst arr: number[] = [1, 2, 3];\nsum(arr); // ✓ — number[] is assignable to readonly number[]\n```",
+    "keyConcepts": ["readonly arrays", "ReadonlyArray", "immutability", "type safety"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "advanced-types-014",
+    "subjectId": "typescript",
+    "topicId": "advanced-types",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is the polymorphic `this` type and when is it useful?\n\n```typescript\nclass Builder {\n  private fields: string[] = [];\n\n  add(field: string): this {\n    this.fields.push(field);\n    return this;\n  }\n}\n\nclass AdvancedBuilder extends Builder {\n  private validators: string[] = [];\n\n  withValidator(v: string): this {\n    this.validators.push(v);\n    return this;\n  }\n}\n\nconst result = new AdvancedBuilder()\n  .add('name')\n  .withValidator('required');\n```",
+    "options": [
+      { "id": "a", "text": "Compile error — `add` returns `Builder`, not `AdvancedBuilder`, so `withValidator` is not available" },
+      { "id": "b", "text": "Works — `this` in the return type is polymorphic: when called on `AdvancedBuilder`, `add` returns `AdvancedBuilder`" },
+      { "id": "c", "text": "`result` is typed as `Builder`, not `AdvancedBuilder`" },
+      { "id": "d", "text": "`this` is not a valid return type in TypeScript" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "**Polymorphic `this`** is a special return type that refers to the type of the current instance — it changes based on which class the method is called on:\n\n```typescript\nnew Builder().add('name'); // returns Builder\nnew AdvancedBuilder().add('name'); // returns AdvancedBuilder (not Builder!)\n```\n\nThis makes method chaining work correctly in subclasses. Without `this`, `add()` would return `Builder`, and calling `.withValidator()` after `.add()` would be a compile error.\n\n`this` as a return type is the TypeScript way to implement the **fluent interface** / **builder pattern** with correct types across inheritance hierarchies.",
+    "keyConcepts": ["polymorphic this", "fluent interface", "builder pattern", "method chaining"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "advanced-types-015",
+    "subjectId": "typescript",
+    "topicId": "advanced-types",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What happens when you narrow a `string | number` union with `typeof` in a switch statement?\n\n```typescript\nfunction format(value: string | number | boolean): string {\n  switch (typeof value) {\n    case 'string':  return value.toUpperCase();\n    case 'number':  return value.toFixed(2);\n    case 'boolean': return value ? 'Yes' : 'No';\n    default:        return String(value);\n  }\n}\n```",
+    "options": [
+      { "id": "a", "text": "Compile error — `typeof` can only be used in `if` statements, not `switch`" },
+      { "id": "b", "text": "Works — TypeScript narrows `value` in each `case`: to `string`, `number`, and `boolean` respectively" },
+      { "id": "c", "text": "Works but `value` stays `string | number | boolean` in all branches" },
+      { "id": "d", "text": "Compile error — `typeof` switch is not a recognized narrowing pattern" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "TypeScript's control flow analysis understands `typeof` in **switch** statements, narrowing the type in each `case`:\n\n```typescript\ncase 'string':  value // narrowed to string — toUpperCase() is valid\ncase 'number':  value // narrowed to number — toFixed() is valid\ncase 'boolean': value // narrowed to boolean — ternary is valid\n```\n\nAfter the three cases, the `default` branch would have `value: never` if the union was only `string | number | boolean` — meaning it's unreachable.\n\nThe `default: return String(value)` is fine here for safety, but TypeScript knows it can't be reached.",
+    "keyConcepts": ["typeof narrowing", "switch narrowing", "control flow analysis"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "advanced-types-016",
+    "subjectId": "typescript",
+    "topicId": "advanced-types",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is module augmentation, and what does this code do?\n\n```typescript\n// In your code (not the library):\ndeclare module 'express' {\n  interface Request {\n    user?: { id: number; role: string };\n  }\n}\n```",
+    "options": [
+      { "id": "a", "text": "Creates a new `express` module that replaces the installed one" },
+      { "id": "b", "text": "Extends the existing `Request` interface from `express` to include a `user` property — any code using `express` sees the extended type" },
+      { "id": "c", "text": "Compile error — you cannot augment third-party module types" },
+      { "id": "d", "text": "Only works at runtime if the `express` module exports `Request` as a class" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "**Module augmentation** uses `declare module` + **declaration merging** to extend existing types from third-party libraries without modifying their source:\n\n```typescript\ndeclare module 'express' {\n  interface Request {\n    user?: { id: number; role: string }; // merged into express's Request\n  }\n}\n\n// In any route handler:\napp.get('/profile', (req, res) => {\n  req.user?.id; // ✓ — TypeScript knows about user now\n});\n```\n\nThis is how authentication middleware libraries (Passport.js, etc.) extend `Request` to add user information.\n\nThe file with the augmentation must be a module (have at least one `import`/`export`) for declaration merging to work correctly.",
+    "keyConcepts": ["module augmentation", "declaration merging", "interface merging", "ambient declarations"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "advanced-types-017",
+    "subjectId": "typescript",
+    "topicId": "advanced-types",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "Why does TypeScript sometimes widen `string` literal types, and how does `as const` prevent it?\n\n```typescript\nconst a = 'hello';         // type: 'hello' (literal)\nlet b = 'hello';           // type: string (widened)\n\nconst config = { mode: 'dark' };        // type: { mode: string }\nconst frozen = { mode: 'dark' } as const; // type: { readonly mode: 'dark' }\n```",
+    "options": [
+      { "id": "a", "text": "`let` widening is a bug in TypeScript" },
+      { "id": "b", "text": "`let` variables are mutable, so TypeScript widens to `string` (since the value can change); `as const` tells TypeScript the object and its values are frozen — literal types are preserved" },
+      { "id": "c", "text": "`const` and `as const` behave identically" },
+      { "id": "d", "text": "The type of `a` is `string`, not `'hello'`" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "TypeScript infers **literal types** for `const` variables because they can never change. `let` variables can be reassigned, so TypeScript widens to the base type:\n\n```typescript\nconst a = 'hello';  // TypeScript: you can never reassign → 'hello'\nlet b = 'hello';    // TypeScript: you might reassign to 'world' → string\n```\n\nFor objects, even `const` doesn't prevent mutation of properties — `config.mode` could be reassigned to `'light'`. So TypeScript widens to `string`.\n\n`as const` asserts the entire object is deeply immutable:\n```typescript\nconst frozen = { mode: 'dark' } as const;\n// frozen.mode: 'dark' (literal) — cannot be reassigned\n```\n\nThis is crucial when you need a literal type to flow through (e.g., as a discriminant in a discriminated union).",
+    "keyConcepts": ["type widening", "literal types", "as const", "const vs let"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "advanced-types-018",
+    "subjectId": "typescript",
+    "topicId": "advanced-types",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is a labeled tuple element, and what does it add?\n\n```typescript\n// Without labels:\ntype Point = [number, number];\n\n// With labels:\ntype LabeledPoint = [x: number, y: number];\n\nfunction move(delta: [dx: number, dy: number]): void {}\n```",
+    "options": [
+      { "id": "a", "text": "Labels change the type — `[x: number]` is different from `[number]`" },
+      { "id": "b", "text": "Labels are purely documentation — they appear in IDE hover/error messages but don't affect the type system" },
+      { "id": "c", "text": "Labels make the tuple work like a named object: `{ x: number; y: number }`" },
+      { "id": "d", "text": "Compile error — tuple labels are not valid TypeScript" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "**Labeled tuple elements** (introduced in TypeScript 4.0) add names that appear in IDE tooltips, error messages, and quick info — but they don't change assignability:\n\n```typescript\ntype A = [number, number];\ntype B = [x: number, y: number];\n\nconst a: A = [1, 2];\nconst b: B = a; // ✓ — identical structure, labels don't affect compatibility\n```\n\nWhere labels help:\n```typescript\nfunction move(delta: [dx: number, dy: number]): void {}\n// Hover shows: delta: [dx: number, dy: number]\n// vs: delta: [number, number] — labels make intent clear\n```\n\nAll elements must be labeled or none — you cannot mix labeled and unlabeled elements in the same tuple.",
+    "keyConcepts": ["labeled tuples", "tuple documentation", "TypeScript 4.0", "IDE ergonomics"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "advanced-types-019",
+    "subjectId": "typescript",
+    "topicId": "advanced-types",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is variance in the context of TypeScript generics, and why does `Array<string>` not assignable to `Array<string | number>` differ from how function parameters work?\n\n```typescript\nconst strings: Array<string> = ['a', 'b'];\nconst mixed: Array<string | number> = strings; // (A)\n\ntype Handler = (x: string | number) => void;\ntype StringHandler = (x: string) => void;\n\ndeclare let h: Handler;\ndeclare let sh: StringHandler;\nh = sh; // (B) — valid?\n```",
+    "options": [
+      { "id": "a", "text": "Both (A) and (B) are valid assignments" },
+      { "id": "b", "text": "(A) is valid and (B) is an error under `strictFunctionTypes`" },
+      { "id": "c", "text": "(A) is valid; (B) is an error — `string` handler is more restrictive than `string | number` handler" },
+      { "id": "d", "text": "(A) is an error; (B) is valid" }
+    ],
+    "correctAnswers": ["c"],
+    "explanation": "**Variance** describes how type relationships affect parameterized type relationships:\n\n**(A) Arrays are covariant** (TypeScript is lenient here for practicality):\n```typescript\nconst strings: string[] = ['a'];\nconst mixed: (string | number)[] = strings; // ✓ allowed, though unsound\n// mixed.push(42); // would put a number in 'strings'!\n```\n\n**(B) Function parameters are contravariant** under `strictFunctionTypes`:\n```typescript\nh = sh; // ✗ — StringHandler only handles string; Handler might pass number\n// Assigning a specific handler where a general one is expected is unsafe\n```\n\nSafe assignment: `sh = h` (a more general handler is safe where a specific one is needed).\n\nTypeScript is sound for function types under `strictFunctionTypes`, but unsound for array covariance — a pragmatic trade-off.",
+    "keyConcepts": ["variance", "covariance", "contravariance", "strictFunctionTypes", "type safety"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "advanced-types-020",
+    "subjectId": "typescript",
+    "topicId": "advanced-types",
+    "type": "code",
+    "difficulty": "intermediate",
+    "question": "What does TypeScript infer for `value` inside the `if` block?\n\n```typescript\nfunction process(value: string | number | null | undefined) {\n  if (value != null) { // (A) — loose inequality\n    console.log(value);\n  }\n}\n```",
+    "options": [
+      { "id": "a", "text": "`value` is `string | number | null | undefined`" },
+      { "id": "b", "text": "`value` is `string | number` — `!= null` narrows out both `null` and `undefined`" },
+      { "id": "c", "text": "`value` is `string | number | undefined` — only `null` is removed" },
+      { "id": "d", "text": "Compile error — loose inequality is not a recognized narrowing pattern" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "TypeScript understands **loose equality checks** as narrowing operators:\n\n- `value != null` is equivalent to `value !== null && value !== undefined`\n- Inside the `if` block, `value` is narrowed to `string | number`\n\n```typescript\nif (value != null) {\n  // value: string | number\n  value.toString(); // ✓ — works on both string and number\n}\n```\n\nThis is one of the few cases where using `!=` (loose) is actually preferable to `!==` (strict), because a single check handles both nullish cases:\n\n```typescript\n// Equivalent but more verbose:\nif (value !== null && value !== undefined) { ... }\n```\n\nTypeScript specifically understands `== null` and `!= null` as `null | undefined` checks.",
+    "keyConcepts": ["null narrowing", "loose equality", "control flow analysis", "nullish checks"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "advanced-types-021",
+    "subjectId": "typescript",
+    "topicId": "advanced-types",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is a **higher-kinded type simulation** using a type map, and what does it solve?\n\n```typescript\ninterface TypeMap {\n  array:   Array<unknown>;\n  set:     Set<unknown>;\n  promise: Promise<unknown>;\n}\n\ntype Container<K extends keyof TypeMap, T> =\n  K extends 'array'   ? Array<T> :\n  K extends 'set'     ? Set<T> :\n  K extends 'promise' ? Promise<T> :\n  never;\n\ntype StringArray   = Container<'array', string>;   // ?\ntype NumberPromise = Container<'promise', number>;  // ?\n```",
+    "options": [
+      { "id": "a", "text": "Compile error — TypeScript does not allow type functions" },
+      { "id": "b", "text": "`StringArray = string[]`, `NumberPromise = Promise<number>` — simulates applying a type constructor to a type argument" },
+      { "id": "c", "text": "Both are `unknown[]`" },
+      { "id": "d", "text": "`StringArray = Container<'array', string>` — the type is not resolved" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "TypeScript doesn't natively support higher-kinded types (type constructors as generic arguments). This **type map pattern** simulates it:\n\n```typescript\ntype StringArray   = Container<'array', string>;   // Array<string>\ntype NumberPromise = Container<'promise', number>;  // Promise<number>\n```\n\nThe `K` parameter names the container kind; the conditional type dispatches to the right concrete type.\n\nThis pattern appears in libraries like `fp-ts` and `effect` to express polymorphism over functors/monads in a way TypeScript's type system can handle.\n\nLimitation: adding a new container requires updating both `TypeMap` and the conditional chain — not truly open for extension.",
+    "keyConcepts": ["higher-kinded types", "type map pattern", "type-level programming", "generic containers"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "advanced-types-022",
+    "subjectId": "typescript",
+    "topicId": "advanced-types",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is truthiness narrowing and what types does TypeScript eliminate?\n\n```typescript\nfunction display(value: string | number | null | undefined | false | 0) {\n  if (value) {\n    console.log(value); // type?\n  }\n}\n```",
+    "options": [
+      { "id": "a", "text": "`value` is `string | number` — only explicit null checks remove falsy primitives" },
+      { "id": "b", "text": "`value` is `string | number` — after the truthiness check, TypeScript removes `null`, `undefined`, `false`, and `0` but `string` and `number` remain (they could still be truthy)" },
+      { "id": "c", "text": "`value` is `string` only — numbers can be `0` (falsy) so they're removed" },
+      { "id": "d", "text": "`value` is unchanged — truthiness does not narrow in TypeScript" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "**Truthiness narrowing** removes falsy type members when a value is used in a boolean context:\n\n```typescript\nif (value) {\n  // Removed: null, undefined, false, 0 (all falsy)\n  // Remaining: string | number\n  // But! non-empty strings and non-zero numbers are truthy\n}\n```\n\nTypeScript narrows `false` and `0` out of the union (they're always falsy), but keeps `string` and `number` because those types can have both truthy and falsy values.\n\nCaveat: an empty string `''` or `0` in a `string` or `number` variable would still be falsy at runtime — truthiness narrowing removes types, not values.\n\nThe negated branch (`if (!value)`) narrows to the falsy types: `null | undefined | false | 0 | ''`.",
+    "keyConcepts": ["truthiness narrowing", "falsy values", "control flow analysis"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "advanced-types-023",
+    "subjectId": "typescript",
+    "topicId": "advanced-types",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What does the `NoInfer<T>` utility type (TypeScript 5.4+) do?\n\n```typescript\nfunction createStore<T>(initial: T, fallback: NoInfer<T>): T {\n  return initial ?? fallback;\n}\n\nconst s1 = createStore('hello', 'world');  // (A)\nconst s2 = createStore('hello', 42);       // (B)\n```",
+    "options": [
+      { "id": "a", "text": "Both (A) and (B) compile — `NoInfer` has no effect" },
+      { "id": "b", "text": "(A) compiles — `T` is inferred as `string` from `initial`; (B) fails — `fallback` must match the already-inferred `T`" },
+      { "id": "c", "text": "(B) compiles — `T` widens to `string | number`; (A) also compiles" },
+      { "id": "d", "text": "Both fail — `NoInfer` prevents inference from any argument" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`NoInfer<T>` tells TypeScript: *don't use this parameter's type to infer `T` — use what's already inferred from other arguments*.\n\nWithout `NoInfer`:\n```typescript\nfunction createStore<T>(initial: T, fallback: T): T {...}\ncreateStore('hello', 42); // T inferred as string | number — silently widened!\n```\n\nWith `NoInfer<T>`:\n```typescript\ncreateStore('hello', 'world'); // ✓ — T = string, fallback must be string\ncreateStore('hello', 42);     // ✗ — T = string (inferred from initial), 42 not assignable\n```\n\n`NoInfer` lets you designate **inference sites** and **usage-only sites** within the same function call, preventing unintended type widening.",
+    "keyConcepts": ["NoInfer", "inference sites", "type widening prevention", "TypeScript 5.4"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "advanced-types-024",
+    "subjectId": "typescript",
+    "topicId": "advanced-types",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "Why does TypeScript sometimes fail to narrow inside callbacks, and how can you work around it?\n\n```typescript\nfunction process(value: string | null) {\n  if (value !== null) {\n    // value: string here\n    setTimeout(() => {\n      console.log(value.toUpperCase()); // (A) — error in some TS versions\n    }, 100);\n  }\n}\n```",
+    "options": [
+      { "id": "a", "text": "(A) always works — narrowing persists into all closures" },
+      { "id": "b", "text": "(A) may fail in some TypeScript versions — a callback could run later when `value` has changed; using a `const` copy inside the `if` block is the safe workaround" },
+      { "id": "c", "text": "(A) always fails — TypeScript never narrows inside arrow functions" },
+      { "id": "d", "text": "(A) is a runtime error — closures don't capture narrowed types" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "TypeScript's control flow analysis sometimes doesn't track narrowing into **deferred closures** because the callback could run after the variable is reassigned:\n\n```typescript\nif (value !== null) {\n  const safeValue = value; // const captures the narrowed type\n  setTimeout(() => {\n    console.log(safeValue.toUpperCase()); // ✓ — always safe\n  }, 100);\n}\n```\n\nCapturing into a `const` is the idiomatic workaround — a `const` can't be reassigned, so TypeScript is confident about its type in the closure.\n\nModern TypeScript (4.4+) improved closure narrowing significantly, but for `let` variables that might be reassigned between the check and the callback execution, the concern is still real.",
+    "keyConcepts": ["narrowing in closures", "const capture", "deferred callbacks", "control flow"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "advanced-types-025",
+    "subjectId": "typescript",
+    "topicId": "advanced-types",
+    "type": "text",
+    "difficulty": "advanced",
+    "question": "Explain at least three advanced TypeScript type patterns and describe a real-world scenario where each one is the right tool.",
+    "explanation": "## Advanced TypeScript type patterns\n\n### 1. Discriminated unions — modeling state machines\n\nPerfect for UI states, async operations, or any value that can be in mutually exclusive states:\n\n```typescript\ntype AsyncState<T> =\n  | { status: 'idle' }\n  | { status: 'loading' }\n  | { status: 'success'; data: T }\n  | { status: 'error'; error: Error };\n\nfunction render(state: AsyncState<User>) {\n  switch (state.status) {\n    case 'loading': return <Spinner />;\n    case 'success': return <Profile user={state.data} />;\n    case 'error':   return <ErrorMessage error={state.error} />;\n    default:        return null;\n  }\n}\n```\nExhaustive checking catches unhandled states at compile time.\n\n### 2. Branded types — preventing ID confusion\n\nWhen multiple `number` IDs flow through an API and mixing them causes subtle bugs:\n\n```typescript\ntype UserId  = number & { readonly _brand: 'UserId' };\ntype PostId  = number & { readonly _brand: 'PostId' };\n\nfunction getPost(postId: PostId): Post { ... }\n\ngetPost(userId); // ✗ Error — prevents passing wrong ID type\n```\n\n### 3. Mapped types with key remapping — auto-generated types\n\nDeriving a setter interface from a data type without duplication:\n\n```typescript\ntype Setters<T> = {\n  [K in keyof T as `set${Capitalize<string & K>}`]: (value: T[K]) => void;\n};\n\ntype UserSetters = Setters<{ name: string; age: number }>;\n// { setName: (value: string) => void; setAge: (value: number) => void }\n```\n\n### 4. Conditional types with `infer` — extracting deeply nested types\n\nUnwrapping nested generics without manually navigating the type:\n\n```typescript\ntype ElementOf<T> = T extends (infer E)[] ? ElementOf<E> : T;\ntype A = ElementOf<string[][][]>; // string\n```\n\n**Rule of thumb**: reach for these patterns when the same type information is being repeated in multiple places or when plain types don't express the constraint precisely enough.",
+    "keyConcepts": ["discriminated unions", "branded types", "mapped types", "conditional types", "type patterns"],
+    "commonInterviewQuestion": true
+  }
+]

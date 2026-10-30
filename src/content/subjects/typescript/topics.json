@@ -1,0 +1,44 @@
+[
+  {
+    "id": "ts-basics",
+    "subjectId": "typescript",
+    "name": "TypeScript Basics",
+    "description": "Primitive types, type inference, type annotations, and the fundamentals of the TypeScript type system.",
+    "order": 1
+  },
+  {
+    "id": "interfaces-types",
+    "subjectId": "typescript",
+    "name": "Interfaces & Type Aliases",
+    "description": "Defining shapes with interfaces and type aliases, structural typing, and declaration merging.",
+    "order": 2
+  },
+  {
+    "id": "functions",
+    "subjectId": "typescript",
+    "name": "Functions",
+    "description": "Function types, optional and default parameters, rest parameters, and function overloads.",
+    "order": 3
+  },
+  {
+    "id": "generics",
+    "subjectId": "typescript",
+    "name": "Generics",
+    "description": "Generic functions, interfaces, constraints, and built-in utility types.",
+    "order": 4
+  },
+  {
+    "id": "classes",
+    "subjectId": "typescript",
+    "name": "Classes & OOP",
+    "description": "TypeScript classes, access modifiers, inheritance, abstract classes, and constructor patterns.",
+    "order": 5
+  },
+  {
+    "id": "advanced-types",
+    "subjectId": "typescript",
+    "name": "Advanced Types",
+    "description": "Union, intersection, conditional, mapped, and template literal types.",
+    "order": 6
+  }
+]

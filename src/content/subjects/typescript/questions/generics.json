@@ -1,0 +1,445 @@
+[
+  {
+    "id": "generics-001",
+    "subjectId": "typescript",
+    "topicId": "generics",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does a generic constraint (`extends`) do?\n\n```typescript\nfunction getLength<T extends { length: number }>(value: T): number {\n  return value.length;\n}\n```",
+    "options": [
+      { "id": "a", "text": "Restricts `T` to only class types that extend another class" },
+      { "id": "b", "text": "Requires that `T` has at least a `length: number` property, making that property accessible inside the function" },
+      { "id": "c", "text": "Converts `T` to the type `{ length: number }` at runtime" },
+      { "id": "d", "text": "Makes the function accept only arrays" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "A **generic constraint** narrows what types `T` can be. `T extends { length: number }` means: *T must be any type that has at least a `length` property of type `number`*.\n\nThis unlocks access to `value.length` inside the function — without the constraint, TypeScript would refuse because a generic `T` could be anything.\n\n```typescript\ngetLength('hello');      // ✓ string has .length\ngetLength([1, 2, 3]);    // ✓ array has .length\ngetLength({ length: 5 }); // ✓ object has .length\ngetLength(42);           // ✗ number has no .length\n```",
+    "keyConcepts": ["generics", "constraints", "extends", "structural typing"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "generics-002",
+    "subjectId": "typescript",
+    "topicId": "generics",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does `keyof` return?\n\n```typescript\ninterface User {\n  id: number;\n  name: string;\n  email: string;\n}\n\ntype UserKey = keyof User;\n```",
+    "options": [
+      { "id": "a", "text": "`string`" },
+      { "id": "b", "text": "`'id' | 'name' | 'email'`" },
+      { "id": "c", "text": "`number | string | string`" },
+      { "id": "d", "text": "`string[]`" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`keyof` produces a **union of the string literal types** of an object's keys.\n\n```typescript\ntype UserKey = keyof User; // 'id' | 'name' | 'email'\n```\n\nThis is commonly combined with generics for type-safe property access:\n\n```typescript\nfunction get<T, K extends keyof T>(obj: T, key: K): T[K] {\n  return obj[key];\n}\n\nconst user: User = { id: 1, name: 'Alice', email: 'a@example.com' };\nget(user, 'name');  // returns string\nget(user, 'id');    // returns number\nget(user, 'age');   // ✗ compile error\n```",
+    "keyConcepts": ["keyof", "index types", "generics", "type-safe property access"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "generics-003",
+    "subjectId": "typescript",
+    "topicId": "generics",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "How is the built-in `Partial<T>` utility type implemented internally?\n\n```typescript\ntype MyPartial<T> = {\n  [K in keyof T]?: T[K];\n};\n```",
+    "options": [
+      { "id": "a", "text": "It loops over keys at runtime and marks each as optional" },
+      { "id": "b", "text": "It is a mapped type that iterates over `keyof T` and adds `?` to each property" },
+      { "id": "c", "text": "It uses conditional types to remove required modifiers" },
+      { "id": "d", "text": "It is a compiler built-in with no TypeScript equivalent" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`Partial<T>` is implemented as a **mapped type**:\n\n```typescript\ntype Partial<T> = {\n  [K in keyof T]?: T[K]; // iterate keys, add ?, preserve value type\n};\n```\n\n- `[K in keyof T]` iterates every key of `T`\n- `?` makes each property optional\n- `T[K]` preserves the original value type (indexed access)\n\nUnderstanding the internals lets you write your own utility types:\n\n```typescript\n// Make values nullable\ntype Nullable<T> = { [K in keyof T]: T[K] | null };\n\n// Make only specific keys optional\ntype Optional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;\n```",
+    "keyConcepts": ["mapped types", "Partial internals", "keyof", "indexed access types"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "generics-004",
+    "subjectId": "typescript",
+    "topicId": "generics",
+    "type": "code",
+    "difficulty": "advanced",
+    "question": "What is the inferred return type of `pick`?\n\n```typescript\nfunction pick<T, K extends keyof T>(obj: T, keys: K[]): Pick<T, K> {\n  const result = {} as Pick<T, K>;\n  for (const key of keys) {\n    result[key] = obj[key];\n  }\n  return result;\n}\n\nconst user = { id: 1, name: 'Alice', email: 'a@b.com' };\nconst picked = pick(user, ['id', 'name']);\n```",
+    "options": [
+      { "id": "a", "text": "`{ id: number; name: string; email: string }`" },
+      { "id": "b", "text": "`{ id: number; name: string }`" },
+      { "id": "c", "text": "`Pick<object, string>`" },
+      { "id": "d", "text": "`Partial<typeof user>`" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "TypeScript infers `T` as `{ id: number; name: string; email: string }` and `K` as `'id' | 'name'` from the call site.\n\n`Pick<T, K>` constructs a type with only the keys in `K`:\n\n```typescript\n// Pick<{ id: number; name: string; email: string }, 'id' | 'name'>\n// → { id: number; name: string }\n```\n\nThe `picked` variable is precisely typed — TypeScript knows it has `id` and `name` but not `email`.",
+    "keyConcepts": ["Pick", "keyof", "generics", "inference", "utility types"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "generics-005",
+    "subjectId": "typescript",
+    "topicId": "generics",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "How do generic classes work in TypeScript?\n\n```typescript\nclass Stack<T> {\n  private items: T[] = [];\n  push(item: T): void { this.items.push(item); }\n  pop(): T | undefined { return this.items.pop(); }\n}\n\nconst numStack = new Stack<number>();\nnumStack.push(1);\nnumStack.push('hello'); // (A)\n```",
+    "options": [
+      { "id": "a", "text": "(A) works — `Stack` accepts any type" },
+      { "id": "b", "text": "(A) is a compile error — `Stack<number>` only accepts `number` values" },
+      { "id": "c", "text": "(A) works at runtime but TypeScript warns" },
+      { "id": "d", "text": "Compile error — classes cannot be generic" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "A generic class applies its type parameter uniformly — when you instantiate `Stack<number>`, every use of `T` inside the class becomes `number`:\n\n```typescript\nnumStack.push(1);        // ✓ number\nnumStack.push('hello');  // ✗ Argument of type 'string' not assignable to 'number'\n\nconst strStack = new Stack<string>();\nstrStack.push('hello');  // ✓\nstrStack.push(42);       // ✗\n```\n\nThe type argument can often be inferred:\n```typescript\nconst numStack = new Stack<number>(); // explicit\n// or if you push first:\nconst inferred = new Stack();\ninferred.push(1); // T inferred as number on first push? No — T stays unknown until explicit or constrained\n```",
+    "keyConcepts": ["generic classes", "type parameters", "type safety"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "generics-006",
+    "subjectId": "typescript",
+    "topicId": "generics",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What do multiple type parameters let you express?\n\n```typescript\nfunction map<T, U>(array: T[], transform: (item: T) => U): U[] {\n  return array.map(transform);\n}\n\nconst lengths = map(['hello', 'world'], s => s.length);\n```",
+    "options": [
+      { "id": "a", "text": "`lengths` is `string[]` — same type as input" },
+      { "id": "b", "text": "`lengths` is `number[]` — `T` is `string`, `U` is inferred as `number` from the callback" },
+      { "id": "c", "text": "`lengths` is `(string | number)[]`" },
+      { "id": "d", "text": "Compile error — two type parameters cannot be used in one function" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "Multiple type parameters let you express **independent relationships** between types:\n\n- `T` is inferred as `string` from `['hello', 'world']`\n- `U` is inferred as `number` from `(s: string) => s.length` (returns `number`)\n\n```typescript\nconst lengths = map(['hello', 'world'], s => s.length);\n// T = string, U = number\n// lengths: number[]\n```\n\nThis precisely models the built-in `Array.prototype.map<U>`: the output type can be completely different from the input type, and TypeScript tracks them both.",
+    "keyConcepts": ["multiple type parameters", "type inference", "Array.map"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "generics-007",
+    "subjectId": "typescript",
+    "topicId": "generics",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What are generic default type parameters, and when are they useful?\n\n```typescript\ninterface ApiResponse<T = unknown> {\n  data: T;\n  status: number;\n  message: string;\n}\n\nconst raw: ApiResponse = { data: 'anything', status: 200, message: 'OK' };\nconst typed: ApiResponse<{ id: number }> = { data: { id: 1 }, status: 200, message: 'OK' };\n```",
+    "options": [
+      { "id": "a", "text": "Compile error — generic defaults are not allowed in TypeScript" },
+      { "id": "b", "text": "`ApiResponse` without a type argument uses `T = unknown`; with `<{ id: number }>` it uses the explicit type" },
+      { "id": "c", "text": "`ApiResponse` without a type argument infers `T` as `any`" },
+      { "id": "d", "text": "Generic defaults only work on functions, not interfaces" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "**Default type parameters** (like default function parameters) make the type argument optional:\n\n```typescript\ninterface ApiResponse<T = unknown> { data: T; ... }\n\nconst raw: ApiResponse = ...; // T = unknown (uses default)\nconst typed: ApiResponse<User> = ...; // T = User (explicit)\n```\n\nThis is useful for:\n- Generic utilities where the common case doesn't need a type argument\n- Gradual adoption — callers can opt into precision over time\n- Library types with sensible defaults (`Promise<void>`, `React.FC<{}>`, etc.)",
+    "keyConcepts": ["default type parameters", "optional type arguments", "interface generics"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "generics-008",
+    "subjectId": "typescript",
+    "topicId": "generics",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does this conditional type resolve to?\n\n```typescript\ntype IsArray<T> = T extends any[] ? true : false;\n\ntype A = IsArray<string[]>;\ntype B = IsArray<number>;\n```",
+    "options": [
+      { "id": "a", "text": "`A = false`, `B = true`" },
+      { "id": "b", "text": "`A = true`, `B = false`" },
+      { "id": "c", "text": "Both are `boolean`" },
+      { "id": "d", "text": "Compile error — conditional types require `infer`" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "A **conditional type** evaluates at compile time like a ternary for types:\n\n```typescript\ntype IsArray<T> = T extends any[] ? true : false;\n\ntype A = IsArray<string[]>; // string[] extends any[] → true\ntype B = IsArray<number>;   // number does not extend any[] → false\n```\n\nThe syntax `T extends U ? X : Y` means: *if `T` is assignable to `U`, the type is `X`; otherwise `Y`*.\n\nConditional types unlock powerful patterns like `IsString`, `Flatten`, `DeepReadonly`, and all the distributive utility types (`Exclude`, `Extract`, `NonNullable`).",
+    "keyConcepts": ["conditional types", "extends check", "type-level branching"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "generics-009",
+    "subjectId": "typescript",
+    "topicId": "generics",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What does the `infer` keyword do in a conditional type?\n\n```typescript\ntype ElementType<T> = T extends (infer E)[] ? E : never;\n\ntype A = ElementType<string[]>;\ntype B = ElementType<number>;\n```",
+    "options": [
+      { "id": "a", "text": "`A = string[]`, `B = never`" },
+      { "id": "b", "text": "`A = string`, `B = never`" },
+      { "id": "c", "text": "`A = string`, `B = number`" },
+      { "id": "d", "text": "Compile error — `infer` is not a valid keyword" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`infer E` introduces a **type variable** that TypeScript captures when the `extends` condition matches:\n\n```typescript\ntype ElementType<T> = T extends (infer E)[] ? E : never;\n// If T is an array, capture its element type as E\n\ntype A = ElementType<string[]>; // T = string[] → matches → E = string → string\ntype B = ElementType<number>;   // T = number → doesn't match (infer E)[] → never\n```\n\n`infer` is used in many built-in utility types:\n```typescript\ntype ReturnType<T> = T extends (...args: any[]) => infer R ? R : never;\ntype Parameters<T> = T extends (...args: infer P) => any ? P : never;\ntype Awaited<T> = T extends Promise<infer U> ? Awaited<U> : T;\n```",
+    "keyConcepts": ["infer", "conditional types", "type inference", "type extraction"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "generics-010",
+    "subjectId": "typescript",
+    "topicId": "generics",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is distributive conditional type behavior?\n\n```typescript\ntype ToArray<T> = T extends any ? T[] : never;\n\ntype Result = ToArray<string | number>;\n```",
+    "options": [
+      { "id": "a", "text": "`(string | number)[]` — the union is treated as one type" },
+      { "id": "b", "text": "`string[] | number[]` — the conditional distributes over each union member" },
+      { "id": "c", "text": "`never`" },
+      { "id": "d", "text": "`[string, number][]` — a tuple array" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "When a **naked type parameter** appears in a conditional type and the input is a union, TypeScript **distributes** the conditional over each member:\n\n```typescript\ntype ToArray<T> = T extends any ? T[] : never;\n\ntype Result = ToArray<string | number>;\n// Distributes to:\n// ToArray<string> | ToArray<number>\n// = string[] | number[]\n```\n\nThis is how `Exclude<T, U>` and `Extract<T, U>` work internally.\n\nTo **prevent** distribution, wrap the type parameter in brackets:\n```typescript\ntype ToArrayNoDistribute<T> = [T] extends [any] ? T[] : never;\n// ToArrayNoDistribute<string | number> = (string | number)[]\n```",
+    "keyConcepts": ["distributive conditional types", "union distribution", "naked type parameter"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "generics-011",
+    "subjectId": "typescript",
+    "topicId": "generics",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What does this template literal type produce?\n\n```typescript\ntype Getter<T extends string> = `get${Capitalize<T>}`;\n\ntype A = Getter<'name'>;   // ?\ntype B = Getter<'id' | 'email'>; // ?\n```",
+    "options": [
+      { "id": "a", "text": "`A = 'getname'`, `B = 'getid' | 'getemail'`" },
+      { "id": "b", "text": "`A = 'getName'`, `B = 'getId' | 'getEmail'`" },
+      { "id": "c", "text": "`A = 'get'`, `B = 'get'`" },
+      { "id": "d", "text": "Compile error — template literal types cannot use generics" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "**Template literal types** combine string literals with type-level string manipulation:\n\n```typescript\ntype A = Getter<'name'>;\n// `get${Capitalize<'name'>}` = `get${'Name'}` = 'getName'\n\ntype B = Getter<'id' | 'email'>;\n// Distributes over the union:\n// Getter<'id'> | Getter<'email'>\n// = 'getId' | 'getEmail'\n```\n\nBuilt-in string manipulation types: `Uppercase<S>`, `Lowercase<S>`, `Capitalize<S>`, `Uncapitalize<S>`.\n\nPractical use: auto-generating getter/setter names, event name mapping, CSS property prefixing.",
+    "keyConcepts": ["template literal types", "Capitalize", "string manipulation types", "union distribution"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "generics-012",
+    "subjectId": "typescript",
+    "topicId": "generics",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What do the `-?` and `-readonly` modifiers do in a mapped type?\n\n```typescript\ntype Mutable<T> = {\n  -readonly [K in keyof T]-?: T[K];\n};\n```",
+    "options": [
+      { "id": "a", "text": "Adds `?` and `readonly` to every property" },
+      { "id": "b", "text": "Removes `readonly` and optionality (`?`) from every property" },
+      { "id": "c", "text": "Compile error — `-?` is not valid TypeScript syntax" },
+      { "id": "d", "text": "Makes every property `null`able and immutable" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "Mapped type modifiers support a **minus prefix** to remove an existing modifier:\n\n- `-readonly` removes the `readonly` modifier → makes properties mutable\n- `-?` removes optionality → makes all properties required\n\n```typescript\ntype Mutable<T> = { -readonly [K in keyof T]-?: T[K] };\n\ntype Frozen = { readonly x?: number; readonly y?: number };\ntype Free = Mutable<Frozen>;\n// { x: number; y: number }  — mutable and required\n```\n\nThe `+` prefix (which is the default when no prefix is given) adds the modifier. This is how `Required<T>` is implemented: `{ [K in keyof T]-?: T[K] }`.",
+    "keyConcepts": ["mapped type modifiers", "-readonly", "-?", "Required internals"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "generics-013",
+    "subjectId": "typescript",
+    "topicId": "generics",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What does this recursive generic type represent?\n\n```typescript\ntype DeepReadonly<T> = T extends object\n  ? { readonly [K in keyof T]: DeepReadonly<T[K]> }\n  : T;\n\ntype Config = DeepReadonly<{\n  server: { host: string; port: number };\n  debug: boolean;\n}>;\n```",
+    "options": [
+      { "id": "a", "text": "Only top-level properties are `readonly`; nested objects remain mutable" },
+      { "id": "b", "text": "All properties at every depth are `readonly`" },
+      { "id": "c", "text": "Compile error — recursive type aliases always cause infinite loops" },
+      { "id": "d", "text": "`Config` is the same as `Readonly<Config>` — no difference" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`DeepReadonly<T>` recursively applies `readonly` to every nested object:\n\n```typescript\ntype Config = DeepReadonly<{\n  server: { host: string; port: number };\n  debug: boolean;\n}>;\n// {\n//   readonly server: {\n//     readonly host: string;\n//     readonly port: number;\n//   };\n//   readonly debug: boolean;\n// }\n```\n\nFor non-object leaf types (`boolean`, `string`, `number`), the conditional returns `T` unchanged.\n\n`Readonly<T>` from the standard library is *shallow* — it only makes top-level properties readonly. `DeepReadonly` is the deep version that many teams implement themselves.",
+    "keyConcepts": ["recursive generic types", "DeepReadonly", "conditional types", "mapped types"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "generics-014",
+    "subjectId": "typescript",
+    "topicId": "generics",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "How does a generic interface work?\n\n```typescript\ninterface Repository<T extends { id: number }> {\n  findById(id: number): Promise<T | null>;\n  findAll(): Promise<T[]>;\n  save(entity: T): Promise<T>;\n  delete(id: number): Promise<void>;\n}\n\ninterface User { id: number; name: string; }\ninterface Product { id: number; price: number; }\n\ndeclare const userRepo: Repository<User>;\n```",
+    "options": [
+      { "id": "a", "text": "Generic interfaces are not allowed in TypeScript" },
+      { "id": "b", "text": "`userRepo.findById(1)` returns `Promise<User | null>`; the same interface can be used for `Product` with `Repository<Product>`" },
+      { "id": "c", "text": "All methods return `T` (not wrapped in `Promise`) after type substitution" },
+      { "id": "d", "text": "The constraint `T extends { id: number }` prevents using `Product` because `Product` has `price`" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "Generic interfaces define a **contract parameterized by a type**. Each concrete implementation substitutes `T`:\n\n```typescript\nuserRepo.findById(1);   // Promise<User | null>\nuserRepo.findAll();     // Promise<User[]>\nuserRepo.save(user);    // Promise<User>\n\nconst productRepo: Repository<Product> = ...\nproductRepo.findAll();  // Promise<Product[]>\n```\n\nThe constraint `T extends { id: number }` requires that entity types have an `id` — not that they have *only* `id`. `Product` satisfies this because it has `id: number` (plus extra properties).",
+    "keyConcepts": ["generic interfaces", "repository pattern", "type constraints"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "generics-015",
+    "subjectId": "typescript",
+    "topicId": "generics",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is `T[K]` called, and what type does it produce?\n\n```typescript\nfunction pluck<T, K extends keyof T>(array: T[], key: K): T[K][] {\n  return array.map(item => item[key]);\n}\n\nconst users = [{ id: 1, name: 'Alice' }, { id: 2, name: 'Bob' }];\nconst ids = pluck(users, 'id');\nconst names = pluck(users, 'name');\n```",
+    "options": [
+      { "id": "a", "text": "`T[K]` is an array index — `ids` and `names` are both `unknown[]`" },
+      { "id": "b", "text": "`T[K]` is an indexed access type — `ids` is `number[]` and `names` is `string[]`" },
+      { "id": "c", "text": "`T[K]` is a mapped type — `ids` is `{ id: number }[]`" },
+      { "id": "d", "text": "Compile error — you cannot use a type parameter as an index" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`T[K]` is an **indexed access type** — it looks up the type of property `K` in type `T`:\n\n```typescript\ntype UserIdType   = User['id'];   // number\ntype UserNameType = User['name']; // string\n```\n\nIn `pluck<T, K extends keyof T>`, TypeScript infers:\n- `T = { id: number; name: string }`\n- For `pluck(users, 'id')`: `K = 'id'`, return type `T['id'][] = number[]`\n- For `pluck(users, 'name')`: `K = 'name'`, return type `T['name'][] = string[]`\n\nThis preserves precise types without any manual annotation.",
+    "keyConcepts": ["indexed access types", "T[K]", "keyof", "generics"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "generics-016",
+    "subjectId": "typescript",
+    "topicId": "generics",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What happens when TypeScript cannot infer a type argument and you don't provide one?\n\n```typescript\nfunction makeArray<T>(length: number, fill: T): T[] {\n  return Array(length).fill(fill);\n}\n\nconst a = makeArray(3, 'x');  // (A)\nconst b = makeArray<number>(3, 'x'); // (B)\n```",
+    "options": [
+      { "id": "a", "text": "(A) works — `T` is inferred as `string`; (B) is a compile error — `'x'` is not `number`" },
+      { "id": "b", "text": "Both work — explicit type arguments are always overridden by inference" },
+      { "id": "c", "text": "(A) fails — TypeScript cannot infer `T` from a `fill` argument" },
+      { "id": "d", "text": "Both fail — generic functions always require explicit type arguments" }
+    ],
+    "correctAnswers": ["a"],
+    "explanation": "TypeScript infers `T` from the `fill` argument:\n\n- **(A)** `makeArray(3, 'x')` — `T` inferred as `string` → returns `string[]` ✓\n- **(B)** `makeArray<number>(3, 'x')` — `T` is explicitly `number`, but `'x'` is `string`, which is not assignable to `number` → compile error ✓\n\nExplicit type arguments **override inference** and then TypeScript checks that arguments conform:\n\n```typescript\nconst c = makeArray<string | number>(3, 'x'); // ✓ — 'x' assignable to string | number\n```\n\nProvide explicit type arguments when you want a wider type than inference would give.",
+    "keyConcepts": ["type argument inference", "explicit type arguments", "type override"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "generics-017",
+    "subjectId": "typescript",
+    "topicId": "generics",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is the `InstanceType<T>` utility type and when would you use it?\n\n```typescript\nclass HttpClient {\n  get(url: string): Promise<Response> { return fetch(url); }\n}\n\ntype Client = InstanceType<typeof HttpClient>;\n```",
+    "options": [
+      { "id": "a", "text": "`Client` is the constructor function type" },
+      { "id": "b", "text": "`Client` is the instance type — same as declaring `const c: HttpClient`" },
+      { "id": "c", "text": "`Client` is `typeof HttpClient` — the class itself" },
+      { "id": "d", "text": "Compile error — `InstanceType` requires a generic class" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`InstanceType<T>` extracts the instance type of a constructor type:\n\n```typescript\ntype Client = InstanceType<typeof HttpClient>;\n// Equivalent to just: HttpClient\n```\n\nWhen is it useful? When you receive a **class constructor as a value** and need to type the instance:\n\n```typescript\nfunction createAndLog<T extends new (...args: any[]) => any>(\n  Ctor: T,\n  ...args: ConstructorParameters<T>\n): InstanceType<T> {\n  const instance = new Ctor(...args);\n  console.log(instance);\n  return instance;\n}\n\nconst client = createAndLog(HttpClient);\n// client: HttpClient (via InstanceType<typeof HttpClient>)\n```",
+    "keyConcepts": ["InstanceType", "constructor types", "utility types", "factory functions"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "generics-018",
+    "subjectId": "typescript",
+    "topicId": "generics",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does `ConstructorParameters<T>` return?\n\n```typescript\nclass Point {\n  constructor(public x: number, public y: number) {}\n}\n\ntype PointArgs = ConstructorParameters<typeof Point>;\n```",
+    "options": [
+      { "id": "a", "text": "`[number, number]` — a tuple of constructor parameter types" },
+      { "id": "b", "text": "`{ x: number; y: number }` — an object type" },
+      { "id": "c", "text": "`number | number` — a union of parameter types" },
+      { "id": "d", "text": "`Point` — the instance type" }
+    ],
+    "correctAnswers": ["a"],
+    "explanation": "`ConstructorParameters<T>` extracts the constructor's parameter types as a **tuple**:\n\n```typescript\ntype PointArgs = ConstructorParameters<typeof Point>;\n// [number, number]\n```\n\nThis pairs with `InstanceType` for generic factory functions:\n\n```typescript\nfunction create<T extends new (...args: any[]) => any>(\n  Ctor: T,\n  ...args: ConstructorParameters<T>\n): InstanceType<T> {\n  return new Ctor(...args);\n}\n\nconst p = create(Point, 10, 20); // p: Point\n```",
+    "keyConcepts": ["ConstructorParameters", "constructor types", "tuple types", "utility types"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "generics-019",
+    "subjectId": "typescript",
+    "topicId": "generics",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is `Awaited<T>` and how does it differ from `ReturnType<T>` for async functions?\n\n```typescript\nasync function fetchUser(): Promise<{ name: string }> {\n  return { name: 'Alice' };\n}\n\ntype A = ReturnType<typeof fetchUser>;\ntype B = Awaited<ReturnType<typeof fetchUser>>;\n```",
+    "options": [
+      { "id": "a", "text": "`A = { name: string }`, `B = Promise<{ name: string }>`" },
+      { "id": "b", "text": "`A = Promise<{ name: string }>`, `B = { name: string }`" },
+      { "id": "c", "text": "Both are `{ name: string }` — TypeScript automatically unwraps `Promise` in `ReturnType`" },
+      { "id": "d", "text": "Both are `Promise<{ name: string }>`" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`ReturnType<T>` returns the **declared** return type, which includes the `Promise` wrapper for async functions:\n\n```typescript\ntype A = ReturnType<typeof fetchUser>;\n// Promise<{ name: string }>\n```\n\n`Awaited<T>` recursively unwraps `Promise` (and other thenables) until it reaches the resolved value:\n\n```typescript\ntype B = Awaited<Promise<{ name: string }>>;\n// { name: string }\n\n// Recursive unwrapping:\ntype C = Awaited<Promise<Promise<string>>>;\n// string\n```\n\nCombine them as `Awaited<ReturnType<typeof asyncFn>>` to get the resolved type of any async function.",
+    "keyConcepts": ["Awaited", "ReturnType", "Promise unwrapping", "async types"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "generics-020",
+    "subjectId": "typescript",
+    "topicId": "generics",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is a generic type alias with a remapped key, and what does this produce?\n\n```typescript\ntype Getters<T> = {\n  [K in keyof T as `get${Capitalize<string & K>}`]: () => T[K];\n};\n\ntype UserGetters = Getters<{ name: string; age: number }>;\n```",
+    "options": [
+      { "id": "a", "text": "`{ name: () => string; age: () => number }`" },
+      { "id": "b", "text": "`{ getName: () => string; getAge: () => number }`" },
+      { "id": "c", "text": "Compile error — `as` cannot be used in mapped types" },
+      { "id": "d", "text": "`{ get: () => string | number }`" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "The **`as` clause** in a mapped type (key remapping) transforms the output key:\n\n```typescript\ntype Getters<T> = {\n  [K in keyof T as `get${Capitalize<string & K>}`]: () => T[K];\n};\n\ntype UserGetters = Getters<{ name: string; age: number }>;\n// {\n//   getName: () => string;\n//   getAge:  () => number;\n// }\n```\n\n- `string & K` — intersects with `string` because `keyof` may include `symbol`\n- `Capitalize<...>` — capitalizes the first letter\n- Template literal `` `get${...}` `` — prepends `get`\n\nThis pattern auto-generates getter types from a data shape.",
+    "keyConcepts": ["key remapping", "as clause", "template literal types", "mapped types"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "generics-021",
+    "subjectId": "typescript",
+    "topicId": "generics",
+    "type": "code",
+    "difficulty": "intermediate",
+    "question": "What type does TypeScript infer for `result`?\n\n```typescript\nfunction first<T>(array: [T, ...unknown[]]): T {\n  return array[0];\n}\n\nconst result = first([42, 'hello', true]);\n```",
+    "options": [
+      { "id": "a", "text": "`number | string | boolean`" },
+      { "id": "b", "text": "`number`" },
+      { "id": "c", "text": "`unknown`" },
+      { "id": "d", "text": "Compile error — cannot mix types in a tuple" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "The signature `<T>(array: [T, ...unknown[]])` describes a tuple whose **first element** is `T`, with any remaining elements typed as `unknown`.\n\nFrom the call `first([42, 'hello', true])`, TypeScript infers:\n- The first element is `42` → `T = number`\n- The rest are `...unknown[]`\n\nSo `result: number`.\n\nThis pattern (tuple rest types) lets you write strongly-typed variadic functions that preserve the type of specific positional elements without constraining the others.",
+    "keyConcepts": ["tuple rest types", "variadic tuples", "type inference", "positional typing"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "generics-022",
+    "subjectId": "typescript",
+    "topicId": "generics",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does it mean for a function to be \"generic\" versus accepting `any`?\n\n```typescript\n// A: using any\nfunction identity1(value: any): any {\n  return value;\n}\n\n// B: using generic\nfunction identity2<T>(value: T): T {\n  return value;\n}\n\nconst s1 = identity1('hello'); // type?\nconst s2 = identity2('hello'); // type?\n```",
+    "options": [
+      { "id": "a", "text": "Both `s1` and `s2` are typed as `string`" },
+      { "id": "b", "text": "`s1` is `any` — the return type is not tracked; `s2` is `string` — the return type mirrors the input" },
+      { "id": "c", "text": "`s1` is `string` because TypeScript always infers from the argument; `s2` is `T`" },
+      { "id": "d", "text": "Both `s1` and `s2` are `any`" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`any` **erases type information**: once a value enters `any`, its type is lost, and the return value is `any` regardless of the input.\n\nA **generic** preserves the relationship: the return type is the *same* as the input type:\n\n```typescript\nconst s1 = identity1('hello'); // any — lost all type information\nconst s2 = identity2('hello'); // string — TypeScript tracked it through\n\ns1.toUpperCase(); // no error (any) — but also no autocomplete, no safety\ns2.toUpperCase(); // ✓ with full type safety and autocomplete\n```\n\nGenerics let you write reusable code **without sacrificing type safety**. `any` is an escape hatch that trades safety for flexibility.",
+    "keyConcepts": ["generics vs any", "type preservation", "type safety"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "generics-023",
+    "subjectId": "typescript",
+    "topicId": "generics",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What does this type-safe event emitter pattern express?\n\n```typescript\ntype EventMap = {\n  click: { x: number; y: number };\n  keypress: { key: string; code: string };\n  resize: { width: number; height: number };\n};\n\nfunction on<K extends keyof EventMap>(\n  event: K,\n  handler: (data: EventMap[K]) => void\n): void {}\n\non('click', e => console.log(e.x, e.y));\non('keypress', e => console.log(e.key));\non('click', e => console.log(e.key)); // (A)\n```",
+    "options": [
+      { "id": "a", "text": "(A) compiles — `e` is typed as a union of all event data types" },
+      { "id": "b", "text": "(A) is a compile error — for `'click'`, `e` is `{ x: number; y: number }`, which has no `key`" },
+      { "id": "c", "text": "All calls compile because handlers receive `unknown`" },
+      { "id": "d", "text": "Compile error — indexed access types cannot use string literal keys" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "The key `K extends keyof EventMap` and handler `(data: EventMap[K]) => void` create a **correlated generic**: the event name and handler argument are linked.\n\nFor `on('click', ...)`: `K = 'click'` → `EventMap['click'] = { x: number; y: number }`\n\n```typescript\non('click', e => console.log(e.x, e.y)); // ✓ — e: { x, y }\non('click', e => console.log(e.key));    // ✗ — 'key' doesn't exist on { x, y }\n```\n\nThis pattern (common in DOM-like APIs) makes event handlers fully type-safe: wrong data access is caught at compile time.",
+    "keyConcepts": ["correlated generics", "EventMap pattern", "indexed access types", "keyof"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "generics-024",
+    "subjectId": "typescript",
+    "topicId": "generics",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What prevents infinite recursion with recursive conditional types in TypeScript?\n\n```typescript\ntype Flatten<T> = T extends Array<infer Item> ? Flatten<Item> : T;\n\ntype A = Flatten<number[][][]>;\ntype B = Flatten<string>;\n```",
+    "options": [
+      { "id": "a", "text": "TypeScript allows infinite recursion silently" },
+      { "id": "b", "text": "TypeScript limits recursion depth and errors if exceeded; but `Flatten` terminates because the base case (`T` not being an array) is eventually reached" },
+      { "id": "c", "text": "Compile error — recursive conditional types are not supported" },
+      { "id": "d", "text": "`Flatten<number[][][]>` never terminates and hangs the compiler" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "TypeScript enforces a **recursion depth limit** (around 100 levels). Recursive types are safe as long as the recursion terminates:\n\n```typescript\ntype A = Flatten<number[][][]>;\n// Flatten<number[][]> → Flatten<number[]> → Flatten<number> → number ✓\n\ntype B = Flatten<string>;\n// string does not extend Array<infer Item> → string ✓\n```\n\nFor genuinely unbounded structures (e.g., infinite JSON), TypeScript defers the type and may show `Type instantiation is excessively deep and possibly infinite`.\n\nThe safe pattern: always have a **base case** (`T` not matching the recursive arm) that terminates within TypeScript's depth limit.",
+    "keyConcepts": ["recursive conditional types", "Flatten", "recursion depth", "type safety"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "generics-025",
+    "subjectId": "typescript",
+    "topicId": "generics",
+    "type": "text",
+    "difficulty": "intermediate",
+    "question": "Explain what generics are, why they exist, and give a concrete example of a problem they solve that neither `any` nor explicit union types can solve well.",
+    "explanation": "## Generics: reusable code with preserved types\n\n### The problem\nWithout generics, a `wrap` function would use `any` — losing type information:\n\n```typescript\nfunction wrap(value: any): { value: any } {\n  return { value };\n}\n\nconst result = wrap(42);\nresult.value.toFixed(2); // no autocomplete, no type check\n```\n\nUsing a union is better but not general:\n```typescript\nfunction wrap(value: string | number): { value: string | number } { ... }\n// works for 2 types, not reusable for new types\n```\n\n### The generic solution\n```typescript\nfunction wrap<T>(value: T): { value: T } {\n  return { value };\n}\n\nconst a = wrap(42);       // { value: number } — fully typed\nconst b = wrap('hello');  // { value: string }\nconst c = wrap({ id: 1 }); // { value: { id: number } }\n\na.value.toFixed(2); // ✓ autocomplete + type-safe\n```\n\n### Why generics exist\n1. **Reusability without `any`** — write once, used for many types, no type information lost\n2. **Type relationships** — express that output type depends on input type\n3. **Compiler-verified contracts** — the generic constraint (`T extends X`) enforces requirements at call sites\n\n### Key insight\n`any` trades safety for flexibility. Explicit unions trade flexibility for safety (for a fixed set of types). Generics give you *both* — the function works for any type **and** TypeScript tracks the specific type through the call.",
+    "keyConcepts": ["generics motivation", "any vs generics", "type preservation", "reusability"],
+    "commonInterviewQuestion": true
+  }
+]

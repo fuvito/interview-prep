@@ -1,0 +1,31 @@
+@import "tailwindcss";
+@import "highlight.js/styles/github-dark.css";
+
+.hljs { background: transparent !important; }
+
+/* Light mode overrides */
+.light-mode {
+  --color-bg:      #f8fafc;
+  --color-surface: #ffffff;
+  --color-border:  #e2e8f0;
+  --color-text:    #0f172a;
+  --color-muted:   #64748b;
+}
+
+.light-mode body,
+.light-mode [class*="bg-gray-950"] { background-color: var(--color-bg) !important; }
+.light-mode [class*="bg-gray-900"] { background-color: var(--color-surface) !important; }
+.light-mode [class*="bg-gray-800"] { background-color: #f1f5f9 !important; }
+.light-mode [class*="border-gray-800"],
+.light-mode [class*="border-gray-700"] { border-color: var(--color-border) !important; }
+.light-mode [class*="text-gray-100"],
+.light-mode [class*="text-white"] { color: var(--color-text) !important; }
+.light-mode [class*="text-gray-300"],
+.light-mode [class*="text-gray-200"] { color: #334155 !important; }
+.light-mode [class*="text-gray-400"],
+.light-mode [class*="text-gray-500"],
+.light-mode [class*="text-gray-600"] { color: var(--color-muted) !important; }
+.light-mode .hljs { color: #24292e; }
+.light-mode [class*="bg-blue-900"] { background-color: #dbeafe !important; }
+.light-mode [class*="text-blue-300"],
+.light-mode [class*="text-blue-200"] { color: #1d4ed8 !important; }
