@@ -19,6 +19,7 @@ test.describe('Learning flow', () => {
   })
 
   test('submit button is disabled until an option is selected', async ({ page }) => {
+    await page.locator('div.space-y-2 button').first().waitFor()
     await expect(page.getByRole('button', { name: 'Submit' })).toBeDisabled()
   })
 
