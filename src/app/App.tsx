@@ -4,15 +4,16 @@ import { Router } from './Router'
 import { useThemeStore, useNavigationStore } from '@/store'
 import { uploadedContentRepository } from '@/database/repositories'
 import { registerUploadedPacks } from '@/content'
-import { useResizable } from '@/hooks/useResizable'
+import { usePopupSize } from '@/hooks/usePopupSize'
 
-const isPopup = window.innerWidth <= 500
+// Detect popup vs full-tab via URL param (width-independent and stable across sizes)
+export const isPopup = !new URLSearchParams(window.location.search).has('tab')
 
 export default function App() {
   const { load } = useThemeStore()
   const { initCurrentSubject } = useNavigationStore()
   const [ready, setReady] = useState(false)
-  const { size, handles } = useResizable()
+  const { size } = usePopupSize()
 
   useEffect(() => {
     async function init() {
@@ -31,18 +32,12 @@ export default function App() {
     ? 'relative bg-gray-950 text-gray-100 font-sans antialiased ring-1 ring-gray-800'
     : 'w-full h-screen bg-gray-950 text-gray-100 flex flex-col overflow-hidden font-sans antialiased ring-1 ring-gray-800'
 
-  // Explicit inline size beats h-full in popup mode: h-full relies on the body
-  // height being set first (an effect), which creates a one-frame gap. Inline
-  // style is synchronous and always correct.
   const outerStyle = isPopup ? { width: size.w, height: size.h } : undefined
 
   if (!ready) return <div className={outerClass} style={outerStyle} />
 
   return (
     <div className={outerClass} style={outerStyle}>
-      {isPopup && handles.map(h => (
-        <div key={h.dir} style={h.style} onMouseDown={h.onMouseDown} />
-      ))}
       <div className={isPopup ? 'flex flex-col overflow-hidden w-full h-full' : 'contents'}>
         <Layout>
           <Router />

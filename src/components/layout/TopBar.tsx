@@ -1,9 +1,9 @@
-import { ArrowLeft, Sun, Moon, Info, Maximize2 } from 'lucide-react'
+import { ArrowLeft, Sun, Moon, Info, ExternalLink, Maximize, Minimize } from 'lucide-react'
 import { useNavigationStore, useThemeStore } from '@/store'
 import { questionRepository } from '@/core/question-engine'
+import { usePopupSize } from '@/hooks/usePopupSize'
+import { isPopup } from '@/app/App'
 import type { View } from '@/store'
-
-const isPopup = window.innerWidth <= 500
 
 function getTitle(view: View, currentSubjectId: string | null): string {
   switch (view.name) {
@@ -26,22 +26,24 @@ function getTitle(view: View, currentSubjectId: string | null): string {
 export function TopBar() {
   const { current, stack, navigate, goBack, currentSubjectId } = useNavigationStore()
   const { theme, toggle, fontSize, increaseFontSize, decreaseFontSize } = useThemeStore()
+  const { expanded, toggle: toggleSize } = usePopupSize()
   const canGoBack = stack.length > 0
   const isDashboard = current.name === 'dashboard'
   const hasSubject = isDashboard && currentSubjectId !== null
 
   function openFullTab() {
-    chrome.tabs.create({ url: chrome.runtime.getURL('index.html') })
+    chrome.tabs.create({ url: chrome.runtime.getURL('index.html?tab=1') })
   }
 
   const title = getTitle(current, currentSubjectId)
+  const btnClass = 'text-blue-300 hover:text-white transition-colors p-0.5'
 
   return (
     <header className="h-12 flex items-center px-4 border-b border-blue-900/40 bg-[#0c1628] shrink-0 gap-3">
       {canGoBack ? (
         <button
           onClick={goBack}
-          className="text-blue-300/70 hover:text-blue-200 transition-colors p-0.5 shrink-0"
+          className={btnClass}
           aria-label="Go back"
         >
           <ArrowLeft size={18} />
@@ -64,11 +66,11 @@ export function TopBar() {
         </div>
       )}
 
-      <div className="ml-auto flex items-center gap-1 shrink-0">
+      <div className="ml-auto flex items-center gap-2 shrink-0">
         {isDashboard && (
           <button
             onClick={() => navigate({ name: 'about' })}
-            className="text-blue-400/50 hover:text-blue-300 transition-colors p-0.5"
+            className={btnClass}
             aria-label="About"
           >
             <Info size={15} />
@@ -78,7 +80,7 @@ export function TopBar() {
         <button
           onClick={() => void decreaseFontSize()}
           disabled={fontSize === 'xs'}
-          className="text-blue-400/50 hover:text-blue-300 transition-colors px-0.5 disabled:opacity-30 disabled:cursor-not-allowed leading-none"
+          className={`${btnClass} disabled:opacity-30 disabled:cursor-not-allowed leading-none px-0.5`}
           aria-label="Decrease font size"
         >
           <span className="font-bold select-none" style={{ fontSize: '10px' }}>A</span>
@@ -86,7 +88,7 @@ export function TopBar() {
         <button
           onClick={() => void increaseFontSize()}
           disabled={fontSize === 'lg'}
-          className="text-blue-400/50 hover:text-blue-300 transition-colors px-0.5 disabled:opacity-30 disabled:cursor-not-allowed leading-none"
+          className={`${btnClass} disabled:opacity-30 disabled:cursor-not-allowed leading-none px-0.5`}
           aria-label="Increase font size"
         >
           <span className="font-bold select-none" style={{ fontSize: '14px' }}>A</span>
@@ -94,20 +96,30 @@ export function TopBar() {
 
         <button
           onClick={() => void toggle()}
-          className="text-blue-400/50 hover:text-blue-300 transition-colors p-0.5"
+          className={btnClass}
           aria-label="Toggle theme"
         >
           {theme === 'dark' ? <Sun size={15} /> : <Moon size={15} />}
         </button>
 
         {isPopup && (
-          <button
-            onClick={openFullTab}
-            className="text-blue-400/50 hover:text-blue-300 transition-colors p-0.5"
-            aria-label="Open in full window"
-          >
-            <Maximize2 size={14} />
-          </button>
+          <>
+            <button
+              onClick={toggleSize}
+              className={btnClass}
+              aria-label={expanded ? 'Restore width' : 'Expand width'}
+            >
+              {expanded ? <Minimize size={14} /> : <Maximize size={14} />}
+            </button>
+
+            <button
+              onClick={openFullTab}
+              className={btnClass}
+              aria-label="Open in full tab"
+            >
+              <ExternalLink size={14} />
+            </button>
+          </>
         )}
       </div>
     </header>
