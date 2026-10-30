@@ -964,5 +964,195 @@
       "stream filter"
     ],
     "commonInterviewQuestion": true
+  },
+  {
+    "id": "java-col-026",
+    "subjectId": "java",
+    "topicId": "java-collections",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is the difference between `List`, `Set`, and `Map`?",
+    "options": [
+      {
+        "id": "a",
+        "text": "List is ordered and permits duplicates; Set enforces uniqueness; Map stores key-value associations"
+      },
+      {
+        "id": "b",
+        "text": "List stores key-value pairs; Set preserves duplicates; Map is always sorted"
+      },
+      {
+        "id": "c",
+        "text": "All three interfaces guarantee insertion order"
+      },
+      {
+        "id": "d",
+        "text": "Set and Map both extend List"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "List represents an ordered sequence and permits duplicate elements. Set models uniqueness and does not permit duplicate elements according to its equality/ordering rules. Map associates keys with values and requires unique keys; Map is not a subtype of Collection.",
+    "keyConcepts": [
+      "List",
+      "Set",
+      "Map",
+      "duplicates",
+      "key-value"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "java-col-027",
+    "subjectId": "java",
+    "topicId": "java-collections",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What happens if two different keys in a HashMap have the same hash code?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The second entry always overwrites the first"
+      },
+      {
+        "id": "b",
+        "text": "The map throws an exception"
+      },
+      {
+        "id": "c",
+        "text": "The keys share a bucket, and HashMap uses equality checks to distinguish them"
+      },
+      {
+        "id": "d",
+        "text": "HashMap converts both keys into one key"
+      }
+    ],
+    "correctAnswers": [
+      "c"
+    ],
+    "explanation": "A hash collision occurs when different keys map to the same bucket. HashMap stores both entries and uses equals() to determine whether a key already exists. A correct key implementation must obey the equals() and hashCode() contract. In modern Java, heavily populated buckets may be treeified under implementation-specific thresholds.",
+    "keyConcepts": [
+      "hash collision",
+      "HashMap",
+      "hashCode",
+      "equals",
+      "bucket"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "java-col-028",
+    "subjectId": "java",
+    "topicId": "java-collections",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the difference between fail-fast and weakly consistent iterators?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Fail-fast iterators always work on immutable snapshots"
+      },
+      {
+        "id": "b",
+        "text": "Weakly consistent iterators may reflect some concurrent updates without throwing ConcurrentModificationException; fail-fast iterators may throw when structurally modified outside the iterator"
+      },
+      {
+        "id": "c",
+        "text": "They are two names for the same iterator behavior"
+      },
+      {
+        "id": "d",
+        "text": "Fail-fast iterators are guaranteed to detect every concurrent modification"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "Fail-fast iterators, such as typical ArrayList iterators, make a best-effort check for structural modifications and may throw ConcurrentModificationException. Weakly consistent iterators, used by many concurrent collections such as ConcurrentHashMap, can operate while updates occur and may reflect some updates. Fail-fast behavior is not a correctness or synchronization guarantee.",
+    "keyConcepts": [
+      "fail-fast",
+      "weakly consistent",
+      "iterators",
+      "ConcurrentHashMap",
+      "concurrency"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "java-col-029",
+    "subjectId": "java",
+    "topicId": "java-collections",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "Why should mutable objects generally not be used as HashMap keys?",
+    "options": [
+      {
+        "id": "a",
+        "text": "HashMap does not support object keys"
+      },
+      {
+        "id": "b",
+        "text": "Changing a key's fields that affect equals() or hashCode() can make the entry difficult to find in its original bucket"
+      },
+      {
+        "id": "c",
+        "text": "Mutable keys automatically cause ConcurrentModificationException"
+      },
+      {
+        "id": "d",
+        "text": "HashMap copies every key and makes it immutable"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "HashMap uses a key's hash code to select a bucket and equality to locate the entry. If fields used by equals() or hashCode() change after insertion, subsequent lookups may search a different bucket or fail equality checks. Prefer immutable key types or ensure key state does not change while stored.",
+    "keyConcepts": [
+      "HashMap keys",
+      "immutability",
+      "hashCode",
+      "equals",
+      "mutable objects"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "java-col-030",
+    "subjectId": "java",
+    "topicId": "java-collections",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is the time complexity of common HashMap operations, and what can affect it?",
+    "options": [
+      {
+        "id": "a",
+        "text": "get and put are always O(log n), regardless of implementation"
+      },
+      {
+        "id": "b",
+        "text": "get and put are average O(1), but collisions and resizing can affect performance; tree bins can improve heavily collided buckets"
+      },
+      {
+        "id": "c",
+        "text": "get is O(n) and put is always O(1)"
+      },
+      {
+        "id": "d",
+        "text": "All HashMap operations are O(n log n)"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "HashMap get and put are expected O(1) under a well-distributed hash function. Collisions can increase lookup work; Java 8+ can treeify sufficiently large buckets, improving worst-case bucket lookup toward O(log n) when keys are appropriately comparable. Resizing is occasional O(n) work, while amortized insertion remains expected O(1).",
+    "keyConcepts": [
+      "HashMap complexity",
+      "amortized analysis",
+      "collisions",
+      "tree bins",
+      "resizing"
+    ],
+    "commonInterviewQuestion": true
   }
 ]

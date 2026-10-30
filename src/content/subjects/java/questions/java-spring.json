@@ -981,5 +981,195 @@
       "@Transactional propagation"
     ],
     "commonInterviewQuestion": true
+  },
+  {
+    "id": "java-spring-026",
+    "subjectId": "java",
+    "topicId": "java-spring",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is the difference between constructor injection and field injection in Spring?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Field injection is required for immutable dependencies; constructor injection is not supported"
+      },
+      {
+        "id": "b",
+        "text": "Constructor injection makes required dependencies explicit, supports final fields, and improves testability; field injection hides dependencies and is harder to test directly"
+      },
+      {
+        "id": "c",
+        "text": "They behave identically and have the same testability characteristics"
+      },
+      {
+        "id": "d",
+        "text": "Constructor injection requires every dependency to be a prototype bean"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "Constructor injection declares required dependencies in the constructor, making them explicit and allowing fields to be final. It supports straightforward unit testing without a Spring container and helps prevent partially initialized objects. Field injection relies on reflection and hides dependencies; constructor injection is generally preferred for required collaborators.",
+    "keyConcepts": [
+      "dependency injection",
+      "constructor injection",
+      "immutability",
+      "testability",
+      "Spring beans"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "java-spring-027",
+    "subjectId": "java",
+    "topicId": "java-spring",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the difference between a Spring Filter and a HandlerInterceptor?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A Filter runs within the Servlet container chain and can act before Spring MVC; a HandlerInterceptor runs within Spring MVC around handler execution"
+      },
+      {
+        "id": "b",
+        "text": "An interceptor runs before the Servlet container; a filter runs only after the controller"
+      },
+      {
+        "id": "c",
+        "text": "They are identical and configured in the same way"
+      },
+      {
+        "id": "d",
+        "text": "A Filter can only inspect response bodies, while an interceptor can only inspect request headers"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "A Servlet Filter is part of the servlet filter chain and can process requests before they reach the DispatcherServlet, as well as responses on the way back. A Spring MVC HandlerInterceptor operates within the MVC request handling lifecycle, with callbacks such as preHandle, postHandle, and afterCompletion. Filters are commonly used for cross-cutting servlet concerns; interceptors are useful for handler-aware MVC concerns.",
+    "keyConcepts": [
+      "Servlet Filter",
+      "HandlerInterceptor",
+      "DispatcherServlet",
+      "request lifecycle"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "java-spring-028",
+    "subjectId": "java",
+    "topicId": "java-spring",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the N+1 query problem in Spring Data JPA/Hibernate?",
+    "options": [
+      {
+        "id": "a",
+        "text": "It occurs when one query is executed for every database table"
+      },
+      {
+        "id": "b",
+        "text": "It occurs when loading a set of entities triggers one initial query plus additional queries for related entities, potentially causing many database round trips"
+      },
+      {
+        "id": "c",
+        "text": "It means a transaction retries a failed query N+1 times"
+      },
+      {
+        "id": "d",
+        "text": "It is a database connection pool configuration error"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "The N+1 problem commonly occurs when an initial query loads N parent entities and accessing a lazy relationship triggers an additional query for each parent. This can create many database round trips. Possible remedies include fetch joins, entity graphs, DTO projections, or batch fetching, chosen according to the use case and pagination requirements.",
+    "keyConcepts": [
+      "JPA",
+      "Hibernate",
+      "N+1 queries",
+      "lazy loading",
+      "fetch join",
+      "EntityGraph"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "java-spring-029",
+    "subjectId": "java",
+    "topicId": "java-spring",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "Why might `@Transactional` not work when one method calls another method in the same Spring bean?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Spring transactions only work with private constructors"
+      },
+      {
+        "id": "b",
+        "text": "Proxy-based transaction management is typically bypassed by self-invocation because the call does not pass through the Spring proxy"
+      },
+      {
+        "id": "c",
+        "text": "Transactions cannot be used with public methods"
+      },
+      {
+        "id": "d",
+        "text": "Spring disables transactions when methods return void"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "In the common proxy-based transaction model, Spring applies transactional behavior when a call enters through the proxy. A method calling another method on `this` bypasses that proxy, so the inner method's transactional metadata may not be applied as expected. Common solutions include moving the transactional method to another bean or redesigning the boundary; AspectJ weaving is another option.",
+    "keyConcepts": [
+      "@Transactional",
+      "Spring AOP",
+      "proxy",
+      "self-invocation",
+      "transaction boundary"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "java-spring-030",
+    "subjectId": "java",
+    "topicId": "java-spring",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is the difference between `@SpringBootTest` and `@WebMvcTest`?",
+    "options": [
+      {
+        "id": "a",
+        "text": "`@SpringBootTest` loads an application context for broader integration testing; `@WebMvcTest` focuses on the MVC layer and typically uses mocked collaborators"
+      },
+      {
+        "id": "b",
+        "text": "`@WebMvcTest` starts a full production database and all application services"
+      },
+      {
+        "id": "c",
+        "text": "`@SpringBootTest` can test only controllers"
+      },
+      {
+        "id": "d",
+        "text": "They are aliases for the same test annotation"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "`@SpringBootTest` creates an application context using Spring Boot's test support and is suitable for broader integration tests. `@WebMvcTest` loads a focused MVC test slice, typically including controller and MVC infrastructure while excluding most application components; dependencies are commonly supplied as mocks. Use the narrowest test slice that verifies the behavior you need.",
+    "keyConcepts": [
+      "@SpringBootTest",
+      "@WebMvcTest",
+      "integration testing",
+      "test slices",
+      "MockMvc"
+    ],
+    "commonInterviewQuestion": true
   }
 ]

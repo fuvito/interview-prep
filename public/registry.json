@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-10-30",
+  "updatedAt": "2026-10-30T15:00:00Z",
   "subjects": [
     {
       "id": "typescript",
@@ -47,10 +47,10 @@
     {
       "id": "java",
       "name": "Java",
-      "description": "Core Java, OOP, Collections, Concurrency, Java 8+ features, and Spring.",
-      "version": "1.0.0",
-      "questionCount": 150,
-      "topicCount": 6,
+      "description": "Core Java, OOP principles, Collections, Concurrency, JVM internals, Spring Boot, and the Streams API — everything you need for Java interviews.",
+      "version": "1.1.0",
+      "questionCount": 222,
+      "topicCount": 11,
       "bundled": false,
       "packUrl": "https://raw.githubusercontent.com/fuvito/interview-prep/main/packs/java.json",
       "author": {

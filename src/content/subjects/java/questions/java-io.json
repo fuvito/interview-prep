@@ -1,0 +1,299 @@
+[
+  {
+    "id": "java-io-001",
+    "subjectId": "java",
+    "topicId": "java-io",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is the difference between byte streams and character streams?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Byte streams process raw 8-bit bytes; character streams process text characters and handle character encoding through readers and writers."
+      },
+      {
+        "id": "b",
+        "text": "Byte streams are only for network sockets; character streams are only for files."
+      },
+      {
+        "id": "c",
+        "text": "Character streams are always faster than byte streams."
+      },
+      {
+        "id": "d",
+        "text": "There is no difference in their intended use."
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "InputStream and OutputStream APIs process bytes and are suitable for binary data. Reader and Writer APIs process character data and bridge bytes to characters using a charset. Choose based on whether the data is binary or text.",
+    "keyConcepts": [
+      "InputStream",
+      "OutputStream",
+      "Reader",
+      "Writer",
+      "character encoding"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "java-io-002",
+    "subjectId": "java",
+    "topicId": "java-io",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "Why is buffering used in Java I/O?",
+    "options": [
+      {
+        "id": "a",
+        "text": "To encrypt data automatically."
+      },
+      {
+        "id": "b",
+        "text": "To reduce the number of underlying read or write operations by transferring data in larger chunks."
+      },
+      {
+        "id": "c",
+        "text": "To guarantee that every write reaches disk immediately."
+      },
+      {
+        "id": "d",
+        "text": "To make a stream reusable after it is closed."
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "BufferedInputStream, BufferedOutputStream, BufferedReader, and BufferedWriter keep data in memory buffers. This reduces expensive calls to the underlying source or destination. Buffering does not itself guarantee durable disk writes; flush or close as appropriate.",
+    "keyConcepts": [
+      "buffering",
+      "BufferedReader",
+      "BufferedOutputStream",
+      "I/O performance"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "java-io-003",
+    "subjectId": "java",
+    "topicId": "java-io",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the purpose of the `Path` and `Files` APIs in `java.nio.file`?",
+    "options": [
+      {
+        "id": "a",
+        "text": "They replace Java collections with filesystem collections."
+      },
+      {
+        "id": "b",
+        "text": "Path represents a filesystem path, while Files provides utility operations such as read, write, copy, move, and attribute access."
+      },
+      {
+        "id": "c",
+        "text": "Path opens a database connection and Files executes SQL."
+      },
+      {
+        "id": "d",
+        "text": "They are available only on Linux."
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "`Path` models a path in a filesystem and is commonly obtained from `Path.of(...)`. The `Files` utility class performs operations such as `readString`, `writeString`, `copy`, `move`, `delete`, and directory traversal. These APIs are generally preferred over older File APIs for modern filesystem work.",
+    "keyConcepts": [
+      "Path",
+      "Files",
+      "java.nio.file",
+      "filesystem"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "java-io-004",
+    "subjectId": "java",
+    "topicId": "java-io",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the difference between `File` and `Path`?",
+    "options": [
+      {
+        "id": "a",
+        "text": "File is the newer API and Path is deprecated."
+      },
+      {
+        "id": "b",
+        "text": "File is the older java.io abstraction; Path is part of NIO.2 and offers a richer path model and integration with Files."
+      },
+      {
+        "id": "c",
+        "text": "Path can represent only existing files, while File can represent only directories."
+      },
+      {
+        "id": "d",
+        "text": "File supports symbolic links but Path does not."
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "`java.io.File` is an older abstraction with a limited API. `java.nio.file.Path` provides richer path manipulation and works with the `Files` class, filesystem providers, and operations such as resolving and normalizing paths. A Path can represent a path whether or not it currently exists.",
+    "keyConcepts": [
+      "java.io.File",
+      "Path",
+      "NIO.2",
+      "Files"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "java-io-005",
+    "subjectId": "java",
+    "topicId": "java-io",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is Java object serialization?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Converting an object graph into a byte stream for storage or transfer, traditionally using ObjectOutputStream and Serializable."
+      },
+      {
+        "id": "b",
+        "text": "Converting Java source code into bytecode."
+      },
+      {
+        "id": "c",
+        "text": "Converting every object into JSON automatically."
+      },
+      {
+        "id": "d",
+        "text": "Encrypting objects with the JVM."
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "Traditional Java serialization writes object state to a byte stream using ObjectOutputStream and reads it with ObjectInputStream. Serializable is a marker interface. Serialization has compatibility and security concerns; avoid deserializing untrusted data and consider explicit formats such as JSON or Protocol Buffers for many application protocols.",
+    "keyConcepts": [
+      "serialization",
+      "Serializable",
+      "ObjectOutputStream",
+      "deserialization"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "java-io-006",
+    "subjectId": "java",
+    "topicId": "java-io",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is the role of `serialVersionUID`?",
+    "options": [
+      {
+        "id": "a",
+        "text": "It identifies the JVM process that serialized an object."
+      },
+      {
+        "id": "b",
+        "text": "It is a version identifier used during deserialization to check serialization compatibility."
+      },
+      {
+        "id": "c",
+        "text": "It encrypts serialized object data."
+      },
+      {
+        "id": "d",
+        "text": "It determines the order in which fields are written."
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "`serialVersionUID` is compared between the serialized stream and the local class during deserialization. If the identifiers are incompatible, InvalidClassException may be thrown. Explicitly declaring it makes versioning behavior more predictable than relying on a computed value.",
+    "keyConcepts": [
+      "serialVersionUID",
+      "serialization compatibility",
+      "InvalidClassException"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "java-io-007",
+    "subjectId": "java",
+    "topicId": "java-io",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is a `ByteBuffer` in Java NIO?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A thread-safe queue of bytes."
+      },
+      {
+        "id": "b",
+        "text": "A container for bytes with position, limit, and capacity used in buffer-oriented I/O."
+      },
+      {
+        "id": "c",
+        "text": "A wrapper around a database BLOB."
+      },
+      {
+        "id": "d",
+        "text": "A character encoding table."
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "ByteBuffer stores bytes and tracks `position`, `limit`, and `capacity`. Data is commonly written into a buffer, then `flip()` switches it for reading; after consumption, `clear()` prepares it for writing again. Channels transfer data to and from buffers.",
+    "keyConcepts": [
+      "ByteBuffer",
+      "position",
+      "limit",
+      "capacity",
+      "flip"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "java-io-008",
+    "subjectId": "java",
+    "topicId": "java-io",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is the difference between blocking and non-blocking I/O in NIO?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Blocking I/O always uses more CPU than non-blocking I/O."
+      },
+      {
+        "id": "b",
+        "text": "In blocking I/O, an operation may wait for completion; non-blocking channel operations can return without waiting, allowing a thread to manage multiple channels."
+      },
+      {
+        "id": "c",
+        "text": "Non-blocking I/O cannot be used with sockets."
+      },
+      {
+        "id": "d",
+        "text": "Blocking I/O is asynchronous by definition."
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "Blocking operations may wait until data is available or an operation completes. Non-blocking channels can return immediately when they cannot make progress; selectors can notify a thread when registered channels become ready. Non-blocking I/O is useful for scalable network servers but adds programming complexity.",
+    "keyConcepts": [
+      "blocking I/O",
+      "non-blocking I/O",
+      "Channel",
+      "Selector"
+    ],
+    "commonInterviewQuestion": true
+  }
+]

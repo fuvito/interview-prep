@@ -1,0 +1,295 @@
+[
+  {
+    "id": "java-gen-001",
+    "subjectId": "java",
+    "topicId": "java-generics",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "Why are Java generics used?",
+    "options": [
+      {
+        "id": "a",
+        "text": "To enable compile-time type safety and reduce explicit casts when working with parameterized types."
+      },
+      {
+        "id": "b",
+        "text": "To make every collection automatically thread-safe."
+      },
+      {
+        "id": "c",
+        "text": "To allow primitive types such as int as generic type arguments directly."
+      },
+      {
+        "id": "d",
+        "text": "To execute code faster by eliminating all runtime type checks."
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "Generics let classes, interfaces, and methods operate on types while preserving compile-time type checking. For example, `List<String>` prevents adding an Integer and returns String values without caller-side casts. Java generics use reference types; primitive type arguments require wrapper types such as Integer.",
+    "keyConcepts": [
+      "generics",
+      "type safety",
+      "parameterized types"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "java-gen-002",
+    "subjectId": "java",
+    "topicId": "java-generics",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is type erasure in Java?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Generic type information is always stored in full at runtime for every object."
+      },
+      {
+        "id": "b",
+        "text": "The compiler removes or replaces most generic type information during compilation, using bounds and casts as needed."
+      },
+      {
+        "id": "c",
+        "text": "Java converts every generic type into a String."
+      },
+      {
+        "id": "d",
+        "text": "Type erasure happens only when an application uses reflection."
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "Java implements generics primarily through type erasure. The compiler enforces generic constraints, then erases type parameters to their bounds (or Object) and inserts casts where needed. This supports compatibility with pre-generics bytecode, but means `new T()` and `new List<String>[10]` are not allowed.",
+    "keyConcepts": [
+      "type erasure",
+      "generic bounds",
+      "backward compatibility"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "java-gen-003",
+    "subjectId": "java",
+    "topicId": "java-generics",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does `? extends Number` mean when used as a generic wildcard?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The type argument must be Number or a subtype of Number; values can safely be read as Number."
+      },
+      {
+        "id": "b",
+        "text": "The type argument must be a supertype of Number."
+      },
+      {
+        "id": "c",
+        "text": "The collection can accept any Object for insertion."
+      },
+      {
+        "id": "d",
+        "text": "The wildcard means the collection is immutable."
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "`List<? extends Number>` can refer to a List<Integer>, List<Double>, and so on. You can safely read elements as Number, but generally cannot add a Number because the actual element subtype is unknown (apart from null). This is an upper-bounded wildcard.",
+    "keyConcepts": [
+      "wildcards",
+      "upper bound",
+      "extends",
+      "PECS"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "java-gen-004",
+    "subjectId": "java",
+    "topicId": "java-generics",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does `? super Integer` mean?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The type argument must be Integer or a subtype of Integer."
+      },
+      {
+        "id": "b",
+        "text": "The type argument must be Integer or one of its supertypes, such as Number or Object."
+      },
+      {
+        "id": "c",
+        "text": "The collection can only be read as Integer and cannot accept values."
+      },
+      {
+        "id": "d",
+        "text": "The type argument must be an interface."
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "`List<? super Integer>` may be a List<Integer>, List<Number>, or List<Object>. It can safely accept Integer values. When reading, the compiler can guarantee only Object. This is a lower-bounded wildcard and is useful for consumers of Integer values.",
+    "keyConcepts": [
+      "wildcards",
+      "lower bound",
+      "super",
+      "PECS"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "java-gen-005",
+    "subjectId": "java",
+    "topicId": "java-generics",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does the PECS guideline mean?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Producer Extends, Consumer Super."
+      },
+      {
+        "id": "b",
+        "text": "Private Encapsulation, Public Serialization."
+      },
+      {
+        "id": "c",
+        "text": "Parameterized Elements Cannot Share."
+      },
+      {
+        "id": "d",
+        "text": "Producer Equals, Consumer Subclass."
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "PECS means Producer Extends, Consumer Super. Use `? extends T` when a structure produces values for you to read as T; use `? super T` when it consumes T values you want to add. It is a practical guideline for choosing wildcard bounds.",
+    "keyConcepts": [
+      "PECS",
+      "producer",
+      "consumer",
+      "wildcards"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "java-gen-006",
+    "subjectId": "java",
+    "topicId": "java-generics",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "Why can you not create an array of a parameterized type such as `new List<String>[10]`?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Arrays are always immutable."
+      },
+      {
+        "id": "b",
+        "text": "Arrays are covariant and reified at runtime, while generic type arguments are erased; combining them could undermine type safety."
+      },
+      {
+        "id": "c",
+        "text": "List is not a valid array component type."
+      },
+      {
+        "id": "d",
+        "text": "Java arrays cannot contain object references."
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "Arrays know and enforce their component type at runtime and are covariant. Generic type arguments are erased, so the runtime cannot distinguish `List<String>` from `List<Integer>`. A generic array could therefore permit heap pollution. Java prohibits direct creation of generic arrays.",
+    "keyConcepts": [
+      "generic arrays",
+      "type erasure",
+      "array covariance",
+      "heap pollution"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "java-gen-007",
+    "subjectId": "java",
+    "topicId": "java-generics",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is a bounded type parameter, such as `<T extends Comparable<T>>`?",
+    "options": [
+      {
+        "id": "a",
+        "text": "It restricts T to types that implement or extend the specified bound, enabling use of bound members."
+      },
+      {
+        "id": "b",
+        "text": "It guarantees T is a primitive type."
+      },
+      {
+        "id": "c",
+        "text": "It makes T immutable."
+      },
+      {
+        "id": "d",
+        "text": "It declares that T must be exactly Comparable and cannot be a class."
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "A bound constrains the permitted type arguments. `<T extends Comparable<T>>` allows code to call `compareTo` on T. A type parameter can have multiple bounds, with at most one class bound and that class bound appearing first.",
+    "keyConcepts": [
+      "bounded type parameters",
+      "Comparable",
+      "multiple bounds"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "java-gen-008",
+    "subjectId": "java",
+    "topicId": "java-generics",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is heap pollution in the context of Java generics?",
+    "options": [
+      {
+        "id": "a",
+        "text": "When the heap runs out of memory."
+      },
+      {
+        "id": "b",
+        "text": "When a variable of a parameterized type refers to an object that is not of that parameterized type, potentially causing a later ClassCastException."
+      },
+      {
+        "id": "c",
+        "text": "When a generic collection contains duplicate elements."
+      },
+      {
+        "id": "d",
+        "text": "When the garbage collector moves an object."
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "Heap pollution occurs when a parameterized variable refers to an object that violates its compile-time generic type expectation. Unsafe raw types, unchecked casts, and some varargs operations can cause it. The failure may appear later at an implicit cast when an element is read.",
+    "keyConcepts": [
+      "heap pollution",
+      "raw types",
+      "unchecked casts",
+      "ClassCastException"
+    ],
+    "commonInterviewQuestion": true
+  }
+]

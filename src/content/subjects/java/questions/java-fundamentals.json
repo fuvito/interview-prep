@@ -962,5 +962,192 @@
       "sizes"
     ],
     "commonInterviewQuestion": true
+  },
+  {
+    "id": "java-fund-026",
+    "subjectId": "java",
+    "topicId": "java-fundamentals",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is the difference between a constructor and a method in Java?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A constructor initializes a new object and has the same name as its class; a method defines behavior and has a return type"
+      },
+      {
+        "id": "b",
+        "text": "A constructor must be static; a method must be final"
+      },
+      {
+        "id": "c",
+        "text": "Constructors are inherited by subclasses; methods are not"
+      },
+      {
+        "id": "d",
+        "text": "A constructor can be called only after an object has been created"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "A constructor initializes an instance when it is created. It has the same name as the class and declares no return type, not even void. Methods represent behavior, have a declared return type (or void), and can be called after object creation. Constructors are not inherited, although a subclass constructor can invoke a superclass constructor using super().",
+    "keyConcepts": [
+      "constructors",
+      "object initialization",
+      "method signature",
+      "super()"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "java-fund-027",
+    "subjectId": "java",
+    "topicId": "java-fundamentals",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "Why is String immutable in Java, and what are the practical benefits?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Immutability prevents strings from being garbage collected"
+      },
+      {
+        "id": "b",
+        "text": "Immutability supports safe sharing, string-pool reuse, stable hash codes, and safer use in security-sensitive APIs"
+      },
+      {
+        "id": "c",
+        "text": "Immutability means String objects are stored only on the stack"
+      },
+      {
+        "id": "d",
+        "text": "String is immutable only when declared with final"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "A String's value cannot change after construction. Immutability makes strings safe to share across threads, enables reuse through the string pool, keeps hash codes stable for map keys, and reduces risks when strings represent paths, class names, or other security-sensitive values. Declaring a String reference final prevents reassignment of that reference; it is not what makes String immutable.",
+    "keyConcepts": [
+      "String immutability",
+      "string pool",
+      "thread safety",
+      "hashCode",
+      "security"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "java-fund-028",
+    "subjectId": "java",
+    "topicId": "java-fundamentals",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the difference between `==` and `equals()` when comparing Java objects?",
+    "options": [
+      {
+        "id": "a",
+        "text": "`==` compares object state; `equals()` compares memory addresses"
+      },
+      {
+        "id": "b",
+        "text": "`==` compares references for objects; `equals()` compares logical equality when the class overrides it"
+      },
+      {
+        "id": "c",
+        "text": "`equals()` always compares references, while `==` calls the object's hashCode()"
+      },
+      {
+        "id": "d",
+        "text": "They are interchangeable for all Java objects"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "For reference types, `==` tests whether two references point to the same object. `equals()` is a method whose default implementation in Object also tests identity, but classes such as String override it to compare logical content. When overriding equals(), also follow the equals/hashCode contract.",
+    "keyConcepts": [
+      "reference equality",
+      "logical equality",
+      "Object.equals()",
+      "hashCode contract"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "java-fund-029",
+    "subjectId": "java",
+    "topicId": "java-fundamentals",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the purpose of `super()` in a Java constructor?",
+    "options": [
+      {
+        "id": "a",
+        "text": "It creates a new instance of the current class"
+      },
+      {
+        "id": "b",
+        "text": "It invokes a constructor of the direct superclass"
+      },
+      {
+        "id": "c",
+        "text": "It invokes an overridden method in a subclass"
+      },
+      {
+        "id": "d",
+        "text": "It prevents the superclass from being initialized"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "A constructor can invoke a superclass constructor with super(...). If no explicit constructor invocation is written, Java inserts a no-argument super() call when applicable. The superclass constructor runs before the subclass constructor body, ensuring inherited state is initialized first.",
+    "keyConcepts": [
+      "super()",
+      "constructor chaining",
+      "inheritance",
+      "initialization order"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "java-fund-030",
+    "subjectId": "java",
+    "topicId": "java-fundamentals",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is the difference between `? extends T` and `? super T` in Java generics?",
+    "options": [
+      {
+        "id": "a",
+        "text": "`extends` is generally used when reading values as T; `super` is generally used when adding T values"
+      },
+      {
+        "id": "b",
+        "text": "`extends` allows adding any object; `super` allows reading only Object"
+      },
+      {
+        "id": "c",
+        "text": "Both wildcards make a collection immutable"
+      },
+      {
+        "id": "d",
+        "text": "`super` is only valid for interfaces"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "The PECS guideline means Producer Extends, Consumer Super. A `? extends T` reference is useful when a structure produces T values; you can safely read values as T, but generally cannot add a T because the actual subtype is unknown (apart from null). A `? super T` reference is useful when consuming T values; you can add T instances, while reads are typed as Object.",
+    "keyConcepts": [
+      "generics",
+      "wildcards",
+      "PECS",
+      "covariance",
+      "contravariance"
+    ],
+    "commonInterviewQuestion": true
   }
 ]

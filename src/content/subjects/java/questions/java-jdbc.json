@@ -1,0 +1,336 @@
+[
+  {
+    "id": "java-jdbc-001",
+    "subjectId": "java",
+    "topicId": "java-jdbc",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is JDBC?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A Java API for connecting to relational databases and executing SQL statements."
+      },
+      {
+        "id": "b",
+        "text": "A Java framework for building user interfaces."
+      },
+      {
+        "id": "c",
+        "text": "A replacement for the Java Collections Framework."
+      },
+      {
+        "id": "d",
+        "text": "A JVM garbage collector."
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "JDBC (Java Database Connectivity) defines APIs for obtaining database connections, executing SQL, processing results, and handling transactions. A database-specific driver implements the JDBC interfaces.",
+    "keyConcepts": [
+      "JDBC",
+      "Connection",
+      "Statement",
+      "ResultSet"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "java-jdbc-002",
+    "subjectId": "java",
+    "topicId": "java-jdbc",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "Why should `PreparedStatement` generally be preferred over `Statement` for parameterized SQL?",
+    "options": [
+      {
+        "id": "a",
+        "text": "It automatically commits every transaction."
+      },
+      {
+        "id": "b",
+        "text": "It supports bind parameters, helps prevent SQL injection when values are bound correctly, and can allow statement reuse."
+      },
+      {
+        "id": "c",
+        "text": "It can execute only SELECT statements."
+      },
+      {
+        "id": "d",
+        "text": "It eliminates the need for database indexes."
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "PreparedStatement separates SQL structure from parameter values. Binding user input avoids treating those values as executable SQL syntax, mitigating SQL injection. It also provides typed setters and may benefit from database or driver statement preparation and reuse. Do not build SQL identifiers from untrusted input.",
+    "keyConcepts": [
+      "PreparedStatement",
+      "SQL injection",
+      "bind parameters",
+      "statement reuse"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "java-jdbc-003",
+    "subjectId": "java",
+    "topicId": "java-jdbc",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the purpose of JDBC `ResultSet`?",
+    "options": [
+      {
+        "id": "a",
+        "text": "To represent the rows returned by a query and provide cursor-based access to column values."
+      },
+      {
+        "id": "b",
+        "text": "To configure the connection pool size."
+      },
+      {
+        "id": "c",
+        "text": "To define database schema migrations."
+      },
+      {
+        "id": "d",
+        "text": "To commit a transaction."
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "A ResultSet represents tabular data returned by a query. Its cursor initially sits before the first row; calling `next()` advances it. Column values can be read by index or label using typed getter methods. Close it when finished, preferably with try-with-resources.",
+    "keyConcepts": [
+      "ResultSet",
+      "cursor",
+      "next()",
+      "JDBC resource management"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "java-jdbc-004",
+    "subjectId": "java",
+    "topicId": "java-jdbc",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is JDBC auto-commit mode?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Every SQL statement is automatically committed as an individual transaction when auto-commit is enabled."
+      },
+      {
+        "id": "b",
+        "text": "All SQL statements are rolled back when the connection closes."
+      },
+      {
+        "id": "c",
+        "text": "It means the database does not use transactions."
+      },
+      {
+        "id": "d",
+        "text": "It commits only SELECT statements."
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "Connections commonly start with auto-commit enabled. In this mode, a statement is committed when it completes. To group multiple operations into one transaction, call `setAutoCommit(false)`, execute the work, then commit or roll back explicitly.",
+    "keyConcepts": [
+      "auto-commit",
+      "commit",
+      "rollback",
+      "transaction"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "java-jdbc-005",
+    "subjectId": "java",
+    "topicId": "java-jdbc",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the purpose of JDBC batch updates?",
+    "options": [
+      {
+        "id": "a",
+        "text": "To execute a group of update statements together, potentially reducing round trips and improving throughput."
+      },
+      {
+        "id": "b",
+        "text": "To make every statement execute in a separate database connection."
+      },
+      {
+        "id": "c",
+        "text": "To guarantee that a batch is atomic on every database and driver."
+      },
+      {
+        "id": "d",
+        "text": "To replace prepared statements."
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "JDBC batching uses methods such as `addBatch()` and `executeBatch()` to submit multiple updates together. It can reduce network overhead. Transactional atomicity depends on transaction settings and database behavior; use an explicit transaction when all-or-nothing behavior is required.",
+    "keyConcepts": [
+      "JDBC batching",
+      "addBatch",
+      "executeBatch",
+      "throughput"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "java-jdbc-006",
+    "subjectId": "java",
+    "topicId": "java-jdbc",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What does transaction isolation control?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Which database user can connect to the server."
+      },
+      {
+        "id": "b",
+        "text": "How visible one transaction’s intermediate or committed changes are to concurrent transactions, and which concurrency anomalies are permitted."
+      },
+      {
+        "id": "c",
+        "text": "How many columns a table can contain."
+      },
+      {
+        "id": "d",
+        "text": "Whether SQL statements are prepared or compiled."
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "Isolation levels define the visibility of concurrent transaction effects and trade consistency against concurrency. Common JDBC levels include READ_UNCOMMITTED, READ_COMMITTED, REPEATABLE_READ, and SERIALIZABLE. Exact anomaly guarantees and implementation details can vary by database.",
+    "keyConcepts": [
+      "transaction isolation",
+      "concurrency anomalies",
+      "READ_COMMITTED",
+      "SERIALIZABLE"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "java-jdbc-007",
+    "subjectId": "java",
+    "topicId": "java-jdbc",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is a connection pool and why is it used?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A cache of SQL query results that replaces the database."
+      },
+      {
+        "id": "b",
+        "text": "A managed set of reusable database connections that avoids repeatedly creating physical connections and controls concurrent usage."
+      },
+      {
+        "id": "c",
+        "text": "A collection of database tables stored in the JVM heap."
+      },
+      {
+        "id": "d",
+        "text": "A mechanism that makes a single JDBC Connection safe for concurrent use by all threads."
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "Creating physical database connections is relatively expensive. A connection pool such as HikariCP maintains reusable connections, limits concurrency, and provides connections to callers on demand. Applications should borrow a connection for a unit of work and return it promptly; they should not share one Connection concurrently across unrelated requests.",
+    "keyConcepts": [
+      "connection pooling",
+      "HikariCP",
+      "connection lifecycle",
+      "concurrency"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "java-jdbc-008",
+    "subjectId": "java",
+    "topicId": "java-jdbc",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What should an application do if one operation in a multi-step JDBC transaction fails?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Always commit the successful statements and ignore the failed one."
+      },
+      {
+        "id": "b",
+        "text": "Roll back the transaction when the intended unit of work must be atomic, then handle or propagate the failure."
+      },
+      {
+        "id": "c",
+        "text": "Close the JVM to force the database to roll back."
+      },
+      {
+        "id": "d",
+        "text": "Switch auto-commit on before handling the error."
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "For an all-or-nothing unit of work, disable auto-commit, execute the steps, and commit only when all succeed. On failure, roll back and propagate or translate the exception. Ensure resources are closed and understand that some database errors may mark the transaction as aborted until rollback.",
+    "keyConcepts": [
+      "transaction boundaries",
+      "rollback",
+      "atomicity",
+      "JDBC"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "java-jdbc-009",
+    "subjectId": "java",
+    "topicId": "java-jdbc",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "Why should JDBC resources be closed promptly?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Closing a ResultSet or Statement automatically deletes the underlying table."
+      },
+      {
+        "id": "b",
+        "text": "Connections, statements, and result sets may hold database, network, and memory resources; closing them returns resources to the driver or pool."
+      },
+      {
+        "id": "c",
+        "text": "Java refuses to garbage-collect objects that implement AutoCloseable."
+      },
+      {
+        "id": "d",
+        "text": "Closing resources is required only for SELECT statements."
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "JDBC resources can hold cursors, server-side handles, network resources, and pooled connections. Use nested try-with-resources or framework-managed transactions to close ResultSet and Statement and return Connection resources reliably, including on exceptions.",
+    "keyConcepts": [
+      "try-with-resources",
+      "Connection",
+      "Statement",
+      "ResultSet",
+      "resource leaks"
+    ],
+    "commonInterviewQuestion": true
+  }
+]

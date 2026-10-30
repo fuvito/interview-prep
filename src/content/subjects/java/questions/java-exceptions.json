@@ -1,0 +1,330 @@
+[
+  {
+    "id": "java-exc-001",
+    "subjectId": "java",
+    "topicId": "java-exceptions",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is the difference between checked and unchecked exceptions in Java?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Checked exceptions must be caught or declared; unchecked exceptions are RuntimeException subclasses and are not subject to that compile-time requirement."
+      },
+      {
+        "id": "b",
+        "text": "Checked exceptions occur only at runtime; unchecked exceptions are detected by the compiler."
+      },
+      {
+        "id": "c",
+        "text": "Checked exceptions are errors; unchecked exceptions are always recoverable."
+      },
+      {
+        "id": "d",
+        "text": "There is no difference; the terms are interchangeable."
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "Checked exceptions (for example, IOException) are checked by the compiler and must be caught or declared with throws. RuntimeException subclasses (for example, NullPointerException and IllegalArgumentException) are unchecked. Error represents serious JVM or environment problems and is also unchecked.",
+    "keyConcepts": [
+      "checked exceptions",
+      "unchecked exceptions",
+      "RuntimeException",
+      "throws"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "java-exc-002",
+    "subjectId": "java",
+    "topicId": "java-exceptions",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is the difference between `throw` and `throws`?",
+    "options": [
+      {
+        "id": "a",
+        "text": "`throw` declares possible exceptions in a method signature; `throws` creates and raises an exception."
+      },
+      {
+        "id": "b",
+        "text": "`throw` explicitly throws an exception object; `throws` declares exception types a method may propagate."
+      },
+      {
+        "id": "c",
+        "text": "Both are used only inside catch blocks."
+      },
+      {
+        "id": "d",
+        "text": "`throws` catches an exception, while `throw` suppresses it."
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "Use `throw` followed by an exception instance to raise an exception, such as `throw new IllegalArgumentException(\"id\")`. Use `throws` in a method or constructor declaration to state that exception types may propagate to the caller.",
+    "keyConcepts": [
+      "throw",
+      "throws",
+      "exception propagation"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "java-exc-003",
+    "subjectId": "java",
+    "topicId": "java-exceptions",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "When does a `finally` block not execute?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Whenever the try block completes normally."
+      },
+      {
+        "id": "b",
+        "text": "Whenever a checked exception is thrown."
+      },
+      {
+        "id": "c",
+        "text": "When the JVM or process terminates abruptly, such as through `System.exit()` or a fatal process failure."
+      },
+      {
+        "id": "d",
+        "text": "Whenever a catch block handles an exception."
+      }
+    ],
+    "correctAnswers": [
+      "c"
+    ],
+    "explanation": "A finally block normally runs whether the try block completes normally or abruptly, including when a catch block handles an exception. It is not guaranteed to run if the JVM exits or the process is forcibly terminated. Avoid relying on finally for actions that must survive process termination.",
+    "keyConcepts": [
+      "finally",
+      "System.exit",
+      "abrupt termination"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "java-exc-004",
+    "subjectId": "java",
+    "topicId": "java-exceptions",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is try-with-resources, and what requirement must a resource meet?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The resource must extend Thread."
+      },
+      {
+        "id": "b",
+        "text": "The resource must implement Serializable."
+      },
+      {
+        "id": "c",
+        "text": "The resource must implement AutoCloseable (Closeable also qualifies)."
+      },
+      {
+        "id": "d",
+        "text": "The resource must be static."
+      }
+    ],
+    "correctAnswers": [
+      "c"
+    ],
+    "explanation": "Try-with-resources automatically closes resources when control leaves the statement, including exceptional exits. A resource must implement `AutoCloseable`; `Closeable` extends `AutoCloseable`. This is preferred for files, streams, JDBC resources, and similar objects.",
+    "keyConcepts": [
+      "try-with-resources",
+      "AutoCloseable",
+      "Closeable",
+      "resource management"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "java-exc-005",
+    "subjectId": "java",
+    "topicId": "java-exceptions",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "If both the try body and `close()` throw exceptions in try-with-resources, what happens?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The exception from close always replaces the original exception."
+      },
+      {
+        "id": "b",
+        "text": "The exception from the try body is primary; the close exception is attached as a suppressed exception."
+      },
+      {
+        "id": "c",
+        "text": "Both exceptions are silently ignored."
+      },
+      {
+        "id": "d",
+        "text": "The JVM combines them into a new RuntimeException."
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "When the try body throws and closing also throws, the body exception remains the primary exception. The close failure is available through `Throwable.getSuppressed()`. This preserves the original failure while retaining cleanup diagnostics.",
+    "keyConcepts": [
+      "suppressed exceptions",
+      "getSuppressed",
+      "try-with-resources"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "java-exc-006",
+    "subjectId": "java",
+    "topicId": "java-exceptions",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the purpose of exception chaining?",
+    "options": [
+      {
+        "id": "a",
+        "text": "To retry an operation automatically."
+      },
+      {
+        "id": "b",
+        "text": "To preserve the original cause when translating an exception into a higher-level exception."
+      },
+      {
+        "id": "c",
+        "text": "To prevent an exception from reaching the caller."
+      },
+      {
+        "id": "d",
+        "text": "To convert every checked exception into an Error."
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "Exception chaining preserves the underlying cause when an abstraction translates a low-level failure into a domain-specific exception. Use a constructor that accepts the cause, for example `new ServiceException(\"Unable to load account\", cause)`. The stack trace then retains the causal context.",
+    "keyConcepts": [
+      "exception chaining",
+      "cause",
+      "exception translation"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "java-exc-007",
+    "subjectId": "java",
+    "topicId": "java-exceptions",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "Which statement about catch-block ordering is correct?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A superclass exception must be caught before its subclass."
+      },
+      {
+        "id": "b",
+        "text": "Catch blocks can be placed in any order because Java selects the most specific automatically."
+      },
+      {
+        "id": "c",
+        "text": "A subclass exception must be caught before a superclass exception, or the later catch is unreachable."
+      },
+      {
+        "id": "d",
+        "text": "Only one catch block is allowed per try statement."
+      }
+    ],
+    "correctAnswers": [
+      "c"
+    ],
+    "explanation": "Catch blocks are checked in order. A catch for a superclass such as `Exception` makes a later catch for `IOException` unreachable. Put more specific exception types before their supertypes. Multi-catch can handle unrelated exception types in one block.",
+    "keyConcepts": [
+      "catch ordering",
+      "exception hierarchy",
+      "unreachable code",
+      "multi-catch"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "java-exc-008",
+    "subjectId": "java",
+    "topicId": "java-exceptions",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What restriction applies to the alternatives in a multi-catch clause?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The alternatives must be related by inheritance."
+      },
+      {
+        "id": "b",
+        "text": "The alternatives cannot be related by subclassing; one cannot be a subtype of another."
+      },
+      {
+        "id": "c",
+        "text": "Multi-catch supports only RuntimeException subclasses."
+      },
+      {
+        "id": "d",
+        "text": "Multi-catch cannot catch checked exceptions."
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "A multi-catch such as `catch (IOException | SQLException ex)` is valid because neither alternative is a subtype of the other. Related alternatives are rejected because the more specific type would be redundant. The multi-catch parameter is implicitly final.",
+    "keyConcepts": [
+      "multi-catch",
+      "exception hierarchy",
+      "implicitly final"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "java-exc-009",
+    "subjectId": "java",
+    "topicId": "java-exceptions",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "Why should application code generally avoid catching `Throwable`?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Throwable cannot be caught in Java."
+      },
+      {
+        "id": "b",
+        "text": "It catches both Exception and Error, including serious conditions that applications usually should not attempt to handle."
+      },
+      {
+        "id": "c",
+        "text": "It catches only checked exceptions."
+      },
+      {
+        "id": "d",
+        "text": "It disables stack traces."
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "`Throwable` is the root of the exception hierarchy and includes both `Exception` and `Error`. Catching it broadly can swallow serious JVM conditions such as `OutOfMemoryError`. Catch the narrowest types the application can meaningfully handle, and allow unrecoverable failures to propagate appropriately.",
+    "keyConcepts": [
+      "Throwable",
+      "Exception",
+      "Error",
+      "exception handling best practices"
+    ],
+    "commonInterviewQuestion": true
+  }
+]

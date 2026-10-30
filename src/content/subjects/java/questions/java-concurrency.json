@@ -970,5 +970,194 @@
       "keepAliveTime"
     ],
     "commonInterviewQuestion": true
+  },
+  {
+    "id": "java-con-026",
+    "subjectId": "java",
+    "topicId": "java-concurrency",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What are the main states in the Java thread lifecycle?",
+    "options": [
+      {
+        "id": "a",
+        "text": "NEW, RUNNABLE, BLOCKED, WAITING, TIMED_WAITING, TERMINATED"
+      },
+      {
+        "id": "b",
+        "text": "CREATED, READY, EXECUTING, PAUSED, DESTROYED"
+      },
+      {
+        "id": "c",
+        "text": "NEW, RUNNING, SLEEPING, DEAD only"
+      },
+      {
+        "id": "d",
+        "text": "STARTED, LOCKED, FINISHED"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "The Thread.State enum defines NEW, RUNNABLE, BLOCKED, WAITING, TIMED_WAITING, and TERMINATED. RUNNABLE includes a thread that may be executing or eligible to run; Java does not expose a separate RUNNING state. BLOCKED means waiting to acquire an intrinsic monitor lock.",
+    "keyConcepts": [
+      "Thread.State",
+      "lifecycle",
+      "BLOCKED",
+      "WAITING",
+      "RUNNABLE"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "java-con-027",
+    "subjectId": "java",
+    "topicId": "java-concurrency",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the difference between `wait()` and `sleep()`?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Both release every lock held by the current thread"
+      },
+      {
+        "id": "b",
+        "text": "`wait()` releases the monitor and must be called while owning it; `sleep()` pauses the current thread without releasing held monitors"
+      },
+      {
+        "id": "c",
+        "text": "`sleep()` releases the monitor; `wait()` does not"
+      },
+      {
+        "id": "d",
+        "text": "`wait()` is static and `sleep()` is an instance method"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "Object.wait() must be called while the thread owns that object's monitor. It releases that monitor while waiting and reacquires it before returning. Thread.sleep() pauses the current thread for a time but does not release monitors it holds. wait() is commonly used with a condition predicate and notification; sleep() is not a synchronization mechanism.",
+    "keyConcepts": [
+      "Object.wait()",
+      "Thread.sleep()",
+      "monitor",
+      "locks",
+      "notification"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "java-con-028",
+    "subjectId": "java",
+    "topicId": "java-concurrency",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the purpose of `Thread.join()`?",
+    "options": [
+      {
+        "id": "a",
+        "text": "It merges two thread objects into one"
+      },
+      {
+        "id": "b",
+        "text": "It makes the calling thread wait until the target thread terminates, optionally with a timeout"
+      },
+      {
+        "id": "c",
+        "text": "It interrupts the target thread immediately"
+      },
+      {
+        "id": "d",
+        "text": "It starts a thread if it has not been started"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "Calling `join()` on a thread causes the current thread to wait until the target thread terminates. Overloads support waiting for a specified duration. It is commonly used when one thread must wait for another thread's work to finish. Calling join() does not start or interrupt the target thread.",
+    "keyConcepts": [
+      "Thread.join()",
+      "thread coordination",
+      "termination",
+      "timeout"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "java-con-029",
+    "subjectId": "java",
+    "topicId": "java-concurrency",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What are virtual threads in Java 21, and when are they useful?",
+    "options": [
+      {
+        "id": "a",
+        "text": "They are OS threads with a larger default stack"
+      },
+      {
+        "id": "b",
+        "text": "They are lightweight threads managed by the JVM, useful for applications with many concurrent tasks that spend much of their time waiting"
+      },
+      {
+        "id": "c",
+        "text": "They automatically make CPU-bound algorithms faster through parallel execution"
+      },
+      {
+        "id": "d",
+        "text": "They replace synchronization and thread-safe data structures"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "Virtual threads are lightweight threads scheduled by the Java runtime, allowing applications to support very large numbers of concurrent, mostly blocking tasks with a thread-per-task style. They are especially useful for I/O-bound workloads. They do not make CPU-bound work execute faster than available processors, and shared mutable state still requires proper coordination.",
+    "keyConcepts": [
+      "virtual threads",
+      "Java 21",
+      "Project Loom",
+      "I/O-bound workloads",
+      "concurrency"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "java-con-030",
+    "subjectId": "java",
+    "topicId": "java-concurrency",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is the difference between `thenApply()` and `thenCompose()` in CompletableFuture?",
+    "options": [
+      {
+        "id": "a",
+        "text": "`thenApply()` transforms a result; `thenCompose()` chains an asynchronous operation that itself returns a CompletionStage, flattening the nested stage"
+      },
+      {
+        "id": "b",
+        "text": "`thenApply()` handles exceptions; `thenCompose()` handles cancellation"
+      },
+      {
+        "id": "c",
+        "text": "`thenCompose()` always runs on a new thread; `thenApply()` always runs on the main thread"
+      },
+      {
+        "id": "d",
+        "text": "They are identical and interchangeable"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "`thenApply()` applies a synchronous transformation to a completed result, producing a new stage. If the transformation returns a CompletableFuture, the result becomes nested. `thenCompose()` is analogous to flatMap: it applies a function returning a CompletionStage and flattens the result into one stage. Use it to sequence dependent asynchronous operations.",
+    "keyConcepts": [
+      "CompletableFuture",
+      "thenApply",
+      "thenCompose",
+      "CompletionStage",
+      "async composition"
+    ],
+    "commonInterviewQuestion": true
   }
 ]

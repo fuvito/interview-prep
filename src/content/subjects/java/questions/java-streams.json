@@ -888,5 +888,193 @@
       "infinite-stream",
       "Java9"
     ]
+  },
+  {
+    "id": "java-streams-026",
+    "subjectId": "java",
+    "topicId": "java-streams",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "Are Java Stream operations executed immediately when a pipeline is created?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Yes, every intermediate operation executes as soon as it is declared"
+      },
+      {
+        "id": "b",
+        "text": "No, intermediate operations are lazy and execution begins when a terminal operation is invoked"
+      },
+      {
+        "id": "c",
+        "text": "Only map() is lazy; filter() executes immediately"
+      },
+      {
+        "id": "d",
+        "text": "Streams execute only when parallel() is called"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "Stream intermediate operations such as filter(), map(), and sorted() build a pipeline and are generally lazy. A terminal operation such as collect(), forEach(), count(), or reduce() triggers traversal and evaluation. This allows the implementation to optimize execution and sometimes avoid processing all elements, as with short-circuiting operations.",
+    "keyConcepts": [
+      "Stream API",
+      "lazy evaluation",
+      "intermediate operations",
+      "terminal operations"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "java-streams-027",
+    "subjectId": "java",
+    "topicId": "java-streams",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the difference between `distinct()` and `sorted()` in a Java Stream?",
+    "options": [
+      {
+        "id": "a",
+        "text": "`distinct()` removes duplicates according to equals(); `sorted()` orders elements according to natural order or a Comparator"
+      },
+      {
+        "id": "b",
+        "text": "`distinct()` sorts elements; `sorted()` removes duplicates"
+      },
+      {
+        "id": "c",
+        "text": "Both operations always mutate the source collection"
+      },
+      {
+        "id": "d",
+        "text": "`sorted()` can only be used on numeric streams"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "`distinct()` is a stateful intermediate operation that removes duplicate elements using equality semantics. `sorted()` is a stateful intermediate operation that orders elements using natural ordering or a supplied Comparator. Neither operation mutates the source collection; both produce a stream pipeline stage.",
+    "keyConcepts": [
+      "distinct",
+      "sorted",
+      "Stream API",
+      "equals",
+      "Comparator"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "java-streams-028",
+    "subjectId": "java",
+    "topicId": "java-streams",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What happens when `Collectors.toMap()` encounters duplicate keys?",
+    "options": [
+      {
+        "id": "a",
+        "text": "It automatically groups the values into a List"
+      },
+      {
+        "id": "b",
+        "text": "It keeps the first value and silently discards later values"
+      },
+      {
+        "id": "c",
+        "text": "Without a merge function, it throws an IllegalStateException; a merge function can define how duplicate values are combined"
+      },
+      {
+        "id": "d",
+        "text": "It converts duplicate keys to null"
+      }
+    ],
+    "correctAnswers": [
+      "c"
+    ],
+    "explanation": "The two-argument `Collectors.toMap(keyMapper, valueMapper)` expects unique mapped keys and throws IllegalStateException if duplicate keys occur. An overload accepts a merge function, allowing the application to choose how to combine values for the same key. A map supplier can also be provided to select the resulting Map implementation.",
+    "keyConcepts": [
+      "Collectors.toMap",
+      "duplicate keys",
+      "merge function",
+      "Stream API"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "java-streams-029",
+    "subjectId": "java",
+    "topicId": "java-streams",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "Why should side effects generally be avoided in Stream pipelines?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Streams prohibit all method calls that change state"
+      },
+      {
+        "id": "b",
+        "text": "Side effects can make behavior harder to reason about, create thread-safety problems in parallel pipelines, and interact poorly with lazy or optimized execution"
+      },
+      {
+        "id": "c",
+        "text": "Side effects always make sequential streams run in parallel"
+      },
+      {
+        "id": "d",
+        "text": "Side effects prevent a terminal operation from executing"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "Stream pipelines are easiest to reason about when operations are stateless and non-interfering. Mutating shared state can introduce race conditions in parallel streams, and relying on side effects in intermediate operations can be unsafe because optimizations or short-circuiting may change which elements are processed. Prefer collectors and reduction operations for aggregation.",
+    "keyConcepts": [
+      "side effects",
+      "stateless operations",
+      "parallel streams",
+      "non-interference",
+      "collectors"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "java-streams-030",
+    "subjectId": "java",
+    "topicId": "java-streams",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is the difference between `forEach()` and `forEachOrdered()` on a parallel stream?",
+    "options": [
+      {
+        "id": "a",
+        "text": "`forEach()` preserves encounter order; `forEachOrdered()` does not"
+      },
+      {
+        "id": "b",
+        "text": "`forEach()` does not guarantee encounter order in parallel execution; `forEachOrdered()` performs actions in encounter order when one exists"
+      },
+      {
+        "id": "c",
+        "text": "They are identical for every stream"
+      },
+      {
+        "id": "d",
+        "text": "`forEachOrdered()` converts the stream to a sequential stream before processing"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "For parallel streams, forEach() may invoke actions in an order different from the stream's encounter order. forEachOrdered() respects encounter order when the stream has one, which can constrain parallel execution and affect performance. If order is not required, forEach() may offer more flexibility.",
+    "keyConcepts": [
+      "forEach",
+      "forEachOrdered",
+      "parallel streams",
+      "encounter order",
+      "ordering"
+    ],
+    "commonInterviewQuestion": true
   }
 ]

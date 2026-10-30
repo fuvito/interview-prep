@@ -1,0 +1,298 @@
+[
+  {
+    "id": "java-ann-001",
+    "subjectId": "java",
+    "topicId": "java-annotations",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is a Java annotation?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Metadata attached to program elements that can be processed by the compiler, tools, or at runtime."
+      },
+      {
+        "id": "b",
+        "text": "A special kind of thread used by the JVM."
+      },
+      {
+        "id": "c",
+        "text": "A replacement for an interface."
+      },
+      {
+        "id": "d",
+        "text": "A command that executes SQL at compile time."
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "Annotations provide metadata on declarations such as classes, methods, fields, parameters, and types. They can be consumed by the compiler, build tools, annotation processors, or runtime frameworks through reflection, depending on their retention policy.",
+    "keyConcepts": [
+      "annotations",
+      "metadata",
+      "annotation processing"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "java-ann-002",
+    "subjectId": "java",
+    "topicId": "java-annotations",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the difference between `SOURCE`, `CLASS`, and `RUNTIME` annotation retention?",
+    "options": [
+      {
+        "id": "a",
+        "text": "SOURCE is retained in source only; CLASS is recorded in class files but not required at runtime; RUNTIME is available through runtime reflection."
+      },
+      {
+        "id": "b",
+        "text": "SOURCE is available at runtime; CLASS is source-only; RUNTIME is removed by the compiler."
+      },
+      {
+        "id": "c",
+        "text": "All three have identical behavior."
+      },
+      {
+        "id": "d",
+        "text": "RUNTIME annotations are available only to the Java compiler."
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "`RetentionPolicy.SOURCE` annotations are discarded by the compiler. `CLASS` annotations are recorded in the class file but need not be available through reflection. `RUNTIME` annotations are retained for runtime reflective access.",
+    "keyConcepts": [
+      "RetentionPolicy",
+      "SOURCE",
+      "CLASS",
+      "RUNTIME",
+      "reflection"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "java-ann-003",
+    "subjectId": "java",
+    "topicId": "java-annotations",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does `@Target` specify in a custom annotation?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The Java version required by the annotation."
+      },
+      {
+        "id": "b",
+        "text": "The program element locations where the annotation is permitted, such as TYPE, METHOD, FIELD, or PARAMETER."
+      },
+      {
+        "id": "c",
+        "text": "The runtime class loader that creates the annotation."
+      },
+      {
+        "id": "d",
+        "text": "The order in which annotation methods execute."
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "`@Target` restricts where an annotation may be applied. Its ElementType values include TYPE, FIELD, METHOD, PARAMETER, CONSTRUCTOR, LOCAL_VARIABLE, ANNOTATION_TYPE, PACKAGE, TYPE_USE, and others. If omitted, the annotation can be applied broadly to declaration contexts.",
+    "keyConcepts": [
+      "@Target",
+      "ElementType",
+      "custom annotations"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "java-ann-004",
+    "subjectId": "java",
+    "topicId": "java-annotations",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is reflection in Java?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The ability to inspect and, where permitted, interact with class metadata and members at runtime."
+      },
+      {
+        "id": "b",
+        "text": "A compiler optimization that removes unused methods."
+      },
+      {
+        "id": "c",
+        "text": "A way to execute code on a second CPU core."
+      },
+      {
+        "id": "d",
+        "text": "A mechanism for automatically generating database indexes."
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "Reflection APIs such as Class, Field, Method, and Constructor allow runtime inspection of types and members, and can invoke methods or access fields subject to access checks and module boundaries. Frameworks use reflection for dependency injection, serialization, and mapping.",
+    "keyConcepts": [
+      "reflection",
+      "Class",
+      "Method",
+      "Field",
+      "Constructor"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "java-ann-005",
+    "subjectId": "java",
+    "topicId": "java-annotations",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "How can you obtain a `Class<?>` object for a Java type?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Only by constructing an instance and calling `toString()`."
+      },
+      {
+        "id": "b",
+        "text": "Using `SomeType.class`, `object.getClass()`, or `Class.forName()` for a class name."
+      },
+      {
+        "id": "c",
+        "text": "Only through the garbage collector."
+      },
+      {
+        "id": "d",
+        "text": "By calling `new Class()`."
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "A class literal such as `String.class` obtains the Class object without an instance. `obj.getClass()` returns the runtime class of an object. `Class.forName(\"fully.qualified.Name\")` loads and initializes a class by name under its documented semantics.",
+    "keyConcepts": [
+      "Class",
+      "class literal",
+      "getClass",
+      "Class.forName"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "java-ann-006",
+    "subjectId": "java",
+    "topicId": "java-annotations",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is an annotation processor?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A runtime thread that executes every annotation method."
+      },
+      {
+        "id": "b",
+        "text": "A compile-time tool that processes annotations and can validate code or generate source files and other artifacts."
+      },
+      {
+        "id": "c",
+        "text": "A garbage collector specialized for annotated classes."
+      },
+      {
+        "id": "d",
+        "text": "A JDBC driver feature."
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "Annotation processors use the language-model and processing APIs (javax.annotation.processing in the Java platform) to inspect annotations during compilation. They can issue diagnostics and generate source or resource files. Examples include processors used by code-generation libraries.",
+    "keyConcepts": [
+      "annotation processing",
+      "compile time",
+      "javax.annotation.processing",
+      "code generation"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "java-ann-007",
+    "subjectId": "java",
+    "topicId": "java-annotations",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is a dynamic proxy in Java?",
+    "options": [
+      {
+        "id": "a",
+        "text": "An object generated at runtime that implements specified interfaces and delegates method calls to an InvocationHandler."
+      },
+      {
+        "id": "b",
+        "text": "A proxy server that routes HTTP requests outside the JVM."
+      },
+      {
+        "id": "c",
+        "text": "A subclass that can override any final class method."
+      },
+      {
+        "id": "d",
+        "text": "A database connection pool."
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "`java.lang.reflect.Proxy` can create a runtime proxy implementing one or more interfaces. Calls are dispatched to an InvocationHandler. Dynamic proxies are useful for cross-cutting behavior such as logging or transaction interception, but the standard proxy mechanism is interface-based.",
+    "keyConcepts": [
+      "Proxy",
+      "InvocationHandler",
+      "dynamic proxy",
+      "AOP"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "java-ann-008",
+    "subjectId": "java",
+    "topicId": "java-annotations",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What limitation should you remember when using Java reflection to access private members?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Reflection always bypasses all access controls in every module."
+      },
+      {
+        "id": "b",
+        "text": "Access can be restricted by Java access checks and module boundaries; deep reflection may require packages to be opened."
+      },
+      {
+        "id": "c",
+        "text": "Private members are never represented in reflection metadata."
+      },
+      {
+        "id": "d",
+        "text": "Reflection can access fields but cannot inspect methods."
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "Reflection does not guarantee unrestricted access. Java language access checks and the module system can prevent deep reflective access to non-public members in another module unless the package is appropriately opened. Avoid depending on private implementation details where possible.",
+    "keyConcepts": [
+      "reflection access",
+      "module system",
+      "opens",
+      "encapsulation"
+    ],
+    "commonInterviewQuestion": true
+  }
+]

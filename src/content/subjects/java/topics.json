@@ -40,5 +40,40 @@
     "name": "Streams & Functional Java",
     "description": "Stream API, lambda expressions, Optional, method references, functional interfaces, and collectors.",
     "order": 6
+  },
+  {
+    "id": "java-exceptions",
+    "subjectId": "java",
+    "name": "Exception Handling",
+    "description": "Checked and unchecked exceptions, exception propagation, try-with-resources, custom exceptions, and best practices for reliable error handling.",
+    "order": 7
+  },
+  {
+    "id": "java-generics",
+    "subjectId": "java",
+    "name": "Generics & Type System",
+    "description": "Generic classes and methods, bounded type parameters, wildcards, type erasure, PECS, and Java type-system constraints.",
+    "order": 8
+  },
+  {
+    "id": "java-io",
+    "subjectId": "java",
+    "name": "Java I/O & NIO",
+    "description": "Byte and character streams, buffering, serialization, Path and Files APIs, channels, buffers, and asynchronous I/O fundamentals.",
+    "order": 9
+  },
+  {
+    "id": "java-jdbc",
+    "subjectId": "java",
+    "name": "JDBC & Database Transactions",
+    "description": "JDBC connections, prepared statements, resource management, transaction boundaries, isolation, batching, and connection pooling.",
+    "order": 10
+  },
+  {
+    "id": "java-annotations",
+    "subjectId": "java",
+    "name": "Annotations & Reflection",
+    "description": "Built-in and custom annotations, retention and targets, reflection APIs, dynamic proxies, and common framework use cases.",
+    "order": 11
   }
 ]

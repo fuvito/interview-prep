@@ -979,5 +979,192 @@
       "thread memory consumption"
     ],
     "commonInterviewQuestion": false
+  },
+  {
+    "id": "java-jvm-026",
+    "subjectId": "java",
+    "topicId": "java-jvm",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is the difference between JDK, JRE, and JVM?",
+    "options": [
+      {
+        "id": "a",
+        "text": "JVM executes bytecode; JRE provides the JVM and runtime libraries; JDK includes development tools plus the runtime"
+      },
+      {
+        "id": "b",
+        "text": "JDK executes only JavaScript; JRE compiles Java; JVM packages applications"
+      },
+      {
+        "id": "c",
+        "text": "JVM includes the compiler and debugger; JDK is only the runtime"
+      },
+      {
+        "id": "d",
+        "text": "They are three names for the same product"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "The JVM is the virtual machine that loads and executes Java bytecode. A Java Runtime Environment traditionally consists of the JVM and libraries needed to run Java applications. The JDK includes the runtime components plus development tools such as the compiler. Since Java 9, Oracle/OpenJDK distributions are modular and do not always ship a separately named JRE.",
+    "keyConcepts": [
+      "JDK",
+      "JRE",
+      "JVM",
+      "bytecode",
+      "Java compiler"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "java-jvm-027",
+    "subjectId": "java",
+    "topicId": "java-jvm",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "When does an object become eligible for garbage collection?",
+    "options": [
+      {
+        "id": "a",
+        "text": "As soon as its constructor finishes"
+      },
+      {
+        "id": "b",
+        "text": "When it is no longer reachable from any GC root through strong references"
+      },
+      {
+        "id": "c",
+        "text": "When its reference count reaches zero"
+      },
+      {
+        "id": "d",
+        "text": "Whenever System.gc() is called"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "An object is eligible for collection when it is no longer reachable through strong-reference paths from garbage-collection roots, such as active thread stacks, static references, and JNI references. Eligibility does not mean collection happens immediately. Java garbage collectors generally use reachability analysis rather than simple reference counting.",
+    "keyConcepts": [
+      "garbage collection",
+      "reachability",
+      "GC roots",
+      "strong references"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "java-jvm-028",
+    "subjectId": "java",
+    "topicId": "java-jvm",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is a stop-the-world pause in the JVM?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A pause in which the JVM permanently stops all application threads"
+      },
+      {
+        "id": "b",
+        "text": "A period when application threads are paused so the JVM can perform certain operations safely, including some GC phases"
+      },
+      {
+        "id": "c",
+        "text": "A pause that occurs only when the heap is full"
+      },
+      {
+        "id": "d",
+        "text": "A mechanism that stops the operating system"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "A stop-the-world (STW) pause suspends application threads at a safepoint so the JVM can perform operations requiring a stable view of application state. Garbage collection may include STW phases, although modern collectors such as G1 and ZGC aim to reduce pause duration and perform substantial work concurrently.",
+    "keyConcepts": [
+      "stop-the-world",
+      "safepoints",
+      "garbage collection",
+      "GC pauses"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "java-jvm-029",
+    "subjectId": "java",
+    "topicId": "java-jvm",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is a Java safepoint?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A location in source code where developers must call System.gc()"
+      },
+      {
+        "id": "b",
+        "text": "A JVM execution state at which threads can be safely paused for certain runtime operations"
+      },
+      {
+        "id": "c",
+        "text": "A special heap region reserved for static variables"
+      },
+      {
+        "id": "d",
+        "text": "A point at which an object is guaranteed to be garbage collected"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "A safepoint is a coordinated state where application threads have reached locations at which the JVM can safely suspend them and inspect or modify runtime state. Operations such as some garbage collection phases, deoptimization, and thread stack inspection may require safepoints. Safepoint reachability and pause behavior are important JVM performance topics.",
+    "keyConcepts": [
+      "safepoints",
+      "JVM runtime",
+      "thread suspension",
+      "GC"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "java-jvm-030",
+    "subjectId": "java",
+    "topicId": "java-jvm",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is the difference between minor, major, and full garbage collection terminology?",
+    "options": [
+      {
+        "id": "a",
+        "text": "These terms have one fixed meaning across every JVM collector"
+      },
+      {
+        "id": "b",
+        "text": "They describe different collection scopes, but exact meanings and behavior depend on the garbage collector and JVM implementation"
+      },
+      {
+        "id": "c",
+        "text": "Minor GC always collects the entire heap"
+      },
+      {
+        "id": "d",
+        "text": "Full GC only collects objects in the stack"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "Historically, minor GC commonly refers to collecting the young generation, while major GC often refers to old-generation collection and full GC to broader heap collection. However, terminology and exact behavior vary by collector and JVM version. When diagnosing performance, identify the collector in use and inspect its documented GC logs rather than relying only on these labels.",
+    "keyConcepts": [
+      "minor GC",
+      "major GC",
+      "full GC",
+      "generational collection",
+      "GC logs"
+    ],
+    "commonInterviewQuestion": true
   }
 ]
