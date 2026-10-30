@@ -23,6 +23,7 @@ interface InterviewState {
   selectAnswer: (optionId: string) => void
   submitAnswer: () => void
   advanceOrFinish: () => Promise<boolean>
+  stopAndSave: () => Promise<void>
   reset: () => void
 }
 
@@ -105,6 +106,13 @@ export const useInterviewStore = create<InterviewState>((set, get) => ({
 
     set({ completedSession: session })
     return true
+  },
+
+  stopAndSave: async () => {
+    const { results } = get()
+    for (const [questionId, result] of Object.entries(results)) {
+      await progressTracker.recordAttempt(questionId, result.isCorrect)
+    }
   },
 
   reset: () => set({ sessionId: '', subjectId: '', questions: [], currentIndex: 0, results: {}, selectedAnswerIds: [], phase: 'answering', startedAt: null, completedSession: null }),

@@ -22,7 +22,8 @@ export function InterviewView() {
     if (done) navigate({ name: 'results' })
   }
 
-  const handleStop = () => {
+  const handleStop = async () => {
+    await store.stopAndSave()
     store.reset()
     goBack()
   }
@@ -93,7 +94,7 @@ export function InterviewView() {
               <Button variant="secondary" size="sm" className="flex-1" onClick={() => setConfirmStop(false)}>
                 Continue
               </Button>
-              <Button variant="danger" size="sm" className="flex-1" onClick={handleStop}>
+              <Button variant="danger" size="sm" className="flex-1" onClick={() => void handleStop()}>
                 Stop
               </Button>
             </div>
