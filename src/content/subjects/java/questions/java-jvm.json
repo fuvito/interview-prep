@@ -7,14 +7,36 @@
     "difficulty": "beginner",
     "question": "What are the main components of the JVM architecture?",
     "options": [
-      "Compiler, Linker, Loader, Executor",
-      "Class Loader, Runtime Data Areas (heap, stack, method area, PC register, native method stack), Execution Engine (interpreter + JIT), and Native Interface",
-      "Front-end, Back-end, Middleware, Database",
-      "Parser, Lexer, Optimizer, Code Generator"
+      {
+        "id": "a",
+        "text": "Compiler, Linker, Loader, Executor"
+      },
+      {
+        "id": "b",
+        "text": "Class Loader, Runtime Data Areas (heap, stack, method area, PC register, native method stack), Execution Engine (interpreter + JIT), and Native Interface"
+      },
+      {
+        "id": "c",
+        "text": "Front-end, Back-end, Middleware, Database"
+      },
+      {
+        "id": "d",
+        "text": "Parser, Lexer, Optimizer, Code Generator"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "JVM components: (1) Class Loader: loads .class files into memory. (2) Runtime Data Areas: Method Area (class metadata, static fields), Heap (objects, GC managed), Stack (per-thread, frames for method calls), PC Register (per-thread, current instruction), Native Method Stack. (3) Execution Engine: Interpreter (line by line) + JIT compiler (hot code to native). (4) JNI: native method calls.",
-    "keyConcepts": ["JVM architecture", "class loader", "heap", "stack", "method area", "JIT compiler", "execution engine"],
+    "keyConcepts": [
+      "JVM architecture",
+      "class loader",
+      "heap",
+      "stack",
+      "method area",
+      "JIT compiler",
+      "execution engine"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -25,14 +47,35 @@
     "difficulty": "beginner",
     "question": "What is the difference between the heap and the stack in Java?",
     "options": [
-      "Heap: thread-local, stores primitives; Stack: shared, stores objects",
-      "Stack: per-thread, stores method frames (local variables, operand stack, return address) — LIFO, fast; Heap: shared across threads, stores all objects — GC managed, slower",
-      "Heap is for static fields; Stack is for instance fields",
-      "They are the same memory region — just different names"
+      {
+        "id": "a",
+        "text": "Heap: thread-local, stores primitives; Stack: shared, stores objects"
+      },
+      {
+        "id": "b",
+        "text": "Stack: per-thread, stores method frames (local variables, operand stack, return address) — LIFO, fast; Heap: shared across threads, stores all objects — GC managed, slower"
+      },
+      {
+        "id": "c",
+        "text": "Heap is for static fields; Stack is for instance fields"
+      },
+      {
+        "id": "d",
+        "text": "They are the same memory region — just different names"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Stack (per-thread): each method call creates a frame with local variables, operand stack, and return address. Frame is popped when method returns. Fixed-size; StackOverflowError on deep recursion. Heap (shared): all objects live here (`new Object()`). GC reclaims unreachable objects. Escape analysis (JVM optimization) can allocate objects on the stack if they don't escape the method.",
-    "keyConcepts": ["heap", "stack", "stack frame", "StackOverflowError", "OutOfMemoryError", "escape analysis"],
+    "keyConcepts": [
+      "heap",
+      "stack",
+      "stack frame",
+      "StackOverflowError",
+      "OutOfMemoryError",
+      "escape analysis"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -43,14 +86,35 @@
     "difficulty": "intermediate",
     "question": "What is JIT compilation and how does it improve Java performance?",
     "options": [
-      "JIT compiles Java source code to bytecode — same as javac",
-      "JIT (Just-In-Time) compiler monitors hot code paths at runtime and compiles bytecode to optimized native machine code — enabling Java to approach C++ performance for frequently executed code",
-      "JIT runs only once at application startup",
-      "JIT is disabled by default — enable with -XX:+UseJIT"
+      {
+        "id": "a",
+        "text": "JIT compiles Java source code to bytecode — same as javac"
+      },
+      {
+        "id": "b",
+        "text": "JIT (Just-In-Time) compiler monitors hot code paths at runtime and compiles bytecode to optimized native machine code — enabling Java to approach C++ performance for frequently executed code"
+      },
+      {
+        "id": "c",
+        "text": "JIT runs only once at application startup"
+      },
+      {
+        "id": "d",
+        "text": "JIT is disabled by default — enable with -XX:+UseJIT"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Java bytecode is interpreted by the JVM initially (slow). The JIT monitors execution frequency — 'hot' methods (called many times) are compiled to native machine code. Advanced optimizations: inlining (removes method call overhead), loop unrolling, escape analysis, dead code elimination, speculative optimization with deoptimization fallback. C1 compiler: fast compile, moderate optimization. C2: slower compile, aggressive optimization (production).",
-    "keyConcepts": ["JIT compilation", "hot spots", "C1 compiler", "C2 compiler", "inlining", "tiered compilation"],
+    "keyConcepts": [
+      "JIT compilation",
+      "hot spots",
+      "C1 compiler",
+      "C2 compiler",
+      "inlining",
+      "tiered compilation"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -61,14 +125,37 @@
     "difficulty": "intermediate",
     "question": "What is Garbage Collection in Java and what is the generational hypothesis?",
     "options": [
-      "GC is a manual process — Java developers call System.gc() to collect garbage",
-      "GC automatically reclaims heap memory for objects with no reachable references. The generational hypothesis: most objects die young — GC exploits this by dividing heap into Young (Eden, S0, S1) and Old generations",
-      "GC runs every 30 seconds regardless of memory pressure",
-      "GC only runs when the JVM explicitly detects a memory leak"
+      {
+        "id": "a",
+        "text": "GC is a manual process — Java developers call System.gc() to collect garbage"
+      },
+      {
+        "id": "b",
+        "text": "GC automatically reclaims heap memory for objects with no reachable references. The generational hypothesis: most objects die young — GC exploits this by dividing heap into Young (Eden, S0, S1) and Old generations"
+      },
+      {
+        "id": "c",
+        "text": "GC runs every 30 seconds regardless of memory pressure"
+      },
+      {
+        "id": "d",
+        "text": "GC only runs when the JVM explicitly detects a memory leak"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Generational GC: Young Generation (Eden + Survivor spaces S0/S1) holds new objects. Minor GC collects Young Gen frequently and is fast. Objects surviving multiple minor GCs are promoted to Old Generation. Major/Full GC collects Old Gen — less frequent but more expensive. This exploits the fact that most short-lived objects (temp variables, closures) die before promotion.",
-    "keyConcepts": ["garbage collection", "generational hypothesis", "Young Generation", "Old Generation", "minor GC", "major GC", "Eden", "Survivor"],
+    "keyConcepts": [
+      "garbage collection",
+      "generational hypothesis",
+      "Young Generation",
+      "Old Generation",
+      "minor GC",
+      "major GC",
+      "Eden",
+      "Survivor"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -79,14 +166,36 @@
     "difficulty": "intermediate",
     "question": "What is the difference between G1GC, ZGC, and the Serial/Parallel GC collectors?",
     "options": [
-      "They are identical — just different names for the same algorithm",
-      "Serial/Parallel GC: simple, throughput-focused, stop-the-world pauses. G1GC: low-pause, region-based (default Java 9+). ZGC/Shenandoah: ultra-low latency (<10ms pauses even for TB heaps), mostly concurrent collection",
-      "ZGC is only for garbage-collected languages other than Java",
-      "G1GC is the fastest for all workloads"
+      {
+        "id": "a",
+        "text": "They are identical — just different names for the same algorithm"
+      },
+      {
+        "id": "b",
+        "text": "Serial/Parallel GC: simple, throughput-focused, stop-the-world pauses. G1GC: low-pause, region-based (default Java 9+). ZGC/Shenandoah: ultra-low latency (<10ms pauses even for TB heaps), mostly concurrent collection"
+      },
+      {
+        "id": "c",
+        "text": "ZGC is only for garbage-collected languages other than Java"
+      },
+      {
+        "id": "d",
+        "text": "G1GC is the fastest for all workloads"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "SerialGC: single thread, stop-the-world — for embedded/small heaps. ParallelGC: multiple threads, still stop-the-world — for throughput (batch jobs). G1GC (default): divides heap into regions, concurrent marking, predictable pause targets (default 200ms). ZGC (Java 15+): concurrent compaction, sub-millisecond pauses, colored pointers — for latency-sensitive apps. Choose based on your latency/throughput trade-off.",
-    "keyConcepts": ["G1GC", "ZGC", "Shenandoah", "ParallelGC", "stop-the-world", "GC pause", "latency vs throughput"],
+    "keyConcepts": [
+      "G1GC",
+      "ZGC",
+      "Shenandoah",
+      "ParallelGC",
+      "stop-the-world",
+      "GC pause",
+      "latency vs throughput"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -97,14 +206,35 @@
     "difficulty": "intermediate",
     "question": "What is the ClassLoader hierarchy in Java?",
     "options": [
-      "There is only one ClassLoader — the default system ClassLoader",
-      "Bootstrap ClassLoader (JVM core) → Platform/Extension ClassLoader → Application ClassLoader — parent delegation: a child always asks its parent first",
-      "ClassLoader is a single class that loads all classes alphabetically",
-      "Each package has its own ClassLoader"
+      {
+        "id": "a",
+        "text": "There is only one ClassLoader — the default system ClassLoader"
+      },
+      {
+        "id": "b",
+        "text": "Bootstrap ClassLoader (JVM core) → Platform/Extension ClassLoader → Application ClassLoader — parent delegation: a child always asks its parent first"
+      },
+      {
+        "id": "c",
+        "text": "ClassLoader is a single class that loads all classes alphabetically"
+      },
+      {
+        "id": "d",
+        "text": "Each package has its own ClassLoader"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Three-level hierarchy (Java 9+ module system): Bootstrap ClassLoader (native C++, loads `java.lang.*` etc.), Platform ClassLoader (loads JDK modules), Application ClassLoader (loads classpath). Parent delegation: when loading a class, the ClassLoader delegates to its parent first — only loads itself if the parent can't find it. Prevents malicious overriding of core classes. Custom ClassLoaders enable hot-reload, plugins, isolation.",
-    "keyConcepts": ["ClassLoader", "parent delegation", "Bootstrap", "Application ClassLoader", "custom ClassLoader", "class loading"],
+    "keyConcepts": [
+      "ClassLoader",
+      "parent delegation",
+      "Bootstrap",
+      "Application ClassLoader",
+      "custom ClassLoader",
+      "class loading"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -115,14 +245,35 @@
     "difficulty": "intermediate",
     "question": "What is `OutOfMemoryError` and what are its common causes?",
     "options": [
-      "OutOfMemoryError means the disk is full",
-      "OutOfMemoryError is thrown when the JVM cannot allocate memory. Common causes: heap exhaustion (too many live objects), memory leaks, PermGen/Metaspace exhaustion (too many loaded classes), native memory exhaustion",
-      "OutOfMemoryError only occurs in multithreaded programs",
-      "OutOfMemoryError is recoverable — catch it and free some objects"
+      {
+        "id": "a",
+        "text": "OutOfMemoryError means the disk is full"
+      },
+      {
+        "id": "b",
+        "text": "OutOfMemoryError is thrown when the JVM cannot allocate memory. Common causes: heap exhaustion (too many live objects), memory leaks, PermGen/Metaspace exhaustion (too many loaded classes), native memory exhaustion"
+      },
+      {
+        "id": "c",
+        "text": "OutOfMemoryError only occurs in multithreaded programs"
+      },
+      {
+        "id": "d",
+        "text": "OutOfMemoryError is recoverable — catch it and free some objects"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Common OOMError messages: `Java heap space` — too many live objects or a memory leak. `GC overhead limit exceeded` — GC spending >98% of time recovering <2% of heap. `Metaspace` (Java 8+) — too many loaded classes (common in OSGi/app servers). `Unable to create new native thread` — OS thread limit. `Direct buffer memory` — off-heap NIO buffers. Fix: heap analysis with JProfiler/MAT, increase -Xmx (short term), fix leak (long term).",
-    "keyConcepts": ["OutOfMemoryError", "heap space", "memory leak", "Metaspace", "GC overhead", "heap dump"],
+    "keyConcepts": [
+      "OutOfMemoryError",
+      "heap space",
+      "memory leak",
+      "Metaspace",
+      "GC overhead",
+      "heap dump"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -133,14 +284,35 @@
     "difficulty": "advanced",
     "question": "What is Metaspace and how does it differ from PermGen?",
     "options": [
-      "They are identical — Metaspace is just the Java 8+ name for PermGen",
-      "PermGen (Java 7-): fixed-size region in heap for class metadata — frequently caused OOMError. Metaspace (Java 8+): off-heap native memory, auto-grows (bounded by OS), much less likely to OOM for class metadata",
-      "Metaspace is larger than PermGen by default",
-      "Metaspace stores objects; PermGen stored class metadata"
+      {
+        "id": "a",
+        "text": "They are identical — Metaspace is just the Java 8+ name for PermGen"
+      },
+      {
+        "id": "b",
+        "text": "PermGen (Java 7-): fixed-size region in heap for class metadata — frequently caused OOMError. Metaspace (Java 8+): off-heap native memory, auto-grows (bounded by OS), much less likely to OOM for class metadata"
+      },
+      {
+        "id": "c",
+        "text": "Metaspace is larger than PermGen by default"
+      },
+      {
+        "id": "d",
+        "text": "Metaspace stores objects; PermGen stored class metadata"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "PermGen was part of the heap with a fixed default size (64MB-256MB). Class metadata, interned strings, and static fields went there — hot spot for OOMError in app servers that reload classes. Java 8 removed PermGen and moved class metadata to Metaspace (native memory outside the JVM heap). Metaspace grows automatically up to OS limits. `-XX:MaxMetaspaceSize` sets a cap. Static fields and interned strings moved to the heap.",
-    "keyConcepts": ["Metaspace", "PermGen", "Java 8", "class metadata", "native memory", "MaxMetaspaceSize"],
+    "keyConcepts": [
+      "Metaspace",
+      "PermGen",
+      "Java 8",
+      "class metadata",
+      "native memory",
+      "MaxMetaspaceSize"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -151,14 +323,35 @@
     "difficulty": "advanced",
     "question": "What are GC roots and how does the GC determine which objects are alive?",
     "options": [
-      "The GC marks objects alive if their reference count is > 0",
-      "GC roots are objects the GC considers always reachable (thread stacks, static fields, JNI references). The GC traces references from roots — anything reachable is alive; unreachable objects are collected",
-      "The GC uses timestamps to determine which objects to collect",
-      "All objects created in the last 30 seconds are considered alive"
+      {
+        "id": "a",
+        "text": "The GC marks objects alive if their reference count is > 0"
+      },
+      {
+        "id": "b",
+        "text": "GC roots are objects the GC considers always reachable (thread stacks, static fields, JNI references). The GC traces references from roots — anything reachable is alive; unreachable objects are collected"
+      },
+      {
+        "id": "c",
+        "text": "The GC uses timestamps to determine which objects to collect"
+      },
+      {
+        "id": "d",
+        "text": "All objects created in the last 30 seconds are considered alive"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "GC uses reachability analysis (tracing), not reference counting (which can't handle cycles). GC roots: local variables and method parameters on thread stacks, static fields, JNI global references, class objects of loaded classes, monitor references. The GC traces the object graph from roots — everything reachable is live. Everything unreachable (even if objects reference each other in a cycle) is collected.",
-    "keyConcepts": ["GC roots", "reachability analysis", "mark-and-sweep", "reference counting", "object graph", "live objects"],
+    "keyConcepts": [
+      "GC roots",
+      "reachability analysis",
+      "mark-and-sweep",
+      "reference counting",
+      "object graph",
+      "live objects"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -169,14 +362,36 @@
     "difficulty": "intermediate",
     "question": "What are key JVM flags for tuning memory and GC?",
     "options": [
-      "-memory:size and -gc:algorithm are the only flags needed",
-      "-Xms (initial heap), -Xmx (max heap), -Xss (stack size), -XX:+UseG1GC, -XX:MaxGCPauseMillis, -Xlog:gc for GC logging",
-      "JVM memory cannot be configured — it adjusts automatically",
-      "Memory flags only work on Linux — Windows uses a different API"
+      {
+        "id": "a",
+        "text": "-memory:size and -gc:algorithm are the only flags needed"
+      },
+      {
+        "id": "b",
+        "text": "-Xms (initial heap), -Xmx (max heap), -Xss (stack size), -XX:+UseG1GC, -XX:MaxGCPauseMillis, -Xlog:gc for GC logging"
+      },
+      {
+        "id": "c",
+        "text": "JVM memory cannot be configured — it adjusts automatically"
+      },
+      {
+        "id": "d",
+        "text": "Memory flags only work on Linux — Windows uses a different API"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Key flags: `-Xms512m` (initial heap 512MB), `-Xmx4g` (max heap 4GB), `-Xss512k` (thread stack size), `-XX:+UseG1GC` or `-XX:+UseZGC`, `-XX:MaxGCPauseMillis=200` (G1 pause target), `-XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=dump.hprof` (auto heap dump), `-Xlog:gc*:gc.log` (GC logging). Setting `-Xms`=`-Xmx` avoids heap resizing overhead in production.",
-    "keyConcepts": ["-Xms", "-Xmx", "-Xss", "-XX:+UseG1GC", "GC tuning", "heap dump", "JVM flags"],
+    "keyConcepts": [
+      "-Xms",
+      "-Xmx",
+      "-Xss",
+      "-XX:+UseG1GC",
+      "GC tuning",
+      "heap dump",
+      "JVM flags"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -187,14 +402,36 @@
     "difficulty": "advanced",
     "question": "What is a soft reference, weak reference, and phantom reference?",
     "options": [
-      "They are identical — all prevent garbage collection",
-      "Soft: collected only under memory pressure (cache use case); Weak: collected at next GC regardless of memory (canonical maps); Phantom: collected after finalization, used for post-GC cleanup actions",
-      "All three allow GC to collect the referenced object immediately",
-      "They are different names for reference types in different Java versions"
+      {
+        "id": "a",
+        "text": "They are identical — all prevent garbage collection"
+      },
+      {
+        "id": "b",
+        "text": "Soft: collected only under memory pressure (cache use case); Weak: collected at next GC regardless of memory (canonical maps); Phantom: collected after finalization, used for post-GC cleanup actions"
+      },
+      {
+        "id": "c",
+        "text": "All three allow GC to collect the referenced object immediately"
+      },
+      {
+        "id": "d",
+        "text": "They are different names for reference types in different Java versions"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Reference strength (from strongest to weakest): Strong > Soft > Weak > Phantom. `SoftReference<T>`: GC collects when memory is low — good for memory-sensitive caches. `WeakReference<T>`: GC collects at next GC cycle (used in WeakHashMap, listener registries). `PhantomReference<T>`: object is already finalized — use with ReferenceQueue to perform cleanup after GC (replacing finalizers). `WeakReference` is most commonly used in practice.",
-    "keyConcepts": ["SoftReference", "WeakReference", "PhantomReference", "ReferenceQueue", "GC", "cache", "memory-sensitive"],
+    "keyConcepts": [
+      "SoftReference",
+      "WeakReference",
+      "PhantomReference",
+      "ReferenceQueue",
+      "GC",
+      "cache",
+      "memory-sensitive"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -205,14 +442,34 @@
     "difficulty": "intermediate",
     "question": "What is `System.gc()` and should you call it?",
     "options": [
-      "System.gc() forces immediate garbage collection — call it to free memory",
-      "System.gc() is a hint suggesting the JVM run GC — the JVM may ignore it. Calling it in production is almost always wrong: it triggers expensive full GC, disrupts GC tuning, and rarely helps",
-      "System.gc() stops all threads and performs GC synchronously",
-      "System.gc() is removed in Java 17+"
+      {
+        "id": "a",
+        "text": "System.gc() forces immediate garbage collection — call it to free memory"
+      },
+      {
+        "id": "b",
+        "text": "System.gc() is a hint suggesting the JVM run GC — the JVM may ignore it. Calling it in production is almost always wrong: it triggers expensive full GC, disrupts GC tuning, and rarely helps"
+      },
+      {
+        "id": "c",
+        "text": "System.gc() stops all threads and performs GC synchronously"
+      },
+      {
+        "id": "d",
+        "text": "System.gc() is removed in Java 17+"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Calling `System.gc()` in production code is an anti-pattern. The JVM is better at deciding when to GC. Explicit calls often cause unnecessary full GC (long stop-the-world pauses), degrade throughput, and interfere with GC tuning. The only legitimate use is in test code to verify finalizers/cleaners. If memory pressure is real, fix the memory leak or tune heap size.",
-    "keyConcepts": ["System.gc()", "full GC", "GC hint", "anti-pattern", "GC tuning"],
+    "keyConcepts": [
+      "System.gc()",
+      "full GC",
+      "GC hint",
+      "anti-pattern",
+      "GC tuning"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -223,14 +480,35 @@
     "difficulty": "advanced",
     "question": "What is GraalVM and what is Ahead-of-Time (AOT) compilation?",
     "options": [
-      "GraalVM is a new Java programming language",
-      "GraalVM is a high-performance JVM with an advanced JIT compiler and native image support — AOT compilation compiles Java to a standalone native executable at build time, enabling near-instant startup and low memory footprint",
-      "GraalVM is Oracle's cloud platform for running Java applications",
-      "AOT compilation is the same as JIT — just done at a different time"
+      {
+        "id": "a",
+        "text": "GraalVM is a new Java programming language"
+      },
+      {
+        "id": "b",
+        "text": "GraalVM is a high-performance JVM with an advanced JIT compiler and native image support — AOT compilation compiles Java to a standalone native executable at build time, enabling near-instant startup and low memory footprint"
+      },
+      {
+        "id": "c",
+        "text": "GraalVM is Oracle's cloud platform for running Java applications"
+      },
+      {
+        "id": "d",
+        "text": "AOT compilation is the same as JIT — just done at a different time"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "GraalVM Native Image compiles Java applications AOT to native binaries — no JVM needed at runtime. Benefits: millisecond startup (critical for serverless/Lambda), low memory (no JVM overhead). Limitations: slower peak throughput than JIT (no runtime profiling), static analysis requires closed-world assumption (challenges with reflection, dynamic class loading). Spring Boot 3+ and Quarkus support native compilation.",
-    "keyConcepts": ["GraalVM", "native image", "AOT compilation", "JIT vs AOT", "startup time", "serverless"],
+    "keyConcepts": [
+      "GraalVM",
+      "native image",
+      "AOT compilation",
+      "JIT vs AOT",
+      "startup time",
+      "serverless"
+    ],
     "commonInterviewQuestion": false
   },
   {
@@ -241,14 +519,36 @@
     "difficulty": "intermediate",
     "question": "What is a memory leak in Java and how do you detect it?",
     "options": [
-      "Memory leaks are impossible in Java — GC prevents them",
-      "A Java memory leak is when objects are still referenced (not eligible for GC) but no longer needed by the application — detected via heap dumps, memory profilers, and GC log analysis",
-      "A memory leak occurs only when native memory is used via JNI",
-      "Memory leaks in Java always cause OutOfMemoryError within seconds"
+      {
+        "id": "a",
+        "text": "Memory leaks are impossible in Java — GC prevents them"
+      },
+      {
+        "id": "b",
+        "text": "A Java memory leak is when objects are still referenced (not eligible for GC) but no longer needed by the application — detected via heap dumps, memory profilers, and GC log analysis"
+      },
+      {
+        "id": "c",
+        "text": "A memory leak occurs only when native memory is used via JNI"
+      },
+      {
+        "id": "d",
+        "text": "Memory leaks in Java always cause OutOfMemoryError within seconds"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Java memory leaks: objects that are reachable but useless. Common causes: static collections holding objects (`static List<>`), listeners not unregistered (event bus, GUI), ThreadLocal not cleaned in thread pools, cache without eviction policy, unclosed streams/connections (pre-try-with-resources). Detection: heap dump with `jmap -dump` or `-XX:+HeapDumpOnOutOfMemoryError`, then analyze with Eclipse MAT or JProfiler.",
-    "keyConcepts": ["memory leak", "Java GC", "heap dump", "Eclipse MAT", "static collections", "listener leaks", "ThreadLocal"],
+    "keyConcepts": [
+      "memory leak",
+      "Java GC",
+      "heap dump",
+      "Eclipse MAT",
+      "static collections",
+      "listener leaks",
+      "ThreadLocal"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -259,14 +559,35 @@
     "difficulty": "advanced",
     "question": "What are `finalize()` and `Cleaner` — when was finalize() deprecated?",
     "options": [
-      "finalize() is the recommended way to release resources — use it in all classes",
-      "finalize() is called by GC before collecting an object — deprecated in Java 9, removed in Java 18. Use try-with-resources and Cleaner (Java 9+) for resource cleanup instead",
-      "Cleaner is deprecated; finalize() is the modern replacement",
-      "finalize() runs immediately when an object goes out of scope"
+      {
+        "id": "a",
+        "text": "finalize() is the recommended way to release resources — use it in all classes"
+      },
+      {
+        "id": "b",
+        "text": "finalize() is called by GC before collecting an object — deprecated in Java 9, removed in Java 18. Use try-with-resources and Cleaner (Java 9+) for resource cleanup instead"
+      },
+      {
+        "id": "c",
+        "text": "Cleaner is deprecated; finalize() is the modern replacement"
+      },
+      {
+        "id": "d",
+        "text": "finalize() runs immediately when an object goes out of scope"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "`finalize()` problems: unpredictable execution time (GC decides), can resurrect objects, prevents GC (finalizable objects need two GC cycles), degrades throughput. Deprecated Java 9, marked for removal. Java 9+ `Cleaner` API: register a cleaning action run after GC. Best practice: use `AutoCloseable` + try-with-resources for deterministic cleanup; use `Cleaner` as a safety net only.",
-    "keyConcepts": ["finalize()", "Cleaner", "AutoCloseable", "deprecation", "resource cleanup", "GC interaction"],
+    "keyConcepts": [
+      "finalize()",
+      "Cleaner",
+      "AutoCloseable",
+      "deprecation",
+      "resource cleanup",
+      "GC interaction"
+    ],
     "commonInterviewQuestion": false
   },
   {
@@ -277,14 +598,35 @@
     "difficulty": "intermediate",
     "question": "What happens during the class loading process in Java?",
     "options": [
-      "Class loading just copies .class bytes into memory",
-      "Class loading has three phases: Loading (find and read .class bytes), Linking (Verification + Preparation + Resolution), Initialization (run static initializers and assign static field values)",
-      "Class loading compiles .java files to bytecode",
-      "Class loading only happens once at JVM startup"
+      {
+        "id": "a",
+        "text": "Class loading just copies .class bytes into memory"
+      },
+      {
+        "id": "b",
+        "text": "Class loading has three phases: Loading (find and read .class bytes), Linking (Verification + Preparation + Resolution), Initialization (run static initializers and assign static field values)"
+      },
+      {
+        "id": "c",
+        "text": "Class loading compiles .java files to bytecode"
+      },
+      {
+        "id": "d",
+        "text": "Class loading only happens once at JVM startup"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Class lifecycle: (1) Loading: ClassLoader reads .class bytes. (2) Linking: Verification (bytecode safe?), Preparation (allocate static fields, set defaults), Resolution (resolve symbolic references to actual classes). (3) Initialization: run static initializers and static field assignments in textual order. A class is initialized when first used (first instance created, static method called, static field accessed).",
-    "keyConcepts": ["class loading", "linking", "initialization", "static initializers", "ClassLoader", "class lifecycle"],
+    "keyConcepts": [
+      "class loading",
+      "linking",
+      "initialization",
+      "static initializers",
+      "ClassLoader",
+      "class lifecycle"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -295,14 +637,35 @@
     "difficulty": "intermediate",
     "question": "What is the difference between `-Xms` and `-Xmx` and why would you set them equal?",
     "options": [
-      "-Xms is for minimum threads; -Xmx is for maximum threads",
-      "-Xms sets initial heap size; -Xmx sets maximum. Setting them equal avoids heap resizing (which pauses the JVM to expand/shrink) — common in production for predictable performance",
-      "Setting -Xms=-Xmx prevents the GC from running",
-      "They can only be set equal for embedded systems"
+      {
+        "id": "a",
+        "text": "-Xms is for minimum threads; -Xmx is for maximum threads"
+      },
+      {
+        "id": "b",
+        "text": "-Xms sets initial heap size; -Xmx sets maximum. Setting them equal avoids heap resizing (which pauses the JVM to expand/shrink) — common in production for predictable performance"
+      },
+      {
+        "id": "c",
+        "text": "Setting -Xms=-Xmx prevents the GC from running"
+      },
+      {
+        "id": "d",
+        "text": "They can only be set equal for embedded systems"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "When heap needs to grow beyond `-Xms`, the JVM requests more OS memory (may cause pauses). When below some threshold, the JVM releases memory back. In production: set `-Xms` = `-Xmx` to prevent this resizing overhead — the heap is pre-allocated at startup, eliminating mid-run pauses from heap expansion. Trade-off: consumes the full heap memory even if the app doesn't need it all.",
-    "keyConcepts": ["-Xms", "-Xmx", "heap resizing", "production tuning", "startup memory", "GC pause"],
+    "keyConcepts": [
+      "-Xms",
+      "-Xmx",
+      "heap resizing",
+      "production tuning",
+      "startup memory",
+      "GC pause"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -313,14 +676,36 @@
     "difficulty": "advanced",
     "question": "What is bytecode and how does the JVM execute it?",
     "options": [
-      "Bytecode is binary machine code specific to one CPU architecture",
-      "Bytecode is an intermediate representation compiled from Java source — platform-independent, executed by the JVM interpreter or compiled to native code by JIT",
-      "Bytecode is the compressed version of Java source code",
-      "The JVM compiles bytecode back to Java source before executing"
+      {
+        "id": "a",
+        "text": "Bytecode is binary machine code specific to one CPU architecture"
+      },
+      {
+        "id": "b",
+        "text": "Bytecode is an intermediate representation compiled from Java source — platform-independent, executed by the JVM interpreter or compiled to native code by JIT"
+      },
+      {
+        "id": "c",
+        "text": "Bytecode is the compressed version of Java source code"
+      },
+      {
+        "id": "d",
+        "text": "The JVM compiles bytecode back to Java source before executing"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Java compiles to bytecode (.class files) — a stack-based instruction set for the JVM (not for any real CPU). `javap -c MyClass` disassembles bytecode. The JVM interprets bytecode first, then JIT compiles hot methods to native machine code for the target CPU. This is the foundation of Java's 'write once, run anywhere' promise — the same bytecode runs on any JVM.",
-    "keyConcepts": ["bytecode", ".class files", "platform independence", "javap", "JVM interpreter", "JIT", "stack machine"],
+    "keyConcepts": [
+      "bytecode",
+      ".class files",
+      "platform independence",
+      "javap",
+      "JVM interpreter",
+      "JIT",
+      "stack machine"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -331,14 +716,34 @@
     "difficulty": "advanced",
     "question": "What is escape analysis in the JVM?",
     "options": [
-      "Escape analysis is a technique to detect infinite loops",
-      "Escape analysis determines whether an object's reference escapes a method or thread — if not, the JVM can allocate it on the stack (no GC overhead), eliminate synchronization, or scalar-replace it",
-      "Escape analysis prevents memory leaks by detecting leaked references",
-      "Escape analysis is a static analysis tool run at compile time"
+      {
+        "id": "a",
+        "text": "Escape analysis is a technique to detect infinite loops"
+      },
+      {
+        "id": "b",
+        "text": "Escape analysis determines whether an object's reference escapes a method or thread — if not, the JVM can allocate it on the stack (no GC overhead), eliminate synchronization, or scalar-replace it"
+      },
+      {
+        "id": "c",
+        "text": "Escape analysis prevents memory leaks by detecting leaked references"
+      },
+      {
+        "id": "d",
+        "text": "Escape analysis is a static analysis tool run at compile time"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "If an object doesn't escape the method that created it, the JIT can: (1) Stack allocate it (no heap allocation, no GC). (2) Eliminate synchronization on the object (lock elision — `synchronized` on non-escaped object is a no-op). (3) Scalar replacement: replace object fields with individual local variables. This is why `new StringBuilder()` in a method doesn't always create a heap object. Enabled by default in HotSpot.",
-    "keyConcepts": ["escape analysis", "stack allocation", "lock elision", "scalar replacement", "JIT optimization"],
+    "keyConcepts": [
+      "escape analysis",
+      "stack allocation",
+      "lock elision",
+      "scalar replacement",
+      "JIT optimization"
+    ],
     "commonInterviewQuestion": false
   },
   {
@@ -349,14 +754,36 @@
     "difficulty": "intermediate",
     "question": "What is `jstack`, `jmap`, and `jstat` used for?",
     "options": [
-      "jstack is a build tool; jmap is a deployment tool; jstat is a testing tool",
-      "jstack: takes a thread dump (deadlock analysis, thread states); jmap: heap dump/histogram; jstat: GC statistics (heap usage, GC count/time) — all are JDK diagnostic tools for running JVM processes",
-      "They are obsolete tools replaced by Java Flight Recorder",
-      "jstack, jmap, and jstat only work on Linux servers"
+      {
+        "id": "a",
+        "text": "jstack is a build tool; jmap is a deployment tool; jstat is a testing tool"
+      },
+      {
+        "id": "b",
+        "text": "jstack: takes a thread dump (deadlock analysis, thread states); jmap: heap dump/histogram; jstat: GC statistics (heap usage, GC count/time) — all are JDK diagnostic tools for running JVM processes"
+      },
+      {
+        "id": "c",
+        "text": "They are obsolete tools replaced by Java Flight Recorder"
+      },
+      {
+        "id": "d",
+        "text": "jstack, jmap, and jstat only work on Linux servers"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "`jstack <pid>`: prints thread dump — all thread states, stack traces, locked objects. Essential for diagnosing deadlocks, hung threads. `jmap -heap <pid>`: heap summary. `jmap -dump:live,format=b,file=heap.hprof <pid>`: heap dump for MAT analysis. `jstat -gcutil <pid> 1000`: GC statistics every second. Modern alternative: Java Flight Recorder + JDK Mission Control (lower overhead, richer data).",
-    "keyConcepts": ["jstack", "jmap", "jstat", "thread dump", "heap dump", "GC statistics", "JDK diagnostic tools"],
+    "keyConcepts": [
+      "jstack",
+      "jmap",
+      "jstat",
+      "thread dump",
+      "heap dump",
+      "GC statistics",
+      "JDK diagnostic tools"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -367,14 +794,35 @@
     "difficulty": "intermediate",
     "question": "What is the difference between `StackOverflowError` and `OutOfMemoryError`?",
     "options": [
-      "Both indicate the same condition — JVM ran out of memory",
-      "StackOverflowError: thread's call stack exceeded its limit (deep recursion, infinite recursion); OutOfMemoryError: heap exhausted (too many live objects) or other memory region full",
-      "StackOverflowError is recoverable; OutOfMemoryError is always fatal",
-      "OutOfMemoryError is for heap; StackOverflowError is for Metaspace"
+      {
+        "id": "a",
+        "text": "Both indicate the same condition — JVM ran out of memory"
+      },
+      {
+        "id": "b",
+        "text": "StackOverflowError: thread's call stack exceeded its limit (deep recursion, infinite recursion); OutOfMemoryError: heap exhausted (too many live objects) or other memory region full"
+      },
+      {
+        "id": "c",
+        "text": "StackOverflowError is recoverable; OutOfMemoryError is always fatal"
+      },
+      {
+        "id": "d",
+        "text": "OutOfMemoryError is for heap; StackOverflowError is for Metaspace"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "`StackOverflowError`: each thread has a stack (default 512KB-1MB). Deep or infinite recursion consumes stack frames until the limit is hit. Fix: add base case to recursion, convert to iteration, or increase `-Xss`. `OutOfMemoryError: Java heap space`: heap full — too many live objects or memory leak. Both are `Error` subclasses (not `Exception`) and should not normally be caught.",
-    "keyConcepts": ["StackOverflowError", "OutOfMemoryError", "recursion", "stack size", "-Xss", "Error vs Exception"],
+    "keyConcepts": [
+      "StackOverflowError",
+      "OutOfMemoryError",
+      "recursion",
+      "stack size",
+      "-Xss",
+      "Error vs Exception"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -385,14 +833,36 @@
     "difficulty": "advanced",
     "question": "What is the Module System (JPMS) introduced in Java 9?",
     "options": [
-      "JPMS is the Java Package Management System — similar to npm",
-      "JPMS (Project Jigsaw) introduces modules — named sets of packages with explicit requires/exports declarations, enabling strong encapsulation, reliable configuration, and a modular JDK",
-      "JPMS is a dependency injection framework built into Java 9",
-      "JPMS replaces ClassLoaders with a module-based loading system"
+      {
+        "id": "a",
+        "text": "JPMS is the Java Package Management System — similar to npm"
+      },
+      {
+        "id": "b",
+        "text": "JPMS (Project Jigsaw) introduces modules — named sets of packages with explicit requires/exports declarations, enabling strong encapsulation, reliable configuration, and a modular JDK"
+      },
+      {
+        "id": "c",
+        "text": "JPMS is a dependency injection framework built into Java 9"
+      },
+      {
+        "id": "d",
+        "text": "JPMS replaces ClassLoaders with a module-based loading system"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "module-info.java: `module com.myapp { requires java.sql; exports com.myapp.api; }`. Benefits: (1) Strong encapsulation — internal packages are truly hidden (no reflection access without `opens`). (2) Reliable configuration — missing modules detected at startup, not runtime. (3) Smaller JDK: `jlink` creates custom runtime images with only needed modules. The JDK itself is now modular (java.base, java.sql, etc.).",
-    "keyConcepts": ["JPMS", "module-info.java", "requires", "exports", "jlink", "strong encapsulation", "Project Jigsaw"],
+    "keyConcepts": [
+      "JPMS",
+      "module-info.java",
+      "requires",
+      "exports",
+      "jlink",
+      "strong encapsulation",
+      "Project Jigsaw"
+    ],
     "commonInterviewQuestion": false
   },
   {
@@ -403,14 +873,34 @@
     "difficulty": "advanced",
     "question": "What is `invokedynamic` bytecode instruction and how does it relate to lambdas?",
     "options": [
-      "invokedynamic is the bytecode for dynamic class loading",
-      "invokedynamic allows the JVM to defer method dispatch to user-defined logic (bootstrap method) at runtime — Java uses it for lambda expressions, method references, and string concatenation",
-      "invokedynamic is only used by the Groovy and Kotlin languages",
-      "invokedynamic is identical to invokeinterface"
+      {
+        "id": "a",
+        "text": "invokedynamic is the bytecode for dynamic class loading"
+      },
+      {
+        "id": "b",
+        "text": "invokedynamic allows the JVM to defer method dispatch to user-defined logic (bootstrap method) at runtime — Java uses it for lambda expressions, method references, and string concatenation"
+      },
+      {
+        "id": "c",
+        "text": "invokedynamic is only used by the Groovy and Kotlin languages"
+      },
+      {
+        "id": "d",
+        "text": "invokedynamic is identical to invokeinterface"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Added in Java 7, leveraged by Java 8 lambdas. When a lambda is first executed, `invokedynamic` calls a bootstrap method (in `LambdaMetafactory`) which generates a class at runtime implementing the functional interface. This is faster than generating anonymous inner classes at compile time (which was the pre-Java 8 approach). Also used by Kotlin, Groovy, JRuby for dynamic dispatch.",
-    "keyConcepts": ["invokedynamic", "lambda implementation", "LambdaMetafactory", "bootstrap method", "JVM bytecode"],
+    "keyConcepts": [
+      "invokedynamic",
+      "lambda implementation",
+      "LambdaMetafactory",
+      "bootstrap method",
+      "JVM bytecode"
+    ],
     "commonInterviewQuestion": false
   },
   {
@@ -421,14 +911,35 @@
     "difficulty": "intermediate",
     "question": "What is the String constant pool and where does it live in Java 8+?",
     "options": [
-      "The String pool lives in PermGen in all Java versions",
-      "The String pool (interned strings) was moved from PermGen to the main heap in Java 7, remaining in the heap for Java 8+. This allows the GC to collect interned strings that are no longer referenced",
-      "The String pool lives in Metaspace in Java 8+",
-      "The String pool is stored in native memory outside the JVM"
+      {
+        "id": "a",
+        "text": "The String pool lives in PermGen in all Java versions"
+      },
+      {
+        "id": "b",
+        "text": "The String pool (interned strings) was moved from PermGen to the main heap in Java 7, remaining in the heap for Java 8+. This allows the GC to collect interned strings that are no longer referenced"
+      },
+      {
+        "id": "c",
+        "text": "The String pool lives in Metaspace in Java 8+"
+      },
+      {
+        "id": "d",
+        "text": "The String pool is stored in native memory outside the JVM"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Java 6 and earlier: String pool in PermGen (fixed size, OOM if too many unique literals). Java 7+: String pool moved to the heap (GC can collect unreferenced strings). Java 8: PermGen replaced by Metaspace, but the String pool stays on the heap. `String.intern()` adds a string to the pool. The pool enables `\"hello\" == \"hello\"` to be true (same pooled object reference).",
-    "keyConcepts": ["String pool", "interning", "heap", "PermGen", "Java 7 migration", "String.intern()"],
+    "keyConcepts": [
+      "String pool",
+      "interning",
+      "heap",
+      "PermGen",
+      "Java 7 migration",
+      "String.intern()"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -439,14 +950,34 @@
     "difficulty": "intermediate",
     "question": "What is the difference between `Xss` (stack size) and thread stack overflow?",
     "options": [
-      "Xss controls the heap size; stack overflow is unrelated",
-      "`-Xss` sets each thread's stack size (default ~512KB-1MB). Stack overflow occurs when a thread's call stack exceeds this limit — usually from deep recursion. Increase `-Xss` for deep recursion, but investigate infinite recursion first",
-      "`-Xss` is the maximum string size; not related to thread stacks",
-      "Stack overflow can be prevented by setting `-Xss=0`"
+      {
+        "id": "a",
+        "text": "Xss controls the heap size; stack overflow is unrelated"
+      },
+      {
+        "id": "b",
+        "text": "`-Xss` sets each thread's stack size (default ~512KB-1MB). Stack overflow occurs when a thread's call stack exceeds this limit — usually from deep recursion. Increase `-Xss` for deep recursion, but investigate infinite recursion first"
+      },
+      {
+        "id": "c",
+        "text": "`-Xss` is the maximum string size; not related to thread stacks"
+      },
+      {
+        "id": "d",
+        "text": "Stack overflow can be prevented by setting `-Xss=0`"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Each thread in Java has its own stack allocated when the thread is created. Default size: ~512KB (Linux 64-bit JVM, varies by platform). `StackOverflowError` when a thread exhausts its stack. Increase with `-Xss2m` (2MB per thread). Warning: with many threads, this multiplies — 1000 threads × 2MB = 2GB of memory just for stacks. Investigate deep recursion and convert to iteration first.",
-    "keyConcepts": ["-Xss", "thread stack", "StackOverflowError", "deep recursion", "thread memory consumption"],
+    "keyConcepts": [
+      "-Xss",
+      "thread stack",
+      "StackOverflowError",
+      "deep recursion",
+      "thread memory consumption"
+    ],
     "commonInterviewQuestion": false
   }
 ]

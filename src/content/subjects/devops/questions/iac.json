@@ -7,14 +7,34 @@
     "difficulty": "beginner",
     "question": "What is Infrastructure as Code (IaC) and what problem does it solve?",
     "options": [
-      "IaC is a programming language for writing cloud applications",
-      "IaC is the practice of managing infrastructure through machine-readable configuration files rather than manual processes — making infrastructure version-controlled, reproducible, and auditable",
-      "IaC is a testing framework for cloud infrastructure",
-      "IaC is a deployment strategy for zero-downtime releases"
+      {
+        "id": "a",
+        "text": "IaC is a programming language for writing cloud applications"
+      },
+      {
+        "id": "b",
+        "text": "IaC is the practice of managing infrastructure through machine-readable configuration files rather than manual processes — making infrastructure version-controlled, reproducible, and auditable"
+      },
+      {
+        "id": "c",
+        "text": "IaC is a testing framework for cloud infrastructure"
+      },
+      {
+        "id": "d",
+        "text": "IaC is a deployment strategy for zero-downtime releases"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Before IaC, infrastructure was configured manually via consoles or scripts — error-prone, inconsistent, and hard to audit. IaC stores infrastructure definition in code (version-controlled), enabling: repeatable deployments, peer review of infrastructure changes, disaster recovery via re-applying config, and environment parity (dev = staging = prod).",
-    "keyConcepts": ["IaC", "reproducibility", "version control", "declarative config", "infrastructure drift"],
+    "keyConcepts": [
+      "IaC",
+      "reproducibility",
+      "version control",
+      "declarative config",
+      "infrastructure drift"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -25,15 +45,35 @@
     "difficulty": "beginner",
     "question": "What is Terraform and what is its core workflow?",
     "options": [
-      "Terraform is a scripting language for AWS; workflow is write → compile → run",
-      "Terraform is an open-source IaC tool by HashiCorp; core workflow: write HCL config → `terraform init` → `terraform plan` → `terraform apply`",
-      "Terraform is a container orchestration tool; workflow is build → ship → run",
-      "Terraform is a monitoring tool; workflow is collect → analyze → alert"
+      {
+        "id": "a",
+        "text": "Terraform is a scripting language for AWS; workflow is write → compile → run"
+      },
+      {
+        "id": "b",
+        "text": "Terraform is an open-source IaC tool by HashiCorp; core workflow: write HCL config → `terraform init` → `terraform plan` → `terraform apply`"
+      },
+      {
+        "id": "c",
+        "text": "Terraform is a container orchestration tool; workflow is build → ship → run"
+      },
+      {
+        "id": "d",
+        "text": "Terraform is a monitoring tool; workflow is collect → analyze → alert"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Terraform uses HashiCorp Configuration Language (HCL). Workflow: `init` downloads provider plugins; `plan` shows what changes will be made without applying; `apply` makes the changes. `terraform destroy` tears down resources. Terraform maintains a state file that tracks the current state of managed resources.",
     "codeSnippet": "# Example: AWS S3 bucket\nterraform {\n  required_providers {\n    aws = { source = \"hashicorp/aws\", version = \"~> 5.0\" }\n  }\n}\n\nresource \"aws_s3_bucket\" \"my_bucket\" {\n  bucket = \"my-unique-bucket-name\"\n}",
-    "keyConcepts": ["Terraform", "HCL", "terraform plan", "terraform apply", "state file"],
+    "keyConcepts": [
+      "Terraform",
+      "HCL",
+      "terraform plan",
+      "terraform apply",
+      "state file"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -44,14 +84,34 @@
     "difficulty": "intermediate",
     "question": "What is Terraform state and why must remote state be used in teams?",
     "options": [
-      "State is a log file of past terraform commands — it can be deleted safely",
-      "State is a JSON file (terraform.tfstate) mapping config to real infrastructure. Remote state (S3+DynamoDB, Terraform Cloud) is needed for teams to share state and prevent concurrent apply conflicts via state locking",
-      "State tracks only the plan — not what was actually applied",
-      "Remote state is only needed when using multiple cloud providers"
+      {
+        "id": "a",
+        "text": "State is a log file of past terraform commands — it can be deleted safely"
+      },
+      {
+        "id": "b",
+        "text": "State is a JSON file (terraform.tfstate) mapping config to real infrastructure. Remote state (S3+DynamoDB, Terraform Cloud) is needed for teams to share state and prevent concurrent apply conflicts via state locking"
+      },
+      {
+        "id": "c",
+        "text": "State tracks only the plan — not what was actually applied"
+      },
+      {
+        "id": "d",
+        "text": "Remote state is only needed when using multiple cloud providers"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Terraform's state file is the mapping between your HCL resources and real cloud resources. Without it, Terraform can't determine what exists vs. what to create. Local state in git is dangerous: merge conflicts corrupt it; concurrent runs cause conflicts. Remote backends (S3 + DynamoDB for locking, or Terraform Cloud) solve this — state is locked during apply so only one person can change infrastructure at a time.",
-    "keyConcepts": ["terraform state", "remote state", "state locking", "S3 backend", "DynamoDB locking"],
+    "keyConcepts": [
+      "terraform state",
+      "remote state",
+      "state locking",
+      "S3 backend",
+      "DynamoDB locking"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -62,14 +122,34 @@
     "difficulty": "intermediate",
     "question": "What is the difference between declarative and imperative IaC?",
     "options": [
-      "Declarative is faster; imperative is more flexible",
-      "Declarative describes the desired end state and the tool figures out how to get there (Terraform, CloudFormation); imperative describes step-by-step HOW to achieve the state (bash scripts, Ansible tasks)",
-      "Declarative is for cloud resources; imperative is for on-premises",
-      "They are the same — just different terminology for different tools"
+      {
+        "id": "a",
+        "text": "Declarative is faster; imperative is more flexible"
+      },
+      {
+        "id": "b",
+        "text": "Declarative describes the desired end state and the tool figures out how to get there (Terraform, CloudFormation); imperative describes step-by-step HOW to achieve the state (bash scripts, Ansible tasks)"
+      },
+      {
+        "id": "c",
+        "text": "Declarative is for cloud resources; imperative is for on-premises"
+      },
+      {
+        "id": "d",
+        "text": "They are the same — just different terminology for different tools"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Declarative (`aws_instance` in Terraform): you say 'I want 3 EC2 instances of type t3.micro' and Terraform calculates the diff and applies it. Imperative (bash): you write 'create instance 1, create instance 2, create instance 3' — if run twice, you get 6 instances. Declarative is idempotent by design; imperative requires you to write idempotency checks yourself.",
-    "keyConcepts": ["declarative IaC", "imperative IaC", "idempotency", "desired state", "convergence"],
+    "keyConcepts": [
+      "declarative IaC",
+      "imperative IaC",
+      "idempotency",
+      "desired state",
+      "convergence"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -80,14 +160,34 @@
     "difficulty": "intermediate",
     "question": "What is Ansible and how does it differ from Terraform?",
     "options": [
-      "Ansible provisions cloud infrastructure; Terraform configures servers",
-      "Ansible is an agentless configuration management tool (installs software, manages files, runs commands on servers); Terraform provisions cloud infrastructure — they are complementary, not competing",
-      "Ansible uses YAML; Terraform uses JSON — otherwise they are equivalent",
-      "Ansible manages Kubernetes; Terraform manages VMs"
+      {
+        "id": "a",
+        "text": "Ansible provisions cloud infrastructure; Terraform configures servers"
+      },
+      {
+        "id": "b",
+        "text": "Ansible is an agentless configuration management tool (installs software, manages files, runs commands on servers); Terraform provisions cloud infrastructure — they are complementary, not competing"
+      },
+      {
+        "id": "c",
+        "text": "Ansible uses YAML; Terraform uses JSON — otherwise they are equivalent"
+      },
+      {
+        "id": "d",
+        "text": "Ansible manages Kubernetes; Terraform manages VMs"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Terraform provisions infrastructure (EC2, VPCs, S3, RDS). Ansible configures the OS and apps inside that infrastructure (install nginx, deploy config files, manage users). Common pattern: Terraform creates the VM, Ansible configures it. Ansible uses SSH (no agent needed), YAML playbooks, and idempotent modules. It can also provision cloud resources but stateless (no state file).",
-    "keyConcepts": ["Ansible", "configuration management", "agentless", "playbooks", "Terraform vs Ansible"],
+    "keyConcepts": [
+      "Ansible",
+      "configuration management",
+      "agentless",
+      "playbooks",
+      "Terraform vs Ansible"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -98,15 +198,36 @@
     "difficulty": "intermediate",
     "question": "What is an Ansible playbook?",
     "options": [
-      "A log file of all ansible commands executed",
-      "A YAML file that defines a set of plays — each play targets a group of hosts and runs tasks using modules",
-      "An inventory file listing all servers Ansible manages",
-      "A collection of Ansible roles bundled for distribution"
+      {
+        "id": "a",
+        "text": "A log file of all ansible commands executed"
+      },
+      {
+        "id": "b",
+        "text": "A YAML file that defines a set of plays — each play targets a group of hosts and runs tasks using modules"
+      },
+      {
+        "id": "c",
+        "text": "An inventory file listing all servers Ansible manages"
+      },
+      {
+        "id": "d",
+        "text": "A collection of Ansible roles bundled for distribution"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Playbooks orchestrate Ansible tasks. Structure: plays target host groups defined in inventory, and run tasks using modules (apt, yum, copy, template, service, shell). Playbooks are idempotent — running twice should produce the same result. `ansible-playbook site.yml -i inventory/prod` runs a playbook.",
     "codeSnippet": "- name: Configure web server\n  hosts: webservers\n  become: true\n  tasks:\n    - name: Install nginx\n      apt:\n        name: nginx\n        state: present\n    - name: Start nginx\n      service:\n        name: nginx\n        state: started\n        enabled: true",
-    "keyConcepts": ["playbook", "play", "task", "module", "hosts", "become"],
+    "keyConcepts": [
+      "playbook",
+      "play",
+      "task",
+      "module",
+      "hosts",
+      "become"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -117,15 +238,34 @@
     "difficulty": "intermediate",
     "question": "What are Terraform modules and why are they used?",
     "options": [
-      "Modules are Terraform's equivalent of cloud provider APIs",
-      "Modules are reusable, self-contained sets of Terraform configuration that can be called with inputs and produce outputs — like functions for infrastructure",
-      "Modules are the provider plugins that communicate with cloud APIs",
-      "Modules are the state file partitions for large infrastructures"
+      {
+        "id": "a",
+        "text": "Modules are Terraform's equivalent of cloud provider APIs"
+      },
+      {
+        "id": "b",
+        "text": "Modules are reusable, self-contained sets of Terraform configuration that can be called with inputs and produce outputs — like functions for infrastructure"
+      },
+      {
+        "id": "c",
+        "text": "Modules are the provider plugins that communicate with cloud APIs"
+      },
+      {
+        "id": "d",
+        "text": "Modules are the state file partitions for large infrastructures"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Modules encapsulate reusable infrastructure patterns. Example: a `vpc` module creates a VPC with public/private subnets, route tables, and NAT gateway — callable with just a few inputs. Modules are sourced locally (`./modules/vpc`), from the Terraform Registry, or from Git. They enforce consistency and reduce duplication.",
     "codeSnippet": "module \"vpc\" {\n  source  = \"terraform-aws-modules/vpc/aws\"\n  version = \"~> 5.0\"\n\n  name = \"my-vpc\"\n  cidr = \"10.0.0.0/16\"\n\n  azs             = [\"us-east-1a\", \"us-east-1b\"]\n  private_subnets = [\"10.0.1.0/24\", \"10.0.2.0/24\"]\n  public_subnets  = [\"10.0.101.0/24\", \"10.0.102.0/24\"]\n}",
-    "keyConcepts": ["Terraform modules", "reusable infrastructure", "module inputs/outputs", "Terraform Registry"],
+    "keyConcepts": [
+      "Terraform modules",
+      "reusable infrastructure",
+      "module inputs/outputs",
+      "Terraform Registry"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -136,14 +276,34 @@
     "difficulty": "intermediate",
     "question": "What is `terraform plan` and what should you always do before `terraform apply`?",
     "options": [
-      "terraform plan creates a new environment plan and auto-applies it",
-      "terraform plan generates an execution plan showing exactly what actions (create, modify, destroy) Terraform will take — always review it before apply to catch unintended changes",
-      "terraform plan runs your test suite against the infrastructure",
-      "terraform plan calculates the cost estimate of resources"
+      {
+        "id": "a",
+        "text": "terraform plan creates a new environment plan and auto-applies it"
+      },
+      {
+        "id": "b",
+        "text": "terraform plan generates an execution plan showing exactly what actions (create, modify, destroy) Terraform will take — always review it before apply to catch unintended changes"
+      },
+      {
+        "id": "c",
+        "text": "terraform plan runs your test suite against the infrastructure"
+      },
+      {
+        "id": "d",
+        "text": "terraform plan calculates the cost estimate of resources"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "`terraform plan` reads current state and desired state and generates a diff: resources to add (+), change (~), or destroy (-). Destroying resources is highlighted. Always review the plan — especially any `-` (destroy) lines. In CI: `terraform plan -out=tfplan` saves the plan; `terraform apply tfplan` applies exactly that plan (no drift between plan and apply).",
-    "keyConcepts": ["terraform plan", "execution plan", "terraform apply", "drift detection", "plan review"],
+    "keyConcepts": [
+      "terraform plan",
+      "execution plan",
+      "terraform apply",
+      "drift detection",
+      "plan review"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -154,14 +314,34 @@
     "difficulty": "advanced",
     "question": "What is infrastructure drift and how does Terraform detect it?",
     "options": [
-      "Drift is when Terraform config is ahead of the cloud provider API version",
-      "Drift is when real infrastructure diverges from the IaC definition — caused by manual console changes. `terraform plan` detects drift by comparing state with actual cloud API calls",
-      "Drift is when different environments have different Terraform versions",
-      "Drift only occurs with stateless IaC tools like Ansible"
+      {
+        "id": "a",
+        "text": "Drift is when Terraform config is ahead of the cloud provider API version"
+      },
+      {
+        "id": "b",
+        "text": "Drift is when real infrastructure diverges from the IaC definition — caused by manual console changes. `terraform plan` detects drift by comparing state with actual cloud API calls"
+      },
+      {
+        "id": "c",
+        "text": "Drift is when different environments have different Terraform versions"
+      },
+      {
+        "id": "d",
+        "text": "Drift only occurs with stateless IaC tools like Ansible"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Drift occurs when someone manually changes infrastructure (resizes an instance via console, adds a security group rule). `terraform plan` calls the cloud API to get actual resource state and compares with the state file and HCL config — showing what changed outside of Terraform. Fix: apply the Terraform config to restore desired state, or import the manual change into Terraform config.",
-    "keyConcepts": ["infrastructure drift", "terraform plan", "drift detection", "manual changes", "terraform import"],
+    "keyConcepts": [
+      "infrastructure drift",
+      "terraform plan",
+      "drift detection",
+      "manual changes",
+      "terraform import"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -172,14 +352,34 @@
     "difficulty": "advanced",
     "question": "What is AWS CloudFormation and how does it differ from Terraform?",
     "options": [
-      "CloudFormation uses YAML/JSON to provision AWS resources natively; Terraform uses HCL and is multi-cloud with a state file you manage",
-      "CloudFormation is multi-cloud; Terraform is AWS-only",
-      "CloudFormation requires an agent on each server; Terraform does not",
-      "They are identical — CloudFormation is just the AWS-branded version of Terraform"
+      {
+        "id": "a",
+        "text": "CloudFormation uses YAML/JSON to provision AWS resources natively; Terraform uses HCL and is multi-cloud with a state file you manage"
+      },
+      {
+        "id": "b",
+        "text": "CloudFormation is multi-cloud; Terraform is AWS-only"
+      },
+      {
+        "id": "c",
+        "text": "CloudFormation requires an agent on each server; Terraform does not"
+      },
+      {
+        "id": "d",
+        "text": "They are identical — CloudFormation is just the AWS-branded version of Terraform"
+      }
     ],
-    "correctAnswers": [0],
+    "correctAnswers": [
+      "a"
+    ],
     "explanation": "CloudFormation is AWS-native: no state file to manage (AWS manages it), deep AWS integration, free. Terraform: multi-cloud (AWS + GCP + Azure + 1000+ providers), state file you manage (remote backend needed), open-source with a strong ecosystem. Trade-off: CloudFormation for AWS-only shops (less complexity); Terraform for multi-cloud or if your team already knows HCL.",
-    "keyConcepts": ["CloudFormation", "Terraform", "AWS-native", "multi-cloud", "managed state"],
+    "keyConcepts": [
+      "CloudFormation",
+      "Terraform",
+      "AWS-native",
+      "multi-cloud",
+      "managed state"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -190,14 +390,33 @@
     "difficulty": "intermediate",
     "question": "What is the purpose of Terraform workspaces?",
     "options": [
-      "Workspaces separate the Terraform CLI from cloud provider authentication",
-      "Workspaces allow multiple state files within the same config directory — one per environment (dev, staging, prod) — reusing the same HCL",
-      "Workspaces are required for using Terraform modules",
-      "Workspaces are where Terraform Cloud stores CI pipeline logs"
+      {
+        "id": "a",
+        "text": "Workspaces separate the Terraform CLI from cloud provider authentication"
+      },
+      {
+        "id": "b",
+        "text": "Workspaces allow multiple state files within the same config directory — one per environment (dev, staging, prod) — reusing the same HCL"
+      },
+      {
+        "id": "c",
+        "text": "Workspaces are required for using Terraform modules"
+      },
+      {
+        "id": "d",
+        "text": "Workspaces are where Terraform Cloud stores CI pipeline logs"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Workspaces give each environment its own isolated state: `terraform workspace new staging` creates a new workspace. `terraform workspace select prod` switches to it. Same HCL, different state files — `terraform.workspace` variable returns the current workspace name for conditional naming. Note: for large teams, separate directories per environment (or Terragrunt) is often better than workspaces.",
-    "keyConcepts": ["Terraform workspaces", "multiple environments", "isolated state", "terraform.workspace"],
+    "keyConcepts": [
+      "Terraform workspaces",
+      "multiple environments",
+      "isolated state",
+      "terraform.workspace"
+    ],
     "commonInterviewQuestion": false
   },
   {
@@ -208,15 +427,35 @@
     "difficulty": "intermediate",
     "question": "What is an Ansible inventory and what are its formats?",
     "options": [
-      "Inventory is the list of Ansible modules available for use",
-      "Inventory defines the hosts and groups Ansible manages — can be static (INI/YAML file) or dynamic (script/plugin that queries cloud providers)",
-      "Inventory is a YAML file describing the desired state of servers",
-      "Inventory is only used in Ansible Tower/AWX, not in CLI Ansible"
+      {
+        "id": "a",
+        "text": "Inventory is the list of Ansible modules available for use"
+      },
+      {
+        "id": "b",
+        "text": "Inventory defines the hosts and groups Ansible manages — can be static (INI/YAML file) or dynamic (script/plugin that queries cloud providers)"
+      },
+      {
+        "id": "c",
+        "text": "Inventory is a YAML file describing the desired state of servers"
+      },
+      {
+        "id": "d",
+        "text": "Inventory is only used in Ansible Tower/AWX, not in CLI Ansible"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Ansible inventory tells Ansible which servers to manage. Static inventory: INI format (`[webservers]\\nserver1.example.com`) or YAML. Dynamic inventory: plugins (aws_ec2, gcp_compute) query the cloud API at runtime — always current as servers scale in/out. Group vars and host vars customize config per group or host.",
     "codeSnippet": "# Static INI inventory\n[webservers]\nweb1.example.com\nweb2.example.com\n\n[databases]\ndb1.example.com ansible_user=ubuntu\n\n[production:children]\nwebservers\ndatabases",
-    "keyConcepts": ["Ansible inventory", "host groups", "dynamic inventory", "group vars", "host vars"],
+    "keyConcepts": [
+      "Ansible inventory",
+      "host groups",
+      "dynamic inventory",
+      "group vars",
+      "host vars"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -227,14 +466,34 @@
     "difficulty": "intermediate",
     "question": "What is an Ansible role and why is it used?",
     "options": [
-      "An Ansible role defines the user permissions required to run a playbook",
-      "A role is a standardized directory structure for organizing reusable Ansible content — tasks, handlers, variables, templates, and files — shareable via Ansible Galaxy",
-      "A role is a way to target specific hosts in a playbook",
-      "Roles are only available in Ansible Enterprise"
+      {
+        "id": "a",
+        "text": "An Ansible role defines the user permissions required to run a playbook"
+      },
+      {
+        "id": "b",
+        "text": "A role is a standardized directory structure for organizing reusable Ansible content — tasks, handlers, variables, templates, and files — shareable via Ansible Galaxy"
+      },
+      {
+        "id": "c",
+        "text": "A role is a way to target specific hosts in a playbook"
+      },
+      {
+        "id": "d",
+        "text": "Roles are only available in Ansible Enterprise"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Roles provide a way to package related tasks, handlers, vars, and templates into a reusable unit. Directory structure: `tasks/main.yml`, `handlers/main.yml`, `vars/main.yml`, `defaults/main.yml`, `templates/`, `files/`. Roles are published and shared via Ansible Galaxy (`ansible-galaxy install geerlingguy.nginx`).",
-    "keyConcepts": ["Ansible roles", "Ansible Galaxy", "role structure", "reusability", "handlers"],
+    "keyConcepts": [
+      "Ansible roles",
+      "Ansible Galaxy",
+      "role structure",
+      "reusability",
+      "handlers"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -245,15 +504,35 @@
     "difficulty": "advanced",
     "question": "How do you manage secrets in Terraform without committing them to version control?",
     "options": [
-      "Store secrets directly in `terraform.tfvars` and add it to .gitignore",
-      "Use environment variables, secret managers (AWS Secrets Manager, Vault), or Terraform Cloud's sensitive variable feature — never put secrets in .tf files or unencrypted .tfvars",
-      "Encrypt all .tf files with GPG before committing",
-      "Secrets cannot be used in Terraform — use shell scripts instead"
+      {
+        "id": "a",
+        "text": "Store secrets directly in `terraform.tfvars` and add it to .gitignore"
+      },
+      {
+        "id": "b",
+        "text": "Use environment variables, secret managers (AWS Secrets Manager, Vault), or Terraform Cloud's sensitive variable feature — never put secrets in .tf files or unencrypted .tfvars"
+      },
+      {
+        "id": "c",
+        "text": "Encrypt all .tf files with GPG before committing"
+      },
+      {
+        "id": "d",
+        "text": "Secrets cannot be used in Terraform — use shell scripts instead"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Secrets in Terraform state files are stored in plaintext — this is a known limitation. Approaches: (1) Use `TF_VAR_password` environment variables — set in CI secrets, not committed. (2) Read from AWS Secrets Manager using a data source. (3) Use Vault provider to retrieve secrets at apply time. (4) Mark variables as `sensitive = true` to redact from plan output.",
     "codeSnippet": "# Read from AWS Secrets Manager\ndata \"aws_secretsmanager_secret_version\" \"db_password\" {\n  secret_id = \"prod/db/password\"\n}\n\nresource \"aws_db_instance\" \"db\" {\n  password = data.aws_secretsmanager_secret_version.db_password.secret_string\n}",
-    "keyConcepts": ["Terraform secrets", "sensitive variables", "Vault", "AWS Secrets Manager", "state security"],
+    "keyConcepts": [
+      "Terraform secrets",
+      "sensitive variables",
+      "Vault",
+      "AWS Secrets Manager",
+      "state security"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -264,14 +543,33 @@
     "difficulty": "advanced",
     "question": "What is Pulumi and how does it differ from Terraform?",
     "options": [
-      "Pulumi is a Terraform plugin for Python support",
-      "Pulumi uses general-purpose programming languages (TypeScript, Python, Go) instead of a DSL, enabling loops, conditionals, and abstractions with the full power of the language",
-      "Pulumi is only for AWS; Terraform is multi-cloud",
-      "Pulumi replaces Ansible; Terraform replaces CloudFormation"
+      {
+        "id": "a",
+        "text": "Pulumi is a Terraform plugin for Python support"
+      },
+      {
+        "id": "b",
+        "text": "Pulumi uses general-purpose programming languages (TypeScript, Python, Go) instead of a DSL, enabling loops, conditionals, and abstractions with the full power of the language"
+      },
+      {
+        "id": "c",
+        "text": "Pulumi is only for AWS; Terraform is multi-cloud"
+      },
+      {
+        "id": "d",
+        "text": "Pulumi replaces Ansible; Terraform replaces CloudFormation"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Pulumi uses real programming languages instead of HCL. This enables: native loops (for server in servers), type safety, standard testing frameworks, package managers (npm, pip), and IDE autocomplete. Trade-off: steeper learning curve than HCL; team needs programming skills. Terraform HCL is simpler for teams that only need infrastructure provisioning.",
-    "keyConcepts": ["Pulumi", "infrastructure as real code", "TypeScript IaC", "Terraform vs Pulumi"],
+    "keyConcepts": [
+      "Pulumi",
+      "infrastructure as real code",
+      "TypeScript IaC",
+      "Terraform vs Pulumi"
+    ],
     "commonInterviewQuestion": false
   },
   {
@@ -282,14 +580,33 @@
     "difficulty": "intermediate",
     "question": "What is `terraform import` used for?",
     "options": [
-      "It imports Terraform modules from a Git repository",
-      "It imports existing cloud resources into Terraform state so they can be managed by Terraform without recreating them",
-      "It imports environment variables from a .env file into Terraform",
-      "It imports a Terraform plan from a previous `terraform plan` run"
+      {
+        "id": "a",
+        "text": "It imports Terraform modules from a Git repository"
+      },
+      {
+        "id": "b",
+        "text": "It imports existing cloud resources into Terraform state so they can be managed by Terraform without recreating them"
+      },
+      {
+        "id": "c",
+        "text": "It imports environment variables from a .env file into Terraform"
+      },
+      {
+        "id": "d",
+        "text": "It imports a Terraform plan from a previous `terraform plan` run"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "`terraform import aws_s3_bucket.my_bucket my-bucket-name` reads an existing AWS resource and adds it to the state file. You still need to write the matching HCL — import only handles state, not config generation. After import, `terraform plan` should show no changes if your HCL matches the real resource.",
-    "keyConcepts": ["terraform import", "existing infrastructure", "state management", "brown-field adoption"],
+    "keyConcepts": [
+      "terraform import",
+      "existing infrastructure",
+      "state management",
+      "brown-field adoption"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -300,14 +617,34 @@
     "difficulty": "advanced",
     "question": "What is Terragrunt and what problem does it solve?",
     "options": [
-      "Terragrunt is a linter for Terraform HCL files",
-      "Terragrunt is a thin wrapper around Terraform that adds DRY principles (remote state config reuse, env-specific variable inheritance) and multi-module orchestration",
-      "Terragrunt is HashiCorp's enterprise version of Terraform",
-      "Terragrunt is a Terraform testing framework"
+      {
+        "id": "a",
+        "text": "Terragrunt is a linter for Terraform HCL files"
+      },
+      {
+        "id": "b",
+        "text": "Terragrunt is a thin wrapper around Terraform that adds DRY principles (remote state config reuse, env-specific variable inheritance) and multi-module orchestration"
+      },
+      {
+        "id": "c",
+        "text": "Terragrunt is HashiCorp's enterprise version of Terraform"
+      },
+      {
+        "id": "d",
+        "text": "Terragrunt is a Terraform testing framework"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Terragrunt solves the challenge of managing many Terraform modules across environments: DRY remote state configuration (define S3 backend once, inherit everywhere), environment-specific variable files, and `terragrunt run-all apply` to apply all modules in dependency order. Popular for large-scale IaC with many environments and modules.",
-    "keyConcepts": ["Terragrunt", "DRY IaC", "multi-module", "remote state inheritance", "run-all"],
+    "keyConcepts": [
+      "Terragrunt",
+      "DRY IaC",
+      "multi-module",
+      "remote state inheritance",
+      "run-all"
+    ],
     "commonInterviewQuestion": false
   },
   {
@@ -318,14 +655,34 @@
     "difficulty": "intermediate",
     "question": "What is idempotency in the context of IaC?",
     "options": [
-      "The ability to run IaC tools in parallel across multiple environments",
-      "The property that running the same IaC operation multiple times produces the same result without unintended side effects",
-      "The ability to roll back any infrastructure change",
-      "The property that IaC tools can operate without network access"
+      {
+        "id": "a",
+        "text": "The ability to run IaC tools in parallel across multiple environments"
+      },
+      {
+        "id": "b",
+        "text": "The property that running the same IaC operation multiple times produces the same result without unintended side effects"
+      },
+      {
+        "id": "c",
+        "text": "The ability to roll back any infrastructure change"
+      },
+      {
+        "id": "d",
+        "text": "The property that IaC tools can operate without network access"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "An idempotent operation can be applied multiple times without changing the result beyond the initial application. `terraform apply` on an already-correct infrastructure: no changes. Ansible `state: present` for an installed package: skips if already installed. Non-idempotent example: `RUN apt-get update` in a Dockerfile — cache may return stale results. Idempotency makes automation safe to run repeatedly.",
-    "keyConcepts": ["idempotency", "IaC safety", "convergence", "desired state", "no-op on re-apply"],
+    "keyConcepts": [
+      "idempotency",
+      "IaC safety",
+      "convergence",
+      "desired state",
+      "no-op on re-apply"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -336,15 +693,35 @@
     "difficulty": "intermediate",
     "question": "What are Terraform data sources?",
     "options": [
-      "Data sources are files containing Terraform variable values",
-      "Data sources fetch read-only information from existing infrastructure for use in Terraform config — without managing those resources",
-      "Data sources are the Terraform equivalent of API endpoints",
-      "Data sources are the input variables passed to Terraform modules"
+      {
+        "id": "a",
+        "text": "Data sources are files containing Terraform variable values"
+      },
+      {
+        "id": "b",
+        "text": "Data sources fetch read-only information from existing infrastructure for use in Terraform config — without managing those resources"
+      },
+      {
+        "id": "c",
+        "text": "Data sources are the Terraform equivalent of API endpoints"
+      },
+      {
+        "id": "d",
+        "text": "Data sources are the input variables passed to Terraform modules"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Data sources let you read information from existing resources you don't manage. Examples: look up a VPC ID by name to deploy subnets into it; get the latest AMI ID for a given OS; read an existing IAM role ARN. `data \"aws_vpc\" \"existing\" { tags = { Name = \"production-vpc\" } }` then reference `data.aws_vpc.existing.id`.",
     "codeSnippet": "data \"aws_ami\" \"ubuntu\" {\n  most_recent = true\n  owners      = [\"099720109477\"] # Canonical\n  filter {\n    name   = \"name\"\n    values = [\"ubuntu/images/hvm-ssd/ubuntu-*-22.04-amd64-server-*\"]\n  }\n}\n\nresource \"aws_instance\" \"web\" {\n  ami = data.aws_ami.ubuntu.id\n}",
-    "keyConcepts": ["data sources", "read-only", "existing resources", "aws_ami", "aws_vpc"],
+    "keyConcepts": [
+      "data sources",
+      "read-only",
+      "existing resources",
+      "aws_ami",
+      "aws_vpc"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -355,14 +732,34 @@
     "difficulty": "advanced",
     "question": "What is GitOps applied to IaC and what tools support it?",
     "options": [
-      "GitOps for IaC means storing Terraform config in Git — nothing more",
-      "GitOps for IaC means automated PR-based workflow: PR triggers plan, plan output posted as comment, merge triggers apply — tools: Atlantis, Terraform Cloud, env0, Spacelift",
-      "GitOps for IaC requires using ArgoCD for all Terraform deployments",
-      "GitOps for IaC only works with CloudFormation"
+      {
+        "id": "a",
+        "text": "GitOps for IaC means storing Terraform config in Git — nothing more"
+      },
+      {
+        "id": "b",
+        "text": "GitOps for IaC means automated PR-based workflow: PR triggers plan, plan output posted as comment, merge triggers apply — tools: Atlantis, Terraform Cloud, env0, Spacelift"
+      },
+      {
+        "id": "c",
+        "text": "GitOps for IaC requires using ArgoCD for all Terraform deployments"
+      },
+      {
+        "id": "d",
+        "text": "GitOps for IaC only works with CloudFormation"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Atlantis is the classic open-source GitOps tool for Terraform: a PR to the Terraform repo triggers `terraform plan`; the plan is posted as a PR comment for review; a `atlantis apply` comment triggers the apply after merge. This gives teams: audit history in git, peer review of infrastructure changes, automated rollback via `git revert`, and no local apply (all in CI).",
-    "keyConcepts": ["Atlantis", "GitOps for IaC", "PR-based workflow", "terraform plan in CI", "audit trail"],
+    "keyConcepts": [
+      "Atlantis",
+      "GitOps for IaC",
+      "PR-based workflow",
+      "terraform plan in CI",
+      "audit trail"
+    ],
     "commonInterviewQuestion": false
   },
   {
@@ -373,14 +770,34 @@
     "difficulty": "intermediate",
     "question": "What is the difference between `terraform.tfvars` and environment variables for Terraform configuration?",
     "options": [
-      "tfvars are processed before environment variables; env vars are processed after",
-      "`terraform.tfvars` (or `*.auto.tfvars`) are files that auto-load variable values; `TF_VAR_name` environment variables serve the same purpose and are preferred for secrets in CI",
-      "Environment variables can only set string values; tfvars support all types",
-      "tfvars are for production; environment variables are for development"
+      {
+        "id": "a",
+        "text": "tfvars are processed before environment variables; env vars are processed after"
+      },
+      {
+        "id": "b",
+        "text": "`terraform.tfvars` (or `*.auto.tfvars`) are files that auto-load variable values; `TF_VAR_name` environment variables serve the same purpose and are preferred for secrets in CI"
+      },
+      {
+        "id": "c",
+        "text": "Environment variables can only set string values; tfvars support all types"
+      },
+      {
+        "id": "d",
+        "text": "tfvars are for production; environment variables are for development"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "`terraform.tfvars` is auto-loaded (don't commit if it contains secrets). `*.auto.tfvars` is also auto-loaded. Explicit: `-var-file=prod.tfvars` on the command line. Environment variables: `export TF_VAR_db_password=secret` — Terraform maps `TF_VAR_` prefix to variable `db_password`. CI/CD pipelines use env vars set as secrets.",
-    "keyConcepts": ["tfvars", "TF_VAR_", "variable precedence", "CI secrets", "auto-loading"],
+    "keyConcepts": [
+      "tfvars",
+      "TF_VAR_",
+      "variable precedence",
+      "CI secrets",
+      "auto-loading"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -391,14 +808,33 @@
     "difficulty": "advanced",
     "question": "What is `terraform taint` / `terraform apply -replace` and when would you use it?",
     "options": [
-      "It marks a resource as deprecated so it appears in plan as to-be-deleted",
-      "It marks a resource for forced recreation on the next apply — useful when a resource is in a broken state that Terraform's plan cannot detect",
-      "It locks a resource to prevent it from being changed",
-      "It is used to import externally-created resources into state"
+      {
+        "id": "a",
+        "text": "It marks a resource as deprecated so it appears in plan as to-be-deleted"
+      },
+      {
+        "id": "b",
+        "text": "It marks a resource for forced recreation on the next apply — useful when a resource is in a broken state that Terraform's plan cannot detect"
+      },
+      {
+        "id": "c",
+        "text": "It locks a resource to prevent it from being changed"
+      },
+      {
+        "id": "d",
+        "text": "It is used to import externally-created resources into state"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "`terraform apply -replace=aws_instance.broken` (modern; `taint` is deprecated) forces Terraform to destroy and recreate a specific resource even if no config changed. Use when: an EC2 instance is in a bad state, a certificate needs renewal, or a resource's in-place update is broken. Terraform will destroy the resource and recreate it.",
-    "keyConcepts": ["terraform replace", "terraform taint", "forced recreation", "broken resources"],
+    "keyConcepts": [
+      "terraform replace",
+      "terraform taint",
+      "forced recreation",
+      "broken resources"
+    ],
     "commonInterviewQuestion": false
   },
   {
@@ -409,15 +845,35 @@
     "difficulty": "intermediate",
     "question": "What are Ansible handlers and when do they run?",
     "options": [
-      "Handlers run before tasks to set up preconditions",
-      "Handlers are tasks triggered by `notify:` in other tasks — they run once at the end of the play only if notified",
-      "Handlers are error handlers that run when a task fails",
-      "Handlers are asynchronous tasks that run in the background"
+      {
+        "id": "a",
+        "text": "Handlers run before tasks to set up preconditions"
+      },
+      {
+        "id": "b",
+        "text": "Handlers are tasks triggered by `notify:` in other tasks — they run once at the end of the play only if notified"
+      },
+      {
+        "id": "c",
+        "text": "Handlers are error handlers that run when a task fails"
+      },
+      {
+        "id": "d",
+        "text": "Handlers are asynchronous tasks that run in the background"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Handlers are tasks that run when notified by another task. The key behavior: even if 10 tasks notify the same handler (e.g., 'restart nginx'), the handler runs ONCE at the end of the play. This prevents unnecessary service restarts. Common use: 'copy nginx config' notifies 'restart nginx' — nginx only restarts if the config actually changed.",
     "codeSnippet": "tasks:\n  - name: Copy nginx config\n    template:\n      src: nginx.conf.j2\n      dest: /etc/nginx/nginx.conf\n    notify: restart nginx\n\nhandlers:\n  - name: restart nginx\n    service:\n      name: nginx\n      state: restarted",
-    "keyConcepts": ["Ansible handlers", "notify", "idempotent restart", "end of play", "service restart"],
+    "keyConcepts": [
+      "Ansible handlers",
+      "notify",
+      "idempotent restart",
+      "end of play",
+      "service restart"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -428,14 +884,34 @@
     "difficulty": "advanced",
     "question": "What is infrastructure testing and what tools are used for Terraform?",
     "options": [
-      "Infrastructure testing is load testing servers after deployment",
-      "Infrastructure testing validates that IaC produces correct infrastructure — tools: Terratest (Go), terraform test (built-in), Checkov (policy/security), tflint (linting)",
-      "Infrastructure testing only applies to application code, not IaC",
-      "The only way to test IaC is to apply it to a real environment"
+      {
+        "id": "a",
+        "text": "Infrastructure testing is load testing servers after deployment"
+      },
+      {
+        "id": "b",
+        "text": "Infrastructure testing validates that IaC produces correct infrastructure — tools: Terratest (Go), terraform test (built-in), Checkov (policy/security), tflint (linting)"
+      },
+      {
+        "id": "c",
+        "text": "Infrastructure testing only applies to application code, not IaC"
+      },
+      {
+        "id": "d",
+        "text": "The only way to test IaC is to apply it to a real environment"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Testing IaC: Checkov/tfsec scans HCL for security misconfigurations before apply. tflint catches Terraform-specific errors. `terraform validate` checks syntax. Terratest (Go) deploys real infrastructure in a test account, runs assertions, then tears it down. `terraform test` (v1.6+) is the built-in testing framework using `.tftest.hcl` files.",
-    "keyConcepts": ["Terratest", "Checkov", "tflint", "terraform test", "IaC security scanning"],
+    "keyConcepts": [
+      "Terratest",
+      "Checkov",
+      "tflint",
+      "terraform test",
+      "IaC security scanning"
+    ],
     "commonInterviewQuestion": false
   },
   {
@@ -446,14 +922,34 @@
     "difficulty": "advanced",
     "question": "What is the principle of immutable infrastructure?",
     "options": [
-      "Infrastructure that cannot be changed once created — any change requires full recreation",
-      "Infrastructure defined in IaC that is protected from manual changes",
-      "Servers that cannot be SSH'd into for security reasons",
-      "Cloud resources with deletion protection enabled"
+      {
+        "id": "a",
+        "text": "Infrastructure that cannot be changed once created — any change requires full recreation"
+      },
+      {
+        "id": "b",
+        "text": "Infrastructure defined in IaC that is protected from manual changes"
+      },
+      {
+        "id": "c",
+        "text": "Servers that cannot be SSH'd into for security reasons"
+      },
+      {
+        "id": "d",
+        "text": "Cloud resources with deletion protection enabled"
+      }
     ],
-    "correctAnswers": [0],
+    "correctAnswers": [
+      "a"
+    ],
     "explanation": "Immutable infrastructure: servers are never patched or modified in place. When a change is needed, a new AMI/container image is built, a new server is provisioned from it, traffic is switched, and the old one is destroyed. Benefits: no config drift (the image IS the config), faster rollbacks (keep the previous image), and reproducible environments. Containers are naturally immutable.",
-    "keyConcepts": ["immutable infrastructure", "golden image", "AMI", "no in-place updates", "configuration drift prevention"],
+    "keyConcepts": [
+      "immutable infrastructure",
+      "golden image",
+      "AMI",
+      "no in-place updates",
+      "configuration drift prevention"
+    ],
     "commonInterviewQuestion": true
   }
 ]

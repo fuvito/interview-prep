@@ -7,14 +7,34 @@
     "difficulty": "beginner",
     "question": "What is the difference between Continuous Integration, Continuous Delivery, and Continuous Deployment?",
     "options": [
-      "They are different names for the same practice",
-      "CI automatically merges code; CD automatically builds it; Deployment automatically ships it to users",
-      "CI automatically builds and tests code on every commit; Continuous Delivery ensures the build is always deployable; Continuous Deployment automatically deploys every passing build to production",
-      "CI is for backend; Delivery is for frontend; Deployment is for infrastructure"
+      {
+        "id": "a",
+        "text": "They are different names for the same practice"
+      },
+      {
+        "id": "b",
+        "text": "CI automatically merges code; CD automatically builds it; Deployment automatically ships it to users"
+      },
+      {
+        "id": "c",
+        "text": "CI automatically builds and tests code on every commit; Continuous Delivery ensures the build is always deployable; Continuous Deployment automatically deploys every passing build to production"
+      },
+      {
+        "id": "d",
+        "text": "CI is for backend; Delivery is for frontend; Deployment is for infrastructure"
+      }
     ],
-    "correctAnswers": [2],
+    "correctAnswers": [
+      "c"
+    ],
     "explanation": "CI: developers merge frequently; every push triggers build + tests. Continuous Delivery: every successful build produces a release artifact that CAN be deployed to production (requires manual approval). Continuous Deployment: every successful build IS automatically deployed to production without human approval.",
-    "keyConcepts": ["CI", "Continuous Delivery", "Continuous Deployment", "pipeline stages", "automation"],
+    "keyConcepts": [
+      "CI",
+      "Continuous Delivery",
+      "Continuous Deployment",
+      "pipeline stages",
+      "automation"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -25,15 +45,34 @@
     "difficulty": "beginner",
     "question": "What triggers a GitHub Actions workflow?",
     "options": [
-      "Only manual triggers via the GitHub UI",
-      "Events defined in the workflow's `on:` key — such as push, pull_request, schedule, or workflow_dispatch",
-      "Any change to any file in the repository",
-      "GitHub Actions runs on a fixed schedule regardless of configuration"
+      {
+        "id": "a",
+        "text": "Only manual triggers via the GitHub UI"
+      },
+      {
+        "id": "b",
+        "text": "Events defined in the workflow's `on:` key — such as push, pull_request, schedule, or workflow_dispatch"
+      },
+      {
+        "id": "c",
+        "text": "Any change to any file in the repository"
+      },
+      {
+        "id": "d",
+        "text": "GitHub Actions runs on a fixed schedule regardless of configuration"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "The `on:` key defines triggers. Common triggers: `push` (code pushed to a branch), `pull_request` (PR opened/updated), `schedule` (cron), `workflow_dispatch` (manual), `release` (GitHub release created). You can filter by branch, tag, or file path.",
     "codeSnippet": "on:\n  push:\n    branches: [main]\n  pull_request:\n    branches: [main]\n  schedule:\n    - cron: '0 2 * * *'",
-    "keyConcepts": ["GitHub Actions", "on: key", "triggers", "workflow events"],
+    "keyConcepts": [
+      "GitHub Actions",
+      "on: key",
+      "triggers",
+      "workflow events"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -44,15 +83,35 @@
     "difficulty": "beginner",
     "question": "What is the relationship between a workflow, a job, and a step in GitHub Actions?",
     "options": [
-      "Workflow contains steps; steps contain jobs",
-      "A workflow is one YAML file containing one or more jobs; jobs contain steps; steps are individual commands or actions",
-      "Jobs contain workflows; workflows contain steps",
-      "They are all the same thing — just different naming for different team sizes"
+      {
+        "id": "a",
+        "text": "Workflow contains steps; steps contain jobs"
+      },
+      {
+        "id": "b",
+        "text": "A workflow is one YAML file containing one or more jobs; jobs contain steps; steps are individual commands or actions"
+      },
+      {
+        "id": "c",
+        "text": "Jobs contain workflows; workflows contain steps"
+      },
+      {
+        "id": "d",
+        "text": "They are all the same thing — just different naming for different team sizes"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Hierarchy: Workflow (`.github/workflows/*.yml`) → Jobs (run in parallel by default on separate runners) → Steps (run sequentially within a job, share the same runner filesystem). Each job starts on a fresh runner unless you configure artifact passing.",
     "codeSnippet": "jobs:\n  build:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - name: Install\n        run: npm ci\n      - name: Test\n        run: npm test",
-    "keyConcepts": ["workflow", "job", "step", "runner", "GitHub Actions structure"],
+    "keyConcepts": [
+      "workflow",
+      "job",
+      "step",
+      "runner",
+      "GitHub Actions structure"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -63,15 +122,35 @@
     "difficulty": "intermediate",
     "question": "How do you pass data between jobs in a GitHub Actions workflow?",
     "options": [
-      "Jobs share the same filesystem, so files are automatically available",
-      "Using `outputs` on a job step and `needs.<job>.outputs` in dependent jobs, or by uploading/downloading artifacts",
-      "Using environment variables — they persist across jobs automatically",
-      "It is not possible to pass data between jobs"
+      {
+        "id": "a",
+        "text": "Jobs share the same filesystem, so files are automatically available"
+      },
+      {
+        "id": "b",
+        "text": "Using `outputs` on a job step and `needs.<job>.outputs` in dependent jobs, or by uploading/downloading artifacts"
+      },
+      {
+        "id": "c",
+        "text": "Using environment variables — they persist across jobs automatically"
+      },
+      {
+        "id": "d",
+        "text": "It is not possible to pass data between jobs"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Each job runs on a fresh runner, so filesystems are not shared. Two approaches: (1) Job outputs via `outputs:` on steps and reading them with `${{ needs.build.outputs.version }}`. (2) Artifacts: `actions/upload-artifact` in one job, `actions/download-artifact` in the next. Use outputs for small values (version numbers), artifacts for files (built binaries).",
     "codeSnippet": "jobs:\n  build:\n    outputs:\n      version: ${{ steps.get-version.outputs.version }}\n    steps:\n      - id: get-version\n        run: echo \"version=$(node -p \"require('./package.json').version\")\" >> $GITHUB_OUTPUT\n  deploy:\n    needs: build\n    steps:\n      - run: echo \"Deploying ${{ needs.build.outputs.version }}\"",
-    "keyConcepts": ["job outputs", "artifacts", "needs:", "GITHUB_OUTPUT", "data passing"],
+    "keyConcepts": [
+      "job outputs",
+      "artifacts",
+      "needs:",
+      "GITHUB_OUTPUT",
+      "data passing"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -82,15 +161,34 @@
     "difficulty": "intermediate",
     "question": "What is a GitHub Actions matrix strategy?",
     "options": [
-      "A security feature that encrypts workflow secrets",
-      "A strategy that runs a job multiple times with different variable combinations (e.g., Node versions, OS types) in parallel",
-      "A way to define which branches trigger the workflow",
-      "A configuration for running jobs in sequential order"
+      {
+        "id": "a",
+        "text": "A security feature that encrypts workflow secrets"
+      },
+      {
+        "id": "b",
+        "text": "A strategy that runs a job multiple times with different variable combinations (e.g., Node versions, OS types) in parallel"
+      },
+      {
+        "id": "c",
+        "text": "A way to define which branches trigger the workflow"
+      },
+      {
+        "id": "d",
+        "text": "A configuration for running jobs in sequential order"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Matrix strategy creates a job run for every combination of variables you define. Example: testing against Node 18 and 20 on Ubuntu and Windows creates 4 parallel runs. This ensures cross-environment compatibility without duplicating job definitions.",
     "codeSnippet": "strategy:\n  matrix:\n    node: [18, 20]\n    os: [ubuntu-latest, windows-latest]\nruns-on: ${{ matrix.os }}\nsteps:\n  - uses: actions/setup-node@v4\n    with:\n      node-version: ${{ matrix.node }}",
-    "keyConcepts": ["matrix strategy", "parallel jobs", "cross-platform testing", "matrix variables"],
+    "keyConcepts": [
+      "matrix strategy",
+      "parallel jobs",
+      "cross-platform testing",
+      "matrix variables"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -101,14 +199,34 @@
     "difficulty": "intermediate",
     "question": "How should you store API keys and passwords in a GitHub Actions workflow?",
     "options": [
-      "Hardcode them in the workflow YAML file — only contributors can see it",
-      "Store them in GitHub Secrets and reference them as `${{ secrets.MY_SECRET }}` — they are masked in logs",
-      "Store them in a `.env` file committed to the repository",
-      "Use environment variables in the `env:` key of the workflow"
+      {
+        "id": "a",
+        "text": "Hardcode them in the workflow YAML file — only contributors can see it"
+      },
+      {
+        "id": "b",
+        "text": "Store them in GitHub Secrets and reference them as `${{ secrets.MY_SECRET }}` — they are masked in logs"
+      },
+      {
+        "id": "c",
+        "text": "Store them in a `.env` file committed to the repository"
+      },
+      {
+        "id": "d",
+        "text": "Use environment variables in the `env:` key of the workflow"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "GitHub Secrets are encrypted, never exposed in logs (values are masked), and only accessible to workflows in the same repo. Access them in workflows as `${{ secrets.MY_SECRET }}`. Never commit secrets to the repo — even in private repos, secrets in code can be exposed via forks, logs, or history.",
-    "keyConcepts": ["GitHub Secrets", "secret masking", "OIDC", "secure CI", "never commit secrets"],
+    "keyConcepts": [
+      "GitHub Secrets",
+      "secret masking",
+      "OIDC",
+      "secure CI",
+      "never commit secrets"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -119,14 +237,34 @@
     "difficulty": "intermediate",
     "question": "What is OIDC (OpenID Connect) in the context of CI/CD, and why is it better than long-lived credentials?",
     "options": [
-      "OIDC is a container registry protocol for pushing images",
-      "OIDC lets a CI/CD system authenticate to cloud providers using short-lived tokens instead of storing long-lived API keys as secrets",
-      "OIDC is a test framework for identity providers",
-      "OIDC is only relevant for OAuth-based web apps, not CI/CD"
+      {
+        "id": "a",
+        "text": "OIDC is a container registry protocol for pushing images"
+      },
+      {
+        "id": "b",
+        "text": "OIDC lets a CI/CD system authenticate to cloud providers using short-lived tokens instead of storing long-lived API keys as secrets"
+      },
+      {
+        "id": "c",
+        "text": "OIDC is a test framework for identity providers"
+      },
+      {
+        "id": "d",
+        "text": "OIDC is only relevant for OAuth-based web apps, not CI/CD"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "With OIDC, GitHub Actions (or GitLab CI, etc.) exchanges a JWT from the CI provider for a short-lived cloud credential. AWS, GCP, and Azure all support this. No AWS_ACCESS_KEY_ID stored as a secret — the token expires after minutes and can't be leaked or rotated. This is the recommended approach for CI→cloud authentication.",
-    "keyConcepts": ["OIDC", "short-lived tokens", "keyless auth", "IAM role", "supply chain security"],
+    "keyConcepts": [
+      "OIDC",
+      "short-lived tokens",
+      "keyless auth",
+      "IAM role",
+      "supply chain security"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -137,14 +275,33 @@
     "difficulty": "intermediate",
     "question": "What is a self-hosted runner in GitHub Actions?",
     "options": [
-      "A GitHub-managed runner with more RAM",
-      "A machine you manage that runs GitHub Actions jobs — useful for private networks, custom hardware, or cost optimization at scale",
-      "A Docker container running inside your GitHub Actions workflow",
-      "A paid GitHub feature for enterprise teams"
+      {
+        "id": "a",
+        "text": "A GitHub-managed runner with more RAM"
+      },
+      {
+        "id": "b",
+        "text": "A machine you manage that runs GitHub Actions jobs — useful for private networks, custom hardware, or cost optimization at scale"
+      },
+      {
+        "id": "c",
+        "text": "A Docker container running inside your GitHub Actions workflow"
+      },
+      {
+        "id": "d",
+        "text": "A paid GitHub feature for enterprise teams"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "GitHub-hosted runners are ephemeral VMs managed by GitHub. Self-hosted runners are machines you register with your repo/org. Use cases: access to private network resources (databases, internal APIs), custom hardware (GPU machines, ARM devices), Docker socket access for DinD builds, or cost reduction for high-volume pipelines.",
-    "keyConcepts": ["self-hosted runner", "GitHub-hosted runner", "private network", "runner registration"],
+    "keyConcepts": [
+      "self-hosted runner",
+      "GitHub-hosted runner",
+      "private network",
+      "runner registration"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -155,14 +312,34 @@
     "difficulty": "intermediate",
     "question": "What is a deployment environment in CI/CD and how does it enable approval gates?",
     "options": [
-      "An environment is a Docker image used during deployment",
-      "A named target (staging, production) with protection rules — reviewers must approve before a job deploying to that environment proceeds",
-      "An environment variable namespace for different deployment targets",
-      "A separate GitHub repository for each deployment target"
+      {
+        "id": "a",
+        "text": "An environment is a Docker image used during deployment"
+      },
+      {
+        "id": "b",
+        "text": "A named target (staging, production) with protection rules — reviewers must approve before a job deploying to that environment proceeds"
+      },
+      {
+        "id": "c",
+        "text": "An environment variable namespace for different deployment targets"
+      },
+      {
+        "id": "d",
+        "text": "A separate GitHub repository for each deployment target"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "GitHub Environments (Settings → Environments) let you define required reviewers, wait timers, and branch restrictions. When a workflow job targets an environment (`environment: production`), it pauses and waits for a designated reviewer to approve before running. This provides a human gate for production deployments within an automated pipeline.",
-    "keyConcepts": ["environments", "approval gates", "required reviewers", "protection rules", "deployment gates"],
+    "keyConcepts": [
+      "environments",
+      "approval gates",
+      "required reviewers",
+      "protection rules",
+      "deployment gates"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -173,14 +350,34 @@
     "difficulty": "intermediate",
     "question": "What is semantic versioning (SemVer) and how does it relate to release automation?",
     "options": [
-      "SemVer is a version naming scheme: MAJOR.MINOR.PATCH — MAJOR for breaking changes, MINOR for new features, PATCH for bug fixes",
-      "SemVer is a CI tool for automatically determining test coverage",
-      "SemVer means versions are stored in a database rather than git tags",
-      "SemVer is only used for npm packages"
+      {
+        "id": "a",
+        "text": "SemVer is a version naming scheme: MAJOR.MINOR.PATCH — MAJOR for breaking changes, MINOR for new features, PATCH for bug fixes"
+      },
+      {
+        "id": "b",
+        "text": "SemVer is a CI tool for automatically determining test coverage"
+      },
+      {
+        "id": "c",
+        "text": "SemVer means versions are stored in a database rather than git tags"
+      },
+      {
+        "id": "d",
+        "text": "SemVer is only used for npm packages"
+      }
     ],
-    "correctAnswers": [0],
+    "correctAnswers": [
+      "a"
+    ],
     "explanation": "SemVer (2.0.0 spec): `MAJOR.MINOR.PATCH`. Increment MAJOR for breaking API changes, MINOR for backwards-compatible new features, PATCH for backwards-compatible bug fixes. Tools like semantic-release, release-please, or Changesets automate version bumping and CHANGELOG generation by analyzing Conventional Commits messages.",
-    "keyConcepts": ["SemVer", "MAJOR.MINOR.PATCH", "semantic-release", "Conventional Commits", "CHANGELOG"],
+    "keyConcepts": [
+      "SemVer",
+      "MAJOR.MINOR.PATCH",
+      "semantic-release",
+      "Conventional Commits",
+      "CHANGELOG"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -191,14 +388,34 @@
     "difficulty": "advanced",
     "question": "What is a blue-green deployment?",
     "options": [
-      "A deployment that uses blue containers for backend and green containers for frontend",
-      "A strategy where two identical environments run simultaneously; traffic is switched from the old (blue) to the new (green) after verification — enabling instant rollback",
-      "A canary deployment strategy for gradual traffic shifting",
-      "A Kubernetes deployment strategy for multi-region apps"
+      {
+        "id": "a",
+        "text": "A deployment that uses blue containers for backend and green containers for frontend"
+      },
+      {
+        "id": "b",
+        "text": "A strategy where two identical environments run simultaneously; traffic is switched from the old (blue) to the new (green) after verification — enabling instant rollback"
+      },
+      {
+        "id": "c",
+        "text": "A canary deployment strategy for gradual traffic shifting"
+      },
+      {
+        "id": "d",
+        "text": "A Kubernetes deployment strategy for multi-region apps"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Blue-green maintains two identical environments. Blue is live (production). Deploy the new version to green, run smoke tests, then switch the load balancer from blue to green. If green has issues, flip back to blue instantly. Downside: requires double the infrastructure. Most useful when rollback speed is critical.",
-    "keyConcepts": ["blue-green deployment", "instant rollback", "zero-downtime", "load balancer switch", "environment parity"],
+    "keyConcepts": [
+      "blue-green deployment",
+      "instant rollback",
+      "zero-downtime",
+      "load balancer switch",
+      "environment parity"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -209,14 +426,34 @@
     "difficulty": "advanced",
     "question": "What is a canary deployment?",
     "options": [
-      "A deployment that deploys to a test environment before production",
-      "A strategy that routes a small percentage of traffic to the new version, monitors metrics, then gradually increases traffic to the new version if healthy",
-      "A deployment strategy that runs both old and new versions permanently",
-      "A strategy where canary servers are disposable test machines"
+      {
+        "id": "a",
+        "text": "A deployment that deploys to a test environment before production"
+      },
+      {
+        "id": "b",
+        "text": "A strategy that routes a small percentage of traffic to the new version, monitors metrics, then gradually increases traffic to the new version if healthy"
+      },
+      {
+        "id": "c",
+        "text": "A deployment strategy that runs both old and new versions permanently"
+      },
+      {
+        "id": "d",
+        "text": "A strategy where canary servers are disposable test machines"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Canary deploys the new version to a small subset of users (5%, 10%) while most users still hit the old version. You monitor error rates, latency, and business metrics. If healthy, gradually shift more traffic. If issues arise, shift 0% to the canary and the blast radius was small. More nuanced than blue-green but more complex.",
-    "keyConcepts": ["canary deployment", "traffic splitting", "progressive delivery", "feature flags", "blast radius"],
+    "keyConcepts": [
+      "canary deployment",
+      "traffic splitting",
+      "progressive delivery",
+      "feature flags",
+      "blast radius"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -227,14 +464,35 @@
     "difficulty": "intermediate",
     "question": "What is GitOps?",
     "options": [
-      "A branching strategy where all features are merged to one branch",
-      "A practice where the desired state of infrastructure and applications is declared in Git, and automated agents reconcile actual state with declared state",
-      "A GitHub-specific CI/CD feature for Kubernetes",
-      "An approach to managing git credentials securely"
+      {
+        "id": "a",
+        "text": "A branching strategy where all features are merged to one branch"
+      },
+      {
+        "id": "b",
+        "text": "A practice where the desired state of infrastructure and applications is declared in Git, and automated agents reconcile actual state with declared state"
+      },
+      {
+        "id": "c",
+        "text": "A GitHub-specific CI/CD feature for Kubernetes"
+      },
+      {
+        "id": "d",
+        "text": "An approach to managing git credentials securely"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "GitOps uses Git as the single source of truth for both application code and infrastructure config. Tools like ArgoCD or Flux continuously compare the cluster state with the Git repo and reconcile differences. PRs are the change mechanism — you get audit history, peer review, and rollback for free via git revert.",
-    "keyConcepts": ["GitOps", "ArgoCD", "Flux", "reconciliation", "declarative config", "Git as source of truth"],
+    "keyConcepts": [
+      "GitOps",
+      "ArgoCD",
+      "Flux",
+      "reconciliation",
+      "declarative config",
+      "Git as source of truth"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -245,15 +503,35 @@
     "difficulty": "intermediate",
     "question": "What is dependency caching in a CI pipeline and why is it important?",
     "options": [
-      "Caching prevents the CI runner from downloading the same packages on every run — reduces pipeline duration from minutes to seconds",
-      "Caching stores test results so tests don't have to run again",
-      "Caching stores the built Docker image between pipeline runs",
-      "Caching is only relevant for Java Maven projects"
+      {
+        "id": "a",
+        "text": "Caching prevents the CI runner from downloading the same packages on every run — reduces pipeline duration from minutes to seconds"
+      },
+      {
+        "id": "b",
+        "text": "Caching stores test results so tests don't have to run again"
+      },
+      {
+        "id": "c",
+        "text": "Caching stores the built Docker image between pipeline runs"
+      },
+      {
+        "id": "d",
+        "text": "Caching is only relevant for Java Maven projects"
+      }
     ],
-    "correctAnswers": [0],
+    "correctAnswers": [
+      "a"
+    ],
     "explanation": "Downloading npm/pip/Maven packages on every CI run is slow and costly. Caching the package manager's cache directory (keyed on lockfile hash) means subsequent runs reuse downloaded packages. GitHub Actions: `actions/cache@v4` with a key like `node-${{ hashFiles('package-lock.json') }}`. A lockfile change invalidates the cache automatically.",
     "codeSnippet": "- uses: actions/cache@v4\n  with:\n    path: ~/.npm\n    key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}\n    restore-keys: |\n      ${{ runner.os }}-node-",
-    "keyConcepts": ["dependency caching", "cache key", "hashFiles", "pipeline speed", "actions/cache"],
+    "keyConcepts": [
+      "dependency caching",
+      "cache key",
+      "hashFiles",
+      "pipeline speed",
+      "actions/cache"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -264,14 +542,34 @@
     "difficulty": "intermediate",
     "question": "What is a Dockerfile's role in a CI/CD pipeline?",
     "options": [
-      "It defines the CI/CD pipeline steps",
-      "It defines how to build a container image — CI builds the image, pushes to a registry, and CD deploys it",
-      "It is only used locally and has no role in CI/CD",
-      "It replaces docker-compose in production deployments"
+      {
+        "id": "a",
+        "text": "It defines the CI/CD pipeline steps"
+      },
+      {
+        "id": "b",
+        "text": "It defines how to build a container image — CI builds the image, pushes to a registry, and CD deploys it"
+      },
+      {
+        "id": "c",
+        "text": "It is only used locally and has no role in CI/CD"
+      },
+      {
+        "id": "d",
+        "text": "It replaces docker-compose in production deployments"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "In a typical CI/CD flow: CI builds the Docker image (`docker build`), tags it with the commit SHA or version, pushes to a registry (ECR, GCR, Docker Hub), then CD (Kubernetes, ECS, Heroku) pulls and deploys the new image tag. The image is the immutable, versioned artifact that flows through the pipeline.",
-    "keyConcepts": ["image as artifact", "registry push", "image tagging", "immutable artifacts", "CI/CD flow"],
+    "keyConcepts": [
+      "image as artifact",
+      "registry push",
+      "image tagging",
+      "immutable artifacts",
+      "CI/CD flow"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -282,14 +580,35 @@
     "difficulty": "advanced",
     "question": "What is supply chain security in CI/CD and what is SLSA?",
     "options": [
-      "Supply chain security is about securing npm dependencies; SLSA is a package scanner",
-      "Supply chain security protects the build pipeline from tampering; SLSA (Supply-chain Levels for Software Artifacts) is a framework of build integrity levels",
-      "SLSA is a GitHub feature for signing commits",
-      "Supply chain security only applies to open-source projects"
+      {
+        "id": "a",
+        "text": "Supply chain security is about securing npm dependencies; SLSA is a package scanner"
+      },
+      {
+        "id": "b",
+        "text": "Supply chain security protects the build pipeline from tampering; SLSA (Supply-chain Levels for Software Artifacts) is a framework of build integrity levels"
+      },
+      {
+        "id": "c",
+        "text": "SLSA is a GitHub feature for signing commits"
+      },
+      {
+        "id": "d",
+        "text": "Supply chain security only applies to open-source projects"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Supply chain attacks compromise the build pipeline (malicious package, compromised build server) rather than the application directly. SLSA (google.com/slsa) defines 4 levels of build integrity: provenance records what built the artifact and from what source. SLSA L3 requires hermetic, reproducible builds on a hardened CI system — artifacts are signed with Sigstore/cosign.",
-    "keyConcepts": ["supply chain security", "SLSA", "build provenance", "Sigstore", "cosign", "artifact signing"],
+    "keyConcepts": [
+      "supply chain security",
+      "SLSA",
+      "build provenance",
+      "Sigstore",
+      "cosign",
+      "artifact signing"
+    ],
     "commonInterviewQuestion": false
   },
   {
@@ -300,14 +619,34 @@
     "difficulty": "intermediate",
     "question": "What is the purpose of a staging environment in a CI/CD pipeline?",
     "options": [
-      "Staging is where developers write code before committing",
-      "Staging is a production-identical environment where the new version is deployed and validated before going live",
-      "Staging is used to store build artifacts between pipeline stages",
-      "Staging is the same as a feature branch environment"
+      {
+        "id": "a",
+        "text": "Staging is where developers write code before committing"
+      },
+      {
+        "id": "b",
+        "text": "Staging is a production-identical environment where the new version is deployed and validated before going live"
+      },
+      {
+        "id": "c",
+        "text": "Staging is used to store build artifacts between pipeline stages"
+      },
+      {
+        "id": "d",
+        "text": "Staging is the same as a feature branch environment"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Staging mirrors production (same infrastructure, similar data, same config structure). After CI passes, the new version deploys to staging where integration tests, smoke tests, and manual QA can run against a realistic environment. Only after staging validation passes does the pipeline promote to production.",
-    "keyConcepts": ["staging environment", "environment parity", "promotion", "smoke tests", "pre-production"],
+    "keyConcepts": [
+      "staging environment",
+      "environment parity",
+      "promotion",
+      "smoke tests",
+      "pre-production"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -318,14 +657,34 @@
     "difficulty": "intermediate",
     "question": "What is a flaky test and how should you handle it in CI?",
     "options": [
-      "A test that only runs on certain operating systems",
-      "A test that passes and fails non-deterministically without code changes — should be quarantined, investigated, and fixed rather than ignored",
-      "A test that takes too long to run in CI",
-      "A test written for a feature that was later removed"
+      {
+        "id": "a",
+        "text": "A test that only runs on certain operating systems"
+      },
+      {
+        "id": "b",
+        "text": "A test that passes and fails non-deterministically without code changes — should be quarantined, investigated, and fixed rather than ignored"
+      },
+      {
+        "id": "c",
+        "text": "A test that takes too long to run in CI"
+      },
+      {
+        "id": "d",
+        "text": "A test written for a feature that was later removed"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Flaky tests undermine CI trust — when tests randomly fail, teams start ignoring CI failures, which defeats the purpose. Strategy: quarantine flaky tests in a separate suite that doesn't block deployment, track them with P1 priority, and fix the root cause (race conditions, time dependencies, network calls). Never just retry-on-failure to hide the problem.",
-    "keyConcepts": ["flaky tests", "test quarantine", "CI reliability", "non-determinism", "test isolation"],
+    "keyConcepts": [
+      "flaky tests",
+      "test quarantine",
+      "CI reliability",
+      "non-determinism",
+      "test isolation"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -336,14 +695,34 @@
     "difficulty": "advanced",
     "question": "What is a feature flag (feature toggle) and how does it relate to CI/CD?",
     "options": [
-      "A feature flag is a CI variable that enables specific pipeline steps",
-      "A runtime configuration that enables/disables features without a code deployment — allows code to be merged to main without being live",
-      "A Git tag that marks which features are in a release",
-      "A GitHub Actions environment variable for toggling deployment targets"
+      {
+        "id": "a",
+        "text": "A feature flag is a CI variable that enables specific pipeline steps"
+      },
+      {
+        "id": "b",
+        "text": "A runtime configuration that enables/disables features without a code deployment — allows code to be merged to main without being live"
+      },
+      {
+        "id": "c",
+        "text": "A Git tag that marks which features are in a release"
+      },
+      {
+        "id": "d",
+        "text": "A GitHub Actions environment variable for toggling deployment targets"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Feature flags decouple deployment from release. Code ships to production behind a flag that is off — when ready, you flip the flag (via a control plane like LaunchDarkly, Unleash, or config) and the feature goes live without a new deployment. This enables trunk-based development and reduces long-lived branches.",
-    "keyConcepts": ["feature flags", "trunk-based development", "decouple deploy from release", "LaunchDarkly", "kill switch"],
+    "keyConcepts": [
+      "feature flags",
+      "trunk-based development",
+      "decouple deploy from release",
+      "LaunchDarkly",
+      "kill switch"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -354,14 +733,34 @@
     "difficulty": "intermediate",
     "question": "What is the DORA metric 'deployment frequency' and why does it matter?",
     "options": [
-      "How often your CI pipeline runs — higher is always better",
-      "How often you deploy to production — elite teams deploy multiple times per day; it measures how well a team has mastered their delivery process",
-      "How often a deployment fails — should be 0",
-      "The frequency of pull request reviews"
+      {
+        "id": "a",
+        "text": "How often your CI pipeline runs — higher is always better"
+      },
+      {
+        "id": "b",
+        "text": "How often you deploy to production — elite teams deploy multiple times per day; it measures how well a team has mastered their delivery process"
+      },
+      {
+        "id": "c",
+        "text": "How often a deployment fails — should be 0"
+      },
+      {
+        "id": "d",
+        "text": "The frequency of pull request reviews"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "DORA (DevOps Research and Assessment) identified 4 key metrics: Deployment Frequency, Lead Time for Changes, Change Failure Rate, and Mean Time to Recover. Elite performers deploy to production multiple times per day. High deployment frequency indicates small batch sizes, good automation, and high organizational trust in the pipeline.",
-    "keyConcepts": ["DORA metrics", "deployment frequency", "lead time", "change failure rate", "MTTR"],
+    "keyConcepts": [
+      "DORA metrics",
+      "deployment frequency",
+      "lead time",
+      "change failure rate",
+      "MTTR"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -372,15 +771,34 @@
     "difficulty": "intermediate",
     "question": "What is a reusable workflow in GitHub Actions?",
     "options": [
-      "A workflow that can be triggered by multiple events",
-      "A workflow defined in one repo that can be called by other workflows using `uses:` — enables DRY workflow logic across repos",
-      "A cached workflow that doesn't re-run if inputs haven't changed",
-      "A workflow template provided by GitHub for common patterns"
+      {
+        "id": "a",
+        "text": "A workflow that can be triggered by multiple events"
+      },
+      {
+        "id": "b",
+        "text": "A workflow defined in one repo that can be called by other workflows using `uses:` — enables DRY workflow logic across repos"
+      },
+      {
+        "id": "c",
+        "text": "A cached workflow that doesn't re-run if inputs haven't changed"
+      },
+      {
+        "id": "d",
+        "text": "A workflow template provided by GitHub for common patterns"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Reusable workflows (`workflow_call` trigger) allow one repo to define a standard pipeline (e.g., build-test-deploy) and other repos to call it with `uses: org/repo/.github/workflows/deploy.yml@main`. This standardizes CI/CD across an organization without copy-pasting workflow files.",
     "codeSnippet": "# Caller workflow\njobs:\n  deploy:\n    uses: my-org/shared-workflows/.github/workflows/deploy.yml@main\n    with:\n      environment: production\n    secrets: inherit",
-    "keyConcepts": ["reusable workflows", "workflow_call", "DRY pipelines", "organization standards"],
+    "keyConcepts": [
+      "reusable workflows",
+      "workflow_call",
+      "DRY pipelines",
+      "organization standards"
+    ],
     "commonInterviewQuestion": false
   },
   {
@@ -391,14 +809,34 @@
     "difficulty": "advanced",
     "question": "What is a change failure rate and how do you reduce it?",
     "options": [
-      "The percentage of pipeline runs that fail — reduce it by running fewer pipelines",
-      "The percentage of deployments that cause production incidents — reduced by better testing, smaller batch sizes, and deployment validation",
-      "The rate at which code review requests are rejected",
-      "How often Kubernetes rollbacks are triggered"
+      {
+        "id": "a",
+        "text": "The percentage of pipeline runs that fail — reduce it by running fewer pipelines"
+      },
+      {
+        "id": "b",
+        "text": "The percentage of deployments that cause production incidents — reduced by better testing, smaller batch sizes, and deployment validation"
+      },
+      {
+        "id": "c",
+        "text": "The rate at which code review requests are rejected"
+      },
+      {
+        "id": "d",
+        "text": "How often Kubernetes rollbacks are triggered"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Change failure rate (DORA metric) = deployments causing incidents / total deployments. Elite teams achieve < 5%. Reduce it by: comprehensive test coverage, integration tests against prod-like data, canary deployments with automated rollback triggers, feature flags, better code review, and keeping deployment batch sizes small.",
-    "keyConcepts": ["change failure rate", "DORA", "deployment risk", "test coverage", "rollback automation"],
+    "keyConcepts": [
+      "change failure rate",
+      "DORA",
+      "deployment risk",
+      "test coverage",
+      "rollback automation"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -409,14 +847,34 @@
     "difficulty": "intermediate",
     "question": "What is trunk-based development and how does it differ from Gitflow?",
     "options": [
-      "Trunk-based: everyone commits to main; long-lived feature branches are avoided. Gitflow: uses long-lived develop, release, hotfix branches",
-      "Trunk-based: uses a develop branch; Gitflow: commits directly to main",
-      "They are the same strategy with different naming conventions",
-      "Trunk-based is for open-source; Gitflow is for enterprise"
+      {
+        "id": "a",
+        "text": "Trunk-based: everyone commits to main; long-lived feature branches are avoided. Gitflow: uses long-lived develop, release, hotfix branches"
+      },
+      {
+        "id": "b",
+        "text": "Trunk-based: uses a develop branch; Gitflow: commits directly to main"
+      },
+      {
+        "id": "c",
+        "text": "They are the same strategy with different naming conventions"
+      },
+      {
+        "id": "d",
+        "text": "Trunk-based is for open-source; Gitflow is for enterprise"
+      }
     ],
-    "correctAnswers": [0],
+    "correctAnswers": [
+      "a"
+    ],
     "explanation": "Trunk-based development: all developers commit to `main` frequently (or use short-lived feature branches < 2 days). Enables CI/CD and reduces merge conflicts. Gitflow: long-lived `develop`, `release`, and `hotfix` branches — more complex, slower feedback, large merge conflicts. Google and Stripe use trunk-based development at scale.",
-    "keyConcepts": ["trunk-based development", "Gitflow", "branching strategy", "merge frequency", "feature flags"],
+    "keyConcepts": [
+      "trunk-based development",
+      "Gitflow",
+      "branching strategy",
+      "merge frequency",
+      "feature flags"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -427,14 +885,34 @@
     "difficulty": "advanced",
     "question": "What is a pipeline as code approach and what are its benefits?",
     "options": [
-      "Writing pipeline configuration in a domain-specific language instead of YAML",
-      "Storing CI/CD pipeline configuration in version-controlled files alongside application code, enabling code review, versioning, and testing of pipeline changes",
-      "Using a visual drag-and-drop pipeline editor that generates code",
-      "Pipeline as code only applies to Jenkins Groovy pipelines"
+      {
+        "id": "a",
+        "text": "Writing pipeline configuration in a domain-specific language instead of YAML"
+      },
+      {
+        "id": "b",
+        "text": "Storing CI/CD pipeline configuration in version-controlled files alongside application code, enabling code review, versioning, and testing of pipeline changes"
+      },
+      {
+        "id": "c",
+        "text": "Using a visual drag-and-drop pipeline editor that generates code"
+      },
+      {
+        "id": "d",
+        "text": "Pipeline as code only applies to Jenkins Groovy pipelines"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Pipeline as code (`.github/workflows/`, `.gitlab-ci.yml`, `Jenkinsfile`) stores pipeline config in git. Benefits: peer review of pipeline changes, rollback via `git revert`, branch-level pipeline testing (test new pipeline on feature branch before merging), and documentation of the delivery process as auditable history.",
-    "keyConcepts": ["pipeline as code", "version control", "Jenkinsfile", "GitLab CI", "GitHub Actions YAML"],
+    "keyConcepts": [
+      "pipeline as code",
+      "version control",
+      "Jenkinsfile",
+      "GitLab CI",
+      "GitHub Actions YAML"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -445,14 +923,34 @@
     "difficulty": "advanced",
     "question": "What is a rollback strategy and when should it be automated?",
     "options": [
-      "A rollback is always automated — there is no reason for manual rollbacks",
-      "A rollback restores a previous version; it should be automated when clear, objective signals (error rate spike, latency SLO breach) indicate a bad deployment — to minimize MTTR",
-      "A rollback is only possible with blue-green deployments",
-      "Rollbacks should always be manual to ensure human oversight"
+      {
+        "id": "a",
+        "text": "A rollback is always automated — there is no reason for manual rollbacks"
+      },
+      {
+        "id": "b",
+        "text": "A rollback restores a previous version; it should be automated when clear, objective signals (error rate spike, latency SLO breach) indicate a bad deployment — to minimize MTTR"
+      },
+      {
+        "id": "c",
+        "text": "A rollback is only possible with blue-green deployments"
+      },
+      {
+        "id": "d",
+        "text": "Rollbacks should always be manual to ensure human oversight"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Automated rollback triggers on objective metrics: error rate > X% for Y minutes, p99 latency > threshold, or health check failures. In Kubernetes: `kubectl rollout undo deployment/myapp` restores the previous ReplicaSet. In ArgoCD, automated sync with health assessment can revert bad commits. Manual rollback is preferable when the signal is ambiguous (might be a downstream outage, not your code).",
-    "keyConcepts": ["automated rollback", "MTTR", "SLO-based triggers", "kubectl rollout undo", "health assessment"],
+    "keyConcepts": [
+      "automated rollback",
+      "MTTR",
+      "SLO-based triggers",
+      "kubectl rollout undo",
+      "health assessment"
+    ],
     "commonInterviewQuestion": true
   }
 ]

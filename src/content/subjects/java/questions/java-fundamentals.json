@@ -7,14 +7,34 @@
     "difficulty": "beginner",
     "question": "What are the four pillars of Object-Oriented Programming?",
     "options": [
-      "Abstraction, Encapsulation, Inheritance, Polymorphism",
-      "Classes, Objects, Methods, Variables",
-      "Interfaces, Abstract classes, Enums, Records",
-      "Compilation, Interpretation, Execution, Garbage Collection"
+      {
+        "id": "a",
+        "text": "Abstraction, Encapsulation, Inheritance, Polymorphism"
+      },
+      {
+        "id": "b",
+        "text": "Classes, Objects, Methods, Variables"
+      },
+      {
+        "id": "c",
+        "text": "Interfaces, Abstract classes, Enums, Records"
+      },
+      {
+        "id": "d",
+        "text": "Compilation, Interpretation, Execution, Garbage Collection"
+      }
     ],
-    "correctAnswers": [0],
+    "correctAnswers": [
+      "a"
+    ],
     "explanation": "The four OOP pillars: Encapsulation (bundling data + behavior, hiding internals), Inheritance (subclasses inherit from superclasses), Polymorphism (same interface, different behavior), Abstraction (hiding complexity, exposing only what's needed). These principles enable maintainable, reusable, and modular code.",
-    "keyConcepts": ["encapsulation", "inheritance", "polymorphism", "abstraction", "OOP"],
+    "keyConcepts": [
+      "encapsulation",
+      "inheritance",
+      "polymorphism",
+      "abstraction",
+      "OOP"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -25,15 +45,34 @@
     "difficulty": "beginner",
     "question": "What is the difference between `==` and `.equals()` in Java?",
     "options": [
-      "They are identical — both compare object content",
-      "`==` compares object references (memory addresses); `.equals()` compares object content (unless overridden)",
-      "`.equals()` compares references; `==` compares content",
-      "`==` works for primitives only; `.equals()` works for objects only"
+      {
+        "id": "a",
+        "text": "They are identical — both compare object content"
+      },
+      {
+        "id": "b",
+        "text": "`==` compares object references (memory addresses); `.equals()` compares object content (unless overridden)"
+      },
+      {
+        "id": "c",
+        "text": "`.equals()` compares references; `==` compares content"
+      },
+      {
+        "id": "d",
+        "text": "`==` works for primitives only; `.equals()` works for objects only"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "`==` checks if two references point to the same object in memory. `.equals()` checks logical equality — its default implementation (from Object) is also reference equality, but classes like String, Integer, and List override it to compare content. Always use `.equals()` for object comparison.",
     "codeSnippet": "String a = new String(\"hello\");\nString b = new String(\"hello\");\nSystem.out.println(a == b);       // false (different objects)\nSystem.out.println(a.equals(b));  // true  (same content)",
-    "keyConcepts": ["== vs equals", "reference equality", "value equality", "String pool"],
+    "keyConcepts": [
+      "== vs equals",
+      "reference equality",
+      "value equality",
+      "String pool"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -44,14 +83,34 @@
     "difficulty": "beginner",
     "question": "What is the difference between an abstract class and an interface in Java?",
     "options": [
-      "Abstract classes can have constructors and state; interfaces (pre-Java 8) could only have abstract methods — now interfaces can have default and static methods but cannot have instance state",
-      "Interfaces can be instantiated; abstract classes cannot",
-      "Abstract classes support multiple inheritance; interfaces do not",
-      "There is no difference — they are interchangeable"
+      {
+        "id": "a",
+        "text": "Abstract classes can have constructors and state; interfaces (pre-Java 8) could only have abstract methods — now interfaces can have default and static methods but cannot have instance state"
+      },
+      {
+        "id": "b",
+        "text": "Interfaces can be instantiated; abstract classes cannot"
+      },
+      {
+        "id": "c",
+        "text": "Abstract classes support multiple inheritance; interfaces do not"
+      },
+      {
+        "id": "d",
+        "text": "There is no difference — they are interchangeable"
+      }
     ],
-    "correctAnswers": [0],
+    "correctAnswers": [
+      "a"
+    ],
     "explanation": "Abstract class: can have constructors, instance fields, concrete methods, and abstract methods. A class can extend only one abstract class. Interface: no instance fields (only static final constants), all methods implicitly public. Since Java 8, interfaces can have `default` and `static` methods; since Java 9, `private` methods. A class can implement multiple interfaces.",
-    "keyConcepts": ["abstract class", "interface", "multiple inheritance", "default methods", "is-a vs can-do"],
+    "keyConcepts": [
+      "abstract class",
+      "interface",
+      "multiple inheritance",
+      "default methods",
+      "is-a vs can-do"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -62,14 +121,33 @@
     "difficulty": "beginner",
     "question": "What does `final` mean when applied to a variable, method, and class?",
     "options": [
-      "Variable: immutable value; Method: cannot be overridden; Class: cannot be subclassed",
-      "Variable: null by default; Method: runs last; Class: abstract",
-      "All three mean the same thing — the element cannot be changed",
-      "Variable: thread-safe; Method: synchronized; Class: singleton"
+      {
+        "id": "a",
+        "text": "Variable: immutable value; Method: cannot be overridden; Class: cannot be subclassed"
+      },
+      {
+        "id": "b",
+        "text": "Variable: null by default; Method: runs last; Class: abstract"
+      },
+      {
+        "id": "c",
+        "text": "All three mean the same thing — the element cannot be changed"
+      },
+      {
+        "id": "d",
+        "text": "Variable: thread-safe; Method: synchronized; Class: singleton"
+      }
     ],
-    "correctAnswers": [0],
+    "correctAnswers": [
+      "a"
+    ],
     "explanation": "`final` variable: its reference cannot be reassigned (but the object it points to can still be mutated unless the object itself is immutable). `final` method: cannot be overridden in subclasses. `final` class: cannot be extended (e.g., `String`, `Integer`). `static final` fields are compile-time constants by convention.",
-    "keyConcepts": ["final keyword", "immutability", "method overriding prevention", "class extension prevention"],
+    "keyConcepts": [
+      "final keyword",
+      "immutability",
+      "method overriding prevention",
+      "class extension prevention"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -80,15 +158,35 @@
     "difficulty": "intermediate",
     "question": "What is method overloading vs method overriding?",
     "options": [
-      "Overloading: same method name, different parameters (compile-time); Overriding: subclass redefines superclass method (runtime)",
-      "Overloading: runtime polymorphism; Overriding: compile-time polymorphism",
-      "They are the same concept with different names",
-      "Overloading is for interfaces; Overriding is for abstract classes"
+      {
+        "id": "a",
+        "text": "Overloading: same method name, different parameters (compile-time); Overriding: subclass redefines superclass method (runtime)"
+      },
+      {
+        "id": "b",
+        "text": "Overloading: runtime polymorphism; Overriding: compile-time polymorphism"
+      },
+      {
+        "id": "c",
+        "text": "They are the same concept with different names"
+      },
+      {
+        "id": "d",
+        "text": "Overloading is for interfaces; Overriding is for abstract classes"
+      }
     ],
-    "correctAnswers": [0],
+    "correctAnswers": [
+      "a"
+    ],
     "explanation": "Overloading (static/compile-time polymorphism): same method name, different parameter types or count in the same class. The compiler decides which to call. Overriding (dynamic/runtime polymorphism): subclass provides its own implementation of a superclass method with the same signature. The JVM decides at runtime based on the actual object type.",
     "codeSnippet": "// Overloading — different parameter list\nvoid print(String s) {}\nvoid print(int n) {}\n\n// Overriding — same signature, subclass\nclass Animal { void speak() { System.out.println(\"...\"); } }\nclass Dog extends Animal {\n  @Override void speak() { System.out.println(\"Woof\"); }\n}",
-    "keyConcepts": ["overloading", "overriding", "compile-time polymorphism", "runtime polymorphism", "@Override"],
+    "keyConcepts": [
+      "overloading",
+      "overriding",
+      "compile-time polymorphism",
+      "runtime polymorphism",
+      "@Override"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -99,14 +197,34 @@
     "difficulty": "beginner",
     "question": "What is the difference between `String`, `StringBuilder`, and `StringBuffer`?",
     "options": [
-      "String: immutable, thread-safe; StringBuilder: mutable, not thread-safe (fast); StringBuffer: mutable, thread-safe (slower)",
-      "They are all immutable — only the syntax differs",
-      "StringBuilder is for single characters; StringBuffer is for multiple",
-      "String is deprecated; use StringBuilder or StringBuffer instead"
+      {
+        "id": "a",
+        "text": "String: immutable, thread-safe; StringBuilder: mutable, not thread-safe (fast); StringBuffer: mutable, thread-safe (slower)"
+      },
+      {
+        "id": "b",
+        "text": "They are all immutable — only the syntax differs"
+      },
+      {
+        "id": "c",
+        "text": "StringBuilder is for single characters; StringBuffer is for multiple"
+      },
+      {
+        "id": "d",
+        "text": "String is deprecated; use StringBuilder or StringBuffer instead"
+      }
     ],
-    "correctAnswers": [0],
+    "correctAnswers": [
+      "a"
+    ],
     "explanation": "`String` is immutable — every concatenation creates a new object. `StringBuilder` is mutable and not synchronized — use in single-threaded code. `StringBuffer` is mutable and synchronized — use when shared across threads (but slow). In practice, use `StringBuilder` in loops and `String` for simple cases where the compiler already optimizes.",
-    "keyConcepts": ["String immutability", "StringBuilder", "StringBuffer", "thread safety", "string pool"],
+    "keyConcepts": [
+      "String immutability",
+      "StringBuilder",
+      "StringBuffer",
+      "thread safety",
+      "string pool"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -117,14 +235,34 @@
     "difficulty": "intermediate",
     "question": "What is the Java String pool and how does it affect memory?",
     "options": [
-      "The String pool is a network connection pool for database strings",
-      "The String pool is a special heap area where string literals are interned — JVM reuses existing String objects with the same value to save memory",
-      "The String pool stores all strings in native memory (off-heap)",
-      "The String pool is a fixed-size buffer that causes OutOfMemoryError when full"
+      {
+        "id": "a",
+        "text": "The String pool is a network connection pool for database strings"
+      },
+      {
+        "id": "b",
+        "text": "The String pool is a special heap area where string literals are interned — JVM reuses existing String objects with the same value to save memory"
+      },
+      {
+        "id": "c",
+        "text": "The String pool stores all strings in native memory (off-heap)"
+      },
+      {
+        "id": "d",
+        "text": "The String pool is a fixed-size buffer that causes OutOfMemoryError when full"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "String literals (e.g., `\"hello\"`) are automatically interned in the string pool. `String a = \"hello\"; String b = \"hello\"; a == b` is `true` because they reference the same pooled object. `new String(\"hello\")` bypasses the pool, creating a new heap object. `String.intern()` manually adds a string to the pool. Since Java 7, the pool lives in the heap (was PermGen before).",
-    "keyConcepts": ["string pool", "interning", "String.intern()", "string literals", "heap vs PermGen"],
+    "keyConcepts": [
+      "string pool",
+      "interning",
+      "String.intern()",
+      "string literals",
+      "heap vs PermGen"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -135,15 +273,35 @@
     "difficulty": "intermediate",
     "question": "What is autoboxing and unboxing in Java?",
     "options": [
-      "Autoboxing is automatic type casting between numeric types",
-      "Autoboxing is the automatic conversion between primitive types (int, double) and their wrapper classes (Integer, Double); unboxing is the reverse",
-      "Autoboxing packages an object into a container class for shipping",
-      "Autoboxing and unboxing only apply to the String class"
+      {
+        "id": "a",
+        "text": "Autoboxing is automatic type casting between numeric types"
+      },
+      {
+        "id": "b",
+        "text": "Autoboxing is the automatic conversion between primitive types (int, double) and their wrapper classes (Integer, Double); unboxing is the reverse"
+      },
+      {
+        "id": "c",
+        "text": "Autoboxing packages an object into a container class for shipping"
+      },
+      {
+        "id": "d",
+        "text": "Autoboxing and unboxing only apply to the String class"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "The compiler automatically converts: `int i = 5; Integer boxed = i;` (autoboxing) and `Integer boxed = 10; int i = boxed;` (unboxing). Pitfalls: `Integer a = 1000; Integer b = 1000; a == b` is `false` (different objects). But `Integer a = 100; Integer b = 100; a == b` is `true` — Integer caches -128 to 127. Unboxing a null throws NullPointerException.",
     "codeSnippet": "List<Integer> list = new ArrayList<>();\nlist.add(42);        // autoboxing: int → Integer\nint x = list.get(0); // unboxing: Integer → int\n\n// Cache trap:\nInteger a = 127, b = 127; // a == b → true (cached)\nInteger c = 128, d = 128; // c == d → false (not cached)",
-    "keyConcepts": ["autoboxing", "unboxing", "wrapper classes", "Integer cache", "NullPointerException"],
+    "keyConcepts": [
+      "autoboxing",
+      "unboxing",
+      "wrapper classes",
+      "Integer cache",
+      "NullPointerException"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -154,15 +312,35 @@
     "difficulty": "intermediate",
     "question": "What is the difference between `static` and instance members?",
     "options": [
-      "Static members belong to the class itself (shared across all instances); instance members belong to each individual object",
-      "Static members are thread-safe; instance members are not",
-      "Static methods can access instance variables; instance methods cannot access static variables",
-      "There is no difference — `static` is just an optimization hint"
+      {
+        "id": "a",
+        "text": "Static members belong to the class itself (shared across all instances); instance members belong to each individual object"
+      },
+      {
+        "id": "b",
+        "text": "Static members are thread-safe; instance members are not"
+      },
+      {
+        "id": "c",
+        "text": "Static methods can access instance variables; instance methods cannot access static variables"
+      },
+      {
+        "id": "d",
+        "text": "There is no difference — `static` is just an optimization hint"
+      }
     ],
-    "correctAnswers": [0],
+    "correctAnswers": [
+      "a"
+    ],
     "explanation": "Static members (fields, methods, nested classes) belong to the Class object — one copy shared across all instances, accessed via `ClassName.member`. Instance members belong to each object created with `new`. Static methods cannot access `this` or instance fields directly. Static initialization blocks run once when the class is loaded.",
     "codeSnippet": "class Counter {\n  static int total = 0;  // shared\n  int id;                // per-instance\n  Counter() { this.id = ++total; }\n}\nCounter a = new Counter(); // a.id=1, total=1\nCounter b = new Counter(); // b.id=2, total=2",
-    "keyConcepts": ["static", "instance members", "class vs object", "static initialization", "shared state"],
+    "keyConcepts": [
+      "static",
+      "instance members",
+      "class vs object",
+      "static initialization",
+      "shared state"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -173,14 +351,34 @@
     "difficulty": "intermediate",
     "question": "What is the difference between checked and unchecked exceptions?",
     "options": [
-      "Checked exceptions must be declared or handled at compile time; unchecked exceptions (RuntimeException subclasses) do not",
-      "Checked exceptions crash the JVM; unchecked exceptions are recoverable",
-      "Unchecked exceptions must be caught; checked exceptions are optional",
-      "There is no difference — all exceptions behave the same"
+      {
+        "id": "a",
+        "text": "Checked exceptions must be declared or handled at compile time; unchecked exceptions (RuntimeException subclasses) do not"
+      },
+      {
+        "id": "b",
+        "text": "Checked exceptions crash the JVM; unchecked exceptions are recoverable"
+      },
+      {
+        "id": "c",
+        "text": "Unchecked exceptions must be caught; checked exceptions are optional"
+      },
+      {
+        "id": "d",
+        "text": "There is no difference — all exceptions behave the same"
+      }
     ],
-    "correctAnswers": [0],
+    "correctAnswers": [
+      "a"
+    ],
     "explanation": "Checked exceptions (IOException, SQLException) extend Exception but not RuntimeException. The compiler forces you to either catch them or declare `throws`. Unchecked exceptions (NullPointerException, IllegalArgumentException) extend RuntimeException — no compiler enforcement. Rule of thumb: use checked exceptions for recoverable conditions a caller should handle; use unchecked for programming errors.",
-    "keyConcepts": ["checked exceptions", "unchecked exceptions", "RuntimeException", "throws declaration", "try-catch"],
+    "keyConcepts": [
+      "checked exceptions",
+      "unchecked exceptions",
+      "RuntimeException",
+      "throws declaration",
+      "try-catch"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -191,14 +389,34 @@
     "difficulty": "intermediate",
     "question": "What is the `this` keyword and what is `super` in Java?",
     "options": [
-      "`this` refers to the current object; `super` refers to the parent class",
-      "`this` refers to the class; `super` refers to the interface",
-      "Both refer to the current object — `super` just has higher priority",
-      "`this` is for methods; `super` is for constructors only"
+      {
+        "id": "a",
+        "text": "`this` refers to the current object; `super` refers to the parent class"
+      },
+      {
+        "id": "b",
+        "text": "`this` refers to the class; `super` refers to the interface"
+      },
+      {
+        "id": "c",
+        "text": "Both refer to the current object — `super` just has higher priority"
+      },
+      {
+        "id": "d",
+        "text": "`this` is for methods; `super` is for constructors only"
+      }
     ],
-    "correctAnswers": [0],
+    "correctAnswers": [
+      "a"
+    ],
     "explanation": "`this` refers to the current instance — used to disambiguate fields from parameters (`this.name = name`), call another constructor in the same class (`this(...)`), or pass the current object. `super` refers to the parent class — used to call parent constructor (`super(...)`, must be first line), call overridden parent methods (`super.method()`), or access parent fields.",
-    "keyConcepts": ["this keyword", "super keyword", "constructor chaining", "method overriding", "parent class"],
+    "keyConcepts": [
+      "this keyword",
+      "super keyword",
+      "constructor chaining",
+      "method overriding",
+      "parent class"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -209,15 +427,35 @@
     "difficulty": "intermediate",
     "question": "What is the `instanceof` operator and what is pattern matching for instanceof (Java 16+)?",
     "options": [
-      "instanceof checks if an object is null",
-      "instanceof tests if an object is an instance of a type; pattern matching (Java 16+) combines the test and cast into one expression",
-      "instanceof is deprecated — use getClass() instead",
-      "instanceof only works with interfaces, not classes"
+      {
+        "id": "a",
+        "text": "instanceof checks if an object is null"
+      },
+      {
+        "id": "b",
+        "text": "instanceof tests if an object is an instance of a type; pattern matching (Java 16+) combines the test and cast into one expression"
+      },
+      {
+        "id": "c",
+        "text": "instanceof is deprecated — use getClass() instead"
+      },
+      {
+        "id": "d",
+        "text": "instanceof only works with interfaces, not classes"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Traditional: `if (obj instanceof String) { String s = (String) obj; }`. Pattern matching (Java 16+): `if (obj instanceof String s) { }` — combines the check and cast, binding `s` in scope. Returns `false` for `null`. Used in `switch` expressions (Java 21 sealed classes + pattern matching).",
     "codeSnippet": "// Old style\nif (shape instanceof Circle) {\n  Circle c = (Circle) shape;\n  System.out.println(c.radius());\n}\n\n// Pattern matching (Java 16+)\nif (shape instanceof Circle c) {\n  System.out.println(c.radius());\n}",
-    "keyConcepts": ["instanceof", "pattern matching", "type checking", "type casting", "Java 16"],
+    "keyConcepts": [
+      "instanceof",
+      "pattern matching",
+      "type checking",
+      "type casting",
+      "Java 16"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -228,15 +466,35 @@
     "difficulty": "intermediate",
     "question": "What are Java records (Java 16+) and what problem do they solve?",
     "options": [
-      "Records are a faster version of regular classes",
-      "Records are immutable data carrier classes that auto-generate constructor, getters, equals, hashCode, and toString from declared components",
-      "Records are Java's version of database records — they map to database rows",
-      "Records are deprecated classes that store legacy data"
+      {
+        "id": "a",
+        "text": "Records are a faster version of regular classes"
+      },
+      {
+        "id": "b",
+        "text": "Records are immutable data carrier classes that auto-generate constructor, getters, equals, hashCode, and toString from declared components"
+      },
+      {
+        "id": "c",
+        "text": "Records are Java's version of database records — they map to database rows"
+      },
+      {
+        "id": "d",
+        "text": "Records are deprecated classes that store legacy data"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "`record Point(int x, int y) {}` auto-generates: canonical constructor, `x()` and `y()` accessor methods, `equals()`, `hashCode()`, and `toString()`. Records are implicitly `final` and cannot extend other classes. They make simple DTOs, value objects, and tuple-like structures much less verbose than equivalent POJOs.",
     "codeSnippet": "record Point(int x, int y) {}\n\nPoint p = new Point(3, 4);\nSystem.out.println(p.x());      // 3\nSystem.out.println(p);           // Point[x=3, y=4]\nPoint q = new Point(3, 4);\nSystem.out.println(p.equals(q)); // true",
-    "keyConcepts": ["records", "immutable data carriers", "Java 16", "value objects", "auto-generated methods"],
+    "keyConcepts": [
+      "records",
+      "immutable data carriers",
+      "Java 16",
+      "value objects",
+      "auto-generated methods"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -247,15 +505,35 @@
     "difficulty": "intermediate",
     "question": "What are sealed classes in Java (Java 17+)?",
     "options": [
-      "Sealed classes are encrypted classes that require a license key",
-      "Sealed classes restrict which classes can extend or implement them — enabling exhaustive pattern matching",
-      "Sealed classes cannot be instantiated — they are like abstract classes",
-      "Sealed classes are final classes renamed for clarity"
+      {
+        "id": "a",
+        "text": "Sealed classes are encrypted classes that require a license key"
+      },
+      {
+        "id": "b",
+        "text": "Sealed classes restrict which classes can extend or implement them — enabling exhaustive pattern matching"
+      },
+      {
+        "id": "c",
+        "text": "Sealed classes cannot be instantiated — they are like abstract classes"
+      },
+      {
+        "id": "d",
+        "text": "Sealed classes are final classes renamed for clarity"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "`sealed interface Shape permits Circle, Rectangle, Triangle {}` — only the listed classes can implement Shape. Each permitted class must be `final`, `sealed`, or `non-sealed`. Together with pattern matching switch, this enables exhaustive matching (compiler warns if a case is missing), similar to algebraic data types in functional languages.",
     "codeSnippet": "sealed interface Shape permits Circle, Rectangle {}\nfinal class Circle implements Shape { double radius; }\nfinal class Rectangle implements Shape { double w, h; }\n\ndouble area(Shape s) {\n  return switch (s) {\n    case Circle c    -> Math.PI * c.radius * c.radius;\n    case Rectangle r -> r.w * r.h;\n  };\n}",
-    "keyConcepts": ["sealed classes", "permits", "pattern matching switch", "exhaustive matching", "Java 17"],
+    "keyConcepts": [
+      "sealed classes",
+      "permits",
+      "pattern matching switch",
+      "exhaustive matching",
+      "Java 17"
+    ],
     "commonInterviewQuestion": false
   },
   {
@@ -266,14 +544,34 @@
     "difficulty": "intermediate",
     "question": "What is the difference between `int` and `Integer` in Java?",
     "options": [
-      "`int` is signed; `Integer` is unsigned",
-      "`int` is a primitive — stored directly on the stack; `Integer` is a wrapper object on the heap — can be null, used in collections",
-      "`Integer` is faster than `int` because it is pre-cached",
-      "They are identical — Java auto-converts them everywhere"
+      {
+        "id": "a",
+        "text": "`int` is signed; `Integer` is unsigned"
+      },
+      {
+        "id": "b",
+        "text": "`int` is a primitive — stored directly on the stack; `Integer` is a wrapper object on the heap — can be null, used in collections"
+      },
+      {
+        "id": "c",
+        "text": "`Integer` is faster than `int` because it is pre-cached"
+      },
+      {
+        "id": "d",
+        "text": "They are identical — Java auto-converts them everywhere"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "`int` (primitive): 4 bytes, stored on the stack (or in-object if a field), cannot be null, faster. `Integer` (wrapper class): an object on the heap, can be null, required for generics (`List<Integer>` not `List<int>`). Java's autoboxing converts between them automatically but with performance and NullPointerException risks.",
-    "keyConcepts": ["primitives", "wrapper classes", "boxing", "stack vs heap", "null safety"],
+    "keyConcepts": [
+      "primitives",
+      "wrapper classes",
+      "boxing",
+      "stack vs heap",
+      "null safety"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -284,14 +582,34 @@
     "difficulty": "advanced",
     "question": "What is the difference between deep copy and shallow copy?",
     "options": [
-      "Shallow copy: copies primitive fields only; Deep copy: copies all fields including objects",
-      "Shallow copy: copies an object and its references (nested objects are shared); Deep copy: recursively copies all nested objects — fully independent",
-      "Deep copy uses clone(); Shallow copy uses the copy constructor",
-      "They are identical — Java always makes deep copies"
+      {
+        "id": "a",
+        "text": "Shallow copy: copies primitive fields only; Deep copy: copies all fields including objects"
+      },
+      {
+        "id": "b",
+        "text": "Shallow copy: copies an object and its references (nested objects are shared); Deep copy: recursively copies all nested objects — fully independent"
+      },
+      {
+        "id": "c",
+        "text": "Deep copy uses clone(); Shallow copy uses the copy constructor"
+      },
+      {
+        "id": "d",
+        "text": "They are identical — Java always makes deep copies"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Shallow copy copies the object's fields. For reference fields, the copy and original share the same nested objects — mutating the nested object in one affects the other. Deep copy recursively copies all nested objects — fully independent. Java's `Object.clone()` is shallow by default. Implement deep copy via copy constructors, serialization, or a copying library (MapStruct).",
-    "keyConcepts": ["shallow copy", "deep copy", "clone()", "Cloneable", "copy constructor"],
+    "keyConcepts": [
+      "shallow copy",
+      "deep copy",
+      "clone()",
+      "Cloneable",
+      "copy constructor"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -302,14 +620,35 @@
     "difficulty": "beginner",
     "question": "What are access modifiers in Java and what do they control?",
     "options": [
-      "public, protected, default, private — control memory allocation",
-      "public: accessible everywhere; protected: package + subclasses; default (no modifier): package only; private: class only",
-      "public, private, package, friend — control thread access",
-      "Access modifiers only apply to methods, not fields or classes"
+      {
+        "id": "a",
+        "text": "public, protected, default, private — control memory allocation"
+      },
+      {
+        "id": "b",
+        "text": "public: accessible everywhere; protected: package + subclasses; default (no modifier): package only; private: class only"
+      },
+      {
+        "id": "c",
+        "text": "public, private, package, friend — control thread access"
+      },
+      {
+        "id": "d",
+        "text": "Access modifiers only apply to methods, not fields or classes"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "From most to least restrictive: `private` (same class) → `default`/package-private (same package) → `protected` (same package + subclasses) → `public` (everywhere). Best practice: keep fields `private`, expose via getters/setters (encapsulation). Use the most restrictive modifier that works for your design.",
-    "keyConcepts": ["access modifiers", "public", "protected", "private", "package-private", "encapsulation"],
+    "keyConcepts": [
+      "access modifiers",
+      "public",
+      "protected",
+      "private",
+      "package-private",
+      "encapsulation"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -320,14 +659,34 @@
     "difficulty": "intermediate",
     "question": "What is the contract between `hashCode()` and `equals()` in Java?",
     "options": [
-      "If two objects are equal via equals(), they must have the same hashCode()",
-      "hashCode() and equals() are independent — no contract exists",
-      "If two objects have the same hashCode(), they must be equal via equals()",
-      "hashCode() must always return a unique value for each object"
+      {
+        "id": "a",
+        "text": "If two objects are equal via equals(), they must have the same hashCode()"
+      },
+      {
+        "id": "b",
+        "text": "hashCode() and equals() are independent — no contract exists"
+      },
+      {
+        "id": "c",
+        "text": "If two objects have the same hashCode(), they must be equal via equals()"
+      },
+      {
+        "id": "d",
+        "text": "hashCode() must always return a unique value for each object"
+      }
     ],
-    "correctAnswers": [0],
+    "correctAnswers": [
+      "a"
+    ],
     "explanation": "The contract: (1) If `a.equals(b)` is true, then `a.hashCode() == b.hashCode()` must be true. (2) The reverse is NOT required — objects with the same hashCode may not be equal (hash collision). If you override `equals()`, you MUST override `hashCode()`. Breaking this contract causes HashMap/HashSet to lose objects — they'd be stored but never found.",
-    "keyConcepts": ["hashCode contract", "equals contract", "HashMap", "HashSet", "hash collision"],
+    "keyConcepts": [
+      "hashCode contract",
+      "equals contract",
+      "HashMap",
+      "HashSet",
+      "hash collision"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -338,15 +697,35 @@
     "difficulty": "intermediate",
     "question": "What is a functional interface and what is `@FunctionalInterface`?",
     "options": [
-      "A functional interface is any interface in the java.util.function package",
-      "A functional interface has exactly one abstract method — the `@FunctionalInterface` annotation enforces this at compile time and enables lambda expressions",
-      "A functional interface is one that contains only static methods",
-      "A functional interface is deprecated — use abstract classes instead"
+      {
+        "id": "a",
+        "text": "A functional interface is any interface in the java.util.function package"
+      },
+      {
+        "id": "b",
+        "text": "A functional interface has exactly one abstract method — the `@FunctionalInterface` annotation enforces this at compile time and enables lambda expressions"
+      },
+      {
+        "id": "c",
+        "text": "A functional interface is one that contains only static methods"
+      },
+      {
+        "id": "d",
+        "text": "A functional interface is deprecated — use abstract classes instead"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "A functional interface has exactly one abstract method (SAM — Single Abstract Method). `@FunctionalInterface` causes a compile error if you accidentally add a second abstract method. Lambda expressions and method references are syntactic sugar for implementing functional interfaces. Built-in examples: `Runnable`, `Callable`, `Comparator`, and the `java.util.function` family.",
     "codeSnippet": "@FunctionalInterface\ninterface Transformer<T, R> {\n  R transform(T input);\n}\n\nTransformer<String, Integer> len = s -> s.length();\nSystem.out.println(len.transform(\"hello\")); // 5",
-    "keyConcepts": ["functional interface", "@FunctionalInterface", "SAM", "lambda expressions", "java.util.function"],
+    "keyConcepts": [
+      "functional interface",
+      "@FunctionalInterface",
+      "SAM",
+      "lambda expressions",
+      "java.util.function"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -357,14 +736,36 @@
     "difficulty": "advanced",
     "question": "What is covariance and contravariance in Java generics?",
     "options": [
-      "Covariance: `List<Dog>` is a subtype of `List<Animal>` — this is how Java generics work by default",
-      "Java generics are invariant by default — `List<Dog>` is NOT a subtype of `List<Animal>`. Covariance uses `? extends T` (read-only); contravariance uses `? super T` (write-oriented)",
-      "Covariance and contravariance only apply to arrays, not generics",
-      "Covariance uses `? super T`; contravariance uses `? extends T`"
+      {
+        "id": "a",
+        "text": "Covariance: `List<Dog>` is a subtype of `List<Animal>` — this is how Java generics work by default"
+      },
+      {
+        "id": "b",
+        "text": "Java generics are invariant by default — `List<Dog>` is NOT a subtype of `List<Animal>`. Covariance uses `? extends T` (read-only); contravariance uses `? super T` (write-oriented)"
+      },
+      {
+        "id": "c",
+        "text": "Covariance and contravariance only apply to arrays, not generics"
+      },
+      {
+        "id": "d",
+        "text": "Covariance uses `? super T`; contravariance uses `? extends T`"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Java generics are invariant: `List<Dog>` is not a `List<Animal>` (unlike arrays which are covariant and type-unsafe). Wildcards add flexibility: `List<? extends Animal>` (covariant, read-only — producer) accepts `List<Dog>` or `List<Cat>`. `List<? super Dog>` (contravariant, write-oriented — consumer) accepts `List<Animal>` or `List<Object>`. Remember: PECS — Producer Extends, Consumer Super.",
-    "keyConcepts": ["generics invariance", "wildcards", "? extends T", "? super T", "PECS", "covariance", "contravariance"],
+    "keyConcepts": [
+      "generics invariance",
+      "wildcards",
+      "? extends T",
+      "? super T",
+      "PECS",
+      "covariance",
+      "contravariance"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -375,14 +776,34 @@
     "difficulty": "advanced",
     "question": "What is type erasure in Java generics?",
     "options": [
-      "Type erasure deletes unused type variables from compiled bytecode",
-      "At runtime, generic type parameters are erased and replaced with Object (or the upper bound) — generic type information is only available at compile time",
-      "Type erasure is a security feature that prevents reflection from reading class types",
-      "Type erasure converts Java types to their C++ equivalents"
+      {
+        "id": "a",
+        "text": "Type erasure deletes unused type variables from compiled bytecode"
+      },
+      {
+        "id": "b",
+        "text": "At runtime, generic type parameters are erased and replaced with Object (or the upper bound) — generic type information is only available at compile time"
+      },
+      {
+        "id": "c",
+        "text": "Type erasure is a security feature that prevents reflection from reading class types"
+      },
+      {
+        "id": "d",
+        "text": "Type erasure converts Java types to their C++ equivalents"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Java generics are a compile-time feature. The compiler checks types then erases them — `List<String>` becomes `List` in bytecode. Consequences: you cannot do `new T()`, `instanceof List<String>`, or create generic arrays `T[]`. At runtime, `List<String>` and `List<Integer>` are the same class. This design maintained backward compatibility with pre-generics Java.",
-    "keyConcepts": ["type erasure", "compile-time generics", "runtime type", "reification", "backward compatibility"],
+    "keyConcepts": [
+      "type erasure",
+      "compile-time generics",
+      "runtime type",
+      "reification",
+      "backward compatibility"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -393,15 +814,35 @@
     "difficulty": "intermediate",
     "question": "What is the try-with-resources statement in Java?",
     "options": [
-      "A try block that automatically retries failed operations",
-      "A try block that automatically calls close() on declared resources when the block exits — even if an exception is thrown",
-      "A try block that allocates resources from a connection pool",
-      "A try block that catches all resource-related exceptions"
+      {
+        "id": "a",
+        "text": "A try block that automatically retries failed operations"
+      },
+      {
+        "id": "b",
+        "text": "A try block that automatically calls close() on declared resources when the block exits — even if an exception is thrown"
+      },
+      {
+        "id": "c",
+        "text": "A try block that allocates resources from a connection pool"
+      },
+      {
+        "id": "d",
+        "text": "A try block that catches all resource-related exceptions"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Any class implementing `AutoCloseable` (or `Closeable`) can be used in try-with-resources. `close()` is called automatically in the reverse order of declaration, even if an exception occurred — no finally block needed. If both the try body and `close()` throw, the close exception is suppressed (accessible via `getSuppressed()`).",
     "codeSnippet": "try (var conn = dataSource.getConnection();\n     var stmt = conn.prepareStatement(sql)) {\n  stmt.executeUpdate();\n} // conn and stmt auto-closed here",
-    "keyConcepts": ["try-with-resources", "AutoCloseable", "resource leaks", "suppressed exceptions", "finally"],
+    "keyConcepts": [
+      "try-with-resources",
+      "AutoCloseable",
+      "resource leaks",
+      "suppressed exceptions",
+      "finally"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -412,15 +853,35 @@
     "difficulty": "advanced",
     "question": "What are Java enums and how are they more powerful than constants?",
     "options": [
-      "Enums are just named integer constants — identical to public static final int",
-      "Enums are full classes: each constant is an instance, can have fields, constructors, and methods — plus type safety and built-in name/ordinal/values()/valueOf()",
-      "Enums cannot have methods — only constant values",
-      "Enums are deprecated in favor of sealed classes"
+      {
+        "id": "a",
+        "text": "Enums are just named integer constants — identical to public static final int"
+      },
+      {
+        "id": "b",
+        "text": "Enums are full classes: each constant is an instance, can have fields, constructors, and methods — plus type safety and built-in name/ordinal/values()/valueOf()"
+      },
+      {
+        "id": "c",
+        "text": "Enums cannot have methods — only constant values"
+      },
+      {
+        "id": "d",
+        "text": "Enums are deprecated in favor of sealed classes"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Java enums are full-featured classes. Each constant is a singleton instance. Enums can have fields, constructors, and methods. They support abstract methods (each constant provides its own implementation). Built-in: `values()` (all constants), `valueOf(String)`, `name()`, `ordinal()`. Safe for use in switch expressions. Can implement interfaces.",
     "codeSnippet": "enum Planet {\n  MERCURY(3.303e+23, 2.4397e6),\n  EARTH  (5.976e+24, 6.37814e6);\n\n  final double mass, radius;\n  Planet(double m, double r) { mass=m; radius=r; }\n  double surfaceGravity() { return 6.67300E-11 * mass / (radius*radius); }\n}",
-    "keyConcepts": ["enums", "enum with fields", "singleton constants", "switch expressions", "type safety"],
+    "keyConcepts": [
+      "enums",
+      "enum with fields",
+      "singleton constants",
+      "switch expressions",
+      "type safety"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -431,15 +892,34 @@
     "difficulty": "intermediate",
     "question": "What is the difference between `throw` and `throws` in Java?",
     "options": [
-      "`throw` declares exceptions; `throws` actually throws them",
-      "`throw` actually throws an exception instance; `throws` declares in the method signature which checked exceptions may propagate",
-      "They are identical — just different syntax for the same operation",
-      "`throws` is for runtime exceptions; `throw` is for checked exceptions"
+      {
+        "id": "a",
+        "text": "`throw` declares exceptions; `throws` actually throws them"
+      },
+      {
+        "id": "b",
+        "text": "`throw` actually throws an exception instance; `throws` declares in the method signature which checked exceptions may propagate"
+      },
+      {
+        "id": "c",
+        "text": "They are identical — just different syntax for the same operation"
+      },
+      {
+        "id": "d",
+        "text": "`throws` is for runtime exceptions; `throw` is for checked exceptions"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "`throw new IllegalArgumentException(\"msg\")` — the statement that actually throws an exception at that point. `throws IOException` in a method signature — declares that the method may throw this checked exception, forcing callers to handle or propagate it. `throws` is part of the method contract; `throw` is the execution action.",
     "codeSnippet": "// throws: declares what may propagate\npublic void readFile(String path) throws IOException {\n  // throw: actually throws\n  if (path == null) throw new IllegalArgumentException(\"null path\");\n  Files.readAllBytes(Path.of(path)); // may throw IOException\n}",
-    "keyConcepts": ["throw vs throws", "exception declaration", "method signature", "checked exceptions"],
+    "keyConcepts": [
+      "throw vs throws",
+      "exception declaration",
+      "method signature",
+      "checked exceptions"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -450,14 +930,37 @@
     "difficulty": "advanced",
     "question": "What are Java's primitive types and their sizes?",
     "options": [
-      "byte(8), short(16), int(32), long(64), float(32), double(64), char(16), boolean(1)",
-      "byte(4), short(8), int(16), long(32), float(64), double(128), char(8), boolean(8)",
-      "All primitives are 32-bit — size depends on JVM implementation",
-      "Java has no primitive types — everything is an object"
+      {
+        "id": "a",
+        "text": "byte(8), short(16), int(32), long(64), float(32), double(64), char(16), boolean(1)"
+      },
+      {
+        "id": "b",
+        "text": "byte(4), short(8), int(16), long(32), float(64), double(128), char(8), boolean(8)"
+      },
+      {
+        "id": "c",
+        "text": "All primitives are 32-bit — size depends on JVM implementation"
+      },
+      {
+        "id": "d",
+        "text": "Java has no primitive types — everything is an object"
+      }
     ],
-    "correctAnswers": [0],
+    "correctAnswers": [
+      "a"
+    ],
     "explanation": "8 primitives: `byte` (8-bit, -128 to 127), `short` (16-bit), `int` (32-bit, most common integer), `long` (64-bit, suffix `L`), `float` (32-bit IEEE 754, suffix `f`), `double` (64-bit IEEE 754, default for decimals), `char` (16-bit Unicode, 0–65535), `boolean` (true/false, JVM-dependent size but logically 1 bit). Primitives are stored by value, not reference.",
-    "keyConcepts": ["primitive types", "byte", "int", "long", "double", "char", "boolean", "sizes"],
+    "keyConcepts": [
+      "primitive types",
+      "byte",
+      "int",
+      "long",
+      "double",
+      "char",
+      "boolean",
+      "sizes"
+    ],
     "commonInterviewQuestion": true
   }
 ]

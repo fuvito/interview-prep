@@ -7,14 +7,35 @@
     "difficulty": "beginner",
     "question": "What is the Java Collections Framework hierarchy?",
     "options": [
-      "Collection → List, Set, Queue; Map is separate (not a Collection)",
-      "Collection → List, Set, Map, Queue (all inherit from Collection)",
-      "Array → Collection → List, Set, Map",
-      "Object → Collection → List → ArrayList, LinkedList, HashMap"
+      {
+        "id": "a",
+        "text": "Collection → List, Set, Queue; Map is separate (not a Collection)"
+      },
+      {
+        "id": "b",
+        "text": "Collection → List, Set, Map, Queue (all inherit from Collection)"
+      },
+      {
+        "id": "c",
+        "text": "Array → Collection → List, Set, Map"
+      },
+      {
+        "id": "d",
+        "text": "Object → Collection → List → ArrayList, LinkedList, HashMap"
+      }
     ],
-    "correctAnswers": [0],
+    "correctAnswers": [
+      "a"
+    ],
     "explanation": "The root interface is `Collection<E>` with subinterfaces: `List` (ordered, duplicates allowed), `Set` (no duplicates), `Queue`/`Deque` (FIFO/LIFO). `Map<K,V>` is a separate hierarchy — it does NOT extend Collection. Common: ArrayList, LinkedList (List); HashSet, TreeSet (Set); HashMap, TreeMap (Map); ArrayDeque (Queue/Deque).",
-    "keyConcepts": ["Collection hierarchy", "List", "Set", "Map", "Queue", "Iterable"],
+    "keyConcepts": [
+      "Collection hierarchy",
+      "List",
+      "Set",
+      "Map",
+      "Queue",
+      "Iterable"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -25,14 +46,34 @@
     "difficulty": "intermediate",
     "question": "What is the difference between `ArrayList` and `LinkedList`?",
     "options": [
-      "ArrayList: O(1) random access, O(n) insert/delete at middle; LinkedList: O(n) random access, O(1) insert/delete at known node",
-      "ArrayList is thread-safe; LinkedList is not",
-      "LinkedList uses less memory than ArrayList",
-      "ArrayList allows null; LinkedList does not"
+      {
+        "id": "a",
+        "text": "ArrayList: O(1) random access, O(n) insert/delete at middle; LinkedList: O(n) random access, O(1) insert/delete at known node"
+      },
+      {
+        "id": "b",
+        "text": "ArrayList is thread-safe; LinkedList is not"
+      },
+      {
+        "id": "c",
+        "text": "LinkedList uses less memory than ArrayList"
+      },
+      {
+        "id": "d",
+        "text": "ArrayList allows null; LinkedList does not"
+      }
     ],
-    "correctAnswers": [0],
+    "correctAnswers": [
+      "a"
+    ],
     "explanation": "ArrayList: backed by an array, O(1) get(index), O(n) add/remove in the middle (shifts elements), amortized O(1) add at end, better cache locality. LinkedList: doubly-linked nodes, O(1) add/remove at head/tail if you have the node reference, O(n) get(index). In practice, ArrayList outperforms LinkedList for most workloads due to cache efficiency — prefer ArrayList unless you specifically need O(1) head/tail operations.",
-    "keyConcepts": ["ArrayList", "LinkedList", "O(1) random access", "cache locality", "doubly-linked"],
+    "keyConcepts": [
+      "ArrayList",
+      "LinkedList",
+      "O(1) random access",
+      "cache locality",
+      "doubly-linked"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -43,14 +84,35 @@
     "difficulty": "intermediate",
     "question": "What is the difference between `HashMap`, `LinkedHashMap`, and `TreeMap`?",
     "options": [
-      "HashMap: O(1) get/put, no order; LinkedHashMap: insertion-order or access-order; TreeMap: sorted by key, O(log n) operations",
-      "HashMap is synchronized; LinkedHashMap is not; TreeMap is read-only",
-      "TreeMap is fastest; HashMap is slowest",
-      "They are identical — just different naming conventions"
+      {
+        "id": "a",
+        "text": "HashMap: O(1) get/put, no order; LinkedHashMap: insertion-order or access-order; TreeMap: sorted by key, O(log n) operations"
+      },
+      {
+        "id": "b",
+        "text": "HashMap is synchronized; LinkedHashMap is not; TreeMap is read-only"
+      },
+      {
+        "id": "c",
+        "text": "TreeMap is fastest; HashMap is slowest"
+      },
+      {
+        "id": "d",
+        "text": "They are identical — just different naming conventions"
+      }
     ],
-    "correctAnswers": [0],
+    "correctAnswers": [
+      "a"
+    ],
     "explanation": "HashMap: hash table, O(1) average get/put, no guaranteed order, allows one null key. LinkedHashMap: extends HashMap, maintains insertion order (or access order for LRU cache). TreeMap: Red-Black tree, keys sorted by natural order or Comparator, O(log n) for all operations — useful for range queries (`subMap`, `headMap`, `tailMap`).",
-    "keyConcepts": ["HashMap", "LinkedHashMap", "TreeMap", "insertion order", "sorted map", "LRU cache"],
+    "keyConcepts": [
+      "HashMap",
+      "LinkedHashMap",
+      "TreeMap",
+      "insertion order",
+      "sorted map",
+      "LRU cache"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -61,14 +123,36 @@
     "difficulty": "intermediate",
     "question": "How does HashMap work internally?",
     "options": [
-      "HashMap stores key-value pairs in a sorted array",
-      "HashMap uses an array of buckets; keys are hashed to a bucket index, stored in a linked list (or tree for large buckets) within that bucket",
-      "HashMap stores entries in a balanced binary search tree",
-      "HashMap uses a matrix of (key, value) pairs indexed by both dimensions"
+      {
+        "id": "a",
+        "text": "HashMap stores key-value pairs in a sorted array"
+      },
+      {
+        "id": "b",
+        "text": "HashMap uses an array of buckets; keys are hashed to a bucket index, stored in a linked list (or tree for large buckets) within that bucket"
+      },
+      {
+        "id": "c",
+        "text": "HashMap stores entries in a balanced binary search tree"
+      },
+      {
+        "id": "d",
+        "text": "HashMap uses a matrix of (key, value) pairs indexed by both dimensions"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "HashMap maintains an array (default 16 slots). To put a key: compute `hashCode()`, apply bit manipulation for index, store in that bucket. Collisions: Java 7 uses linked list per bucket; Java 8+ converts to TreeMap (red-black tree) when bucket has ≥ 8 entries (treeification). Load factor (default 0.75): when 75% full, the backing array doubles (rehashing). O(1) average; O(n) worst case with bad hash function.",
-    "keyConcepts": ["HashMap internals", "hash function", "buckets", "collision", "treeification", "load factor", "rehashing"],
+    "keyConcepts": [
+      "HashMap internals",
+      "hash function",
+      "buckets",
+      "collision",
+      "treeification",
+      "load factor",
+      "rehashing"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -79,14 +163,34 @@
     "difficulty": "intermediate",
     "question": "What is the difference between `HashSet` and `TreeSet`?",
     "options": [
-      "HashSet: O(1) operations, no order; TreeSet: O(log n) operations, elements sorted by natural/Comparator order",
-      "HashSet allows duplicates; TreeSet does not",
-      "TreeSet is faster than HashSet for all operations",
-      "HashSet is thread-safe; TreeSet is not"
+      {
+        "id": "a",
+        "text": "HashSet: O(1) operations, no order; TreeSet: O(log n) operations, elements sorted by natural/Comparator order"
+      },
+      {
+        "id": "b",
+        "text": "HashSet allows duplicates; TreeSet does not"
+      },
+      {
+        "id": "c",
+        "text": "TreeSet is faster than HashSet for all operations"
+      },
+      {
+        "id": "d",
+        "text": "HashSet is thread-safe; TreeSet is not"
+      }
     ],
-    "correctAnswers": [0],
+    "correctAnswers": [
+      "a"
+    ],
     "explanation": "HashSet: backed by HashMap (element is key, dummy value), O(1) add/contains/remove, no guaranteed iteration order. TreeSet: backed by TreeMap (NavigableSet), O(log n) all operations, elements always sorted. Use HashSet for fast membership checks; use TreeSet when you need sorted order or range operations (`headSet`, `tailSet`, `subSet`, `floor`, `ceiling`).",
-    "keyConcepts": ["HashSet", "TreeSet", "NavigableSet", "sorted order", "range operations"],
+    "keyConcepts": [
+      "HashSet",
+      "TreeSet",
+      "NavigableSet",
+      "sorted order",
+      "range operations"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -97,15 +201,36 @@
     "difficulty": "intermediate",
     "question": "What is the difference between `Comparable` and `Comparator`?",
     "options": [
-      "Comparable defines the natural ordering within the class itself; Comparator is an external strategy for comparing two objects",
-      "Comparable is for sorting collections; Comparator is for sorting arrays",
-      "Comparator is built into the class; Comparable is external",
-      "They are identical — use whichever you prefer"
+      {
+        "id": "a",
+        "text": "Comparable defines the natural ordering within the class itself; Comparator is an external strategy for comparing two objects"
+      },
+      {
+        "id": "b",
+        "text": "Comparable is for sorting collections; Comparator is for sorting arrays"
+      },
+      {
+        "id": "c",
+        "text": "Comparator is built into the class; Comparable is external"
+      },
+      {
+        "id": "d",
+        "text": "They are identical — use whichever you prefer"
+      }
     ],
-    "correctAnswers": [0],
+    "correctAnswers": [
+      "a"
+    ],
     "explanation": "`Comparable<T>` is implemented by the class to define its natural order: `compareTo(T other)`. `Comparator<T>` is a separate object providing an alternative or external comparison: `compare(T a, T b)`. Use Comparable when there is one obvious sort order; use Comparator for multiple orderings or when you can't modify the class. `Collections.sort(list, comparator)` and `list.sort(comparator)`.",
     "codeSnippet": "// Comparable — natural order\nclass Employee implements Comparable<Employee> {\n  public int compareTo(Employee o) { return name.compareTo(o.name); }\n}\n\n// Comparator — multiple orderings\nComparator<Employee> bySalary = Comparator.comparingDouble(Employee::getSalary);\nlist.sort(bySalary);",
-    "keyConcepts": ["Comparable", "Comparator", "natural ordering", "sort strategies", "compareTo", "compare"],
+    "keyConcepts": [
+      "Comparable",
+      "Comparator",
+      "natural ordering",
+      "sort strategies",
+      "compareTo",
+      "compare"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -116,14 +241,34 @@
     "difficulty": "intermediate",
     "question": "What is `ConcurrentModificationException` and how do you avoid it?",
     "options": [
-      "An exception that occurs when two threads modify the same object",
-      "Thrown when a collection is structurally modified while iterating over it with an Iterator — avoid by using Iterator.remove(), CopyOnWriteArrayList, or collecting changes and applying after iteration",
-      "An exception thrown when a collection runs out of memory",
-      "Thrown only in multithreaded code when two threads access the same list"
+      {
+        "id": "a",
+        "text": "An exception that occurs when two threads modify the same object"
+      },
+      {
+        "id": "b",
+        "text": "Thrown when a collection is structurally modified while iterating over it with an Iterator — avoid by using Iterator.remove(), CopyOnWriteArrayList, or collecting changes and applying after iteration"
+      },
+      {
+        "id": "c",
+        "text": "An exception thrown when a collection runs out of memory"
+      },
+      {
+        "id": "d",
+        "text": "Thrown only in multithreaded code when two threads access the same list"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Most Java collections use a `modCount` counter. Iterators capture the count on creation and check it on each `next()` call — if modified externally, it throws ConcurrentModificationException (fail-fast). Solutions: (1) `iterator.remove()` — safe removal during iteration. (2) `removeIf(predicate)` on the collection. (3) Collect elements to remove, then removeAll after. (4) Use `CopyOnWriteArrayList` for concurrent use.",
-    "keyConcepts": ["ConcurrentModificationException", "fail-fast iterator", "modCount", "Iterator.remove()", "CopyOnWriteArrayList"],
+    "keyConcepts": [
+      "ConcurrentModificationException",
+      "fail-fast iterator",
+      "modCount",
+      "Iterator.remove()",
+      "CopyOnWriteArrayList"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -134,14 +279,34 @@
     "difficulty": "intermediate",
     "question": "What is `Collections.unmodifiableList()` vs `List.of()` vs `List.copyOf()`?",
     "options": [
-      "They are identical — all create immutable lists",
-      "`unmodifiableList()`: a view that prevents modification but the backing list can change; `List.of()`: truly immutable, no nulls; `List.copyOf()`: immutable defensive copy of an existing collection",
-      "`List.of()` allows nulls; the others do not",
-      "`Collections.unmodifiableList()` is the modern replacement for `List.of()`"
+      {
+        "id": "a",
+        "text": "They are identical — all create immutable lists"
+      },
+      {
+        "id": "b",
+        "text": "`unmodifiableList()`: a view that prevents modification but the backing list can change; `List.of()`: truly immutable, no nulls; `List.copyOf()`: immutable defensive copy of an existing collection"
+      },
+      {
+        "id": "c",
+        "text": "`List.of()` allows nulls; the others do not"
+      },
+      {
+        "id": "d",
+        "text": "`Collections.unmodifiableList()` is the modern replacement for `List.of()`"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "`Collections.unmodifiableList(list)` wraps a mutable list — the wrapper throws on mutation calls, but if the underlying list is modified directly, the view reflects that change. `List.of(1,2,3)` (Java 9): truly immutable, no nulls, fixed size. `List.copyOf(collection)` (Java 10): creates an immutable snapshot. For truly immutable collections, prefer `List.of()` or `List.copyOf()`.",
-    "keyConcepts": ["unmodifiableList", "List.of()", "List.copyOf()", "immutable collections", "defensive copying"],
+    "keyConcepts": [
+      "unmodifiableList",
+      "List.of()",
+      "List.copyOf()",
+      "immutable collections",
+      "defensive copying"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -152,14 +317,35 @@
     "difficulty": "intermediate",
     "question": "When would you choose a `Deque` over a `Queue`?",
     "options": [
-      "When you need to add/remove from both ends (double-ended queue) — use ArrayDeque as a stack (push/pop) or queue (offer/poll)",
-      "Use Deque when the queue must be synchronized",
-      "Deque is only for LIFO; Queue is only for FIFO",
-      "Deque is slower than Queue — only use it for large datasets"
+      {
+        "id": "a",
+        "text": "When you need to add/remove from both ends (double-ended queue) — use ArrayDeque as a stack (push/pop) or queue (offer/poll)"
+      },
+      {
+        "id": "b",
+        "text": "Use Deque when the queue must be synchronized"
+      },
+      {
+        "id": "c",
+        "text": "Deque is only for LIFO; Queue is only for FIFO"
+      },
+      {
+        "id": "d",
+        "text": "Deque is slower than Queue — only use it for large datasets"
+      }
     ],
-    "correctAnswers": [0],
+    "correctAnswers": [
+      "a"
+    ],
     "explanation": "`Deque` (double-ended queue) supports insertion/removal at both front and back. `ArrayDeque` is the most efficient general-purpose implementation — faster than `LinkedList` for both stack and queue use cases. Java docs recommend `ArrayDeque` over `Stack` (which is synchronized and extends Vector). Use `offerFirst`/`pollFirst` (stack) or `offerLast`/`pollFirst` (queue).",
-    "keyConcepts": ["Deque", "ArrayDeque", "double-ended queue", "stack vs queue", "FIFO", "LIFO"],
+    "keyConcepts": [
+      "Deque",
+      "ArrayDeque",
+      "double-ended queue",
+      "stack vs queue",
+      "FIFO",
+      "LIFO"
+    ],
     "commonInterviewQuestion": false
   },
   {
@@ -170,15 +356,36 @@
     "difficulty": "intermediate",
     "question": "What is `PriorityQueue` and what ordering does it use?",
     "options": [
-      "PriorityQueue is a FIFO queue with automatic alphabetical ordering",
-      "PriorityQueue is a min-heap — the smallest element (by natural order or Comparator) is always at the head",
-      "PriorityQueue maintains insertion order with a priority number",
-      "PriorityQueue is a synchronized version of ArrayDeque"
+      {
+        "id": "a",
+        "text": "PriorityQueue is a FIFO queue with automatic alphabetical ordering"
+      },
+      {
+        "id": "b",
+        "text": "PriorityQueue is a min-heap — the smallest element (by natural order or Comparator) is always at the head"
+      },
+      {
+        "id": "c",
+        "text": "PriorityQueue maintains insertion order with a priority number"
+      },
+      {
+        "id": "d",
+        "text": "PriorityQueue is a synchronized version of ArrayDeque"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "PriorityQueue is a heap-based priority queue. `poll()` always returns the smallest element (min-heap). For max-heap: `new PriorityQueue<>(Comparator.reverseOrder())`. O(log n) for offer/poll, O(1) for peek. Not thread-safe. Iteration order is undefined — only `poll()` guarantees priority order. Used for Dijkstra, task scheduling, top-K problems.",
     "codeSnippet": "// Min-heap (default)\nPriorityQueue<Integer> minQ = new PriorityQueue<>();\nminQ.offer(5); minQ.offer(1); minQ.offer(3);\nSystem.out.println(minQ.poll()); // 1\n\n// Max-heap\nPriorityQueue<Integer> maxQ = new PriorityQueue<>(Comparator.reverseOrder());\nmaxQ.offer(5); maxQ.offer(1);\nSystem.out.println(maxQ.poll()); // 5",
-    "keyConcepts": ["PriorityQueue", "min-heap", "max-heap", "Comparator", "O(log n)", "Dijkstra"],
+    "keyConcepts": [
+      "PriorityQueue",
+      "min-heap",
+      "max-heap",
+      "Comparator",
+      "O(log n)",
+      "Dijkstra"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -189,14 +396,34 @@
     "difficulty": "advanced",
     "question": "What is the initial capacity and load factor of HashMap, and how do they affect performance?",
     "options": [
-      "Initial capacity: 10, load factor: 0.5 — these cannot be changed",
-      "Initial capacity: 16, load factor: 0.75. When entries exceed capacity×loadFactor, the map rehashes (doubles capacity). Lower load factor = fewer collisions, more memory; higher = more collisions, less memory",
-      "Initial capacity: 100, load factor: 1.0 — the default is optimized for all cases",
-      "Initial capacity and load factor only matter for LinkedHashMap"
+      {
+        "id": "a",
+        "text": "Initial capacity: 10, load factor: 0.5 — these cannot be changed"
+      },
+      {
+        "id": "b",
+        "text": "Initial capacity: 16, load factor: 0.75. When entries exceed capacity×loadFactor, the map rehashes (doubles capacity). Lower load factor = fewer collisions, more memory; higher = more collisions, less memory"
+      },
+      {
+        "id": "c",
+        "text": "Initial capacity: 100, load factor: 1.0 — the default is optimized for all cases"
+      },
+      {
+        "id": "d",
+        "text": "Initial capacity and load factor only matter for LinkedHashMap"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Default: 16 buckets, 0.75 load factor. Rehash when size > 16×0.75=12. Rehashing doubles the array and re-distributes all entries — O(n) operation. If you know the final size, pre-size: `new HashMap<>(expectedSize / 0.75 + 1)` to avoid rehashing. Lower load factor (e.g. 0.5) reduces collisions at cost of more memory; higher (e.g. 0.9) saves memory but increases collision rate.",
-    "keyConcepts": ["HashMap capacity", "load factor", "rehashing", "pre-sizing", "performance tuning"],
+    "keyConcepts": [
+      "HashMap capacity",
+      "load factor",
+      "rehashing",
+      "pre-sizing",
+      "performance tuning"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -207,14 +434,34 @@
     "difficulty": "advanced",
     "question": "What is `EnumMap` and `EnumSet` and when should you use them?",
     "options": [
-      "EnumMap and EnumSet are deprecated — use HashMap and HashSet instead",
-      "EnumMap: a Map implementation optimized for enum keys using an array (O(1), compact); EnumSet: a Set implementation for enum values using bit manipulation — both are faster than their general-purpose equivalents when keys are enums",
-      "EnumMap sorts entries by enum ordinal; EnumSet maintains insertion order",
-      "They are identical to HashMap/HashSet but restricted to String keys"
+      {
+        "id": "a",
+        "text": "EnumMap and EnumSet are deprecated — use HashMap and HashSet instead"
+      },
+      {
+        "id": "b",
+        "text": "EnumMap: a Map implementation optimized for enum keys using an array (O(1), compact); EnumSet: a Set implementation for enum values using bit manipulation — both are faster than their general-purpose equivalents when keys are enums"
+      },
+      {
+        "id": "c",
+        "text": "EnumMap sorts entries by enum ordinal; EnumSet maintains insertion order"
+      },
+      {
+        "id": "d",
+        "text": "They are identical to HashMap/HashSet but restricted to String keys"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "EnumMap uses an array indexed by `enum.ordinal()` — O(1) and extremely compact, no hashing overhead. EnumSet uses a bit vector (single `long` for enums with ≤64 constants) — blazing fast, no boxing. Both maintain declaration order. Always use these when your key/element type is an enum — significant performance and memory advantage.",
-    "keyConcepts": ["EnumMap", "EnumSet", "bit vector", "ordinal-indexed array", "enum optimization"],
+    "keyConcepts": [
+      "EnumMap",
+      "EnumSet",
+      "bit vector",
+      "ordinal-indexed array",
+      "enum optimization"
+    ],
     "commonInterviewQuestion": false
   },
   {
@@ -225,14 +472,34 @@
     "difficulty": "intermediate",
     "question": "What is the difference between `Vector` and `ArrayList`, and should you use `Vector`?",
     "options": [
-      "Vector is the modern replacement for ArrayList",
-      "Vector is a legacy synchronized list (all methods synchronized) — use ArrayList for single-threaded code; use CopyOnWriteArrayList or synchronized wrappers for thread-safety instead",
-      "Vector is faster than ArrayList because it pre-allocates more memory",
-      "ArrayList is deprecated; Vector is the current standard"
+      {
+        "id": "a",
+        "text": "Vector is the modern replacement for ArrayList"
+      },
+      {
+        "id": "b",
+        "text": "Vector is a legacy synchronized list (all methods synchronized) — use ArrayList for single-threaded code; use CopyOnWriteArrayList or synchronized wrappers for thread-safety instead"
+      },
+      {
+        "id": "c",
+        "text": "Vector is faster than ArrayList because it pre-allocates more memory"
+      },
+      {
+        "id": "d",
+        "text": "ArrayList is deprecated; Vector is the current standard"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Vector predates the Collections Framework (Java 1.0). It synchronizes every method, causing unnecessary overhead in single-threaded code. ArrayList (Java 1.2) replaced it. For thread-safe lists: `Collections.synchronizedList(new ArrayList<>())` or `CopyOnWriteArrayList`. `Stack` (extends Vector) should be replaced with `ArrayDeque`. Don't use Vector in new code.",
-    "keyConcepts": ["Vector", "ArrayList", "legacy collections", "synchronized", "CopyOnWriteArrayList"],
+    "keyConcepts": [
+      "Vector",
+      "ArrayList",
+      "legacy collections",
+      "synchronized",
+      "CopyOnWriteArrayList"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -243,14 +510,34 @@
     "difficulty": "advanced",
     "question": "What is `WeakHashMap` and when would you use it?",
     "options": [
-      "WeakHashMap is a HashMap that allows null values",
-      "WeakHashMap holds weak references to keys — when a key is no longer referenced elsewhere, it is eligible for garbage collection and the entry is removed automatically",
-      "WeakHashMap is a slower HashMap used for testing purposes",
-      "WeakHashMap requires keys to implement WeakReference interface"
+      {
+        "id": "a",
+        "text": "WeakHashMap is a HashMap that allows null values"
+      },
+      {
+        "id": "b",
+        "text": "WeakHashMap holds weak references to keys — when a key is no longer referenced elsewhere, it is eligible for garbage collection and the entry is removed automatically"
+      },
+      {
+        "id": "c",
+        "text": "WeakHashMap is a slower HashMap used for testing purposes"
+      },
+      {
+        "id": "d",
+        "text": "WeakHashMap requires keys to implement WeakReference interface"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "WeakHashMap's keys are held via WeakReferences. When a key has no other strong references, the GC can reclaim it — the WeakHashMap entry is then removed. Use cases: caches where entries should be collected when the cached object is no longer used elsewhere (e.g. per-Class metadata, listener registries). Not thread-safe. Contrast with regular HashMap which prevents GC of its keys.",
-    "keyConcepts": ["WeakHashMap", "weak references", "garbage collection", "cache", "memory leaks"],
+    "keyConcepts": [
+      "WeakHashMap",
+      "weak references",
+      "garbage collection",
+      "cache",
+      "memory leaks"
+    ],
     "commonInterviewQuestion": false
   },
   {
@@ -261,14 +548,34 @@
     "difficulty": "intermediate",
     "question": "How do you correctly remove elements from a List while iterating?",
     "options": [
-      "Use a for-each loop and call list.remove(element) inside",
-      "Use Iterator and call iterator.remove(), or use list.removeIf(predicate), or iterate backwards with a traditional for loop",
-      "Use a for loop with an index and never skip indices",
-      "Collections cannot be modified during iteration — create a new list instead"
+      {
+        "id": "a",
+        "text": "Use a for-each loop and call list.remove(element) inside"
+      },
+      {
+        "id": "b",
+        "text": "Use Iterator and call iterator.remove(), or use list.removeIf(predicate), or iterate backwards with a traditional for loop"
+      },
+      {
+        "id": "c",
+        "text": "Use a for loop with an index and never skip indices"
+      },
+      {
+        "id": "d",
+        "text": "Collections cannot be modified during iteration — create a new list instead"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "For-each with `list.remove()` throws ConcurrentModificationException. Safe approaches: (1) `Iterator<E> it = list.iterator(); while(it.hasNext()) { if(condition) it.remove(); }` (2) `list.removeIf(e -> condition)` — cleanest. (3) Traditional for loop iterating backwards: `for(int i=list.size()-1; i>=0; i--) { if(condition) list.remove(i); }` — safe because removals don't affect unvisited indices.",
-    "keyConcepts": ["safe iteration removal", "Iterator.remove()", "removeIf()", "backwards loop", "ConcurrentModificationException"],
+    "keyConcepts": [
+      "safe iteration removal",
+      "Iterator.remove()",
+      "removeIf()",
+      "backwards loop",
+      "ConcurrentModificationException"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -279,15 +586,36 @@
     "difficulty": "intermediate",
     "question": "What is `Map.getOrDefault()`, `Map.computeIfAbsent()`, and `Map.merge()` used for?",
     "options": [
-      "They are deprecated — use get() and put() for all Map operations",
-      "getOrDefault: get with fallback; computeIfAbsent: lazy compute and cache; merge: combine existing value with new value — all reduce boilerplate for common Map patterns",
-      "They are used only with ConcurrentHashMap",
-      "computeIfAbsent and merge only work with Integer values"
+      {
+        "id": "a",
+        "text": "They are deprecated — use get() and put() for all Map operations"
+      },
+      {
+        "id": "b",
+        "text": "getOrDefault: get with fallback; computeIfAbsent: lazy compute and cache; merge: combine existing value with new value — all reduce boilerplate for common Map patterns"
+      },
+      {
+        "id": "c",
+        "text": "They are used only with ConcurrentHashMap"
+      },
+      {
+        "id": "d",
+        "text": "computeIfAbsent and merge only work with Integer values"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "`getOrDefault(key, default)`: returns value or default without null-check. `computeIfAbsent(key, k -> value)`: if key absent, computes and puts value — perfect for `Map<String, List<>>` grouping. `merge(key, value, (old,new) -> combined)`: if key absent puts value; if present applies merge function — perfect for frequency counting: `map.merge(word, 1, Integer::sum)`.",
     "codeSnippet": "// Frequency count\nmap.merge(word, 1, Integer::sum);\n\n// Grouping\nmap.computeIfAbsent(key, k -> new ArrayList<>()).add(item);\n\n// Safe get\nint count = map.getOrDefault(word, 0);",
-    "keyConcepts": ["getOrDefault", "computeIfAbsent", "merge", "Map convenience methods", "grouping", "frequency count"],
+    "keyConcepts": [
+      "getOrDefault",
+      "computeIfAbsent",
+      "merge",
+      "Map convenience methods",
+      "grouping",
+      "frequency count"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -298,14 +626,34 @@
     "difficulty": "advanced",
     "question": "What is the difference between `Arrays.asList()` and `List.of()`?",
     "options": [
-      "They are identical — both return an immutable fixed-size list",
-      "`Arrays.asList()`: fixed-size but mutable (set() works, add/remove throw); backed by the array — changes to the array reflect in the list. `List.of()`: fully immutable, no nulls allowed",
-      "`List.of()` is backed by an array; `Arrays.asList()` is backed by a LinkedList",
-      "`Arrays.asList()` is deprecated; use `List.of()` for all cases"
+      {
+        "id": "a",
+        "text": "They are identical — both return an immutable fixed-size list"
+      },
+      {
+        "id": "b",
+        "text": "`Arrays.asList()`: fixed-size but mutable (set() works, add/remove throw); backed by the array — changes to the array reflect in the list. `List.of()`: fully immutable, no nulls allowed"
+      },
+      {
+        "id": "c",
+        "text": "`List.of()` is backed by an array; `Arrays.asList()` is backed by a LinkedList"
+      },
+      {
+        "id": "d",
+        "text": "`Arrays.asList()` is deprecated; use `List.of()` for all cases"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "`Arrays.asList(arr)` returns a fixed-size List backed by the original array — `set()` works and changes are reflected in the array, but `add()`/`remove()` throw UnsupportedOperationException. Allows null. `List.of(1,2,3)` (Java 9): fully immutable — set/add/remove all throw, null elements throw NullPointerException. Choose `List.of()` for truly immutable collections.",
-    "keyConcepts": ["Arrays.asList()", "List.of()", "fixed-size list", "immutable list", "backed by array"],
+    "keyConcepts": [
+      "Arrays.asList()",
+      "List.of()",
+      "fixed-size list",
+      "immutable list",
+      "backed by array"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -316,14 +664,34 @@
     "difficulty": "advanced",
     "question": "What is `IdentityHashMap` and when would you use it?",
     "options": [
-      "IdentityHashMap uses == for key comparison instead of equals()",
-      "IdentityHashMap is a HashMap where keys must implement an Identity interface",
-      "IdentityHashMap is a WeakHashMap with identity-based comparison",
-      "IdentityHashMap requires keys to be Strings"
+      {
+        "id": "a",
+        "text": "IdentityHashMap uses == for key comparison instead of equals()"
+      },
+      {
+        "id": "b",
+        "text": "IdentityHashMap is a HashMap where keys must implement an Identity interface"
+      },
+      {
+        "id": "c",
+        "text": "IdentityHashMap is a WeakHashMap with identity-based comparison"
+      },
+      {
+        "id": "d",
+        "text": "IdentityHashMap requires keys to be Strings"
+      }
     ],
-    "correctAnswers": [0],
+    "correctAnswers": [
+      "a"
+    ],
     "explanation": "`IdentityHashMap` uses reference equality (`==`) and `System.identityHashCode()` for keys instead of `equals()`/`hashCode()`. Two distinct objects with equal content are treated as different keys. Use cases: object graph serialization (tracking visited objects to detect cycles), proxy caches keyed by identity, compiler symbol tables.",
-    "keyConcepts": ["IdentityHashMap", "reference equality", "System.identityHashCode()", "object graph", "cycle detection"],
+    "keyConcepts": [
+      "IdentityHashMap",
+      "reference equality",
+      "System.identityHashCode()",
+      "object graph",
+      "cycle detection"
+    ],
     "commonInterviewQuestion": false
   },
   {
@@ -334,14 +702,35 @@
     "difficulty": "intermediate",
     "question": "What is `Collections.sort()` vs `List.sort()` vs `Arrays.sort()`?",
     "options": [
-      "Collections.sort() is for arrays; Arrays.sort() is for lists",
-      "Collections.sort(list): sorts a List, delegates to list.sort() since Java 8. List.sort(comparator): instance method. Arrays.sort(array): sorts primitive arrays (dual-pivot quicksort) or Object arrays (Timsort). All are O(n log n).",
-      "Arrays.sort() is slower — always prefer Collections.sort()",
-      "They use different algorithms and cannot be used interchangeably"
+      {
+        "id": "a",
+        "text": "Collections.sort() is for arrays; Arrays.sort() is for lists"
+      },
+      {
+        "id": "b",
+        "text": "Collections.sort(list): sorts a List, delegates to list.sort() since Java 8. List.sort(comparator): instance method. Arrays.sort(array): sorts primitive arrays (dual-pivot quicksort) or Object arrays (Timsort). All are O(n log n)."
+      },
+      {
+        "id": "c",
+        "text": "Arrays.sort() is slower — always prefer Collections.sort()"
+      },
+      {
+        "id": "d",
+        "text": "They use different algorithms and cannot be used interchangeably"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "`Collections.sort(list)` and `list.sort(null)` are equivalent since Java 8 — both use Timsort (O(n log n), stable). `Arrays.sort(int[])` uses dual-pivot quicksort (not stable, faster for primitives). `Arrays.sort(Object[])` uses Timsort (stable). For parallel sorting of large arrays: `Arrays.parallelSort()` uses fork/join. Prefer `list.sort(comparator)` for readability.",
-    "keyConcepts": ["Collections.sort()", "List.sort()", "Arrays.sort()", "Timsort", "dual-pivot quicksort", "stable sort"],
+    "keyConcepts": [
+      "Collections.sort()",
+      "List.sort()",
+      "Arrays.sort()",
+      "Timsort",
+      "dual-pivot quicksort",
+      "stable sort"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -352,14 +741,35 @@
     "difficulty": "advanced",
     "question": "What is `ConcurrentHashMap` and how does it differ from `Collections.synchronizedMap()`?",
     "options": [
-      "They are identical — both lock the entire map on every operation",
-      "ConcurrentHashMap uses segment/bucket-level locking (allows concurrent reads and some concurrent writes); synchronizedMap locks the entire map for every operation — ConcurrentHashMap is much more performant under concurrent access",
-      "synchronizedMap is more modern; ConcurrentHashMap is legacy",
-      "ConcurrentHashMap does not support null keys; synchronizedMap does"
+      {
+        "id": "a",
+        "text": "They are identical — both lock the entire map on every operation"
+      },
+      {
+        "id": "b",
+        "text": "ConcurrentHashMap uses segment/bucket-level locking (allows concurrent reads and some concurrent writes); synchronizedMap locks the entire map for every operation — ConcurrentHashMap is much more performant under concurrent access"
+      },
+      {
+        "id": "c",
+        "text": "synchronizedMap is more modern; ConcurrentHashMap is legacy"
+      },
+      {
+        "id": "d",
+        "text": "ConcurrentHashMap does not support null keys; synchronizedMap does"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "`synchronizedMap` wraps a map with a single mutex — every read and write is serialized. `ConcurrentHashMap` (Java 5+): reads are lock-free; writes use bucket-level CAS/synchronized (Java 8: node-level locking), enabling true concurrent reads and high write concurrency. Also supports atomic operations: `putIfAbsent`, `computeIfAbsent`, `merge`. Does not allow null keys or values.",
-    "keyConcepts": ["ConcurrentHashMap", "synchronizedMap", "segment locking", "CAS", "concurrent reads", "null keys"],
+    "keyConcepts": [
+      "ConcurrentHashMap",
+      "synchronizedMap",
+      "segment locking",
+      "CAS",
+      "concurrent reads",
+      "null keys"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -370,14 +780,34 @@
     "difficulty": "beginner",
     "question": "What is the difference between `Iterator` and `ListIterator`?",
     "options": [
-      "Iterator is for forward-only traversal; ListIterator is for Lists only and supports bidirectional traversal, modification, and index access",
-      "ListIterator is the old API; Iterator is the modern replacement",
-      "Iterator supports modification; ListIterator is read-only",
-      "They are identical — ListIterator just has a longer name"
+      {
+        "id": "a",
+        "text": "Iterator is for forward-only traversal; ListIterator is for Lists only and supports bidirectional traversal, modification, and index access"
+      },
+      {
+        "id": "b",
+        "text": "ListIterator is the old API; Iterator is the modern replacement"
+      },
+      {
+        "id": "c",
+        "text": "Iterator supports modification; ListIterator is read-only"
+      },
+      {
+        "id": "d",
+        "text": "They are identical — ListIterator just has a longer name"
+      }
     ],
-    "correctAnswers": [0],
+    "correctAnswers": [
+      "a"
+    ],
     "explanation": "`Iterator`: forward-only, works on any Iterable (`hasNext()`, `next()`, `remove()`). `ListIterator` (extends Iterator): works only on Lists, supports bidirectional traversal (`hasPrevious()`, `previous()`), modification (`set()`, `add()`), and index queries (`nextIndex()`, `previousIndex()`). Use `list.listIterator()` to get one.",
-    "keyConcepts": ["Iterator", "ListIterator", "bidirectional", "for-each", "Iterable"],
+    "keyConcepts": [
+      "Iterator",
+      "ListIterator",
+      "bidirectional",
+      "for-each",
+      "Iterable"
+    ],
     "commonInterviewQuestion": false
   },
   {
@@ -388,14 +818,34 @@
     "difficulty": "intermediate",
     "question": "What does `Collections.frequency()`, `Collections.disjoint()`, and `Collections.nCopies()` do?",
     "options": [
-      "These methods do not exist in the Collections class",
-      "`frequency(collection, obj)`: count occurrences; `disjoint(c1, c2)`: true if no common elements; `nCopies(n, obj)`: immutable list of n copies of obj",
-      "`frequency()` returns the most frequent element; `disjoint()` returns duplicate-free version; `nCopies()` creates a synchronized list",
-      "They are only available in Java 11+"
+      {
+        "id": "a",
+        "text": "These methods do not exist in the Collections class"
+      },
+      {
+        "id": "b",
+        "text": "`frequency(collection, obj)`: count occurrences; `disjoint(c1, c2)`: true if no common elements; `nCopies(n, obj)`: immutable list of n copies of obj"
+      },
+      {
+        "id": "c",
+        "text": "`frequency()` returns the most frequent element; `disjoint()` returns duplicate-free version; `nCopies()` creates a synchronized list"
+      },
+      {
+        "id": "d",
+        "text": "They are only available in Java 11+"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Useful utility methods: `Collections.frequency(list, \"a\")` — counts how many times \"a\" appears. `Collections.disjoint(set1, set2)` — true if they share no elements (intersection is empty). `Collections.nCopies(3, \"x\")` — returns `[\"x\", \"x\", \"x\"]` as an immutable list, useful for initializing or filling collections.",
-    "keyConcepts": ["Collections utility methods", "frequency()", "disjoint()", "nCopies()", "Collections class"],
+    "keyConcepts": [
+      "Collections utility methods",
+      "frequency()",
+      "disjoint()",
+      "nCopies()",
+      "Collections class"
+    ],
     "commonInterviewQuestion": false
   },
   {
@@ -406,14 +856,35 @@
     "difficulty": "advanced",
     "question": "What is `NavigableMap` and what operations does it add over `SortedMap`?",
     "options": [
-      "NavigableMap is just a renamed SortedMap — they have the same methods",
-      "NavigableMap extends SortedMap with navigation methods: floor, ceiling, lower, higher, pollFirstEntry, pollLastEntry, and descendingMap",
-      "NavigableMap is a concurrent version of SortedMap",
-      "NavigableMap supports range queries; SortedMap does not"
+      {
+        "id": "a",
+        "text": "NavigableMap is just a renamed SortedMap — they have the same methods"
+      },
+      {
+        "id": "b",
+        "text": "NavigableMap extends SortedMap with navigation methods: floor, ceiling, lower, higher, pollFirstEntry, pollLastEntry, and descendingMap"
+      },
+      {
+        "id": "c",
+        "text": "NavigableMap is a concurrent version of SortedMap"
+      },
+      {
+        "id": "d",
+        "text": "NavigableMap supports range queries; SortedMap does not"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "`SortedMap` provides `firstKey()`, `lastKey()`, `headMap()`, `tailMap()`, `subMap()`. `NavigableMap` (extends SortedMap, implemented by TreeMap) adds: `floor(k)` (greatest key ≤ k), `ceiling(k)` (least key ≥ k), `lower(k)` (strictly <), `higher(k)` (strictly >), `pollFirstEntry()`, `pollLastEntry()`, `descendingMap()`. Very useful for interval lookups and ordered event processing.",
-    "keyConcepts": ["NavigableMap", "SortedMap", "TreeMap", "floor", "ceiling", "range queries"],
+    "keyConcepts": [
+      "NavigableMap",
+      "SortedMap",
+      "TreeMap",
+      "floor",
+      "ceiling",
+      "range queries"
+    ],
     "commonInterviewQuestion": false
   },
   {
@@ -424,14 +895,35 @@
     "difficulty": "intermediate",
     "question": "What is `ArrayDeque` and why is it preferred over `Stack` and `LinkedList` as a stack/queue?",
     "options": [
-      "ArrayDeque is slower — use Stack for stacks and LinkedList for queues",
-      "ArrayDeque uses a resizable array with no per-element overhead — faster than LinkedList (cache locality) and unsynchronized unlike Stack",
-      "ArrayDeque is synchronized; Stack and LinkedList are not",
-      "ArrayDeque only supports FIFO; it cannot be used as a stack"
+      {
+        "id": "a",
+        "text": "ArrayDeque is slower — use Stack for stacks and LinkedList for queues"
+      },
+      {
+        "id": "b",
+        "text": "ArrayDeque uses a resizable array with no per-element overhead — faster than LinkedList (cache locality) and unsynchronized unlike Stack"
+      },
+      {
+        "id": "c",
+        "text": "ArrayDeque is synchronized; Stack and LinkedList are not"
+      },
+      {
+        "id": "d",
+        "text": "ArrayDeque only supports FIFO; it cannot be used as a stack"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "`Stack` is synchronized (unnecessary overhead) and extends `Vector` (legacy). `LinkedList` has per-node memory overhead and poor cache performance. `ArrayDeque` (circular buffer backed by array): no synchronization overhead, excellent cache locality, amortized O(1) for all deque operations. Java docs explicitly recommend `ArrayDeque` over `Stack`. Use `push`/`pop` for stack semantics, `offer`/`poll` for queue.",
-    "keyConcepts": ["ArrayDeque", "Stack", "LinkedList", "cache locality", "circular buffer", "deque"],
+    "keyConcepts": [
+      "ArrayDeque",
+      "Stack",
+      "LinkedList",
+      "cache locality",
+      "circular buffer",
+      "deque"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -442,15 +934,35 @@
     "difficulty": "intermediate",
     "question": "How would you find the duplicate elements in a List efficiently?",
     "options": [
-      "Sort the list and check adjacent elements — O(n log n)",
-      "Use a HashSet: iterate the list, add each element to the set — elements that return false from add() are duplicates. O(n) time, O(n) space",
-      "Compare every element to every other element — O(n²)",
-      "Use Collections.frequency() for each element — O(n²)"
+      {
+        "id": "a",
+        "text": "Sort the list and check adjacent elements — O(n log n)"
+      },
+      {
+        "id": "b",
+        "text": "Use a HashSet: iterate the list, add each element to the set — elements that return false from add() are duplicates. O(n) time, O(n) space"
+      },
+      {
+        "id": "c",
+        "text": "Compare every element to every other element — O(n²)"
+      },
+      {
+        "id": "d",
+        "text": "Use Collections.frequency() for each element — O(n²)"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Optimal approach: `Set<T> seen = new HashSet<>(); Set<T> dups = new HashSet<>(); for(T e : list) { if(!seen.add(e)) dups.add(e); }` — O(n) time, O(n) space. `Set.add()` returns false if the element was already present. Alternatively: `list.stream().filter(e -> Collections.frequency(list, e) > 1).collect(toSet())` — simpler but O(n²).",
     "codeSnippet": "List<String> list = List.of(\"a\",\"b\",\"a\",\"c\",\"b\");\nSet<String> seen = new HashSet<>();\nSet<String> dups = list.stream()\n  .filter(e -> !seen.add(e))\n  .collect(Collectors.toSet());\n// dups = {\"a\", \"b\"}",
-    "keyConcepts": ["duplicate detection", "HashSet", "Set.add() return value", "O(n) solution", "stream filter"],
+    "keyConcepts": [
+      "duplicate detection",
+      "HashSet",
+      "Set.add() return value",
+      "O(n) solution",
+      "stream filter"
+    ],
     "commonInterviewQuestion": true
   }
 ]

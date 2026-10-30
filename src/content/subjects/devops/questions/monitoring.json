@@ -7,14 +7,34 @@
     "difficulty": "beginner",
     "question": "What are the three pillars of observability?",
     "options": [
-      "Monitoring, alerting, and dashboards",
-      "Metrics, logs, and traces",
-      "CPU, memory, and disk",
-      "Uptime, latency, and errors"
+      {
+        "id": "a",
+        "text": "Monitoring, alerting, and dashboards"
+      },
+      {
+        "id": "b",
+        "text": "Metrics, logs, and traces"
+      },
+      {
+        "id": "c",
+        "text": "CPU, memory, and disk"
+      },
+      {
+        "id": "d",
+        "text": "Uptime, latency, and errors"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "The three pillars: Metrics (numeric measurements over time — CPU%, request count, error rate), Logs (timestamped records of discrete events), and Traces (records of a request's journey through distributed services). Together they let you understand the state of a system and why it behaves the way it does.",
-    "keyConcepts": ["metrics", "logs", "traces", "observability", "three pillars"],
+    "keyConcepts": [
+      "metrics",
+      "logs",
+      "traces",
+      "observability",
+      "three pillars"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -25,14 +45,34 @@
     "difficulty": "beginner",
     "question": "What is the difference between monitoring and observability?",
     "options": [
-      "Monitoring is for infrastructure; observability is for application code",
-      "Monitoring tells you when something is wrong (alerting on known failure modes); observability lets you understand WHY by exploring data you didn't anticipate needing",
-      "Observability is the old term; monitoring is the modern replacement",
-      "They are the same concept with different names"
+      {
+        "id": "a",
+        "text": "Monitoring is for infrastructure; observability is for application code"
+      },
+      {
+        "id": "b",
+        "text": "Monitoring tells you when something is wrong (alerting on known failure modes); observability lets you understand WHY by exploring data you didn't anticipate needing"
+      },
+      {
+        "id": "c",
+        "text": "Observability is the old term; monitoring is the modern replacement"
+      },
+      {
+        "id": "d",
+        "text": "They are the same concept with different names"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Monitoring: you know what to watch (CPU > 90%, error rate > 1%), and you alert when thresholds are breached — good for known problems. Observability: ability to answer arbitrary questions about system state from its outputs (metrics + logs + traces) — essential for debugging unknown unknowns in complex distributed systems.",
-    "keyConcepts": ["monitoring", "observability", "known unknowns", "unknown unknowns", "distributed systems"],
+    "keyConcepts": [
+      "monitoring",
+      "observability",
+      "known unknowns",
+      "unknown unknowns",
+      "distributed systems"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -43,15 +83,36 @@
     "difficulty": "intermediate",
     "question": "What is Prometheus and how does it collect metrics?",
     "options": [
-      "Prometheus is a log aggregation tool that receives pushed logs",
-      "Prometheus is an open-source monitoring system that scrapes (pulls) metrics from instrumented targets at regular intervals and stores them in a time-series database",
-      "Prometheus is a distributed tracing system",
-      "Prometheus is an alerting tool that integrates with Grafana"
+      {
+        "id": "a",
+        "text": "Prometheus is a log aggregation tool that receives pushed logs"
+      },
+      {
+        "id": "b",
+        "text": "Prometheus is an open-source monitoring system that scrapes (pulls) metrics from instrumented targets at regular intervals and stores them in a time-series database"
+      },
+      {
+        "id": "c",
+        "text": "Prometheus is a distributed tracing system"
+      },
+      {
+        "id": "d",
+        "text": "Prometheus is an alerting tool that integrates with Grafana"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Prometheus uses a pull model: it scrapes HTTP endpoints (typically `/metrics`) on configured targets at regular intervals (default 15s). Applications expose metrics in Prometheus format via client libraries (prom-client for Node.js). Prometheus stores metrics as time-series data and provides PromQL for querying. Alertmanager handles alert routing.",
     "codeSnippet": "// Node.js with prom-client\nconst client = require('prom-client')\nconst httpRequests = new client.Counter({\n  name: 'http_requests_total',\n  help: 'Total HTTP requests',\n  labelNames: ['method', 'status']\n})\n// Expose at /metrics\napp.get('/metrics', async (req, res) => {\n  res.set('Content-Type', client.register.contentType)\n  res.send(await client.register.metrics())\n})",
-    "keyConcepts": ["Prometheus", "pull model", "scraping", "time-series", "PromQL", "Alertmanager"],
+    "keyConcepts": [
+      "Prometheus",
+      "pull model",
+      "scraping",
+      "time-series",
+      "PromQL",
+      "Alertmanager"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -62,14 +123,34 @@
     "difficulty": "intermediate",
     "question": "What is Grafana and how does it relate to Prometheus?",
     "options": [
-      "Grafana is a replacement for Prometheus with built-in visualization",
-      "Grafana is a visualization and dashboarding platform that queries data sources (Prometheus, Loki, CloudWatch, Elasticsearch) and displays them as dashboards",
-      "Grafana stores metrics data; Prometheus visualizes them",
-      "Grafana is a log aggregation tool that feeds data into Prometheus"
+      {
+        "id": "a",
+        "text": "Grafana is a replacement for Prometheus with built-in visualization"
+      },
+      {
+        "id": "b",
+        "text": "Grafana is a visualization and dashboarding platform that queries data sources (Prometheus, Loki, CloudWatch, Elasticsearch) and displays them as dashboards"
+      },
+      {
+        "id": "c",
+        "text": "Grafana stores metrics data; Prometheus visualizes them"
+      },
+      {
+        "id": "d",
+        "text": "Grafana is a log aggregation tool that feeds data into Prometheus"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Prometheus stores and queries metrics. Grafana visualizes them. Grafana connects to Prometheus as a data source, and you build dashboards with panels using PromQL queries. The Prometheus+Grafana stack is standard for self-hosted monitoring. Grafana also supports Loki (logs), Tempo (traces), and 50+ other data sources.",
-    "keyConcepts": ["Grafana", "dashboards", "data sources", "PromQL", "visualization"],
+    "keyConcepts": [
+      "Grafana",
+      "dashboards",
+      "data sources",
+      "PromQL",
+      "visualization"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -80,14 +161,34 @@
     "difficulty": "intermediate",
     "question": "What is a Service Level Objective (SLO) and how does it differ from an SLA?",
     "options": [
-      "SLO is internal reliability target; SLA is the legal contract with customers specifying the consequences of not meeting the SLO",
-      "SLA is the internal target; SLO is the customer-facing contract",
-      "They are the same thing — SLO is the acronym used by engineers, SLA by managers",
-      "SLO is for infrastructure; SLA is for application performance"
+      {
+        "id": "a",
+        "text": "SLO is internal reliability target; SLA is the legal contract with customers specifying the consequences of not meeting the SLO"
+      },
+      {
+        "id": "b",
+        "text": "SLA is the internal target; SLO is the customer-facing contract"
+      },
+      {
+        "id": "c",
+        "text": "They are the same thing — SLO is the acronym used by engineers, SLA by managers"
+      },
+      {
+        "id": "d",
+        "text": "SLO is for infrastructure; SLA is for application performance"
+      }
     ],
-    "correctAnswers": [0],
+    "correctAnswers": [
+      "a"
+    ],
     "explanation": "SLI (Service Level Indicator): a metric measuring service behavior (success rate, latency). SLO: internal reliability target (e.g., 99.9% success rate). SLA: legal contract promising customers a reliability level, with penalties (refunds, credits) if breached. SLOs should be tighter than SLAs — you want to catch and fix problems before SLA penalties kick in.",
-    "keyConcepts": ["SLI", "SLO", "SLA", "error budget", "reliability targets"],
+    "keyConcepts": [
+      "SLI",
+      "SLO",
+      "SLA",
+      "error budget",
+      "reliability targets"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -98,14 +199,34 @@
     "difficulty": "intermediate",
     "question": "What is an error budget and how is it used in SRE?",
     "options": [
-      "A budget allocated to the engineering team for fixing bugs",
-      "The acceptable amount of downtime/errors derived from an SLO — if error budget is exhausted, reliability work takes priority over feature development",
-      "The maximum number of error logs before an alert fires",
-      "A cost estimate for incident response"
+      {
+        "id": "a",
+        "text": "A budget allocated to the engineering team for fixing bugs"
+      },
+      {
+        "id": "b",
+        "text": "The acceptable amount of downtime/errors derived from an SLO — if error budget is exhausted, reliability work takes priority over feature development"
+      },
+      {
+        "id": "c",
+        "text": "The maximum number of error logs before an alert fires"
+      },
+      {
+        "id": "d",
+        "text": "A cost estimate for incident response"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "If your SLO is 99.9% uptime, your error budget is 0.1% (about 8.7 hours/year). If you're burning budget faster than allowed, you slow feature releases and invest in reliability. If budget is healthy, you can take more deployment risks. Error budgets make reliability a shared engineering goal, not just an ops concern.",
-    "keyConcepts": ["error budget", "SLO", "SRE", "reliability vs velocity", "burn rate"],
+    "keyConcepts": [
+      "error budget",
+      "SLO",
+      "SRE",
+      "reliability vs velocity",
+      "burn rate"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -116,14 +237,35 @@
     "difficulty": "intermediate",
     "question": "What is the ELK/EFK stack?",
     "options": [
-      "A CI/CD stack: Environment, Linting, and Kubernetes",
-      "ELK: Elasticsearch (storage/search), Logstash/Fluentd (collection/processing), Kibana (visualization) — a centralized log management platform",
-      "A monitoring stack: Events, Logs, and Kubernetes",
-      "ELK is a Grafana plugin for log visualization"
+      {
+        "id": "a",
+        "text": "A CI/CD stack: Environment, Linting, and Kubernetes"
+      },
+      {
+        "id": "b",
+        "text": "ELK: Elasticsearch (storage/search), Logstash/Fluentd (collection/processing), Kibana (visualization) — a centralized log management platform"
+      },
+      {
+        "id": "c",
+        "text": "A monitoring stack: Events, Logs, and Kubernetes"
+      },
+      {
+        "id": "d",
+        "text": "ELK is a Grafana plugin for log visualization"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "ELK: Elasticsearch stores and indexes logs, Logstash collects and transforms logs, Kibana visualizes logs with search and dashboards. EFK replaces Logstash with Fluentd (lighter, Kubernetes-native). Common flow: app → Fluentd DaemonSet → Elasticsearch → Kibana. OpenSearch is the AWS fork of Elasticsearch used in managed services.",
-    "keyConcepts": ["Elasticsearch", "Logstash", "Fluentd", "Kibana", "centralized logging", "EFK"],
+    "keyConcepts": [
+      "Elasticsearch",
+      "Logstash",
+      "Fluentd",
+      "Kibana",
+      "centralized logging",
+      "EFK"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -134,14 +276,35 @@
     "difficulty": "intermediate",
     "question": "What is distributed tracing and what problem does it solve?",
     "options": [
-      "Distributed tracing logs all database queries across a cluster",
-      "Distributed tracing follows a request across multiple services, recording timing and context at each hop — making it possible to find bottlenecks or failures in microservices architectures",
-      "Distributed tracing monitors network packet routes between servers",
-      "Distributed tracing is a debugging tool for multithreaded applications"
+      {
+        "id": "a",
+        "text": "Distributed tracing logs all database queries across a cluster"
+      },
+      {
+        "id": "b",
+        "text": "Distributed tracing follows a request across multiple services, recording timing and context at each hop — making it possible to find bottlenecks or failures in microservices architectures"
+      },
+      {
+        "id": "c",
+        "text": "Distributed tracing monitors network packet routes between servers"
+      },
+      {
+        "id": "d",
+        "text": "Distributed tracing is a debugging tool for multithreaded applications"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "In a microservices architecture, a single user request touches 10+ services. When it's slow or fails, which service is the culprit? Distributed tracing assigns each request a unique trace ID and records spans (timed operations) at each service. Tools: Jaeger, Zipkin, AWS X-Ray, Honeycomb. Standard protocol: OpenTelemetry.",
-    "keyConcepts": ["distributed tracing", "trace ID", "spans", "OpenTelemetry", "Jaeger", "microservices"],
+    "keyConcepts": [
+      "distributed tracing",
+      "trace ID",
+      "spans",
+      "OpenTelemetry",
+      "Jaeger",
+      "microservices"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -152,14 +315,35 @@
     "difficulty": "intermediate",
     "question": "What is OpenTelemetry (OTel)?",
     "options": [
-      "A cloud provider for managed monitoring services",
-      "A vendor-neutral, open-source observability framework providing APIs, SDKs, and collectors for generating and exporting metrics, logs, and traces",
-      "A Prometheus-compatible metrics format for Kubernetes",
-      "A log format standard created by Elasticsearch"
+      {
+        "id": "a",
+        "text": "A cloud provider for managed monitoring services"
+      },
+      {
+        "id": "b",
+        "text": "A vendor-neutral, open-source observability framework providing APIs, SDKs, and collectors for generating and exporting metrics, logs, and traces"
+      },
+      {
+        "id": "c",
+        "text": "A Prometheus-compatible metrics format for Kubernetes"
+      },
+      {
+        "id": "d",
+        "text": "A log format standard created by Elasticsearch"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "OpenTelemetry (CNCF project) standardizes how telemetry data is generated, collected, and exported. Instrument your code once with OTel SDKs, then export to any backend (Jaeger, Datadog, Honeycomb, Prometheus, Grafana Tempo) by changing the exporter config. Avoids vendor lock-in in your instrumentation code.",
-    "keyConcepts": ["OpenTelemetry", "OTel", "vendor-neutral", "instrumentation", "OTLP", "CNCF"],
+    "keyConcepts": [
+      "OpenTelemetry",
+      "OTel",
+      "vendor-neutral",
+      "instrumentation",
+      "OTLP",
+      "CNCF"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -170,14 +354,35 @@
     "difficulty": "beginner",
     "question": "What are the four golden signals of monitoring?",
     "options": [
-      "CPU, Memory, Disk, Network",
-      "Latency, Traffic, Errors, and Saturation",
-      "Uptime, Throughput, Alerts, and Dashboards",
-      "Requests, Response time, Error logs, and Cache hits"
+      {
+        "id": "a",
+        "text": "CPU, Memory, Disk, Network"
+      },
+      {
+        "id": "b",
+        "text": "Latency, Traffic, Errors, and Saturation"
+      },
+      {
+        "id": "c",
+        "text": "Uptime, Throughput, Alerts, and Dashboards"
+      },
+      {
+        "id": "d",
+        "text": "Requests, Response time, Error logs, and Cache hits"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Google SRE book's four golden signals: Latency (how long requests take — separate successful vs error latency), Traffic (requests per second), Errors (failed requests), Saturation (how full the service is — queue depth, CPU%). These four metrics, if all healthy, strongly suggest the service is functioning correctly.",
-    "keyConcepts": ["four golden signals", "latency", "traffic", "errors", "saturation", "Google SRE"],
+    "keyConcepts": [
+      "four golden signals",
+      "latency",
+      "traffic",
+      "errors",
+      "saturation",
+      "Google SRE"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -188,14 +393,35 @@
     "difficulty": "intermediate",
     "question": "What is the difference between a gauge, counter, and histogram in Prometheus?",
     "options": [
-      "Gauge is for latency, counter is for errors, histogram is for uptime",
-      "Counter: monotonically increasing value (total requests); Gauge: value that goes up and down (current memory); Histogram: samples observations in configurable buckets (request duration distribution)",
-      "They are three names for the same metric type",
-      "Gauges and counters are for infrastructure; histograms are for business metrics"
+      {
+        "id": "a",
+        "text": "Gauge is for latency, counter is for errors, histogram is for uptime"
+      },
+      {
+        "id": "b",
+        "text": "Counter: monotonically increasing value (total requests); Gauge: value that goes up and down (current memory); Histogram: samples observations in configurable buckets (request duration distribution)"
+      },
+      {
+        "id": "c",
+        "text": "They are three names for the same metric type"
+      },
+      {
+        "id": "d",
+        "text": "Gauges and counters are for infrastructure; histograms are for business metrics"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Counter: only increases (resets on restart), e.g., `http_requests_total`. Query with `rate()`. Gauge: can go up and down, e.g., `memory_usage_bytes`, `active_connections`. Histogram: counts observations in buckets, calculates sum and count — use for latency percentiles (`histogram_quantile(0.99, rate(http_duration_bucket[5m]))`). Summary: similar to histogram but calculates quantiles client-side.",
-    "keyConcepts": ["counter", "gauge", "histogram", "summary", "PromQL rate()", "histogram_quantile"],
+    "keyConcepts": [
+      "counter",
+      "gauge",
+      "histogram",
+      "summary",
+      "PromQL rate()",
+      "histogram_quantile"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -206,14 +432,34 @@
     "difficulty": "intermediate",
     "question": "What is alert fatigue and how do you prevent it?",
     "options": [
-      "Alert fatigue is when monitoring tools slow down due to too many metrics",
-      "Alert fatigue is when on-call engineers become desensitized to alerts because too many are noisy or non-actionable — prevented by alerting only on symptoms, not causes, and requiring every alert to be actionable",
-      "Alert fatigue is a CPU issue caused by too many alert checks",
-      "Alert fatigue only affects large organizations with 100+ engineers"
+      {
+        "id": "a",
+        "text": "Alert fatigue is when monitoring tools slow down due to too many metrics"
+      },
+      {
+        "id": "b",
+        "text": "Alert fatigue is when on-call engineers become desensitized to alerts because too many are noisy or non-actionable — prevented by alerting only on symptoms, not causes, and requiring every alert to be actionable"
+      },
+      {
+        "id": "c",
+        "text": "Alert fatigue is a CPU issue caused by too many alert checks"
+      },
+      {
+        "id": "d",
+        "text": "Alert fatigue only affects large organizations with 100+ engineers"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Alert fatigue: when engineers receive too many alerts, they start ignoring them — including real incidents. Prevention: (1) Alert on symptoms (user-visible impact) not causes. (2) Every alert must be actionable — if the response is 'do nothing', delete the alert. (3) Set appropriate thresholds. (4) Use SLO-based alerting (burn rate). (5) Regularly review and prune alert rules.",
-    "keyConcepts": ["alert fatigue", "actionable alerts", "SLO-based alerting", "symptom vs cause", "on-call health"],
+    "keyConcepts": [
+      "alert fatigue",
+      "actionable alerts",
+      "SLO-based alerting",
+      "symptom vs cause",
+      "on-call health"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -224,14 +470,34 @@
     "difficulty": "intermediate",
     "question": "What is a runbook and why is it important for incident response?",
     "options": [
-      "A runbook is a script that automatically resolves incidents",
-      "A runbook is a documented procedure for responding to a specific alert or incident — reducing time-to-resolve and enabling less experienced engineers to handle incidents",
-      "A runbook is a log file of all commands run during an incident",
-      "A runbook is a Kubernetes resource for automated recovery"
+      {
+        "id": "a",
+        "text": "A runbook is a script that automatically resolves incidents"
+      },
+      {
+        "id": "b",
+        "text": "A runbook is a documented procedure for responding to a specific alert or incident — reducing time-to-resolve and enabling less experienced engineers to handle incidents"
+      },
+      {
+        "id": "c",
+        "text": "A runbook is a log file of all commands run during an incident"
+      },
+      {
+        "id": "d",
+        "text": "A runbook is a Kubernetes resource for automated recovery"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "A runbook links directly from an alert and documents: what this alert means, who to escalate to, step-by-step diagnostic commands, common causes and resolutions, and rollback procedures. Reduces MTTR (Mean Time to Resolve) significantly. Good runbooks enable on-call rotation beyond the original developer.",
-    "keyConcepts": ["runbook", "incident response", "MTTR", "on-call", "operational documentation"],
+    "keyConcepts": [
+      "runbook",
+      "incident response",
+      "MTTR",
+      "on-call",
+      "operational documentation"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -242,14 +508,35 @@
     "difficulty": "intermediate",
     "question": "What is a postmortem (or incident review) in SRE/DevOps?",
     "options": [
-      "A process for firing engineers who caused an outage",
-      "A blameless document written after an incident that analyzes root causes, contributing factors, and action items to prevent recurrence",
-      "A final technical audit before a service is deprecated",
-      "A quarterly performance review of the infrastructure"
+      {
+        "id": "a",
+        "text": "A process for firing engineers who caused an outage"
+      },
+      {
+        "id": "b",
+        "text": "A blameless document written after an incident that analyzes root causes, contributing factors, and action items to prevent recurrence"
+      },
+      {
+        "id": "c",
+        "text": "A final technical audit before a service is deprecated"
+      },
+      {
+        "id": "d",
+        "text": "A quarterly performance review of the infrastructure"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Postmortems are blameless — the goal is learning, not blame. Structure: incident timeline, impact, root cause analysis (5 whys), contributing factors, and action items with owners and due dates. Blamelessness is critical: if engineers fear punishment, they hide problems and incidents go unlearned from. Pioneered by Google SRE.",
-    "keyConcepts": ["postmortem", "blameless culture", "root cause analysis", "5 whys", "action items", "incident learning"],
+    "keyConcepts": [
+      "postmortem",
+      "blameless culture",
+      "root cause analysis",
+      "5 whys",
+      "action items",
+      "incident learning"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -260,15 +547,35 @@
     "difficulty": "advanced",
     "question": "What is PromQL `rate()` and when should you use it vs `increase()`?",
     "options": [
-      "rate() is for gauges; increase() is for counters",
-      "rate() calculates the per-second rate of a counter over a time window; increase() calculates the total increase over the window — use rate() for dashboards, increase() for 'how many in this window'",
-      "They are identical — rate() = increase() / 60",
-      "rate() is deprecated; use increase() instead"
+      {
+        "id": "a",
+        "text": "rate() is for gauges; increase() is for counters"
+      },
+      {
+        "id": "b",
+        "text": "rate() calculates the per-second rate of a counter over a time window; increase() calculates the total increase over the window — use rate() for dashboards, increase() for 'how many in this window'"
+      },
+      {
+        "id": "c",
+        "text": "They are identical — rate() = increase() / 60"
+      },
+      {
+        "id": "d",
+        "text": "rate() is deprecated; use increase() instead"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "`rate(http_requests_total[5m])` gives requests per second averaged over the last 5 minutes — good for throughput graphs and alert rules (rate > threshold). `increase(http_requests_total[5m])` gives total requests in 5 minutes — good for 'how many errors happened'. Both handle counter resets gracefully. Never use `rate()` on gauges.",
     "codeSnippet": "# Requests per second (last 5 min average)\nrate(http_requests_total[5m])\n\n# Error rate percentage\nrate(http_requests_total{status=~\"5..\"}[5m])\n/ rate(http_requests_total[5m]) * 100\n\n# Total errors in last hour\nincrease(http_errors_total[1h])",
-    "keyConcepts": ["rate()", "increase()", "PromQL", "counter rate", "time range vector"],
+    "keyConcepts": [
+      "rate()",
+      "increase()",
+      "PromQL",
+      "counter rate",
+      "time range vector"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -279,15 +586,35 @@
     "difficulty": "intermediate",
     "question": "What is a health check endpoint and what should it return?",
     "options": [
-      "A health check should return the server's CPU and memory usage",
-      "A health check endpoint (e.g., /health or /ready) returns the service's operational status — typically a JSON with status and HTTP 200 if healthy, 5xx if not — used by load balancers, Kubernetes, and monitoring",
-      "A health check should return the application version and git SHA",
-      "Health check endpoints should require authentication to prevent abuse"
+      {
+        "id": "a",
+        "text": "A health check should return the server's CPU and memory usage"
+      },
+      {
+        "id": "b",
+        "text": "A health check endpoint (e.g., /health or /ready) returns the service's operational status — typically a JSON with status and HTTP 200 if healthy, 5xx if not — used by load balancers, Kubernetes, and monitoring"
+      },
+      {
+        "id": "c",
+        "text": "A health check should return the application version and git SHA"
+      },
+      {
+        "id": "d",
+        "text": "Health check endpoints should require authentication to prevent abuse"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Health checks validate that the service can handle requests. Liveness check: is the process alive? (return 200). Readiness check: can it serve traffic? (check database connectivity, cache, etc. — return 503 if not ready). Kubernetes uses these for traffic routing and restart decisions. Load balancers remove unhealthy backends.",
     "codeSnippet": "app.get('/health/live', (req, res) => {\n  res.json({ status: 'ok' })\n})\n\napp.get('/health/ready', async (req, res) => {\n  const dbOk = await checkDatabase()\n  if (!dbOk) return res.status(503).json({ status: 'not ready', db: 'down' })\n  res.json({ status: 'ok' })\n})",
-    "keyConcepts": ["health check", "liveness", "readiness", "/health endpoint", "503 status"],
+    "keyConcepts": [
+      "health check",
+      "liveness",
+      "readiness",
+      "/health endpoint",
+      "503 status"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -298,14 +625,34 @@
     "difficulty": "intermediate",
     "question": "What is log aggregation and why is it important in distributed systems?",
     "options": [
-      "Log aggregation compresses log files to save disk space",
-      "Log aggregation collects logs from all services/instances into a central searchable store — essential when debugging issues that span multiple services or when running many container instances",
-      "Log aggregation is a security feature that masks sensitive data in logs",
-      "Log aggregation is only needed for apps generating more than 1GB of logs per day"
+      {
+        "id": "a",
+        "text": "Log aggregation compresses log files to save disk space"
+      },
+      {
+        "id": "b",
+        "text": "Log aggregation collects logs from all services/instances into a central searchable store — essential when debugging issues that span multiple services or when running many container instances"
+      },
+      {
+        "id": "c",
+        "text": "Log aggregation is a security feature that masks sensitive data in logs"
+      },
+      {
+        "id": "d",
+        "text": "Log aggregation is only needed for apps generating more than 1GB of logs per day"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "With 50 microservices each running 3 instances = 150 log streams. Without aggregation, debugging requires SSHing into each instance. Centralized logging (ELK, Loki, CloudWatch Logs) collects all logs and enables: cross-service correlation by trace ID, full-text search, alerting on log patterns, and retention policies.",
-    "keyConcepts": ["log aggregation", "centralized logging", "Loki", "ELK", "distributed debugging"],
+    "keyConcepts": [
+      "log aggregation",
+      "centralized logging",
+      "Loki",
+      "ELK",
+      "distributed debugging"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -316,14 +663,34 @@
     "difficulty": "advanced",
     "question": "What is SLO-based alerting (burn rate alerting)?",
     "options": [
-      "Alerting when CPU burns above 90% for more than 5 minutes",
-      "Alerting when the error budget is being consumed faster than the SLO allows — e.g., alert if the error rate over 1 hour would exhaust the monthly budget in 2 days",
-      "Burning through alert budget — the maximum number of alerts per month",
-      "SLO-based alerting only works with Prometheus"
+      {
+        "id": "a",
+        "text": "Alerting when CPU burns above 90% for more than 5 minutes"
+      },
+      {
+        "id": "b",
+        "text": "Alerting when the error budget is being consumed faster than the SLO allows — e.g., alert if the error rate over 1 hour would exhaust the monthly budget in 2 days"
+      },
+      {
+        "id": "c",
+        "text": "Burning through alert budget — the maximum number of alerts per month"
+      },
+      {
+        "id": "d",
+        "text": "SLO-based alerting only works with Prometheus"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Burn rate alerting alerts on how fast you're consuming your error budget, not absolute thresholds. A 1-hour 14x burn rate means you'd exhaust a 30-day monthly budget in ~2 days — that's page-worthy. A 6-hour 3x burn rate means budget depletes in 10 days — ticket-worthy but not paging. This reduces false positives vs simple threshold alerts.",
-    "keyConcepts": ["burn rate", "error budget", "SLO alerting", "multiwindow alerting", "Google SRE"],
+    "keyConcepts": [
+      "burn rate",
+      "error budget",
+      "SLO alerting",
+      "multiwindow alerting",
+      "Google SRE"
+    ],
     "commonInterviewQuestion": false
   },
   {
@@ -334,14 +701,34 @@
     "difficulty": "intermediate",
     "question": "What is Grafana Loki and how does it differ from Elasticsearch?",
     "options": [
-      "Loki is a metrics tool; Elasticsearch is a log tool",
-      "Loki indexes only log metadata (labels), not the full text — making it cheaper to operate. Elasticsearch indexes full log content for fast full-text search but is resource-intensive",
-      "Loki is cloud-only; Elasticsearch is self-hosted only",
-      "They are identical — Loki is just the Grafana-branded version of Elasticsearch"
+      {
+        "id": "a",
+        "text": "Loki is a metrics tool; Elasticsearch is a log tool"
+      },
+      {
+        "id": "b",
+        "text": "Loki indexes only log metadata (labels), not the full text — making it cheaper to operate. Elasticsearch indexes full log content for fast full-text search but is resource-intensive"
+      },
+      {
+        "id": "c",
+        "text": "Loki is cloud-only; Elasticsearch is self-hosted only"
+      },
+      {
+        "id": "d",
+        "text": "They are identical — Loki is just the Grafana-branded version of Elasticsearch"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Loki (from Grafana Labs) is 'Prometheus, but for logs'. It uses the same label system as Prometheus and stores log streams indexed only by labels (app, env, pod). Log content is stored compressed and not indexed — searches are grep-like over the matching streams. Much cheaper than Elasticsearch. Trade-off: no full-text search — queries must filter by label first.",
-    "keyConcepts": ["Grafana Loki", "LogQL", "log labels", "Elasticsearch comparison", "cost efficiency"],
+    "keyConcepts": [
+      "Grafana Loki",
+      "LogQL",
+      "log labels",
+      "Elasticsearch comparison",
+      "cost efficiency"
+    ],
     "commonInterviewQuestion": false
   },
   {
@@ -352,14 +739,35 @@
     "difficulty": "advanced",
     "question": "What is a Service Mesh (e.g., Istio, Linkerd) and what observability features does it provide?",
     "options": [
-      "A service mesh is a Kubernetes networking plugin that replaces CoreDNS",
-      "A service mesh is an infrastructure layer that intercepts all service-to-service traffic via sidecar proxies, providing automatic metrics, traces, mTLS, and traffic management without code changes",
-      "A service mesh is a monitoring tool specifically for databases",
-      "A service mesh is the network topology diagram of a microservices application"
+      {
+        "id": "a",
+        "text": "A service mesh is a Kubernetes networking plugin that replaces CoreDNS"
+      },
+      {
+        "id": "b",
+        "text": "A service mesh is an infrastructure layer that intercepts all service-to-service traffic via sidecar proxies, providing automatic metrics, traces, mTLS, and traffic management without code changes"
+      },
+      {
+        "id": "c",
+        "text": "A service mesh is a monitoring tool specifically for databases"
+      },
+      {
+        "id": "d",
+        "text": "A service mesh is the network topology diagram of a microservices application"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "A service mesh (Istio, Linkerd, Consul Connect) deploys a sidecar proxy (Envoy) alongside each service pod. The proxy intercepts all inbound/outbound traffic, providing: automatic L7 metrics (success rate, latency, throughput) for every service pair, distributed traces, mTLS for all service communication, and traffic management (canary, circuit breaking, retries) — all without app code changes.",
-    "keyConcepts": ["service mesh", "Istio", "Linkerd", "sidecar proxy", "mTLS", "automatic telemetry"],
+    "keyConcepts": [
+      "service mesh",
+      "Istio",
+      "Linkerd",
+      "sidecar proxy",
+      "mTLS",
+      "automatic telemetry"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -370,14 +778,34 @@
     "difficulty": "intermediate",
     "question": "What are structured logs and why are they preferred over unstructured logs?",
     "options": [
-      "Structured logs use XML format; unstructured logs use plain text",
-      "Structured logs (JSON, key=value) include consistent fields making them machine-parseable and searchable by field; unstructured logs are free-form text requiring regex to extract fields",
-      "Structured logs are compressed; unstructured logs are not",
-      "Structured logs are for production; unstructured logs are for development"
+      {
+        "id": "a",
+        "text": "Structured logs use XML format; unstructured logs use plain text"
+      },
+      {
+        "id": "b",
+        "text": "Structured logs (JSON, key=value) include consistent fields making them machine-parseable and searchable by field; unstructured logs are free-form text requiring regex to extract fields"
+      },
+      {
+        "id": "c",
+        "text": "Structured logs are compressed; unstructured logs are not"
+      },
+      {
+        "id": "d",
+        "text": "Structured logs are for production; unstructured logs are for development"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Unstructured: `ERROR 2024-01-15 Database connection failed for user john after 3 attempts`. Structured: `{\"level\":\"error\",\"timestamp\":\"2024-01-15\",\"message\":\"Database connection failed\",\"user\":\"john\",\"attempts\":3}`. Structured logs enable: filtering by field (all errors for user 'john'), aggregation (count by error type), alerting on specific fields, and correlation by trace_id — much more powerful for debugging.",
-    "keyConcepts": ["structured logging", "JSON logs", "key=value", "log parsing", "log correlation"],
+    "keyConcepts": [
+      "structured logging",
+      "JSON logs",
+      "key=value",
+      "log parsing",
+      "log correlation"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -388,14 +816,34 @@
     "difficulty": "intermediate",
     "question": "What is MTTR (Mean Time to Recovery) and what factors affect it?",
     "options": [
-      "Mean Time to Request — the average time an HTTP request takes",
-      "Mean Time to Recovery — the average time from incident detection to service restoration; affected by detection speed, runbook quality, deployment rollback speed, and on-call response time",
-      "Mean Time to Release — the average time from code commit to production",
-      "Mean Time to Restart — the average time for servers to reboot"
+      {
+        "id": "a",
+        "text": "Mean Time to Request — the average time an HTTP request takes"
+      },
+      {
+        "id": "b",
+        "text": "Mean Time to Recovery — the average time from incident detection to service restoration; affected by detection speed, runbook quality, deployment rollback speed, and on-call response time"
+      },
+      {
+        "id": "c",
+        "text": "Mean Time to Release — the average time from code commit to production"
+      },
+      {
+        "id": "d",
+        "text": "Mean Time to Restart — the average time for servers to reboot"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "MTTR = average time from incident start to resolution. Factors: (1) Detection: how quickly alerts fire (alert thresholds, synthetic monitoring). (2) Diagnosis: observability quality, runbooks. (3) Resolution: rollback automation, deployment pipeline speed. (4) Response: on-call rotations, escalation policies. Elite teams target MTTR < 1 hour.",
-    "keyConcepts": ["MTTR", "DORA metrics", "incident response", "detection speed", "rollback automation"],
+    "keyConcepts": [
+      "MTTR",
+      "DORA metrics",
+      "incident response",
+      "detection speed",
+      "rollback automation"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -406,14 +854,34 @@
     "difficulty": "intermediate",
     "question": "What is synthetic monitoring?",
     "options": [
-      "Monitoring using AI-generated fake metrics to simulate load",
-      "Proactively testing a service by running automated scripts (simulated user journeys) on a schedule — detecting issues before real users do",
-      "Monitoring that generates synthetic test data for load testing",
-      "Monitoring that uses machine learning to predict future failures"
+      {
+        "id": "a",
+        "text": "Monitoring using AI-generated fake metrics to simulate load"
+      },
+      {
+        "id": "b",
+        "text": "Proactively testing a service by running automated scripts (simulated user journeys) on a schedule — detecting issues before real users do"
+      },
+      {
+        "id": "c",
+        "text": "Monitoring that generates synthetic test data for load testing"
+      },
+      {
+        "id": "d",
+        "text": "Monitoring that uses machine learning to predict future failures"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Synthetic monitoring runs scripted user journeys (login, add to cart, checkout) every minute from multiple regions. It detects: broken flows that no current user is exercising, regional availability issues, performance degradation before user complaints, and issues that fall below alert thresholds. Tools: Datadog Synthetics, Checkly, Pingdom, AWS CloudWatch Synthetics.",
-    "keyConcepts": ["synthetic monitoring", "simulated user journeys", "proactive detection", "Checkly", "global availability"],
+    "keyConcepts": [
+      "synthetic monitoring",
+      "simulated user journeys",
+      "proactive detection",
+      "Checkly",
+      "global availability"
+    ],
     "commonInterviewQuestion": false
   },
   {
@@ -424,14 +892,35 @@
     "difficulty": "advanced",
     "question": "What is a Prometheus Alertmanager and how does alert routing work?",
     "options": [
-      "Alertmanager is a Grafana plugin that shows alerts on dashboards",
-      "Alertmanager receives alerts from Prometheus, deduplicates them, groups related alerts, and routes them to receivers (PagerDuty, Slack, email) based on routing rules",
-      "Alertmanager is a tool for writing PromQL alert rules",
-      "Alertmanager is the Prometheus UI for viewing current alert states"
+      {
+        "id": "a",
+        "text": "Alertmanager is a Grafana plugin that shows alerts on dashboards"
+      },
+      {
+        "id": "b",
+        "text": "Alertmanager receives alerts from Prometheus, deduplicates them, groups related alerts, and routes them to receivers (PagerDuty, Slack, email) based on routing rules"
+      },
+      {
+        "id": "c",
+        "text": "Alertmanager is a tool for writing PromQL alert rules"
+      },
+      {
+        "id": "d",
+        "text": "Alertmanager is the Prometheus UI for viewing current alert states"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Flow: Prometheus evaluates alerting rules (PromQL expressions) and sends firing alerts to Alertmanager. Alertmanager: (1) Deduplicates identical alerts. (2) Groups related alerts (e.g., all alerts from the same cluster in one message). (3) Routes based on labels (production alerts → PagerDuty, dev alerts → Slack). (4) Silences during maintenance windows.",
-    "keyConcepts": ["Alertmanager", "alert routing", "deduplication", "grouping", "silences", "inhibition"],
+    "keyConcepts": [
+      "Alertmanager",
+      "alert routing",
+      "deduplication",
+      "grouping",
+      "silences",
+      "inhibition"
+    ],
     "commonInterviewQuestion": false
   },
   {
@@ -442,14 +931,35 @@
     "difficulty": "advanced",
     "question": "What is the USE method for performance analysis?",
     "options": [
-      "USE: Unified Service Engine — a method for consolidating monitoring tools",
-      "USE: Utilization, Saturation, Errors — for every resource (CPU, memory, disk, network), check these three metrics to systematically identify bottlenecks",
-      "USE: Uptime, Speed, Efficiency — the three pillars of performance",
-      "USE is a Datadog methodology for APM configuration"
+      {
+        "id": "a",
+        "text": "USE: Unified Service Engine — a method for consolidating monitoring tools"
+      },
+      {
+        "id": "b",
+        "text": "USE: Utilization, Saturation, Errors — for every resource (CPU, memory, disk, network), check these three metrics to systematically identify bottlenecks"
+      },
+      {
+        "id": "c",
+        "text": "USE: Uptime, Speed, Efficiency — the three pillars of performance"
+      },
+      {
+        "id": "d",
+        "text": "USE is a Datadog methodology for APM configuration"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "The USE method (Brendan Gregg): for every resource, check: Utilization (how busy the resource is as a percentage), Saturation (the degree to which the resource has extra work it can't service — queue length), Errors (error events for that resource). Systematically applying USE to CPU, memory, disk I/O, and network quickly narrows down performance bottlenecks.",
-    "keyConcepts": ["USE method", "Utilization", "Saturation", "Errors", "Brendan Gregg", "performance analysis"],
+    "keyConcepts": [
+      "USE method",
+      "Utilization",
+      "Saturation",
+      "Errors",
+      "Brendan Gregg",
+      "performance analysis"
+    ],
     "commonInterviewQuestion": false
   }
 ]

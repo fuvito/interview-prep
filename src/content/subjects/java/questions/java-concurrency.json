@@ -7,15 +7,35 @@
     "difficulty": "beginner",
     "question": "What is the difference between a `Thread` and a `Runnable` in Java?",
     "options": [
-      "Thread is an interface; Runnable is a class",
-      "Runnable is a functional interface defining the task; Thread is the execution unit — prefer Runnable/Callable over extending Thread to separate task from execution mechanism",
-      "They are identical — Thread implements Runnable",
-      "Runnable runs on the main thread; Thread runs on a new thread"
+      {
+        "id": "a",
+        "text": "Thread is an interface; Runnable is a class"
+      },
+      {
+        "id": "b",
+        "text": "Runnable is a functional interface defining the task; Thread is the execution unit — prefer Runnable/Callable over extending Thread to separate task from execution mechanism"
+      },
+      {
+        "id": "c",
+        "text": "They are identical — Thread implements Runnable"
+      },
+      {
+        "id": "d",
+        "text": "Runnable runs on the main thread; Thread runs on a new thread"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Prefer implementing `Runnable` (or `Callable<T>`) over extending `Thread` — it separates the task from how it runs, allows the class to extend something else, and works with ExecutorService. `Thread` is the actual OS-level thread abstraction. `Callable<T>` is like Runnable but returns a result and can throw checked exceptions.",
     "codeSnippet": "// Preferred: Runnable + ExecutorService\nRunnable task = () -> System.out.println(\"Running\");\nExecutorService exec = Executors.newFixedThreadPool(4);\nexec.submit(task);\nexec.shutdown();",
-    "keyConcepts": ["Thread", "Runnable", "Callable", "ExecutorService", "task vs thread"],
+    "keyConcepts": [
+      "Thread",
+      "Runnable",
+      "Callable",
+      "ExecutorService",
+      "task vs thread"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -26,15 +46,35 @@
     "difficulty": "intermediate",
     "question": "What does `synchronized` do in Java?",
     "options": [
-      "synchronized makes a method run on a separate thread",
-      "synchronized acquires the intrinsic lock (monitor) of an object before executing — ensuring only one thread executes that block at a time for the same object",
-      "synchronized makes all variables in a method thread-local",
-      "synchronized is equivalent to volatile"
+      {
+        "id": "a",
+        "text": "synchronized makes a method run on a separate thread"
+      },
+      {
+        "id": "b",
+        "text": "synchronized acquires the intrinsic lock (monitor) of an object before executing — ensuring only one thread executes that block at a time for the same object"
+      },
+      {
+        "id": "c",
+        "text": "synchronized makes all variables in a method thread-local"
+      },
+      {
+        "id": "d",
+        "text": "synchronized is equivalent to volatile"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Every Java object has an intrinsic lock (monitor). `synchronized(obj)` acquires that lock — other threads trying to synchronize on the same object block until it is released. `synchronized` method acquires `this` (instance methods) or `Class` (static methods). Provides mutual exclusion AND memory visibility (happens-before). Downside: reentrant but coarse-grained.",
     "codeSnippet": "class Counter {\n  private int count = 0;\n  public synchronized void increment() { count++; }\n  public synchronized int get() { return count; }\n}\n\n// Or block-level:\nsynchronized(lock) {\n  // only one thread at a time\n}",
-    "keyConcepts": ["synchronized", "intrinsic lock", "monitor", "mutual exclusion", "happens-before"],
+    "keyConcepts": [
+      "synchronized",
+      "intrinsic lock",
+      "monitor",
+      "mutual exclusion",
+      "happens-before"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -45,15 +85,36 @@
     "difficulty": "intermediate",
     "question": "What is `volatile` in Java and what guarantees does it provide?",
     "options": [
-      "volatile makes a variable thread-local — each thread gets its own copy",
-      "volatile guarantees visibility: reads and writes go directly to main memory (not CPU cache), and prevents instruction reordering around that variable — but does NOT guarantee atomicity",
-      "volatile is the same as synchronized — both provide mutual exclusion",
-      "volatile prevents a variable from being garbage collected"
+      {
+        "id": "a",
+        "text": "volatile makes a variable thread-local — each thread gets its own copy"
+      },
+      {
+        "id": "b",
+        "text": "volatile guarantees visibility: reads and writes go directly to main memory (not CPU cache), and prevents instruction reordering around that variable — but does NOT guarantee atomicity"
+      },
+      {
+        "id": "c",
+        "text": "volatile is the same as synchronized — both provide mutual exclusion"
+      },
+      {
+        "id": "d",
+        "text": "volatile prevents a variable from being garbage collected"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "`volatile` establishes a happens-before relationship: a write to a volatile variable happens-before all subsequent reads of that variable. This prevents stale cache reads. However, `volatile` does NOT make compound operations (like `i++`) atomic — `i++` is read-modify-write, three steps. Use `AtomicInteger` for atomic compound operations, `volatile` for simple flags and published references.",
     "codeSnippet": "// volatile for a stop flag — correct\nprivate volatile boolean running = true;\nvoid run() { while(running) { doWork(); } }\nvoid stop() { running = false; } // visible immediately\n\n// volatile for counter — WRONG (i++ not atomic)\nprivate volatile int count = 0;\nvoid inc() { count++; } // race condition!",
-    "keyConcepts": ["volatile", "visibility", "happens-before", "CPU cache", "atomicity", "memory model"],
+    "keyConcepts": [
+      "volatile",
+      "visibility",
+      "happens-before",
+      "CPU cache",
+      "atomicity",
+      "memory model"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -64,14 +125,35 @@
     "difficulty": "intermediate",
     "question": "What is `ExecutorService` and why should you use it over raw threads?",
     "options": [
-      "ExecutorService is deprecated — use virtual threads instead",
-      "ExecutorService is a thread pool abstraction that decouples task submission from execution, reuses threads, manages lifecycle, and handles rejection — more efficient and safer than creating raw Thread objects",
-      "ExecutorService is only useful for scheduled tasks",
-      "ExecutorService creates a new thread for every submitted task — same as new Thread()"
+      {
+        "id": "a",
+        "text": "ExecutorService is deprecated — use virtual threads instead"
+      },
+      {
+        "id": "b",
+        "text": "ExecutorService is a thread pool abstraction that decouples task submission from execution, reuses threads, manages lifecycle, and handles rejection — more efficient and safer than creating raw Thread objects"
+      },
+      {
+        "id": "c",
+        "text": "ExecutorService is only useful for scheduled tasks"
+      },
+      {
+        "id": "d",
+        "text": "ExecutorService creates a new thread for every submitted task — same as new Thread()"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Raw threads are expensive to create. ExecutorService manages a pool of reusable threads. Key implementations: `newFixedThreadPool(n)` (fixed n threads), `newCachedThreadPool()` (expands/shrinks dynamically), `newSingleThreadExecutor()` (sequential). Always shut down: `exec.shutdown()` (wait for tasks) or `exec.shutdownNow()` (interrupt). `Future<T> f = exec.submit(callable)` for results.",
-    "keyConcepts": ["ExecutorService", "thread pool", "Executors", "submit()", "Future", "shutdown()"],
+    "keyConcepts": [
+      "ExecutorService",
+      "thread pool",
+      "Executors",
+      "submit()",
+      "Future",
+      "shutdown()"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -82,14 +164,34 @@
     "difficulty": "intermediate",
     "question": "What is a `Future<T>` and what are its limitations?",
     "options": [
-      "Future represents a result that will be available later — get() blocks until complete; limitations: cannot compose, no callbacks, no exception handling without get()",
-      "Future is the same as CompletableFuture — no differences exist",
-      "Future is immutable — once set, the value cannot change",
-      "Future automatically retries failed computations"
+      {
+        "id": "a",
+        "text": "Future represents a result that will be available later — get() blocks until complete; limitations: cannot compose, no callbacks, no exception handling without get()"
+      },
+      {
+        "id": "b",
+        "text": "Future is the same as CompletableFuture — no differences exist"
+      },
+      {
+        "id": "c",
+        "text": "Future is immutable — once set, the value cannot change"
+      },
+      {
+        "id": "d",
+        "text": "Future automatically retries failed computations"
+      }
     ],
-    "correctAnswers": [0],
+    "correctAnswers": [
+      "a"
+    ],
     "explanation": "`Future<T>` represents an async computation: `isDone()`, `cancel()`, `get()` (blocks), `get(timeout, unit)`. Limitations: blocking `get()`, no chaining/composition, no callbacks on completion, no easy exception handling. `CompletableFuture` (Java 8) solves all these limitations with a fluent, non-blocking API.",
-    "keyConcepts": ["Future", "get()", "blocking", "CompletableFuture", "async computation"],
+    "keyConcepts": [
+      "Future",
+      "get()",
+      "blocking",
+      "CompletableFuture",
+      "async computation"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -100,15 +202,36 @@
     "difficulty": "intermediate",
     "question": "What is `CompletableFuture` and how does it improve on `Future`?",
     "options": [
-      "CompletableFuture is just a Future that can be manually completed",
-      "CompletableFuture provides non-blocking async programming: thenApply (transform), thenAccept (consume), thenCompose (chain), allOf/anyOf (combine), exceptionally (error handling) — all without blocking",
-      "CompletableFuture is only for parallel streams",
-      "CompletableFuture replaces ExecutorService entirely"
+      {
+        "id": "a",
+        "text": "CompletableFuture is just a Future that can be manually completed"
+      },
+      {
+        "id": "b",
+        "text": "CompletableFuture provides non-blocking async programming: thenApply (transform), thenAccept (consume), thenCompose (chain), allOf/anyOf (combine), exceptionally (error handling) — all without blocking"
+      },
+      {
+        "id": "c",
+        "text": "CompletableFuture is only for parallel streams"
+      },
+      {
+        "id": "d",
+        "text": "CompletableFuture replaces ExecutorService entirely"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "`CompletableFuture` implements `Future` and `CompletionStage`. Key operations: `thenApply(fn)` transforms result, `thenAccept(consumer)` consumes it, `thenCompose(fn)` flat-maps, `thenCombine(other, fn)` combines two futures, `exceptionally(fn)` handles errors, `allOf(futures)` waits for all. Can specify executor for each stage.",
     "codeSnippet": "CompletableFuture.supplyAsync(() -> fetchUser(id))\n  .thenApply(user -> enrichWithMetadata(user))\n  .thenAccept(user -> cache.put(user.id(), user))\n  .exceptionally(ex -> { log.error(ex); return null; });",
-    "keyConcepts": ["CompletableFuture", "thenApply", "thenCompose", "allOf", "non-blocking", "async pipeline"],
+    "keyConcepts": [
+      "CompletableFuture",
+      "thenApply",
+      "thenCompose",
+      "allOf",
+      "non-blocking",
+      "async pipeline"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -119,15 +242,36 @@
     "difficulty": "intermediate",
     "question": "What is a `ReentrantLock` and when would you use it over `synchronized`?",
     "options": [
-      "ReentrantLock is slower than synchronized — only use synchronized",
-      "ReentrantLock provides explicit locking with additional features: tryLock() with timeout, lockInterruptibly(), fairness mode, multiple Condition objects — use when you need these features beyond what synchronized provides",
-      "ReentrantLock cannot be used with multiple threads — it is single-threaded",
-      "synchronized and ReentrantLock are identical in behavior"
+      {
+        "id": "a",
+        "text": "ReentrantLock is slower than synchronized — only use synchronized"
+      },
+      {
+        "id": "b",
+        "text": "ReentrantLock provides explicit locking with additional features: tryLock() with timeout, lockInterruptibly(), fairness mode, multiple Condition objects — use when you need these features beyond what synchronized provides"
+      },
+      {
+        "id": "c",
+        "text": "ReentrantLock cannot be used with multiple threads — it is single-threaded"
+      },
+      {
+        "id": "d",
+        "text": "synchronized and ReentrantLock are identical in behavior"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "`ReentrantLock` advantages: `tryLock()` — non-blocking attempt; `tryLock(timeout, unit)` — avoid deadlock with timeout; `lockInterruptibly()` — can be interrupted while waiting; fairness constructor `new ReentrantLock(true)` — FIFO ordering; multiple `Condition` objects (`lock.newCondition()`) for fine-grained `await`/`signal`. Must always unlock in `finally` to avoid lock leaks.",
     "codeSnippet": "ReentrantLock lock = new ReentrantLock();\nlock.lock();\ntry {\n  // critical section\n} finally {\n  lock.unlock(); // always in finally\n}\n\n// Try with timeout:\nif (lock.tryLock(500, TimeUnit.MILLISECONDS)) {\n  try { /* work */ } finally { lock.unlock(); }\n}",
-    "keyConcepts": ["ReentrantLock", "tryLock()", "fairness", "Condition", "finally unlock", "deadlock avoidance"],
+    "keyConcepts": [
+      "ReentrantLock",
+      "tryLock()",
+      "fairness",
+      "Condition",
+      "finally unlock",
+      "deadlock avoidance"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -138,14 +282,35 @@
     "difficulty": "intermediate",
     "question": "What is a deadlock and how can you prevent it?",
     "options": [
-      "A deadlock is when a thread throws an exception while holding a lock",
-      "A deadlock occurs when two or more threads each hold a lock the other needs, waiting forever. Prevention: consistent lock ordering, tryLock with timeout, lock hierarchy, avoiding nested locks",
-      "Deadlocks only happen with ReentrantLock — synchronized cannot deadlock",
-      "A deadlock is automatically resolved by the JVM after 30 seconds"
+      {
+        "id": "a",
+        "text": "A deadlock is when a thread throws an exception while holding a lock"
+      },
+      {
+        "id": "b",
+        "text": "A deadlock occurs when two or more threads each hold a lock the other needs, waiting forever. Prevention: consistent lock ordering, tryLock with timeout, lock hierarchy, avoiding nested locks"
+      },
+      {
+        "id": "c",
+        "text": "Deadlocks only happen with ReentrantLock — synchronized cannot deadlock"
+      },
+      {
+        "id": "d",
+        "text": "A deadlock is automatically resolved by the JVM after 30 seconds"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Four conditions for deadlock (Coffman): mutual exclusion, hold and wait, no preemption, circular wait. Prevention: (1) Always acquire locks in the same order across threads. (2) Use `tryLock()` with timeout. (3) Avoid holding locks when calling external code. (4) Use higher-level abstractions (ConcurrentHashMap, Lock-free algorithms). Detect with `jstack` or thread dump analysis.",
-    "keyConcepts": ["deadlock", "lock ordering", "Coffman conditions", "tryLock", "jstack", "circular wait"],
+    "keyConcepts": [
+      "deadlock",
+      "lock ordering",
+      "Coffman conditions",
+      "tryLock",
+      "jstack",
+      "circular wait"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -156,14 +321,35 @@
     "difficulty": "intermediate",
     "question": "What is `AtomicInteger` and how does it work without locks?",
     "options": [
-      "AtomicInteger is a thread-safe integer that uses synchronized internally",
-      "AtomicInteger uses Compare-And-Swap (CAS) CPU instructions for lock-free atomic operations — compareAndSet, getAndIncrement, etc. — eliminating lock overhead",
-      "AtomicInteger is only useful on multi-core machines",
-      "AtomicInteger wraps Integer with volatile — no CAS involved"
+      {
+        "id": "a",
+        "text": "AtomicInteger is a thread-safe integer that uses synchronized internally"
+      },
+      {
+        "id": "b",
+        "text": "AtomicInteger uses Compare-And-Swap (CAS) CPU instructions for lock-free atomic operations — compareAndSet, getAndIncrement, etc. — eliminating lock overhead"
+      },
+      {
+        "id": "c",
+        "text": "AtomicInteger is only useful on multi-core machines"
+      },
+      {
+        "id": "d",
+        "text": "AtomicInteger wraps Integer with volatile — no CAS involved"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "`AtomicInteger` uses the `sun.misc.Unsafe` class to call CPU-level CAS (Compare-And-Swap) instructions. CAS: 'if current value equals expected, swap to new value atomically; otherwise retry'. No locks, no blocking — threads spin briefly on contention. Operations: `getAndIncrement()`, `compareAndSet(expect, update)`, `getAndAdd(n)`. Java 8+: `LongAdder` is even better for high-contention counting.",
-    "keyConcepts": ["AtomicInteger", "CAS", "lock-free", "Compare-And-Swap", "java.util.concurrent.atomic", "LongAdder"],
+    "keyConcepts": [
+      "AtomicInteger",
+      "CAS",
+      "lock-free",
+      "Compare-And-Swap",
+      "java.util.concurrent.atomic",
+      "LongAdder"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -174,15 +360,36 @@
     "difficulty": "intermediate",
     "question": "What is `ThreadLocal<T>` and when is it useful?",
     "options": [
-      "ThreadLocal creates a shared variable accessible by all threads",
-      "ThreadLocal provides per-thread storage — each thread has its own independent copy of the variable, avoiding synchronization",
-      "ThreadLocal is the same as volatile but restricted to local variables",
-      "ThreadLocal prevents a thread from accessing global state"
+      {
+        "id": "a",
+        "text": "ThreadLocal creates a shared variable accessible by all threads"
+      },
+      {
+        "id": "b",
+        "text": "ThreadLocal provides per-thread storage — each thread has its own independent copy of the variable, avoiding synchronization"
+      },
+      {
+        "id": "c",
+        "text": "ThreadLocal is the same as volatile but restricted to local variables"
+      },
+      {
+        "id": "d",
+        "text": "ThreadLocal prevents a thread from accessing global state"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "`ThreadLocal<T>` gives each thread its own copy via `get()` and `set(T)`. Common uses: database connections, SimpleDateFormat instances, security context (Spring's SecurityContextHolder), request-scoped data in web frameworks. Warning: thread pools reuse threads — always call `remove()` after use to prevent stale data leaking to the next request.",
     "codeSnippet": "ThreadLocal<SimpleDateFormat> formatter =\n  ThreadLocal.withInitial(() -> new SimpleDateFormat(\"yyyy-MM-dd\"));\n\n// In each thread:\nString today = formatter.get().format(new Date());\nformatter.remove(); // cleanup in thread pool!",
-    "keyConcepts": ["ThreadLocal", "per-thread state", "thread pools", "remove()", "memory leak", "Spring SecurityContext"],
+    "keyConcepts": [
+      "ThreadLocal",
+      "per-thread state",
+      "thread pools",
+      "remove()",
+      "memory leak",
+      "Spring SecurityContext"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -193,14 +400,35 @@
     "difficulty": "advanced",
     "question": "What is `CountDownLatch` vs `CyclicBarrier`?",
     "options": [
-      "They are identical — both count down to zero and signal threads",
-      "CountDownLatch: one-time countdown, threads await until count reaches zero; CyclicBarrier: reusable — all threads meet at a barrier point before proceeding together",
-      "CyclicBarrier is for producers; CountDownLatch is for consumers",
-      "CountDownLatch is for single-threaded code; CyclicBarrier is for multithreaded"
+      {
+        "id": "a",
+        "text": "They are identical — both count down to zero and signal threads"
+      },
+      {
+        "id": "b",
+        "text": "CountDownLatch: one-time countdown, threads await until count reaches zero; CyclicBarrier: reusable — all threads meet at a barrier point before proceeding together"
+      },
+      {
+        "id": "c",
+        "text": "CyclicBarrier is for producers; CountDownLatch is for consumers"
+      },
+      {
+        "id": "d",
+        "text": "CountDownLatch is for single-threaded code; CyclicBarrier is for multithreaded"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "`CountDownLatch(n)`: threads call `await()` to block until `countDown()` is called n times — one-shot, cannot be reset. Use case: wait for n services to start before serving requests. `CyclicBarrier(n, action)`: n threads each call `await()` — all block until all n have called it, then the optional action runs and the barrier resets. Use case: parallel computation with synchronization points.",
-    "keyConcepts": ["CountDownLatch", "CyclicBarrier", "await()", "countDown()", "synchronization barrier", "reusable"],
+    "keyConcepts": [
+      "CountDownLatch",
+      "CyclicBarrier",
+      "await()",
+      "countDown()",
+      "synchronization barrier",
+      "reusable"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -211,14 +439,35 @@
     "difficulty": "advanced",
     "question": "What is the Java Memory Model (JMM) and what is a happens-before relationship?",
     "options": [
-      "JMM defines how Java allocates heap memory for objects",
-      "JMM defines the rules for when one thread's writes are visible to other threads. Happens-before: if A happens-before B, A's effects are visible when B executes. Established by: synchronized, volatile, thread start/join, final fields",
-      "JMM is only relevant for garbage collection algorithms",
-      "JMM guarantees that all threads always see the latest values immediately"
+      {
+        "id": "a",
+        "text": "JMM defines how Java allocates heap memory for objects"
+      },
+      {
+        "id": "b",
+        "text": "JMM defines the rules for when one thread's writes are visible to other threads. Happens-before: if A happens-before B, A's effects are visible when B executes. Established by: synchronized, volatile, thread start/join, final fields"
+      },
+      {
+        "id": "c",
+        "text": "JMM is only relevant for garbage collection algorithms"
+      },
+      {
+        "id": "d",
+        "text": "JMM guarantees that all threads always see the latest values immediately"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Without synchronization, the JVM and CPU can reorder instructions for performance — another thread may see stale data. The JMM defines happens-before (HB): if action A HB action B, A's results are visible to B. Sources of HB: `synchronized` (unlock HB next lock), `volatile` (write HB subsequent reads), `Thread.start()` HB first action in thread, thread actions HB `Thread.join()` return.",
-    "keyConcepts": ["Java Memory Model", "happens-before", "visibility", "reordering", "volatile", "synchronized"],
+    "keyConcepts": [
+      "Java Memory Model",
+      "happens-before",
+      "visibility",
+      "reordering",
+      "volatile",
+      "synchronized"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -229,14 +478,35 @@
     "difficulty": "advanced",
     "question": "What is a `Semaphore` and what is it used for?",
     "options": [
-      "A Semaphore is a mutex that allows exactly one thread at a time",
-      "A Semaphore maintains a count of permits — acquire() takes a permit (blocks if 0); release() returns one. Used to limit concurrent access to a resource (e.g. connection pool, rate limiting)",
-      "A Semaphore is a thread-safe boolean flag",
-      "Semaphore is deprecated — use ReentrantLock instead"
+      {
+        "id": "a",
+        "text": "A Semaphore is a mutex that allows exactly one thread at a time"
+      },
+      {
+        "id": "b",
+        "text": "A Semaphore maintains a count of permits — acquire() takes a permit (blocks if 0); release() returns one. Used to limit concurrent access to a resource (e.g. connection pool, rate limiting)"
+      },
+      {
+        "id": "c",
+        "text": "A Semaphore is a thread-safe boolean flag"
+      },
+      {
+        "id": "d",
+        "text": "Semaphore is deprecated — use ReentrantLock instead"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "`new Semaphore(n)` starts with n permits. `acquire()` decrements the permit count (blocking if 0). `release()` increments it. A Semaphore with 1 permit is a binary semaphore (mutex-like). Common uses: connection pool with max 10 connections (`new Semaphore(10)`), rate limiting, bounded access to shared resources. Unlike locks, permits don't need to be released by the same thread.",
-    "keyConcepts": ["Semaphore", "permits", "acquire()", "release()", "rate limiting", "connection pool"],
+    "keyConcepts": [
+      "Semaphore",
+      "permits",
+      "acquire()",
+      "release()",
+      "rate limiting",
+      "connection pool"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -247,14 +517,35 @@
     "difficulty": "advanced",
     "question": "What is `BlockingQueue` and what are its implementations?",
     "options": [
-      "BlockingQueue is a synchronized version of ArrayList",
-      "BlockingQueue is a thread-safe queue where put() blocks when full and take() blocks when empty — implementations: ArrayBlockingQueue (bounded), LinkedBlockingQueue (optionally bounded), SynchronousQueue (no storage), PriorityBlockingQueue",
-      "BlockingQueue only works between exactly two threads",
-      "BlockingQueue is deprecated — use ConcurrentLinkedQueue instead"
+      {
+        "id": "a",
+        "text": "BlockingQueue is a synchronized version of ArrayList"
+      },
+      {
+        "id": "b",
+        "text": "BlockingQueue is a thread-safe queue where put() blocks when full and take() blocks when empty — implementations: ArrayBlockingQueue (bounded), LinkedBlockingQueue (optionally bounded), SynchronousQueue (no storage), PriorityBlockingQueue"
+      },
+      {
+        "id": "c",
+        "text": "BlockingQueue only works between exactly two threads"
+      },
+      {
+        "id": "d",
+        "text": "BlockingQueue is deprecated — use ConcurrentLinkedQueue instead"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "BlockingQueue is the backbone of the producer-consumer pattern. `put(e)` blocks if queue is full; `take()` blocks if empty; `offer(e, timeout, unit)` and `poll(timeout, unit)` are timeout variants. Implementations: `ArrayBlockingQueue(n)` (bounded, fair option), `LinkedBlockingQueue` (optionally bounded, more throughput), `SynchronousQueue` (no buffer — direct handoff), `PriorityBlockingQueue` (priority ordering).",
-    "keyConcepts": ["BlockingQueue", "producer-consumer", "ArrayBlockingQueue", "LinkedBlockingQueue", "put()", "take()"],
+    "keyConcepts": [
+      "BlockingQueue",
+      "producer-consumer",
+      "ArrayBlockingQueue",
+      "LinkedBlockingQueue",
+      "put()",
+      "take()"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -265,14 +556,35 @@
     "difficulty": "advanced",
     "question": "What are virtual threads (Project Loom, Java 21)?",
     "options": [
-      "Virtual threads are threads that run only in the JVM without OS involvement",
-      "Virtual threads are lightweight threads managed by the JVM (not OS threads) — millions can exist simultaneously because they unmount from OS threads while blocked, enabling high-concurrency without thread pool tuning",
-      "Virtual threads are the same as daemon threads",
-      "Virtual threads replace ExecutorService entirely in Java 21"
+      {
+        "id": "a",
+        "text": "Virtual threads are threads that run only in the JVM without OS involvement"
+      },
+      {
+        "id": "b",
+        "text": "Virtual threads are lightweight threads managed by the JVM (not OS threads) — millions can exist simultaneously because they unmount from OS threads while blocked, enabling high-concurrency without thread pool tuning"
+      },
+      {
+        "id": "c",
+        "text": "Virtual threads are the same as daemon threads"
+      },
+      {
+        "id": "d",
+        "text": "Virtual threads replace ExecutorService entirely in Java 21"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Traditional threads are OS threads (expensive: ~1MB stack, limited to ~thousands). Virtual threads (Java 21 GA) are JVM-managed — they mount on a carrier (OS) thread when runnable and unmount when blocked on I/O. Millions can exist simultaneously. Usage: `Thread.ofVirtual().start(runnable)` or `Executors.newVirtualThreadPerTaskExecutor()`. Ideal for I/O-bound workloads; don't use `synchronized` in virtual threads (use ReentrantLock to avoid pinning).",
-    "keyConcepts": ["virtual threads", "Project Loom", "Java 21", "carrier thread", "pinning", "high concurrency"],
+    "keyConcepts": [
+      "virtual threads",
+      "Project Loom",
+      "Java 21",
+      "carrier thread",
+      "pinning",
+      "high concurrency"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -283,14 +595,35 @@
     "difficulty": "advanced",
     "question": "What is `ForkJoinPool` and what is it designed for?",
     "options": [
-      "ForkJoinPool is a thread pool for I/O operations",
-      "ForkJoinPool is optimized for divide-and-conquer tasks using work-stealing — idle threads steal tasks from busy threads' queues, maximizing CPU utilization for CPU-bound recursive tasks",
-      "ForkJoinPool replaces BlockingQueue for producer-consumer patterns",
-      "ForkJoinPool is identical to FixedThreadPool but with a different API"
+      {
+        "id": "a",
+        "text": "ForkJoinPool is a thread pool for I/O operations"
+      },
+      {
+        "id": "b",
+        "text": "ForkJoinPool is optimized for divide-and-conquer tasks using work-stealing — idle threads steal tasks from busy threads' queues, maximizing CPU utilization for CPU-bound recursive tasks"
+      },
+      {
+        "id": "c",
+        "text": "ForkJoinPool replaces BlockingQueue for producer-consumer patterns"
+      },
+      {
+        "id": "d",
+        "text": "ForkJoinPool is identical to FixedThreadPool but with a different API"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "ForkJoinPool uses work-stealing: each thread has a deque of tasks; idle threads steal from the tail of busy threads' deques, minimizing contention. Used by parallel streams (`stream().parallel()`) and `CompletableFuture` (common pool). `RecursiveTask<T>` (returns result) and `RecursiveAction` (void) implement the fork-join pattern. The common pool is `ForkJoinPool.commonPool()`.",
-    "keyConcepts": ["ForkJoinPool", "work-stealing", "divide and conquer", "RecursiveTask", "parallel streams", "common pool"],
+    "keyConcepts": [
+      "ForkJoinPool",
+      "work-stealing",
+      "divide and conquer",
+      "RecursiveTask",
+      "parallel streams",
+      "common pool"
+    ],
     "commonInterviewQuestion": false
   },
   {
@@ -301,14 +634,35 @@
     "difficulty": "intermediate",
     "question": "What is the difference between `wait()`/`notify()` and `Condition.await()`/`signal()`?",
     "options": [
-      "They are identical — just different APIs for the same mechanism",
-      "wait()/notify() use object monitors (tied to synchronized); Condition.await()/signal() work with ReentrantLock and support multiple conditions per lock, interruptibility, and timed waits",
-      "Condition.await() is deprecated — use wait() instead",
-      "notify() wakes all threads; signal() wakes only one"
+      {
+        "id": "a",
+        "text": "They are identical — just different APIs for the same mechanism"
+      },
+      {
+        "id": "b",
+        "text": "wait()/notify() use object monitors (tied to synchronized); Condition.await()/signal() work with ReentrantLock and support multiple conditions per lock, interruptibility, and timed waits"
+      },
+      {
+        "id": "c",
+        "text": "Condition.await() is deprecated — use wait() instead"
+      },
+      {
+        "id": "d",
+        "text": "notify() wakes all threads; signal() wakes only one"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "`wait()`/`notify()`/`notifyAll()` must be called inside `synchronized` blocks and use the object's monitor. Limitations: one wait set per object, spurious wakeups require loops. `Condition` (from `lock.newCondition()`): multiple conditions per lock (e.g., `notFull` and `notEmpty` for a bounded queue), `awaitNanos()`, `awaitUntil()`, `awaitUninterruptibly()`. Always use in a `while` loop for both.",
-    "keyConcepts": ["wait()/notify()", "Condition", "await()/signal()", "spurious wakeup", "multiple conditions", "object monitor"],
+    "keyConcepts": [
+      "wait()/notify()",
+      "Condition",
+      "await()/signal()",
+      "spurious wakeup",
+      "multiple conditions",
+      "object monitor"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -319,14 +673,34 @@
     "difficulty": "intermediate",
     "question": "What is `CopyOnWriteArrayList` and when should you use it?",
     "options": [
-      "CopyOnWriteArrayList is a synchronized ArrayList — same as Collections.synchronizedList()",
-      "CopyOnWriteArrayList creates a fresh copy of the backing array on every write — reads are always lock-free. Best for workloads with rare writes and frequent reads (listener lists, small caches)",
-      "CopyOnWriteArrayList should be used for high-write workloads for best performance",
-      "CopyOnWriteArrayList prevents ConcurrentModificationException by using a queue internally"
+      {
+        "id": "a",
+        "text": "CopyOnWriteArrayList is a synchronized ArrayList — same as Collections.synchronizedList()"
+      },
+      {
+        "id": "b",
+        "text": "CopyOnWriteArrayList creates a fresh copy of the backing array on every write — reads are always lock-free. Best for workloads with rare writes and frequent reads (listener lists, small caches)"
+      },
+      {
+        "id": "c",
+        "text": "CopyOnWriteArrayList should be used for high-write workloads for best performance"
+      },
+      {
+        "id": "d",
+        "text": "CopyOnWriteArrayList prevents ConcurrentModificationException by using a queue internally"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Every write to `CopyOnWriteArrayList` (add, set, remove) copies the entire backing array under a lock, then replaces the reference. Reads (iteration, get) use the old snapshot with no lock. Pros: zero-overhead reads, no ConcurrentModificationException during iteration. Cons: writes are O(n) and expensive. Best for: event listener lists, small collections with rare writes and many readers.",
-    "keyConcepts": ["CopyOnWriteArrayList", "copy-on-write", "lock-free reads", "listener lists", "read-heavy workload"],
+    "keyConcepts": [
+      "CopyOnWriteArrayList",
+      "copy-on-write",
+      "lock-free reads",
+      "listener lists",
+      "read-heavy workload"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -337,15 +711,35 @@
     "difficulty": "advanced",
     "question": "What is `StampedLock` and how does it differ from `ReadWriteLock`?",
     "options": [
-      "StampedLock is a simplified ReadWriteLock with fewer methods",
-      "StampedLock supports optimistic reading — a read doesn't block writers, caller checks if a write occurred (validate stamp) and retries under a full read lock if so. Faster than ReadWriteLock for read-heavy workloads",
-      "StampedLock is deprecated — use ReentrantReadWriteLock instead",
-      "StampedLock only supports write locking"
+      {
+        "id": "a",
+        "text": "StampedLock is a simplified ReadWriteLock with fewer methods"
+      },
+      {
+        "id": "b",
+        "text": "StampedLock supports optimistic reading — a read doesn't block writers, caller checks if a write occurred (validate stamp) and retries under a full read lock if so. Faster than ReadWriteLock for read-heavy workloads"
+      },
+      {
+        "id": "c",
+        "text": "StampedLock is deprecated — use ReentrantReadWriteLock instead"
+      },
+      {
+        "id": "d",
+        "text": "StampedLock only supports write locking"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "`ReadWriteLock`: multiple concurrent readers OR one writer (readers block writers and vice versa). `StampedLock` adds optimistic reads: `tryOptimisticRead()` returns a stamp; after reading, `validate(stamp)` checks if a write occurred — if valid, no locking at all. If a write happened, fall back to a full read lock. Not reentrant. Best for read-dominated data structures.",
     "codeSnippet": "StampedLock lock = new StampedLock();\nlong stamp = lock.tryOptimisticRead();\ndouble x = this.x, y = this.y; // read without lock\nif (!lock.validate(stamp)) {\n  stamp = lock.readLock();\n  try { x = this.x; y = this.y; }\n  finally { lock.unlockRead(stamp); }\n}",
-    "keyConcepts": ["StampedLock", "optimistic read", "ReadWriteLock", "validate stamp", "lock-free reads"],
+    "keyConcepts": [
+      "StampedLock",
+      "optimistic read",
+      "ReadWriteLock",
+      "validate stamp",
+      "lock-free reads"
+    ],
     "commonInterviewQuestion": false
   },
   {
@@ -356,14 +750,34 @@
     "difficulty": "intermediate",
     "question": "What is a race condition and how do you identify one?",
     "options": [
-      "A race condition is when threads compete for CPU time causing slowdowns",
-      "A race condition is when the program's behavior depends on the relative timing of thread executions — producing incorrect results that are hard to reproduce",
-      "A race condition always causes a deadlock",
-      "Race conditions only occur in languages without garbage collection"
+      {
+        "id": "a",
+        "text": "A race condition is when threads compete for CPU time causing slowdowns"
+      },
+      {
+        "id": "b",
+        "text": "A race condition is when the program's behavior depends on the relative timing of thread executions — producing incorrect results that are hard to reproduce"
+      },
+      {
+        "id": "c",
+        "text": "A race condition always causes a deadlock"
+      },
+      {
+        "id": "d",
+        "text": "Race conditions only occur in languages without garbage collection"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "A race condition occurs when: (1) two or more threads access shared mutable state concurrently, and (2) at least one access is a write, and (3) there is no synchronization. Classic example: `count++` is read-modify-write — two threads can both read 0, both write 1 instead of 2. Identification: hard to reproduce (timing-dependent), look for shared mutable state accessed without synchronization. Tools: thread sanitizers, code review.",
-    "keyConcepts": ["race condition", "shared mutable state", "check-then-act", "read-modify-write", "non-determinism"],
+    "keyConcepts": [
+      "race condition",
+      "shared mutable state",
+      "check-then-act",
+      "read-modify-write",
+      "non-determinism"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -374,14 +788,34 @@
     "difficulty": "intermediate",
     "question": "What is `ScheduledExecutorService` used for?",
     "options": [
-      "ScheduledExecutorService is for running one-time background tasks",
-      "ScheduledExecutorService schedules tasks to run after a delay or at fixed intervals — replacing Timer/TimerTask with a thread pool-backed, more reliable alternative",
-      "ScheduledExecutorService is a Calendar-aware scheduler for business hours",
-      "ScheduledExecutorService is deprecated — use cron expressions instead"
+      {
+        "id": "a",
+        "text": "ScheduledExecutorService is for running one-time background tasks"
+      },
+      {
+        "id": "b",
+        "text": "ScheduledExecutorService schedules tasks to run after a delay or at fixed intervals — replacing Timer/TimerTask with a thread pool-backed, more reliable alternative"
+      },
+      {
+        "id": "c",
+        "text": "ScheduledExecutorService is a Calendar-aware scheduler for business hours"
+      },
+      {
+        "id": "d",
+        "text": "ScheduledExecutorService is deprecated — use cron expressions instead"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "`Executors.newScheduledThreadPool(n)` returns a ScheduledExecutorService. Methods: `schedule(task, delay, unit)` — run once after delay; `scheduleAtFixedRate(task, initialDelay, period, unit)` — run repeatedly at fixed intervals (next run starts at period, regardless of previous duration); `scheduleWithFixedDelay` — fixed delay AFTER previous completion. Prefer over `Timer` which crashes all tasks if one throws.",
-    "keyConcepts": ["ScheduledExecutorService", "schedule()", "scheduleAtFixedRate()", "fixed rate vs fixed delay", "Timer replacement"],
+    "keyConcepts": [
+      "ScheduledExecutorService",
+      "schedule()",
+      "scheduleAtFixedRate()",
+      "fixed rate vs fixed delay",
+      "Timer replacement"
+    ],
     "commonInterviewQuestion": false
   },
   {
@@ -392,14 +826,34 @@
     "difficulty": "intermediate",
     "question": "What does `Thread.sleep()` do and is it reliable for precise timing?",
     "options": [
-      "Thread.sleep() is precise to the nanosecond on modern JVMs",
-      "Thread.sleep(ms) causes the current thread to sleep at LEAST the specified time — the OS scheduler may wake it later. Not suitable for precise timing; use ScheduledExecutorService for periodic tasks",
-      "Thread.sleep() releases all locks held by the thread while sleeping",
-      "Thread.sleep() is the same as Object.wait() — both release the monitor"
+      {
+        "id": "a",
+        "text": "Thread.sleep() is precise to the nanosecond on modern JVMs"
+      },
+      {
+        "id": "b",
+        "text": "Thread.sleep(ms) causes the current thread to sleep at LEAST the specified time — the OS scheduler may wake it later. Not suitable for precise timing; use ScheduledExecutorService for periodic tasks"
+      },
+      {
+        "id": "c",
+        "text": "Thread.sleep() releases all locks held by the thread while sleeping"
+      },
+      {
+        "id": "d",
+        "text": "Thread.sleep() is the same as Object.wait() — both release the monitor"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "`Thread.sleep(ms)` puts the thread in TIMED_WAITING state for at least `ms` milliseconds. The actual sleep time depends on OS timer granularity (typically 10-15ms on Windows). It does NOT release locks (unlike `wait()`). Throws `InterruptedException` if interrupted. For precise, reliable timing: use `ScheduledExecutorService.scheduleAtFixedRate()` or `LockSupport.parkNanos()`.",
-    "keyConcepts": ["Thread.sleep()", "TIMED_WAITING", "OS timer granularity", "interruption", "vs Object.wait()"],
+    "keyConcepts": [
+      "Thread.sleep()",
+      "TIMED_WAITING",
+      "OS timer granularity",
+      "interruption",
+      "vs Object.wait()"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -410,14 +864,34 @@
     "difficulty": "advanced",
     "question": "What is the `Phaser` class in Java concurrency?",
     "options": [
-      "Phaser is a deprecated replacement for CountDownLatch",
-      "Phaser is a flexible synchronization barrier that supports dynamic participant registration, multiple phases, and optional termination — more flexible than CyclicBarrier",
-      "Phaser is a thread that runs in phases, sleeping between each",
-      "Phaser is used to coordinate phases of a build system"
+      {
+        "id": "a",
+        "text": "Phaser is a deprecated replacement for CountDownLatch"
+      },
+      {
+        "id": "b",
+        "text": "Phaser is a flexible synchronization barrier that supports dynamic participant registration, multiple phases, and optional termination — more flexible than CyclicBarrier"
+      },
+      {
+        "id": "c",
+        "text": "Phaser is a thread that runs in phases, sleeping between each"
+      },
+      {
+        "id": "d",
+        "text": "Phaser is used to coordinate phases of a build system"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "`Phaser` extends CyclicBarrier and CountDownLatch capabilities: participants can `register()` and `deregister()` dynamically, `arriveAndAwaitAdvance()` waits at phase end, phase number advances on completion. Can be tiered (tree of Phasers) for massive parallelism. Override `onAdvance()` for phase-completion logic or to terminate. Rarely needed unless the flexibility is specifically required.",
-    "keyConcepts": ["Phaser", "dynamic participants", "phases", "arriveAndAwaitAdvance()", "tiered phaser"],
+    "keyConcepts": [
+      "Phaser",
+      "dynamic participants",
+      "phases",
+      "arriveAndAwaitAdvance()",
+      "tiered phaser"
+    ],
     "commonInterviewQuestion": false
   },
   {
@@ -428,14 +902,34 @@
     "difficulty": "intermediate",
     "question": "What is the difference between `Thread.interrupt()` and `Thread.stop()`?",
     "options": [
-      "interrupt() stops a thread immediately; stop() requests cooperative termination",
-      "Thread.stop() is deprecated and unsafe (releases all locks, corrupts state); interrupt() is a cooperative signal — the thread checks isInterrupted() or handles InterruptedException to stop gracefully",
-      "They are identical — stop() just has a shorter name",
-      "interrupt() works on sleeping threads; stop() works on running threads"
+      {
+        "id": "a",
+        "text": "interrupt() stops a thread immediately; stop() requests cooperative termination"
+      },
+      {
+        "id": "b",
+        "text": "Thread.stop() is deprecated and unsafe (releases all locks, corrupts state); interrupt() is a cooperative signal — the thread checks isInterrupted() or handles InterruptedException to stop gracefully"
+      },
+      {
+        "id": "c",
+        "text": "They are identical — stop() just has a shorter name"
+      },
+      {
+        "id": "d",
+        "text": "interrupt() works on sleeping threads; stop() works on running threads"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "`Thread.stop()` (deprecated Java 1.2) forcibly stops a thread, releasing all its locks and leaving shared state potentially inconsistent. `interrupt()` is cooperative: sets the interrupted flag on the target thread. The thread must check `Thread.interrupted()` or catch `InterruptedException` from blocking calls (sleep, wait, take). On catching InterruptedException, always restore the interrupt status or re-throw.",
-    "keyConcepts": ["Thread.interrupt()", "Thread.stop() deprecated", "cooperative cancellation", "InterruptedException", "interrupted flag"],
+    "keyConcepts": [
+      "Thread.interrupt()",
+      "Thread.stop() deprecated",
+      "cooperative cancellation",
+      "InterruptedException",
+      "interrupted flag"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -446,14 +940,35 @@
     "difficulty": "intermediate",
     "question": "What is `ThreadPoolExecutor` and what parameters does it take?",
     "options": [
-      "ThreadPoolExecutor is just another name for Executors.newFixedThreadPool()",
-      "ThreadPoolExecutor is the core implementation with parameters: corePoolSize, maximumPoolSize, keepAliveTime, workQueue, threadFactory, and rejectedExecutionHandler — used when factory methods don't meet requirements",
-      "ThreadPoolExecutor only supports a fixed number of threads",
-      "ThreadPoolExecutor is deprecated — use virtual threads instead"
+      {
+        "id": "a",
+        "text": "ThreadPoolExecutor is just another name for Executors.newFixedThreadPool()"
+      },
+      {
+        "id": "b",
+        "text": "ThreadPoolExecutor is the core implementation with parameters: corePoolSize, maximumPoolSize, keepAliveTime, workQueue, threadFactory, and rejectedExecutionHandler — used when factory methods don't meet requirements"
+      },
+      {
+        "id": "c",
+        "text": "ThreadPoolExecutor only supports a fixed number of threads"
+      },
+      {
+        "id": "d",
+        "text": "ThreadPoolExecutor is deprecated — use virtual threads instead"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Parameters: `corePoolSize` (threads kept alive even idle), `maximumPoolSize` (max threads), `keepAliveTime` (idle extra-thread timeout), `workQueue` (task buffer — `LinkedBlockingQueue`, `ArrayBlockingQueue`, `SynchronousQueue`), `threadFactory` (custom naming/daemon), `RejectedExecutionHandler` (AbortPolicy, CallerRunsPolicy, DiscardPolicy, DiscardOldestPolicy). Use over factory methods when you need bounded queues and custom rejection.",
-    "keyConcepts": ["ThreadPoolExecutor", "corePoolSize", "maximumPoolSize", "workQueue", "RejectedExecutionHandler", "keepAliveTime"],
+    "keyConcepts": [
+      "ThreadPoolExecutor",
+      "corePoolSize",
+      "maximumPoolSize",
+      "workQueue",
+      "RejectedExecutionHandler",
+      "keepAliveTime"
+    ],
     "commonInterviewQuestion": true
   }
 ]

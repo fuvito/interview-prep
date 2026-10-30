@@ -7,14 +7,33 @@
     "difficulty": "beginner",
     "question": "What is a Kubernetes Pod?",
     "options": [
-      "A virtual machine managed by Kubernetes",
-      "The smallest deployable unit — one or more containers sharing the same network and storage",
-      "A group of Nodes in a cluster",
-      "A configuration file for Kubernetes resources"
+      {
+        "id": "a",
+        "text": "A virtual machine managed by Kubernetes"
+      },
+      {
+        "id": "b",
+        "text": "The smallest deployable unit — one or more containers sharing the same network and storage"
+      },
+      {
+        "id": "c",
+        "text": "A group of Nodes in a cluster"
+      },
+      {
+        "id": "d",
+        "text": "A configuration file for Kubernetes resources"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "A Pod is the smallest schedulable unit in Kubernetes. It wraps one or more containers that share a network namespace (same IP, ports) and can share storage volumes. Most Pods run a single container; multi-container Pods are used for sidecar patterns (logging, proxies).",
-    "keyConcepts": ["Pod", "containers", "network namespace", "scheduling unit"],
+    "keyConcepts": [
+      "Pod",
+      "containers",
+      "network namespace",
+      "scheduling unit"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -25,14 +44,34 @@
     "difficulty": "beginner",
     "question": "What is the difference between a Deployment and a Pod in Kubernetes?",
     "options": [
-      "A Pod manages multiple Deployments; a Deployment manages a single Pod",
-      "A Deployment manages the desired state of a set of Pods, enabling rolling updates, rollbacks, and scaling",
-      "Deployments are for stateful apps; Pods are for stateless",
-      "They are the same thing — Deployment is just a newer name for Pod"
+      {
+        "id": "a",
+        "text": "A Pod manages multiple Deployments; a Deployment manages a single Pod"
+      },
+      {
+        "id": "b",
+        "text": "A Deployment manages the desired state of a set of Pods, enabling rolling updates, rollbacks, and scaling"
+      },
+      {
+        "id": "c",
+        "text": "Deployments are for stateful apps; Pods are for stateless"
+      },
+      {
+        "id": "d",
+        "text": "They are the same thing — Deployment is just a newer name for Pod"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "You almost never create Pods directly. A Deployment is a higher-level controller that declares the desired state (e.g., 3 replicas of image `myapp:1.0`). If a Pod crashes, the Deployment controller creates a replacement. It also manages rolling updates and rollbacks via ReplicaSets.",
-    "keyConcepts": ["Deployment", "ReplicaSet", "desired state", "rolling update", "self-healing"],
+    "keyConcepts": [
+      "Deployment",
+      "ReplicaSet",
+      "desired state",
+      "rolling update",
+      "self-healing"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -43,14 +82,34 @@
     "difficulty": "beginner",
     "question": "What is a Kubernetes Service, and why is it needed?",
     "options": [
-      "A Service defines container startup commands",
-      "A Service provides a stable network endpoint (IP + DNS name) for a set of Pods, since Pod IPs change when Pods are recreated",
-      "A Service is required to pull images from a registry",
-      "A Service is Kubernetes's name for a Node"
+      {
+        "id": "a",
+        "text": "A Service defines container startup commands"
+      },
+      {
+        "id": "b",
+        "text": "A Service provides a stable network endpoint (IP + DNS name) for a set of Pods, since Pod IPs change when Pods are recreated"
+      },
+      {
+        "id": "c",
+        "text": "A Service is required to pull images from a registry"
+      },
+      {
+        "id": "d",
+        "text": "A Service is Kubernetes's name for a Node"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Pods are ephemeral — they get new IPs every time they restart. A Service creates a stable virtual IP (ClusterIP) and DNS name that load-balances to a matching set of Pods (selected via labels). Other apps connect to the Service, not individual Pods.",
-    "keyConcepts": ["Service", "ClusterIP", "label selector", "DNS", "load balancing"],
+    "keyConcepts": [
+      "Service",
+      "ClusterIP",
+      "label selector",
+      "DNS",
+      "load balancing"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -61,15 +120,41 @@
     "difficulty": "intermediate",
     "question": "What are the different Service types in Kubernetes? (Select all that apply)",
     "options": [
-      "ClusterIP — internal-only, accessible within the cluster",
-      "NodePort — exposes the service on a static port on each Node's IP",
-      "LoadBalancer — provisions an external load balancer (cloud provider)",
-      "ExternalName — maps service to a DNS name",
-      "PublicIP — assigns a public IP directly to the Pod"
+      {
+        "id": "a",
+        "text": "ClusterIP — internal-only, accessible within the cluster"
+      },
+      {
+        "id": "b",
+        "text": "NodePort — exposes the service on a static port on each Node's IP"
+      },
+      {
+        "id": "c",
+        "text": "LoadBalancer — provisions an external load balancer (cloud provider)"
+      },
+      {
+        "id": "d",
+        "text": "ExternalName — maps service to a DNS name"
+      },
+      {
+        "id": "e",
+        "text": "PublicIP — assigns a public IP directly to the Pod"
+      }
     ],
-    "correctAnswers": [0, 1, 2, 3],
+    "correctAnswers": [
+      "a",
+      "b",
+      "c",
+      "d"
+    ],
     "explanation": "The four Service types are: ClusterIP (default, internal), NodePort (opens port on all Nodes, typically used for dev), LoadBalancer (creates a cloud LB, used in production), ExternalName (CNAME alias to an external service). There is no `PublicIP` type.",
-    "keyConcepts": ["ClusterIP", "NodePort", "LoadBalancer", "ExternalName", "Service types"],
+    "keyConcepts": [
+      "ClusterIP",
+      "NodePort",
+      "LoadBalancer",
+      "ExternalName",
+      "Service types"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -80,14 +165,34 @@
     "difficulty": "intermediate",
     "question": "What is the difference between a liveness probe and a readiness probe?",
     "options": [
-      "Liveness checks if the container started; readiness checks if it's healthy",
-      "Liveness restarts the container if it fails; readiness removes the Pod from Service endpoints if it fails",
-      "Liveness is for HTTP services; readiness is for TCP services",
-      "They are identical — only one can be configured per container"
+      {
+        "id": "a",
+        "text": "Liveness checks if the container started; readiness checks if it's healthy"
+      },
+      {
+        "id": "b",
+        "text": "Liveness restarts the container if it fails; readiness removes the Pod from Service endpoints if it fails"
+      },
+      {
+        "id": "c",
+        "text": "Liveness is for HTTP services; readiness is for TCP services"
+      },
+      {
+        "id": "d",
+        "text": "They are identical — only one can be configured per container"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Liveness probe: Is the container alive? Failure → container is killed and restarted. Readiness probe: Is the container ready to serve traffic? Failure → Pod is removed from the Service's endpoint list (no traffic) but NOT restarted. Use readiness to hold traffic during startup or during graceful degradation.",
-    "keyConcepts": ["liveness probe", "readiness probe", "health checks", "Service endpoints", "restart policy"],
+    "keyConcepts": [
+      "liveness probe",
+      "readiness probe",
+      "health checks",
+      "Service endpoints",
+      "restart policy"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -98,15 +203,34 @@
     "difficulty": "intermediate",
     "question": "What is a ConfigMap in Kubernetes?",
     "options": [
-      "A cluster-level network routing configuration",
-      "A Kubernetes object that stores non-sensitive configuration data as key-value pairs, injected into Pods as env vars or files",
-      "A configuration file for the kubectl CLI",
-      "A map of container resource limits"
+      {
+        "id": "a",
+        "text": "A cluster-level network routing configuration"
+      },
+      {
+        "id": "b",
+        "text": "A Kubernetes object that stores non-sensitive configuration data as key-value pairs, injected into Pods as env vars or files"
+      },
+      {
+        "id": "c",
+        "text": "A configuration file for the kubectl CLI"
+      },
+      {
+        "id": "d",
+        "text": "A map of container resource limits"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "ConfigMaps decouple configuration from container images. You can inject ConfigMap data into a Pod as environment variables (`env.valueFrom.configMapKeyRef`) or as files in a volume. This allows the same image to run in dev, staging, and production with different configs without rebuilding.",
     "codeSnippet": "apiVersion: v1\nkind: ConfigMap\nmetadata:\n  name: app-config\ndata:\n  DATABASE_HOST: postgres-service\n  LOG_LEVEL: info",
-    "keyConcepts": ["ConfigMap", "configuration decoupling", "env vars", "volumes"],
+    "keyConcepts": [
+      "ConfigMap",
+      "configuration decoupling",
+      "env vars",
+      "volumes"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -117,14 +241,35 @@
     "difficulty": "intermediate",
     "question": "What is the difference between a ConfigMap and a Secret?",
     "options": [
-      "Secrets are encrypted at rest by default; ConfigMaps are not",
-      "ConfigMaps store non-sensitive config; Secrets store sensitive data (passwords, tokens) — base64 encoded but not encrypted unless encryption at rest is configured",
-      "ConfigMaps can only be used as env vars; Secrets can only be mounted as files",
-      "Secrets are automatically rotated; ConfigMaps are not"
+      {
+        "id": "a",
+        "text": "Secrets are encrypted at rest by default; ConfigMaps are not"
+      },
+      {
+        "id": "b",
+        "text": "ConfigMaps store non-sensitive config; Secrets store sensitive data (passwords, tokens) — base64 encoded but not encrypted unless encryption at rest is configured"
+      },
+      {
+        "id": "c",
+        "text": "ConfigMaps can only be used as env vars; Secrets can only be mounted as files"
+      },
+      {
+        "id": "d",
+        "text": "Secrets are automatically rotated; ConfigMaps are not"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "The structural difference is that Secrets base64-encode values and have type metadata. However, Kubernetes Secrets are NOT encrypted by default — they are stored as-is in etcd. Encryption at rest requires explicit configuration. For production secrets, use dedicated secret stores (Vault, AWS Secrets Manager) with the Secrets Store CSI driver.",
-    "keyConcepts": ["Secret", "ConfigMap", "base64", "encryption at rest", "etcd", "secret management"],
+    "keyConcepts": [
+      "Secret",
+      "ConfigMap",
+      "base64",
+      "encryption at rest",
+      "etcd",
+      "secret management"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -135,14 +280,34 @@
     "difficulty": "intermediate",
     "question": "What is a Kubernetes Namespace?",
     "options": [
-      "A DNS domain assigned to each Pod",
-      "A virtual cluster within a physical cluster, used to isolate resources between teams or environments",
-      "A naming convention for Deployment objects",
-      "A container networking plugin"
+      {
+        "id": "a",
+        "text": "A DNS domain assigned to each Pod"
+      },
+      {
+        "id": "b",
+        "text": "A virtual cluster within a physical cluster, used to isolate resources between teams or environments"
+      },
+      {
+        "id": "c",
+        "text": "A naming convention for Deployment objects"
+      },
+      {
+        "id": "d",
+        "text": "A container networking plugin"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Namespaces partition a cluster into isolated groups. Resources in different namespaces are isolated (RBAC policies, resource quotas, network policies can be applied per namespace). Common pattern: one namespace per environment (dev, staging, prod) or per team. `kube-system` is the namespace for system components.",
-    "keyConcepts": ["Namespace", "resource isolation", "multi-tenancy", "RBAC", "resource quotas"],
+    "keyConcepts": [
+      "Namespace",
+      "resource isolation",
+      "multi-tenancy",
+      "RBAC",
+      "resource quotas"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -153,15 +318,35 @@
     "difficulty": "intermediate",
     "question": "What is an Ingress in Kubernetes?",
     "options": [
-      "A firewall rule that blocks incoming traffic",
-      "An API object that manages external HTTP/HTTPS traffic routing to Services within the cluster",
-      "A type of Service that exposes Pods to the internet",
-      "A network plugin for inter-Pod communication"
+      {
+        "id": "a",
+        "text": "A firewall rule that blocks incoming traffic"
+      },
+      {
+        "id": "b",
+        "text": "An API object that manages external HTTP/HTTPS traffic routing to Services within the cluster"
+      },
+      {
+        "id": "c",
+        "text": "A type of Service that exposes Pods to the internet"
+      },
+      {
+        "id": "d",
+        "text": "A network plugin for inter-Pod communication"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Ingress defines HTTP routing rules (host-based, path-based). An Ingress Controller (nginx, Traefik, AWS ALB) reads these rules and configures the actual load balancer. This allows one LoadBalancer IP to route to many services based on hostname or URL path, rather than needing a LoadBalancer Service per app.",
     "codeSnippet": "apiVersion: networking.k8s.io/v1\nkind: Ingress\nmetadata:\n  name: app-ingress\nspec:\n  rules:\n  - host: api.example.com\n    http:\n      paths:\n      - path: /users\n        pathType: Prefix\n        backend:\n          service:\n            name: user-service\n            port:\n              number: 80",
-    "keyConcepts": ["Ingress", "Ingress Controller", "HTTP routing", "host-based routing", "path-based routing"],
+    "keyConcepts": [
+      "Ingress",
+      "Ingress Controller",
+      "HTTP routing",
+      "host-based routing",
+      "path-based routing"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -172,15 +357,35 @@
     "difficulty": "intermediate",
     "question": "What are resource requests and limits in Kubernetes?",
     "options": [
-      "Requests are the minimum guaranteed CPU/memory; limits are the maximum allowed",
-      "Requests are the maximum; limits are the minimum",
-      "Both are hard limits — exceeding either terminates the container",
-      "Requests are for CPU only; limits are for memory only"
+      {
+        "id": "a",
+        "text": "Requests are the minimum guaranteed CPU/memory; limits are the maximum allowed"
+      },
+      {
+        "id": "b",
+        "text": "Requests are the maximum; limits are the minimum"
+      },
+      {
+        "id": "c",
+        "text": "Both are hard limits — exceeding either terminates the container"
+      },
+      {
+        "id": "d",
+        "text": "Requests are for CPU only; limits are for memory only"
+      }
     ],
-    "correctAnswers": [0],
+    "correctAnswers": [
+      "a"
+    ],
     "explanation": "Resource requests tell the scheduler how much CPU/memory to reserve for scheduling decisions. Limits cap actual usage. If a container exceeds its memory limit, it is OOMKilled. If it exceeds CPU limit, it is throttled (not killed). Setting requests without limits risks noisy-neighbour problems.",
     "codeSnippet": "resources:\n  requests:\n    memory: \"128Mi\"\n    cpu: \"250m\"\n  limits:\n    memory: \"256Mi\"\n    cpu: \"500m\"",
-    "keyConcepts": ["resource requests", "resource limits", "CPU throttling", "OOMKill", "scheduler"],
+    "keyConcepts": [
+      "resource requests",
+      "resource limits",
+      "CPU throttling",
+      "OOMKill",
+      "scheduler"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -191,14 +396,34 @@
     "difficulty": "intermediate",
     "question": "What is a StatefulSet and when would you use it instead of a Deployment?",
     "options": [
-      "StatefulSets are Deployments with persistent storage — use them for any app that writes to disk",
-      "StatefulSets provide stable Pod identity (predictable names, persistent storage per Pod) — used for databases and clustered apps that need stable network identifiers",
-      "StatefulSets are deprecated; use Deployments with volumes instead",
-      "StatefulSets are for apps that never update — they prevent rolling updates"
+      {
+        "id": "a",
+        "text": "StatefulSets are Deployments with persistent storage — use them for any app that writes to disk"
+      },
+      {
+        "id": "b",
+        "text": "StatefulSets provide stable Pod identity (predictable names, persistent storage per Pod) — used for databases and clustered apps that need stable network identifiers"
+      },
+      {
+        "id": "c",
+        "text": "StatefulSets are deprecated; use Deployments with volumes instead"
+      },
+      {
+        "id": "d",
+        "text": "StatefulSets are for apps that never update — they prevent rolling updates"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "StatefulSets give each Pod a stable identity: ordered names (pod-0, pod-1), stable DNS hostnames, and each Pod gets its own PersistentVolumeClaim that survives Pod rescheduling. Use for databases (PostgreSQL, Cassandra), message queues (Kafka), or any app where Pod identity matters.",
-    "keyConcepts": ["StatefulSet", "stable identity", "ordered deployment", "PersistentVolumeClaim", "headless service"],
+    "keyConcepts": [
+      "StatefulSet",
+      "stable identity",
+      "ordered deployment",
+      "PersistentVolumeClaim",
+      "headless service"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -209,14 +434,34 @@
     "difficulty": "intermediate",
     "question": "What is a DaemonSet in Kubernetes?",
     "options": [
-      "A set of Pods that runs continuously without sleeping",
-      "A controller that ensures exactly one Pod runs on every (or specified) Node",
-      "A Service that routes traffic to all Pods simultaneously",
-      "A cron job that runs on a daemon process"
+      {
+        "id": "a",
+        "text": "A set of Pods that runs continuously without sleeping"
+      },
+      {
+        "id": "b",
+        "text": "A controller that ensures exactly one Pod runs on every (or specified) Node"
+      },
+      {
+        "id": "c",
+        "text": "A Service that routes traffic to all Pods simultaneously"
+      },
+      {
+        "id": "d",
+        "text": "A cron job that runs on a daemon process"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "A DaemonSet ensures that a copy of a Pod runs on all (or a subset of) Nodes. Use cases: log collectors (Fluentd, Filebeat), monitoring agents (Prometheus Node Exporter, Datadog), network plugins (Calico, Flannel), and storage daemons. When Nodes are added/removed, DaemonSet Pods are automatically added/removed.",
-    "keyConcepts": ["DaemonSet", "node-level agents", "log collection", "monitoring", "CNI plugins"],
+    "keyConcepts": [
+      "DaemonSet",
+      "node-level agents",
+      "log collection",
+      "monitoring",
+      "CNI plugins"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -227,14 +472,35 @@
     "difficulty": "intermediate",
     "question": "What is Kubernetes RBAC and what are its four main resource types?",
     "options": [
-      "Role-Based Access Control — resources: Node, Pod, Service, Deployment",
-      "Role-Based Access Control — resources: Role, ClusterRole, RoleBinding, ClusterRoleBinding",
-      "Resource-Based Authorization Control — resources: User, Group, Token, Policy",
-      "Runtime Binary Access Control — managed entirely by the container runtime"
+      {
+        "id": "a",
+        "text": "Role-Based Access Control — resources: Node, Pod, Service, Deployment"
+      },
+      {
+        "id": "b",
+        "text": "Role-Based Access Control — resources: Role, ClusterRole, RoleBinding, ClusterRoleBinding"
+      },
+      {
+        "id": "c",
+        "text": "Resource-Based Authorization Control — resources: User, Group, Token, Policy"
+      },
+      {
+        "id": "d",
+        "text": "Runtime Binary Access Control — managed entirely by the container runtime"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "RBAC controls who can do what in the cluster. Role/ClusterRole define permissions (verbs on resources). RoleBinding/ClusterRoleBinding grant those permissions to users, groups, or ServiceAccounts. Role+RoleBinding are namespace-scoped; ClusterRole+ClusterRoleBinding are cluster-scoped.",
-    "keyConcepts": ["RBAC", "Role", "ClusterRole", "RoleBinding", "ServiceAccount", "permissions"],
+    "keyConcepts": [
+      "RBAC",
+      "Role",
+      "ClusterRole",
+      "RoleBinding",
+      "ServiceAccount",
+      "permissions"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -245,15 +511,35 @@
     "difficulty": "advanced",
     "question": "What is a Horizontal Pod Autoscaler (HPA)?",
     "options": [
-      "A controller that automatically adds Nodes to the cluster based on load",
-      "A controller that automatically scales the number of Pod replicas based on observed metrics (CPU, memory, custom)",
-      "A tool that horizontally partitions data across Pods",
-      "A Kubernetes add-on for horizontal cluster federation"
+      {
+        "id": "a",
+        "text": "A controller that automatically adds Nodes to the cluster based on load"
+      },
+      {
+        "id": "b",
+        "text": "A controller that automatically scales the number of Pod replicas based on observed metrics (CPU, memory, custom)"
+      },
+      {
+        "id": "c",
+        "text": "A tool that horizontally partitions data across Pods"
+      },
+      {
+        "id": "d",
+        "text": "A Kubernetes add-on for horizontal cluster federation"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "HPA watches metrics (default: CPU/memory via metrics-server) and adjusts replica counts to maintain a target utilization. Example: `targetCPUUtilizationPercentage: 70` scales up when average CPU exceeds 70%, scales down when it drops. Custom metrics (HTTP RPS, queue depth) require KEDA or Prometheus Adapter.",
     "codeSnippet": "apiVersion: autoscaling/v2\nkind: HorizontalPodAutoscaler\nmetadata:\n  name: app-hpa\nspec:\n  scaleTargetRef:\n    apiVersion: apps/v1\n    kind: Deployment\n    name: my-app\n  minReplicas: 2\n  maxReplicas: 10\n  metrics:\n  - type: Resource\n    resource:\n      name: cpu\n      target:\n        type: Utilization\n        averageUtilization: 70",
-    "keyConcepts": ["HPA", "autoscaling", "metrics-server", "replica count", "KEDA"],
+    "keyConcepts": [
+      "HPA",
+      "autoscaling",
+      "metrics-server",
+      "replica count",
+      "KEDA"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -264,14 +550,34 @@
     "difficulty": "advanced",
     "question": "What is a PersistentVolume (PV) and a PersistentVolumeClaim (PVC)?",
     "options": [
-      "PV is a requested storage amount; PVC is actual storage allocated",
-      "PV is a cluster-level storage resource provisioned by an admin; PVC is a user's request for storage that binds to a PV",
-      "PV and PVC are different names for the same object",
-      "PVC is for containers; PV is for Nodes"
+      {
+        "id": "a",
+        "text": "PV is a requested storage amount; PVC is actual storage allocated"
+      },
+      {
+        "id": "b",
+        "text": "PV is a cluster-level storage resource provisioned by an admin; PVC is a user's request for storage that binds to a PV"
+      },
+      {
+        "id": "c",
+        "text": "PV and PVC are different names for the same object"
+      },
+      {
+        "id": "d",
+        "text": "PVC is for containers; PV is for Nodes"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "PersistentVolumes are cluster-level storage resources (NFS, EBS, GCE PD). PersistentVolumeClaims are requests for storage (e.g., 10Gi, ReadWriteOnce). Kubernetes binds a PVC to a suitable PV. StorageClasses enable dynamic provisioning — a PVC automatically provisions cloud storage without pre-creating PVs.",
-    "keyConcepts": ["PersistentVolume", "PersistentVolumeClaim", "StorageClass", "dynamic provisioning", "access modes"],
+    "keyConcepts": [
+      "PersistentVolume",
+      "PersistentVolumeClaim",
+      "StorageClass",
+      "dynamic provisioning",
+      "access modes"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -282,14 +588,34 @@
     "difficulty": "advanced",
     "question": "What is a Kubernetes operator?",
     "options": [
-      "A human administrator who manages the cluster",
-      "A pattern that encodes operational knowledge of a complex application as a controller + custom resource",
-      "A command-line tool for Kubernetes administration",
-      "A cloud provider plugin for Kubernetes"
+      {
+        "id": "a",
+        "text": "A human administrator who manages the cluster"
+      },
+      {
+        "id": "b",
+        "text": "A pattern that encodes operational knowledge of a complex application as a controller + custom resource"
+      },
+      {
+        "id": "c",
+        "text": "A command-line tool for Kubernetes administration"
+      },
+      {
+        "id": "d",
+        "text": "A cloud provider plugin for Kubernetes"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "The Operator pattern extends Kubernetes with custom resources (CRDs) and controllers that encode domain knowledge. Example: a PostgreSQL operator creates a `Postgres` CRD; when you apply `kind: Postgres`, the operator handles provisioning, backup, failover, and upgrades — tasks a human DBA would otherwise perform manually.",
-    "keyConcepts": ["Operator pattern", "CRD", "custom controller", "reconciliation loop", "domain-specific automation"],
+    "keyConcepts": [
+      "Operator pattern",
+      "CRD",
+      "custom controller",
+      "reconciliation loop",
+      "domain-specific automation"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -300,14 +626,34 @@
     "difficulty": "intermediate",
     "question": "What is a Kubernetes rolling update and how does it differ from a recreate strategy?",
     "options": [
-      "Rolling update replaces all Pods at once; recreate replaces one at a time",
-      "Rolling update gradually replaces old Pods with new ones (zero-downtime); recreate terminates all old Pods before starting new ones (causes downtime)",
-      "Recreate is the modern strategy; rolling update is deprecated",
-      "Rolling updates only work with StatefulSets"
+      {
+        "id": "a",
+        "text": "Rolling update replaces all Pods at once; recreate replaces one at a time"
+      },
+      {
+        "id": "b",
+        "text": "Rolling update gradually replaces old Pods with new ones (zero-downtime); recreate terminates all old Pods before starting new ones (causes downtime)"
+      },
+      {
+        "id": "c",
+        "text": "Recreate is the modern strategy; rolling update is deprecated"
+      },
+      {
+        "id": "d",
+        "text": "Rolling updates only work with StatefulSets"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "RollingUpdate (default) creates new Pods incrementally while keeping old ones running — controlled by `maxSurge` (extra Pods allowed) and `maxUnavailable` (Pods that can be unavailable). Recreate terminates all old Pods first, then starts new ones — simpler but causes a downtime gap between old and new versions.",
-    "keyConcepts": ["rolling update", "recreate strategy", "maxSurge", "maxUnavailable", "zero-downtime deployment"],
+    "keyConcepts": [
+      "rolling update",
+      "recreate strategy",
+      "maxSurge",
+      "maxUnavailable",
+      "zero-downtime deployment"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -318,14 +664,33 @@
     "difficulty": "beginner",
     "question": "What does `kubectl get pods -n kube-system` do?",
     "options": [
-      "Shows all Pods across all namespaces in the cluster",
-      "Shows Pods in the kube-system namespace, which contains core cluster components",
-      "Deletes problematic Pods in the kube-system namespace",
-      "Creates a new namespace called kube-system"
+      {
+        "id": "a",
+        "text": "Shows all Pods across all namespaces in the cluster"
+      },
+      {
+        "id": "b",
+        "text": "Shows Pods in the kube-system namespace, which contains core cluster components"
+      },
+      {
+        "id": "c",
+        "text": "Deletes problematic Pods in the kube-system namespace"
+      },
+      {
+        "id": "d",
+        "text": "Creates a new namespace called kube-system"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "`kubectl get pods` lists Pods in the current namespace (default). `-n kube-system` specifies the namespace. The `kube-system` namespace contains core components: coredns, etcd, kube-apiserver, kube-controller-manager, kube-scheduler, and kube-proxy. Use `-A` or `--all-namespaces` to see Pods across all namespaces.",
-    "keyConcepts": ["kubectl", "-n namespace flag", "kube-system", "cluster components"],
+    "keyConcepts": [
+      "kubectl",
+      "-n namespace flag",
+      "kube-system",
+      "cluster components"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -336,14 +701,34 @@
     "difficulty": "intermediate",
     "question": "What is a Kubernetes Job vs a CronJob?",
     "options": [
-      "Jobs are long-running; CronJobs terminate after a fixed time",
-      "A Job runs a set of Pods to completion (one-off task); a CronJob creates Jobs on a schedule",
-      "CronJobs are for containers; Jobs are for VMs",
-      "Jobs are for batch processing; CronJobs are for web servers"
+      {
+        "id": "a",
+        "text": "Jobs are long-running; CronJobs terminate after a fixed time"
+      },
+      {
+        "id": "b",
+        "text": "A Job runs a set of Pods to completion (one-off task); a CronJob creates Jobs on a schedule"
+      },
+      {
+        "id": "c",
+        "text": "CronJobs are for containers; Jobs are for VMs"
+      },
+      {
+        "id": "d",
+        "text": "Jobs are for batch processing; CronJobs are for web servers"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "A Job ensures a specified number of Pods run successfully to completion. Use for migrations, batch processing, report generation. A CronJob creates Jobs based on a schedule (standard cron syntax). If a Job fails, Kubernetes retries based on `backoffLimit`.",
-    "keyConcepts": ["Job", "CronJob", "completions", "backoffLimit", "batch processing"],
+    "keyConcepts": [
+      "Job",
+      "CronJob",
+      "completions",
+      "backoffLimit",
+      "batch processing"
+    ],
     "commonInterviewQuestion": false
   },
   {
@@ -354,14 +739,34 @@
     "difficulty": "intermediate",
     "question": "What is `kubectl describe pod <pod-name>` useful for?",
     "options": [
-      "Viewing the Pod's container logs",
-      "Displaying detailed information about a Pod including events, conditions, container states, and resource usage",
-      "Modifying a Pod's configuration live",
-      "Copying files into a running Pod"
+      {
+        "id": "a",
+        "text": "Viewing the Pod's container logs"
+      },
+      {
+        "id": "b",
+        "text": "Displaying detailed information about a Pod including events, conditions, container states, and resource usage"
+      },
+      {
+        "id": "c",
+        "text": "Modifying a Pod's configuration live"
+      },
+      {
+        "id": "d",
+        "text": "Copying files into a running Pod"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "`kubectl describe pod` shows detailed Pod info: Node assignment, Labels, Container image and state, resource requests/limits, volumes, conditions, and most importantly — the Events section which shows scheduling failures, image pull errors, OOMKills, and probe failures. It's the first command to run when a Pod is not healthy.",
-    "keyConcepts": ["kubectl describe", "Pod events", "debugging", "container state", "scheduling"],
+    "keyConcepts": [
+      "kubectl describe",
+      "Pod events",
+      "debugging",
+      "container state",
+      "scheduling"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -372,14 +777,35 @@
     "difficulty": "advanced",
     "question": "What is a NetworkPolicy in Kubernetes?",
     "options": [
-      "A DNS policy for cluster-internal service resolution",
-      "A resource that controls ingress and egress network traffic between Pods using label selectors",
-      "A load-balancing algorithm for Services",
-      "A firewall rule applied at the Node level"
+      {
+        "id": "a",
+        "text": "A DNS policy for cluster-internal service resolution"
+      },
+      {
+        "id": "b",
+        "text": "A resource that controls ingress and egress network traffic between Pods using label selectors"
+      },
+      {
+        "id": "c",
+        "text": "A load-balancing algorithm for Services"
+      },
+      {
+        "id": "d",
+        "text": "A firewall rule applied at the Node level"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "NetworkPolicies implement pod-level firewall rules. By default, all Pods can communicate with each other. A NetworkPolicy uses label selectors to specify which Pods can send/receive traffic (ingress/egress). Requires a CNI plugin that supports NetworkPolicy (Calico, Cilium, Weave) — not supported by all CNIs.",
-    "keyConcepts": ["NetworkPolicy", "ingress", "egress", "zero-trust networking", "CNI", "label selector"],
+    "keyConcepts": [
+      "NetworkPolicy",
+      "ingress",
+      "egress",
+      "zero-trust networking",
+      "CNI",
+      "label selector"
+    ],
     "commonInterviewQuestion": false
   },
   {
@@ -390,14 +816,34 @@
     "difficulty": "advanced",
     "question": "What are taints and tolerations in Kubernetes?",
     "options": [
-      "Taints are Pod errors; tolerations suppress error messages",
-      "Taints repel Pods from Nodes; tolerations allow specific Pods to be scheduled on tainted Nodes",
-      "Taints add metadata to Pods; tolerations filter Pods by that metadata",
-      "They are the Kubernetes equivalent of Linux file permissions"
+      {
+        "id": "a",
+        "text": "Taints are Pod errors; tolerations suppress error messages"
+      },
+      {
+        "id": "b",
+        "text": "Taints repel Pods from Nodes; tolerations allow specific Pods to be scheduled on tainted Nodes"
+      },
+      {
+        "id": "c",
+        "text": "Taints add metadata to Pods; tolerations filter Pods by that metadata"
+      },
+      {
+        "id": "d",
+        "text": "They are the Kubernetes equivalent of Linux file permissions"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Taints are applied to Nodes to prevent Pods from scheduling there (`kubectl taint node worker1 gpu=true:NoSchedule`). Only Pods with a matching toleration can schedule on that Node. Common uses: dedicating GPU Nodes to ML workloads, isolating system Pods to control-plane Nodes, or draining Nodes for maintenance.",
-    "keyConcepts": ["taints", "tolerations", "node affinity", "Pod scheduling", "dedicated nodes"],
+    "keyConcepts": [
+      "taints",
+      "tolerations",
+      "node affinity",
+      "Pod scheduling",
+      "dedicated nodes"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -408,14 +854,34 @@
     "difficulty": "advanced",
     "question": "What is Helm and what problem does it solve?",
     "options": [
-      "Helm is a Kubernetes monitoring tool",
-      "Helm is a package manager for Kubernetes that bundles related resources into charts, enabling versioned, templated deployments",
-      "Helm is a CLI for managing multiple kubectl contexts",
-      "Helm is a Kubernetes security scanner"
+      {
+        "id": "a",
+        "text": "Helm is a Kubernetes monitoring tool"
+      },
+      {
+        "id": "b",
+        "text": "Helm is a package manager for Kubernetes that bundles related resources into charts, enabling versioned, templated deployments"
+      },
+      {
+        "id": "c",
+        "text": "Helm is a CLI for managing multiple kubectl contexts"
+      },
+      {
+        "id": "d",
+        "text": "Helm is a Kubernetes security scanner"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Helm packages Kubernetes manifests into Charts — reusable, versioned packages with Go-templated values. `helm install myrelease ./mychart --values prod-values.yaml` deploys the chart with environment-specific values. Charts can be shared (Artifact Hub), versioned, upgraded (`helm upgrade`), and rolled back (`helm rollback`).",
-    "keyConcepts": ["Helm", "charts", "templates", "values.yaml", "helm install/upgrade/rollback"],
+    "keyConcepts": [
+      "Helm",
+      "charts",
+      "templates",
+      "values.yaml",
+      "helm install/upgrade/rollback"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -426,14 +892,34 @@
     "difficulty": "advanced",
     "question": "What is the role of etcd in a Kubernetes cluster?",
     "options": [
-      "etcd runs containers and manages their lifecycle on each Node",
-      "etcd is the distributed key-value store that holds all cluster state — the source of truth for the API server",
-      "etcd routes network traffic between Pods",
-      "etcd is the scheduler that assigns Pods to Nodes"
+      {
+        "id": "a",
+        "text": "etcd runs containers and manages their lifecycle on each Node"
+      },
+      {
+        "id": "b",
+        "text": "etcd is the distributed key-value store that holds all cluster state — the source of truth for the API server"
+      },
+      {
+        "id": "c",
+        "text": "etcd routes network traffic between Pods"
+      },
+      {
+        "id": "d",
+        "text": "etcd is the scheduler that assigns Pods to Nodes"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "etcd is the cluster's brain. Every Kubernetes object (Pods, Deployments, Secrets, ConfigMaps) is stored in etcd. The API server is the only component that reads/writes to etcd directly. If etcd is lost without a backup, the cluster state is gone. Production clusters run etcd with 3 or 5 nodes for HA using the Raft consensus algorithm.",
-    "keyConcepts": ["etcd", "cluster state", "Raft consensus", "API server", "backup and restore"],
+    "keyConcepts": [
+      "etcd",
+      "cluster state",
+      "Raft consensus",
+      "API server",
+      "backup and restore"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -444,14 +930,34 @@
     "difficulty": "advanced",
     "question": "What is the difference between node affinity and Pod affinity/anti-affinity?",
     "options": [
-      "Node affinity selects which Nodes Pods can run on based on node labels; Pod affinity co-locates Pods; Pod anti-affinity spreads Pods across Nodes",
-      "Node affinity is for StatefulSets; Pod affinity is for Deployments",
-      "They are the same concept — affinity just means preference",
-      "Node affinity is deprecated; only Pod affinity is supported"
+      {
+        "id": "a",
+        "text": "Node affinity selects which Nodes Pods can run on based on node labels; Pod affinity co-locates Pods; Pod anti-affinity spreads Pods across Nodes"
+      },
+      {
+        "id": "b",
+        "text": "Node affinity is for StatefulSets; Pod affinity is for Deployments"
+      },
+      {
+        "id": "c",
+        "text": "They are the same concept — affinity just means preference"
+      },
+      {
+        "id": "d",
+        "text": "Node affinity is deprecated; only Pod affinity is supported"
+      }
     ],
-    "correctAnswers": [0],
+    "correctAnswers": [
+      "a"
+    ],
     "explanation": "Node affinity constrains which Nodes a Pod can be scheduled on (by node labels — e.g., schedule only on SSD nodes). Pod affinity attracts Pods to Nodes where specific Pods already run (e.g., co-locate app with its cache). Pod anti-affinity repels Pods from Nodes with specific Pods (e.g., spread replicas across availability zones for HA).",
-    "keyConcepts": ["node affinity", "pod affinity", "pod anti-affinity", "topology spread", "high availability"],
+    "keyConcepts": [
+      "node affinity",
+      "pod affinity",
+      "pod anti-affinity",
+      "topology spread",
+      "high availability"
+    ],
     "commonInterviewQuestion": false
   }
 ]

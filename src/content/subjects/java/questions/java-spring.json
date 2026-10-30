@@ -7,14 +7,35 @@
     "difficulty": "beginner",
     "question": "What is the Spring IoC container and what problem does it solve?",
     "options": [
-      "IoC container is Spring's built-in web server",
-      "IoC (Inversion of Control) container manages object lifecycle and wires dependencies automatically — instead of objects creating their dependencies, the container injects them, enabling loose coupling and testability",
-      "IoC container is a database connection pool manager",
-      "IoC stands for Input/Output Connector — it manages file I/O"
+      {
+        "id": "a",
+        "text": "IoC container is Spring's built-in web server"
+      },
+      {
+        "id": "b",
+        "text": "IoC (Inversion of Control) container manages object lifecycle and wires dependencies automatically — instead of objects creating their dependencies, the container injects them, enabling loose coupling and testability"
+      },
+      {
+        "id": "c",
+        "text": "IoC container is a database connection pool manager"
+      },
+      {
+        "id": "d",
+        "text": "IoC stands for Input/Output Connector — it manages file I/O"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Without IoC: `new UserService(new UserRepository(new DataSource(...)))` — classes are tightly coupled. With IoC: the container reads configuration (annotations, XML, Java config) and creates and wires beans. You receive dependencies injected, not created. Benefits: loose coupling (swap implementations), easier testing (inject mocks), centralized lifecycle management.",
-    "keyConcepts": ["IoC", "DI", "Spring container", "ApplicationContext", "BeanFactory", "loose coupling"],
+    "keyConcepts": [
+      "IoC",
+      "DI",
+      "Spring container",
+      "ApplicationContext",
+      "BeanFactory",
+      "loose coupling"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -25,15 +46,35 @@
     "difficulty": "beginner",
     "question": "What are the three types of dependency injection in Spring?",
     "options": [
-      "Field injection, setter injection, constructor injection — Spring supports all three",
-      "XML injection, annotation injection, Java config injection",
-      "Bean injection, service injection, repository injection",
-      "Singleton injection, prototype injection, request injection"
+      {
+        "id": "a",
+        "text": "Field injection, setter injection, constructor injection — Spring supports all three"
+      },
+      {
+        "id": "b",
+        "text": "XML injection, annotation injection, Java config injection"
+      },
+      {
+        "id": "c",
+        "text": "Bean injection, service injection, repository injection"
+      },
+      {
+        "id": "d",
+        "text": "Singleton injection, prototype injection, request injection"
+      }
     ],
-    "correctAnswers": [0],
+    "correctAnswers": [
+      "a"
+    ],
     "explanation": "(1) Constructor injection: `@Autowired` on constructor (recommended) — dependencies are required, enables final fields, easy to test. (2) Setter injection: `@Autowired` on setter — optional dependencies, allows late injection. (3) Field injection: `@Autowired` on field (least recommended) — hides dependencies, harder to test without Spring. Spring team recommends constructor injection for mandatory dependencies.",
     "codeSnippet": "// Constructor injection (recommended)\n@Service\npublic class UserService {\n  private final UserRepository repo;\n  public UserService(UserRepository repo) { this.repo = repo; }\n}\n\n// Field injection (avoid)\n@Service\npublic class UserService {\n  @Autowired private UserRepository repo;\n}",
-    "keyConcepts": ["constructor injection", "setter injection", "field injection", "@Autowired", "DI types"],
+    "keyConcepts": [
+      "constructor injection",
+      "setter injection",
+      "field injection",
+      "@Autowired",
+      "DI types"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -44,14 +85,35 @@
     "difficulty": "beginner",
     "question": "What are Spring bean scopes?",
     "options": [
-      "Spring beans have only one scope: singleton",
-      "Singleton (default, one instance per container), Prototype (new instance each time), Request (per HTTP request), Session (per HTTP session), Application (per ServletContext)",
-      "Spring beans use Java's scope rules (local, instance, static)",
-      "Bean scope determines which package the bean is visible in"
+      {
+        "id": "a",
+        "text": "Spring beans have only one scope: singleton"
+      },
+      {
+        "id": "b",
+        "text": "Singleton (default, one instance per container), Prototype (new instance each time), Request (per HTTP request), Session (per HTTP session), Application (per ServletContext)"
+      },
+      {
+        "id": "c",
+        "text": "Spring beans use Java's scope rules (local, instance, static)"
+      },
+      {
+        "id": "d",
+        "text": "Bean scope determines which package the bean is visible in"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "`@Scope(\"singleton\")` (default): one shared instance per ApplicationContext. `@Scope(\"prototype\")`: new instance on each `getBean()` call — Spring doesn't manage its full lifecycle after creation. `@Scope(\"request\")`, `@Scope(\"session\")`, `@Scope(\"application\")`: web-only scopes. Caution: injecting a prototype bean into a singleton won't give a new prototype each time — use `Provider<T>` or `@Lookup`.",
-    "keyConcepts": ["bean scopes", "singleton", "prototype", "request scope", "session scope", "@Scope"],
+    "keyConcepts": [
+      "bean scopes",
+      "singleton",
+      "prototype",
+      "request scope",
+      "session scope",
+      "@Scope"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -62,15 +124,37 @@
     "difficulty": "intermediate",
     "question": "What is Spring AOP and what is an Aspect?",
     "options": [
-      "AOP (Aspect-Oriented Programming) allows separating cross-cutting concerns (logging, transactions, security) from business logic via Aspects — applied transparently using proxies",
-      "AOP is Spring's API for Object Persistence",
-      "AOP is a testing framework for Spring beans",
-      "Aspects are Spring's name for configuration classes"
+      {
+        "id": "a",
+        "text": "AOP (Aspect-Oriented Programming) allows separating cross-cutting concerns (logging, transactions, security) from business logic via Aspects — applied transparently using proxies"
+      },
+      {
+        "id": "b",
+        "text": "AOP is Spring's API for Object Persistence"
+      },
+      {
+        "id": "c",
+        "text": "AOP is a testing framework for Spring beans"
+      },
+      {
+        "id": "d",
+        "text": "Aspects are Spring's name for configuration classes"
+      }
     ],
-    "correctAnswers": [0],
+    "correctAnswers": [
+      "a"
+    ],
     "explanation": "AOP terminology: Aspect (module of cross-cutting concern), Advice (action at a join point: Before, After, Around, AfterReturning, AfterThrowing), JoinPoint (method execution), Pointcut (expression selecting join points), Weaving (applying aspects). Spring AOP uses JDK dynamic proxies (interface-based) or CGLIB (class-based). `@Transactional` is AOP under the hood.",
     "codeSnippet": "@Aspect @Component\npublic class LoggingAspect {\n  @Around(\"@annotation(Logged)\")\n  public Object log(ProceedingJoinPoint pjp) throws Throwable {\n    log.info(\"Before: {}\", pjp.getSignature());\n    Object result = pjp.proceed();\n    log.info(\"After: {}\", pjp.getSignature());\n    return result;\n  }\n}",
-    "keyConcepts": ["AOP", "Aspect", "Advice", "Pointcut", "JoinPoint", "@Transactional", "proxy"],
+    "keyConcepts": [
+      "AOP",
+      "Aspect",
+      "Advice",
+      "Pointcut",
+      "JoinPoint",
+      "@Transactional",
+      "proxy"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -81,14 +165,35 @@
     "difficulty": "intermediate",
     "question": "What does `@Transactional` do in Spring?",
     "options": [
-      "@Transactional marks a class as a database entity",
-      "@Transactional wraps the method in a database transaction — starting one if none exists, committing on success, rolling back on RuntimeException (by default)",
-      "@Transactional is required for all Spring service methods",
-      "@Transactional makes a method thread-safe"
+      {
+        "id": "a",
+        "text": "@Transactional marks a class as a database entity"
+      },
+      {
+        "id": "b",
+        "text": "@Transactional wraps the method in a database transaction — starting one if none exists, committing on success, rolling back on RuntimeException (by default)"
+      },
+      {
+        "id": "c",
+        "text": "@Transactional is required for all Spring service methods"
+      },
+      {
+        "id": "d",
+        "text": "@Transactional makes a method thread-safe"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Spring wraps `@Transactional` methods in a proxy. Default propagation: `REQUIRED` (join existing transaction or create new). Rollback triggers: `RuntimeException` (unchecked) by default — not checked exceptions unless `rollbackFor = Exception.class`. Common gotchas: (1) self-invocation bypasses proxy — @Transactional won't fire. (2) Method must be `public` (proxy limitation). (3) Exception must propagate — don't swallow it.",
-    "keyConcepts": ["@Transactional", "transaction propagation", "rollback", "proxy", "REQUIRED", "self-invocation"],
+    "keyConcepts": [
+      "@Transactional",
+      "transaction propagation",
+      "rollback",
+      "proxy",
+      "REQUIRED",
+      "self-invocation"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -99,14 +204,34 @@
     "difficulty": "beginner",
     "question": "What is Spring Boot auto-configuration and how does it work?",
     "options": [
-      "Auto-configuration compiles Spring applications automatically without `javac`",
-      "Auto-configuration detects classes/jars on the classpath and automatically creates beans with sensible defaults — if you add spring-boot-starter-data-jpa, a DataSource, EntityManagerFactory, and TransactionManager are configured automatically",
-      "Auto-configuration generates Spring XML configuration from code",
-      "Auto-configuration is disabled by default — enable with @EnableAutoConfiguration"
+      {
+        "id": "a",
+        "text": "Auto-configuration compiles Spring applications automatically without `javac`"
+      },
+      {
+        "id": "b",
+        "text": "Auto-configuration detects classes/jars on the classpath and automatically creates beans with sensible defaults — if you add spring-boot-starter-data-jpa, a DataSource, EntityManagerFactory, and TransactionManager are configured automatically"
+      },
+      {
+        "id": "c",
+        "text": "Auto-configuration generates Spring XML configuration from code"
+      },
+      {
+        "id": "d",
+        "text": "Auto-configuration is disabled by default — enable with @EnableAutoConfiguration"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "`@SpringBootApplication` includes `@EnableAutoConfiguration`. Spring Boot scans `spring.factories` (or `AutoConfiguration.imports` in Boot 3+) for `@Configuration` classes with `@ConditionalOnClass`, `@ConditionalOnMissingBean` etc. If DataSource class is on classpath and no DataSource bean exists, it creates one from `application.properties`. You can override any auto-configured bean by defining your own.",
-    "keyConcepts": ["auto-configuration", "@SpringBootApplication", "@ConditionalOnClass", "spring.factories", "starter dependencies"],
+    "keyConcepts": [
+      "auto-configuration",
+      "@SpringBootApplication",
+      "@ConditionalOnClass",
+      "spring.factories",
+      "starter dependencies"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -117,14 +242,35 @@
     "difficulty": "intermediate",
     "question": "What is the difference between `@Controller` and `@RestController`?",
     "options": [
-      "@Controller is for traditional MVC (returns view names); @RestController is @Controller + @ResponseBody — methods return data serialized to JSON/XML directly",
-      "@RestController is for microservices; @Controller is for monoliths",
-      "@Controller requires XML configuration; @RestController uses annotations",
-      "They are identical — @RestController is just a shorter alias"
+      {
+        "id": "a",
+        "text": "@Controller is for traditional MVC (returns view names); @RestController is @Controller + @ResponseBody — methods return data serialized to JSON/XML directly"
+      },
+      {
+        "id": "b",
+        "text": "@RestController is for microservices; @Controller is for monoliths"
+      },
+      {
+        "id": "c",
+        "text": "@Controller requires XML configuration; @RestController uses annotations"
+      },
+      {
+        "id": "d",
+        "text": "They are identical — @RestController is just a shorter alias"
+      }
     ],
-    "correctAnswers": [0],
+    "correctAnswers": [
+      "a"
+    ],
     "explanation": "`@Controller` marks a class as a Spring MVC controller. Methods return view names (resolved by ViewResolver) by default. Add `@ResponseBody` to a method to return data as response body. `@RestController` = `@Controller` + `@ResponseBody` on the class — all methods return data directly (JSON via Jackson by default). Use `@Controller` for server-side rendering (Thymeleaf), `@RestController` for REST APIs.",
-    "keyConcepts": ["@Controller", "@RestController", "@ResponseBody", "Spring MVC", "JSON serialization", "ViewResolver"],
+    "keyConcepts": [
+      "@Controller",
+      "@RestController",
+      "@ResponseBody",
+      "Spring MVC",
+      "JSON serialization",
+      "ViewResolver"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -135,15 +281,36 @@
     "difficulty": "intermediate",
     "question": "What are `@RequestMapping`, `@GetMapping`, `@PostMapping` and related annotations?",
     "options": [
-      "@RequestMapping is for GET; @GetMapping is for POST — they handle different HTTP methods",
-      "@RequestMapping maps HTTP requests to methods (can specify method). @GetMapping, @PostMapping, @PutMapping, @DeleteMapping, @PatchMapping are shortcuts for specific HTTP methods",
-      "They are only for WebSocket endpoints",
-      "@RequestMapping is deprecated — only use @GetMapping and @PostMapping"
+      {
+        "id": "a",
+        "text": "@RequestMapping is for GET; @GetMapping is for POST — they handle different HTTP methods"
+      },
+      {
+        "id": "b",
+        "text": "@RequestMapping maps HTTP requests to methods (can specify method). @GetMapping, @PostMapping, @PutMapping, @DeleteMapping, @PatchMapping are shortcuts for specific HTTP methods"
+      },
+      {
+        "id": "c",
+        "text": "They are only for WebSocket endpoints"
+      },
+      {
+        "id": "d",
+        "text": "@RequestMapping is deprecated — only use @GetMapping and @PostMapping"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "`@RequestMapping(value=\"/users\", method=RequestMethod.GET)` is the general form. `@GetMapping(\"/users\")` is the shortcut. Can be combined with `@RequestParam`, `@PathVariable`, `@RequestBody`, `@RequestHeader`. At class level, `@RequestMapping(\"/api/v1\")` sets a base path for all methods in the controller.",
     "codeSnippet": "@RestController\n@RequestMapping(\"/api/users\")\npublic class UserController {\n  @GetMapping(\"/{id}\")\n  public User getUser(@PathVariable Long id) { ... }\n\n  @PostMapping\n  public User createUser(@RequestBody @Valid CreateUserRequest req) { ... }\n}",
-    "keyConcepts": ["@RequestMapping", "@GetMapping", "@PostMapping", "@PathVariable", "@RequestBody", "@RequestParam"],
+    "keyConcepts": [
+      "@RequestMapping",
+      "@GetMapping",
+      "@PostMapping",
+      "@PathVariable",
+      "@RequestBody",
+      "@RequestParam"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -154,14 +321,36 @@
     "difficulty": "intermediate",
     "question": "What is Spring Data JPA and what does `JpaRepository` provide?",
     "options": [
-      "Spring Data JPA is a standalone ORM framework separate from Hibernate",
-      "Spring Data JPA generates repository implementations at runtime from interface declarations — JpaRepository provides CRUD operations, pagination, sorting, and derived query methods",
-      "JpaRepository requires writing SQL queries for all operations",
-      "Spring Data JPA only works with PostgreSQL"
+      {
+        "id": "a",
+        "text": "Spring Data JPA is a standalone ORM framework separate from Hibernate"
+      },
+      {
+        "id": "b",
+        "text": "Spring Data JPA generates repository implementations at runtime from interface declarations — JpaRepository provides CRUD operations, pagination, sorting, and derived query methods"
+      },
+      {
+        "id": "c",
+        "text": "JpaRepository requires writing SQL queries for all operations"
+      },
+      {
+        "id": "d",
+        "text": "Spring Data JPA only works with PostgreSQL"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "`JpaRepository<T, ID>` provides: `save()`, `findById()`, `findAll()`, `delete()`, `count()`, pagination (`findAll(Pageable)`), sorting. Derived queries: `findByEmailAndStatus(String email, Status status)` — Spring generates the JPQL automatically from the method name. `@Query(\"SELECT u FROM User u WHERE ...\")` for custom JPQL. `@Modifying` for update/delete queries.",
-    "keyConcepts": ["Spring Data JPA", "JpaRepository", "derived queries", "JPQL", "@Query", "pagination", "Pageable"],
+    "keyConcepts": [
+      "Spring Data JPA",
+      "JpaRepository",
+      "derived queries",
+      "JPQL",
+      "@Query",
+      "pagination",
+      "Pageable"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -172,14 +361,35 @@
     "difficulty": "intermediate",
     "question": "What is `application.properties` vs `application.yml` and how does Spring Boot load configuration?",
     "options": [
-      "application.properties is for production; application.yml is for development",
-      "Both configure Spring Boot properties — .yml has hierarchical structure. Spring Boot loads: default → profile-specific (application-{profile}.yml) → external. @Value and @ConfigurationProperties bind values to beans",
-      "Only application.properties is supported — .yml requires a separate library",
-      "application.yml overrides application.properties only when both exist"
+      {
+        "id": "a",
+        "text": "application.properties is for production; application.yml is for development"
+      },
+      {
+        "id": "b",
+        "text": "Both configure Spring Boot properties — .yml has hierarchical structure. Spring Boot loads: default → profile-specific (application-{profile}.yml) → external. @Value and @ConfigurationProperties bind values to beans"
+      },
+      {
+        "id": "c",
+        "text": "Only application.properties is supported — .yml requires a separate library"
+      },
+      {
+        "id": "d",
+        "text": "application.yml overrides application.properties only when both exist"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Spring Boot loads configuration in priority order (later overrides earlier): default properties → application.properties/yml → profile-specific → command line args → environment variables. `@Value(\"${server.port:8080}\")` injects a property with default. `@ConfigurationProperties(prefix=\"app\")` binds a whole config subtree to a POJO. Profiles: `spring.profiles.active=prod` loads `application-prod.yml`.",
-    "keyConcepts": ["application.properties", "application.yml", "@Value", "@ConfigurationProperties", "Spring profiles", "property precedence"],
+    "keyConcepts": [
+      "application.properties",
+      "application.yml",
+      "@Value",
+      "@ConfigurationProperties",
+      "Spring profiles",
+      "property precedence"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -190,14 +400,35 @@
     "difficulty": "intermediate",
     "question": "What is Spring Boot Actuator?",
     "options": [
-      "Actuator is Spring's database connection pool",
-      "Spring Boot Actuator provides production-ready monitoring endpoints: /actuator/health, /actuator/metrics, /actuator/env, /actuator/beans, /actuator/loggers — all over HTTP or JMX",
-      "Actuator is Spring's AOP implementation",
-      "Actuator is a security module for authentication"
+      {
+        "id": "a",
+        "text": "Actuator is Spring's database connection pool"
+      },
+      {
+        "id": "b",
+        "text": "Spring Boot Actuator provides production-ready monitoring endpoints: /actuator/health, /actuator/metrics, /actuator/env, /actuator/beans, /actuator/loggers — all over HTTP or JMX"
+      },
+      {
+        "id": "c",
+        "text": "Actuator is Spring's AOP implementation"
+      },
+      {
+        "id": "d",
+        "text": "Actuator is a security module for authentication"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Add `spring-boot-starter-actuator`. Default endpoint: `/actuator/health` (integration with load balancer health checks). Key endpoints: `/actuator/metrics/jvm.memory.used` (Micrometer metrics), `/actuator/env` (all properties), `/actuator/beans` (all Spring beans), `/actuator/loggers` (change log levels at runtime), `/actuator/threaddump`, `/actuator/heapdump`. Secure in production: expose only health by default, use Spring Security to protect others.",
-    "keyConcepts": ["Spring Actuator", "/health", "/metrics", "Micrometer", "production monitoring", "endpoint security"],
+    "keyConcepts": [
+      "Spring Actuator",
+      "/health",
+      "/metrics",
+      "Micrometer",
+      "production monitoring",
+      "endpoint security"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -208,14 +439,35 @@
     "difficulty": "intermediate",
     "question": "What is `@Component`, `@Service`, `@Repository`, and `@Controller` — are they different?",
     "options": [
-      "They are completely different annotations with distinct behaviors",
-      "@Component is the generic stereotype. @Service, @Repository, @Controller are specializations — all trigger component scanning and bean creation. @Repository additionally enables JPA exception translation",
-      "@Service creates beans with prototype scope; @Component creates singletons",
-      "@Repository is for MongoDB; @Component is for SQL databases"
+      {
+        "id": "a",
+        "text": "They are completely different annotations with distinct behaviors"
+      },
+      {
+        "id": "b",
+        "text": "@Component is the generic stereotype. @Service, @Repository, @Controller are specializations — all trigger component scanning and bean creation. @Repository additionally enables JPA exception translation"
+      },
+      {
+        "id": "c",
+        "text": "@Service creates beans with prototype scope; @Component creates singletons"
+      },
+      {
+        "id": "d",
+        "text": "@Repository is for MongoDB; @Component is for SQL databases"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "All are `@Component` specializations — detected by component scanning (`@ComponentScan`). Semantic differences: `@Service` (business logic — no extra behavior). `@Repository` (data access — enables Spring's PersistenceExceptionTranslationPostProcessor to translate native exceptions to Spring's DataAccessException hierarchy). `@Controller` (Spring MVC — enables request mapping processing). Use the most specific one for documentation and tooling.",
-    "keyConcepts": ["@Component", "@Service", "@Repository", "@Controller", "component scanning", "exception translation"],
+    "keyConcepts": [
+      "@Component",
+      "@Service",
+      "@Repository",
+      "@Controller",
+      "component scanning",
+      "exception translation"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -226,15 +478,35 @@
     "difficulty": "intermediate",
     "question": "What is `@Bean` vs `@Component` in Spring?",
     "options": [
-      "@Bean is deprecated; use @Component instead",
-      "@Component is a class-level annotation for Spring to manage; @Bean is a method-level annotation in a @Configuration class — used when you don't own the class (third-party) or need fine-grained creation control",
-      "@Bean creates prototype beans; @Component creates singletons",
-      "@Bean requires the class to implement BeanFactory"
+      {
+        "id": "a",
+        "text": "@Bean is deprecated; use @Component instead"
+      },
+      {
+        "id": "b",
+        "text": "@Component is a class-level annotation for Spring to manage; @Bean is a method-level annotation in a @Configuration class — used when you don't own the class (third-party) or need fine-grained creation control"
+      },
+      {
+        "id": "c",
+        "text": "@Bean creates prototype beans; @Component creates singletons"
+      },
+      {
+        "id": "d",
+        "text": "@Bean requires the class to implement BeanFactory"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "`@Component` (and stereotypes) annotate classes you own — Spring instantiates them via component scanning. `@Bean` annotates methods in `@Configuration` classes — Spring calls the method and registers the return value as a bean. Use `@Bean` for: third-party classes you can't annotate, complex creation logic, conditional bean registration. Both are singleton by default.",
     "codeSnippet": "@Configuration\npublic class AppConfig {\n  @Bean\n  public ObjectMapper objectMapper() {\n    return new ObjectMapper()\n      .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);\n  }\n}",
-    "keyConcepts": ["@Bean", "@Component", "@Configuration", "component scanning", "third-party beans"],
+    "keyConcepts": [
+      "@Bean",
+      "@Component",
+      "@Configuration",
+      "component scanning",
+      "third-party beans"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -245,15 +517,36 @@
     "difficulty": "intermediate",
     "question": "What is Spring Security and how do you configure basic authentication?",
     "options": [
-      "Spring Security is only for OAuth2 and JWT — not for basic auth",
-      "Spring Security is a framework for authentication and authorization — auto-configures HTTP Basic and form login. Customize by extending WebSecurityConfigurerAdapter (pre-Boot 2.7) or using SecurityFilterChain bean (Boot 3+)",
-      "Spring Security requires a database to store user credentials",
-      "Spring Security is disabled by default — must be explicitly enabled"
+      {
+        "id": "a",
+        "text": "Spring Security is only for OAuth2 and JWT — not for basic auth"
+      },
+      {
+        "id": "b",
+        "text": "Spring Security is a framework for authentication and authorization — auto-configures HTTP Basic and form login. Customize by extending WebSecurityConfigurerAdapter (pre-Boot 2.7) or using SecurityFilterChain bean (Boot 3+)"
+      },
+      {
+        "id": "c",
+        "text": "Spring Security requires a database to store user credentials"
+      },
+      {
+        "id": "d",
+        "text": "Spring Security is disabled by default — must be explicitly enabled"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Spring Boot auto-configures Spring Security if on classpath (generates a random password, enables HTTP Basic). Customize with a `SecurityFilterChain` bean: configure which endpoints require auth, which permit all, CSRF settings, session management, and authentication (in-memory, JDBC, LDAP, OAuth2). Use `@PreAuthorize(\"hasRole('ADMIN')\")` for method-level security.",
     "codeSnippet": "@Bean\nSecurityFilterChain filterChain(HttpSecurity http) throws Exception {\n  return http\n    .authorizeHttpRequests(auth -> auth\n      .requestMatchers(\"/public/**\").permitAll()\n      .anyRequest().authenticated())\n    .httpBasic(Customizer.withDefaults())\n    .build();\n}",
-    "keyConcepts": ["Spring Security", "SecurityFilterChain", "authentication", "authorization", "@PreAuthorize", "HTTP Basic"],
+    "keyConcepts": [
+      "Spring Security",
+      "SecurityFilterChain",
+      "authentication",
+      "authorization",
+      "@PreAuthorize",
+      "HTTP Basic"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -264,14 +557,35 @@
     "difficulty": "advanced",
     "question": "What is `@Conditional` and how does Spring Boot use it for auto-configuration?",
     "options": [
-      "@Conditional is used to create conditional branches in business logic",
-      "@Conditional creates beans only when specified conditions are met. Spring Boot uses: @ConditionalOnClass, @ConditionalOnMissingBean, @ConditionalOnProperty, @ConditionalOnWebApplication — enabling smart auto-configuration",
-      "@Conditional is deprecated — use @Profile instead",
-      "@Conditional only works with @Component, not @Bean"
+      {
+        "id": "a",
+        "text": "@Conditional is used to create conditional branches in business logic"
+      },
+      {
+        "id": "b",
+        "text": "@Conditional creates beans only when specified conditions are met. Spring Boot uses: @ConditionalOnClass, @ConditionalOnMissingBean, @ConditionalOnProperty, @ConditionalOnWebApplication — enabling smart auto-configuration"
+      },
+      {
+        "id": "c",
+        "text": "@Conditional is deprecated — use @Profile instead"
+      },
+      {
+        "id": "d",
+        "text": "@Conditional only works with @Component, not @Bean"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Spring Boot's auto-configuration is built entirely on `@Conditional` variants: `@ConditionalOnClass(DataSource.class)` — configure JPA only if DataSource is on classpath. `@ConditionalOnMissingBean(DataSource.class)` — don't override if user defined their own. `@ConditionalOnProperty(\"feature.enabled\")` — activate by property. `@ConditionalOnWebApplication` — only in web context. Create your own conditions by implementing `Condition`.",
-    "keyConcepts": ["@Conditional", "@ConditionalOnClass", "@ConditionalOnMissingBean", "@ConditionalOnProperty", "auto-configuration", "condition evaluation"],
+    "keyConcepts": [
+      "@Conditional",
+      "@ConditionalOnClass",
+      "@ConditionalOnMissingBean",
+      "@ConditionalOnProperty",
+      "auto-configuration",
+      "condition evaluation"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -282,15 +596,35 @@
     "difficulty": "intermediate",
     "question": "What is `ResponseEntity<T>` in Spring MVC?",
     "options": [
-      "ResponseEntity is Spring's database response wrapper",
-      "ResponseEntity<T> represents a full HTTP response: status code, headers, and body — used when you need control over the response beyond just the body",
-      "ResponseEntity is required for all REST endpoints",
-      "ResponseEntity is deprecated — use @ResponseStatus instead"
+      {
+        "id": "a",
+        "text": "ResponseEntity is Spring's database response wrapper"
+      },
+      {
+        "id": "b",
+        "text": "ResponseEntity<T> represents a full HTTP response: status code, headers, and body — used when you need control over the response beyond just the body"
+      },
+      {
+        "id": "c",
+        "text": "ResponseEntity is required for all REST endpoints"
+      },
+      {
+        "id": "d",
+        "text": "ResponseEntity is deprecated — use @ResponseStatus instead"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "`ResponseEntity<User>` lets you set HTTP status, headers, and body: `ResponseEntity.ok(user)` (200 + body), `ResponseEntity.created(uri).body(user)` (201 + Location header), `ResponseEntity.notFound().build()` (404 + no body), `ResponseEntity.status(422).body(errorDetails)`. Use when you need fine-grained HTTP response control; use `@ResponseStatus` for simple fixed-status methods.",
     "codeSnippet": "@PostMapping\npublic ResponseEntity<User> create(@RequestBody CreateUserRequest req) {\n  User user = service.create(req);\n  URI location = URI.create(\"/users/\" + user.id());\n  return ResponseEntity.created(location).body(user);\n}",
-    "keyConcepts": ["ResponseEntity", "HTTP status codes", "Location header", "201 Created", "response control"],
+    "keyConcepts": [
+      "ResponseEntity",
+      "HTTP status codes",
+      "Location header",
+      "201 Created",
+      "response control"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -301,15 +635,35 @@
     "difficulty": "intermediate",
     "question": "What is `@ExceptionHandler` and `@ControllerAdvice` in Spring?",
     "options": [
-      "@ExceptionHandler suppresses exceptions so they don't reach the client",
-      "@ExceptionHandler maps specific exceptions to HTTP responses in a controller. @ControllerAdvice applies exception handling globally across all controllers — used to build a consistent error response format",
-      "@ControllerAdvice is for AOP; @ExceptionHandler is for validation",
-      "They are only available in Spring Boot, not plain Spring MVC"
+      {
+        "id": "a",
+        "text": "@ExceptionHandler suppresses exceptions so they don't reach the client"
+      },
+      {
+        "id": "b",
+        "text": "@ExceptionHandler maps specific exceptions to HTTP responses in a controller. @ControllerAdvice applies exception handling globally across all controllers — used to build a consistent error response format"
+      },
+      {
+        "id": "c",
+        "text": "@ControllerAdvice is for AOP; @ExceptionHandler is for validation"
+      },
+      {
+        "id": "d",
+        "text": "They are only available in Spring Boot, not plain Spring MVC"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "`@ExceptionHandler(UserNotFoundException.class)` in a controller handles that exception for that controller only. `@RestControllerAdvice` (= `@ControllerAdvice` + `@ResponseBody`) handles exceptions globally. Best practice: one `@RestControllerAdvice` class with handlers for all exceptions, returning a consistent error DTO with status, message, timestamp, and traceId.",
     "codeSnippet": "@RestControllerAdvice\npublic class GlobalExceptionHandler {\n  @ExceptionHandler(UserNotFoundException.class)\n  @ResponseStatus(HttpStatus.NOT_FOUND)\n  public ErrorResponse handleNotFound(UserNotFoundException ex) {\n    return new ErrorResponse(\"NOT_FOUND\", ex.getMessage());\n  }\n}",
-    "keyConcepts": ["@ExceptionHandler", "@ControllerAdvice", "@RestControllerAdvice", "global error handling", "error response format"],
+    "keyConcepts": [
+      "@ExceptionHandler",
+      "@ControllerAdvice",
+      "@RestControllerAdvice",
+      "global error handling",
+      "error response format"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -320,15 +674,37 @@
     "difficulty": "intermediate",
     "question": "What is `@Valid` and bean validation in Spring?",
     "options": [
-      "@Valid triggers Spring to run the method and validate its result",
-      "@Valid on a method parameter triggers JSR-380 (Bean Validation) — annotations like @NotNull, @Size, @Email on the parameter's class fields are validated; ConstraintViolationException / MethodArgumentNotValidException on failure",
-      "@Valid marks a class as a Spring-managed bean",
-      "@Valid only works with String fields"
+      {
+        "id": "a",
+        "text": "@Valid triggers Spring to run the method and validate its result"
+      },
+      {
+        "id": "b",
+        "text": "@Valid on a method parameter triggers JSR-380 (Bean Validation) — annotations like @NotNull, @Size, @Email on the parameter's class fields are validated; ConstraintViolationException / MethodArgumentNotValidException on failure"
+      },
+      {
+        "id": "c",
+        "text": "@Valid marks a class as a Spring-managed bean"
+      },
+      {
+        "id": "d",
+        "text": "@Valid only works with String fields"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Spring integrates with Hibernate Validator (JSR-380). Annotate DTO fields: `@NotNull`, `@NotBlank`, `@Size(min=1, max=50)`, `@Email`, `@Pattern`, `@Min`, `@Max`, `@Valid` (for nested objects). In controllers, `@Valid @RequestBody CreateUserRequest req` triggers validation. On failure: `MethodArgumentNotValidException` — handle in `@ExceptionHandler` to return 400 with field errors.",
     "codeSnippet": "record CreateUserRequest(\n  @NotBlank String name,\n  @Email String email,\n  @Min(18) int age\n) {}\n\n@PostMapping\npublic User create(@Valid @RequestBody CreateUserRequest req) { ... }",
-    "keyConcepts": ["@Valid", "@Validated", "Bean Validation", "@NotNull", "@Size", "MethodArgumentNotValidException", "JSR-380"],
+    "keyConcepts": [
+      "@Valid",
+      "@Validated",
+      "Bean Validation",
+      "@NotNull",
+      "@Size",
+      "MethodArgumentNotValidException",
+      "JSR-380"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -339,14 +715,36 @@
     "difficulty": "advanced",
     "question": "What is Spring WebFlux and when would you use it over Spring MVC?",
     "options": [
-      "WebFlux is the same as Spring MVC — just a different name",
-      "WebFlux is Spring's reactive web framework built on Project Reactor — use for high-concurrency I/O-bound services where you need non-blocking I/O and back-pressure, avoiding thread-per-request blocking",
-      "WebFlux is only for streaming video content",
-      "WebFlux uses more threads than Spring MVC for better performance"
+      {
+        "id": "a",
+        "text": "WebFlux is the same as Spring MVC — just a different name"
+      },
+      {
+        "id": "b",
+        "text": "WebFlux is Spring's reactive web framework built on Project Reactor — use for high-concurrency I/O-bound services where you need non-blocking I/O and back-pressure, avoiding thread-per-request blocking"
+      },
+      {
+        "id": "c",
+        "text": "WebFlux is only for streaming video content"
+      },
+      {
+        "id": "d",
+        "text": "WebFlux uses more threads than Spring MVC for better performance"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Spring MVC: blocking I/O, thread-per-request (Servlet). Spring WebFlux: non-blocking I/O, event-loop model (Netty by default). Uses `Mono<T>` (0-1 result) and `Flux<T>` (0-N results). Benefits: handles more concurrent requests with fewer threads for I/O-bound work. Drawbacks: harder to reason about, reactive library must be used throughout the stack. MVC is simpler and usually sufficient — choose WebFlux for very high concurrency requirements.",
-    "keyConcepts": ["Spring WebFlux", "Project Reactor", "Mono", "Flux", "non-blocking I/O", "reactive programming", "Netty"],
+    "keyConcepts": [
+      "Spring WebFlux",
+      "Project Reactor",
+      "Mono",
+      "Flux",
+      "non-blocking I/O",
+      "reactive programming",
+      "Netty"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -357,14 +755,35 @@
     "difficulty": "intermediate",
     "question": "What is the Spring `@Async` annotation and how does it work?",
     "options": [
-      "@Async makes the annotated method synchronous — blocking the caller until done",
-      "@Async causes the method to execute in a separate thread from the caller's thread pool — the caller returns immediately, getting a Future/CompletableFuture for the result",
-      "@Async is only for @Scheduled methods",
-      "@Async automatically handles transactions from the calling thread"
+      {
+        "id": "a",
+        "text": "@Async makes the annotated method synchronous — blocking the caller until done"
+      },
+      {
+        "id": "b",
+        "text": "@Async causes the method to execute in a separate thread from the caller's thread pool — the caller returns immediately, getting a Future/CompletableFuture for the result"
+      },
+      {
+        "id": "c",
+        "text": "@Async is only for @Scheduled methods"
+      },
+      {
+        "id": "d",
+        "text": "@Async automatically handles transactions from the calling thread"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Enable with `@EnableAsync` on a config class. Method must be `public` and called from OUTSIDE the class (self-invocation bypasses proxy). Returns `void`, `Future<T>`, or `CompletableFuture<T>`. Spring runs it on a configured `TaskExecutor`. Without custom config, uses a `SimpleAsyncTaskExecutor` (creates new thread per call — configure `ThreadPoolTaskExecutor` in production). Exceptions in void @Async methods go to `AsyncUncaughtExceptionHandler`.",
-    "keyConcepts": ["@Async", "@EnableAsync", "CompletableFuture", "ThreadPoolTaskExecutor", "self-invocation", "async execution"],
+    "keyConcepts": [
+      "@Async",
+      "@EnableAsync",
+      "CompletableFuture",
+      "ThreadPoolTaskExecutor",
+      "self-invocation",
+      "async execution"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -375,15 +794,37 @@
     "difficulty": "intermediate",
     "question": "What is `@Cacheable` in Spring?",
     "options": [
-      "@Cacheable makes a method result available globally as a static variable",
-      "@Cacheable caches method return values — on subsequent calls with the same parameters, the cached value is returned without executing the method. Spring abstracts over multiple cache providers (Caffeine, Redis, EhCache)",
-      "@Cacheable is only for database query results",
-      "@Cacheable stores values in the Spring application context"
+      {
+        "id": "a",
+        "text": "@Cacheable makes a method result available globally as a static variable"
+      },
+      {
+        "id": "b",
+        "text": "@Cacheable caches method return values — on subsequent calls with the same parameters, the cached value is returned without executing the method. Spring abstracts over multiple cache providers (Caffeine, Redis, EhCache)"
+      },
+      {
+        "id": "c",
+        "text": "@Cacheable is only for database query results"
+      },
+      {
+        "id": "d",
+        "text": "@Cacheable stores values in the Spring application context"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Enable with `@EnableCaching`. `@Cacheable(\"users\")` caches by all parameters by default; `key=\"#id\"` specifies the cache key. `@CacheEvict(\"users\")` clears entries. `@CachePut` always executes and updates cache. Configure a `CacheManager` bean for the provider (Caffeine for in-memory, Redis for distributed). Spring abstracts the cache — swap providers without changing code.",
     "codeSnippet": "@Cacheable(value = \"users\", key = \"#id\")\npublic User findById(Long id) {\n  return userRepository.findById(id).orElseThrow();\n}\n\n@CacheEvict(value = \"users\", key = \"#user.id\")\npublic void update(User user) { ... }",
-    "keyConcepts": ["@Cacheable", "@CacheEvict", "@CachePut", "@EnableCaching", "CacheManager", "Caffeine", "Redis"],
+    "keyConcepts": [
+      "@Cacheable",
+      "@CacheEvict",
+      "@CachePut",
+      "@EnableCaching",
+      "CacheManager",
+      "Caffeine",
+      "Redis"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -394,14 +835,35 @@
     "difficulty": "intermediate",
     "question": "What is `@Scheduled` in Spring Boot?",
     "options": [
-      "@Scheduled starts an HTTP server for scheduled HTTP callbacks",
-      "@Scheduled runs a method on a fixed schedule — using fixedRate, fixedDelay, or cron expressions. Requires @EnableScheduling",
-      "@Scheduled is the same as @Async",
-      "@Scheduled can only be used in @Controller classes"
+      {
+        "id": "a",
+        "text": "@Scheduled starts an HTTP server for scheduled HTTP callbacks"
+      },
+      {
+        "id": "b",
+        "text": "@Scheduled runs a method on a fixed schedule — using fixedRate, fixedDelay, or cron expressions. Requires @EnableScheduling"
+      },
+      {
+        "id": "c",
+        "text": "@Scheduled is the same as @Async"
+      },
+      {
+        "id": "d",
+        "text": "@Scheduled can only be used in @Controller classes"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Enable with `@EnableScheduling`. `@Scheduled(fixedRate = 5000)`: runs every 5 seconds (next execution starts 5s after last START). `@Scheduled(fixedDelay = 5000)`: 5 seconds after last COMPLETION. `@Scheduled(cron = \"0 0 2 * * ?\")`: standard cron expression (daily at 2am). By default runs on a single-threaded executor — configure `TaskScheduler` bean for thread pool. Long-running tasks block the scheduler.",
-    "keyConcepts": ["@Scheduled", "@EnableScheduling", "fixedRate", "fixedDelay", "cron", "TaskScheduler"],
+    "keyConcepts": [
+      "@Scheduled",
+      "@EnableScheduling",
+      "fixedRate",
+      "fixedDelay",
+      "cron",
+      "TaskScheduler"
+    ],
     "commonInterviewQuestion": false
   },
   {
@@ -412,15 +874,36 @@
     "difficulty": "advanced",
     "question": "What is the difference between `@SpringBootTest` and `@WebMvcTest` for testing?",
     "options": [
-      "@SpringBootTest is for unit tests; @WebMvcTest is for integration tests",
-      "@SpringBootTest loads the full ApplicationContext (integration test); @WebMvcTest loads only the web layer (controllers, filters, converters) with mocked services — faster and more focused",
-      "@WebMvcTest requires a running server; @SpringBootTest does not",
-      "They are identical — only the annotation name differs"
+      {
+        "id": "a",
+        "text": "@SpringBootTest is for unit tests; @WebMvcTest is for integration tests"
+      },
+      {
+        "id": "b",
+        "text": "@SpringBootTest loads the full ApplicationContext (integration test); @WebMvcTest loads only the web layer (controllers, filters, converters) with mocked services — faster and more focused"
+      },
+      {
+        "id": "c",
+        "text": "@WebMvcTest requires a running server; @SpringBootTest does not"
+      },
+      {
+        "id": "d",
+        "text": "They are identical — only the annotation name differs"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "`@SpringBootTest`: full context, can test whole application including database. `@WebMvcTest(UserController.class)`: only loads web layer, `@Service`/`@Repository` beans must be `@MockBean`'d. Use `MockMvc` to simulate HTTP requests without starting a real server. `@DataJpaTest`: JPA layer only with in-memory H2. `@MockBean`: replaces a bean in context with a Mockito mock.",
     "codeSnippet": "@WebMvcTest(UserController.class)\nclass UserControllerTest {\n  @Autowired MockMvc mvc;\n  @MockBean UserService service;\n\n  @Test void getUser() throws Exception {\n    when(service.findById(1L)).thenReturn(new User(1L, \"Alice\"));\n    mvc.perform(get(\"/users/1\"))\n       .andExpect(status().isOk())\n       .andExpect(jsonPath(\"$.name\").value(\"Alice\"));\n  }\n}",
-    "keyConcepts": ["@SpringBootTest", "@WebMvcTest", "MockMvc", "@MockBean", "@DataJpaTest", "test slicing"],
+    "keyConcepts": [
+      "@SpringBootTest",
+      "@WebMvcTest",
+      "MockMvc",
+      "@MockBean",
+      "@DataJpaTest",
+      "test slicing"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -431,14 +914,33 @@
     "difficulty": "intermediate",
     "question": "What are Spring Profiles and how do you use them?",
     "options": [
-      "Spring Profiles are performance profiling tools built into Spring",
-      "Profiles allow different configurations for different environments (dev, test, prod). Beans can be activated per profile with @Profile; activate with spring.profiles.active property",
-      "Profiles are only for database configuration",
-      "Profiles replace environment variables in Spring Boot"
+      {
+        "id": "a",
+        "text": "Spring Profiles are performance profiling tools built into Spring"
+      },
+      {
+        "id": "b",
+        "text": "Profiles allow different configurations for different environments (dev, test, prod). Beans can be activated per profile with @Profile; activate with spring.profiles.active property"
+      },
+      {
+        "id": "c",
+        "text": "Profiles are only for database configuration"
+      },
+      {
+        "id": "d",
+        "text": "Profiles replace environment variables in Spring Boot"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "`@Profile(\"dev\")` on a `@Bean` or `@Configuration` class: only active when dev profile is active. Activate: `spring.profiles.active=prod` in `application.properties`, `-Dspring.profiles.active=prod` JVM arg, or `SPRING_PROFILES_ACTIVE=prod` env var. Profile-specific files: `application-dev.yml` auto-loaded when dev profile is active. Use for environment-specific beans (H2 vs PostgreSQL DataSource, mock vs real services).",
-    "keyConcepts": ["@Profile", "spring.profiles.active", "application-{profile}.yml", "environment-specific config"],
+    "keyConcepts": [
+      "@Profile",
+      "spring.profiles.active",
+      "application-{profile}.yml",
+      "environment-specific config"
+    ],
     "commonInterviewQuestion": true
   },
   {
@@ -449,14 +951,35 @@
     "difficulty": "advanced",
     "question": "What is transaction propagation in Spring and what are the main propagation types?",
     "options": [
-      "Transaction propagation determines which database is used",
-      "Propagation controls how transactions behave when methods call each other: REQUIRED (join or create), REQUIRES_NEW (always new, suspends current), SUPPORTS (join if exists, else none), MANDATORY (must have existing), NEVER (must not have existing), NOT_SUPPORTED (always non-transactional)",
-      "All Spring methods share one transaction — propagation is automatic",
-      "Propagation only applies to read-only transactions"
+      {
+        "id": "a",
+        "text": "Transaction propagation determines which database is used"
+      },
+      {
+        "id": "b",
+        "text": "Propagation controls how transactions behave when methods call each other: REQUIRED (join or create), REQUIRES_NEW (always new, suspends current), SUPPORTS (join if exists, else none), MANDATORY (must have existing), NEVER (must not have existing), NOT_SUPPORTED (always non-transactional)"
+      },
+      {
+        "id": "c",
+        "text": "All Spring methods share one transaction — propagation is automatic"
+      },
+      {
+        "id": "d",
+        "text": "Propagation only applies to read-only transactions"
+      }
     ],
-    "correctAnswers": [1],
+    "correctAnswers": [
+      "b"
+    ],
     "explanation": "Key propagation types: `REQUIRED` (default): joins existing transaction; creates new if none. `REQUIRES_NEW`: always starts new transaction, suspends current — useful for audit logging that must commit even if caller rolls back. `SUPPORTS`: transactional if caller is, non-transactional otherwise. `NOT_SUPPORTED`: always non-transactional (suspends current). `MANDATORY`: must have existing transaction — throws if none. `NEVER`: must NOT have transaction.",
-    "keyConcepts": ["transaction propagation", "REQUIRED", "REQUIRES_NEW", "MANDATORY", "NOT_SUPPORTED", "@Transactional propagation"],
+    "keyConcepts": [
+      "transaction propagation",
+      "REQUIRED",
+      "REQUIRES_NEW",
+      "MANDATORY",
+      "NOT_SUPPORTED",
+      "@Transactional propagation"
+    ],
     "commonInterviewQuestion": true
   }
 ]
