@@ -12,7 +12,7 @@ export default function App() {
   const { load } = useThemeStore()
   const { initCurrentSubject } = useNavigationStore()
   const [ready, setReady] = useState(false)
-  const { handles } = useResizable()
+  const { size, handles } = useResizable()
 
   useEffect(() => {
     async function init() {
@@ -27,16 +27,19 @@ export default function App() {
     void init()
   }, [load, initCurrentSubject])
 
-  // In popup mode the container fills document.body (which useResizable sizes).
-  // In dev/tab mode it fills the viewport as before.
   const outerClass = isPopup
-    ? 'relative w-full h-full bg-gray-950 text-gray-100 font-sans antialiased ring-1 ring-gray-800'
+    ? 'relative bg-gray-950 text-gray-100 font-sans antialiased ring-1 ring-gray-800'
     : 'w-full h-screen bg-gray-950 text-gray-100 flex flex-col overflow-hidden font-sans antialiased ring-1 ring-gray-800'
 
-  if (!ready) return <div className={outerClass} />
+  // Explicit inline size beats h-full in popup mode: h-full relies on the body
+  // height being set first (an effect), which creates a one-frame gap. Inline
+  // style is synchronous and always correct.
+  const outerStyle = isPopup ? { width: size.w, height: size.h } : undefined
+
+  if (!ready) return <div className={outerClass} style={outerStyle} />
 
   return (
-    <div className={outerClass}>
+    <div className={outerClass} style={outerStyle}>
       {isPopup && handles.map(h => (
         <div key={h.dir} style={h.style} onMouseDown={h.onMouseDown} />
       ))}
