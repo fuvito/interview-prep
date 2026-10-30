@@ -51,17 +51,17 @@ export interface ResizeHandle {
 }
 
 function applyToBody(w: number, h: number) {
-  const b = document.body.style
-  b.width = `${w}px`
-  b.maxWidth = `${w}px`
-  b.height = `${h}px`
-  b.maxHeight = `${h}px`
-  b.overflow = 'hidden'
-  // Also lock the html element so no scrollbar can appear at any level
-  const d = document.documentElement.style
-  d.overflow = 'hidden'
-  d.maxWidth = `${w}px`
-  d.maxHeight = `${h}px`
+  const ws = `${w}px`
+  const hs = `${h}px`
+  // Both <html> and <body> need explicit height (not just maxHeight) so neither
+  // can grow beyond the popup bounds and reveal the white default background.
+  for (const el of [document.documentElement, document.body]) {
+    el.style.width = ws
+    el.style.maxWidth = ws
+    el.style.height = hs
+    el.style.maxHeight = hs
+    el.style.overflow = 'hidden'
+  }
 }
 
 const CURSORS: Record<Dir, string> = {
