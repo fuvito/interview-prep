@@ -93,11 +93,15 @@ export function parseSubjectPack(
   // --- generate IDs and build the pack ---
   const subjectId = uniqueId(slugify(subjectIn.name as string), existingSubjectIds)
 
+  const authorIn = subjectIn.author as Record<string, unknown> | undefined
   const subject: Subject = {
     id: subjectId,
     name: (subjectIn.name as string).trim(),
     description: (subjectIn.description as string).trim(),
     version: typeof subjectIn.version === 'string' ? subjectIn.version : '1.0',
+    author: authorIn && typeof authorIn.name === 'string'
+      ? { name: authorIn.name, email: typeof authorIn.email === 'string' ? authorIn.email : undefined }
+      : undefined,
   }
 
   const topicsIn = json.topics as SubjectPackJSON['topics']

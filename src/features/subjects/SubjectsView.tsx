@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { ChevronRight, Upload, Trash2, AlertCircle, Download, RefreshCw, CheckCircle, Package, Info, X, Copy, Check } from 'lucide-react'
+import { ChevronRight, Upload, Trash2, AlertCircle, Download, RefreshCw, CheckCircle, Package, Info, X, Copy, Check, User } from 'lucide-react'
 import { useNavigationStore } from '@/store'
 import { useIconSize } from '@/hooks/useIconSize'
 import { questionRepository } from '@/core/question-engine'
@@ -266,6 +266,12 @@ export function SubjectsView() {
                       Downloaded {new Date(pack.downloadedAt).toLocaleDateString()}
                     </p>
                   )}
+                  {entry.author && (
+                    <p className="text-xs text-gray-700 mt-0.5 flex items-center gap-1">
+                      <User size={10} className="shrink-0" />
+                      {entry.author.name}{entry.author.email ? ` · ${entry.author.email}` : ''}
+                    </p>
+                  )}
                 </div>
                 {isInstalled && <ChevronRight size={iconSize(18)} className="text-gray-600 shrink-0 ml-3" />}
               </button>
@@ -340,6 +346,12 @@ export function SubjectsView() {
                 </div>
                 <p className="text-sm text-gray-500 mt-0.5">{pack.subject.description}</p>
                 <p className="text-xs text-gray-600 mt-1">{questionRepository.countBySubject(pack.subject.id)} questions</p>
+                  {pack.subject.author && (
+                    <p className="text-xs text-gray-700 mt-0.5 flex items-center gap-1">
+                      <User size={10} className="shrink-0" />
+                      {pack.subject.author.name}{pack.subject.author.email ? ` · ${pack.subject.author.email}` : ''}
+                    </p>
+                  )}
               </div>
               <ChevronRight size={iconSize(18)} className="text-gray-600 shrink-0 ml-3" />
             </button>

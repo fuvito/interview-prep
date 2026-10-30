@@ -23,11 +23,17 @@ export interface Question {
   commonInterviewQuestion: boolean
 }
 
+export interface SubjectAuthor {
+  name: string
+  email?: string
+}
+
 export interface Subject {
   id: string
   name: string
   description: string
-  version: string
+  version?: string
+  author?: SubjectAuthor
 }
 
 export interface Topic {
@@ -88,6 +94,7 @@ export interface SubjectRegistryEntry {
   topicCount: number
   bundled: boolean
   packUrl: string
+  author?: SubjectAuthor
 }
 
 export interface SubjectRegistry {
@@ -110,6 +117,7 @@ export interface SubjectPackJSON {
     name: string
     description: string
     version?: string
+    author?: SubjectAuthor
   }
   topics: Array<{
     name: string

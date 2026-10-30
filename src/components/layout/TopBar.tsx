@@ -20,10 +20,6 @@ function getTitle(view: View, currentSubjectId: string | null): string {
     case 'progress':        return 'Progress'
     case 'bookmarks':       return 'Bookmarks'
     case 'about':           return 'About'
-    case 'doc': {
-      const titles = { 'user-guide': 'User Guide', privacy: 'Privacy Policy', terms: 'Terms of Use', changelog: "What's New", license: 'License' }
-      return titles[view.docId]
-    }
   }
 }
 

@@ -2,5 +2,9 @@
   "id": "java",
   "name": "Java",
   "description": "Core Java, OOP principles, Collections, Concurrency, JVM internals, Spring Boot, and the Streams API — everything you need for Java interviews.",
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "author": {
+    "name": "Fuat Yazar",
+    "email": "fyazar@gmail.com"
+  }
 }

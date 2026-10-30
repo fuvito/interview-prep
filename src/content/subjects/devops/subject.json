@@ -2,5 +2,9 @@
   "id": "devops",
   "name": "DevOps",
   "description": "Containers, Kubernetes, CI/CD pipelines, Linux, infrastructure as code, and monitoring — the full DevOps toolkit for modern software delivery.",
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "author": {
+    "name": "Fuat Yazar",
+    "email": "fyazar@gmail.com"
+  }
 }

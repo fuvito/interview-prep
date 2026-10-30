@@ -10,7 +10,11 @@
       "questionCount": 155,
       "topicCount": 6,
       "bundled": true,
-      "packUrl": "https://raw.githubusercontent.com/fuvito/interview-prep/main/packs/typescript.json"
+      "packUrl": "https://raw.githubusercontent.com/fuvito/interview-prep/main/packs/typescript.json",
+      "author": {
+        "name": "Fuat Yazar",
+        "email": "fyazar@gmail.com"
+      }
     },
     {
       "id": "nodejs",
@@ -20,7 +24,11 @@
       "questionCount": 150,
       "topicCount": 6,
       "bundled": false,
-      "packUrl": "https://raw.githubusercontent.com/fuvito/interview-prep/main/packs/nodejs.json"
+      "packUrl": "https://raw.githubusercontent.com/fuvito/interview-prep/main/packs/nodejs.json",
+      "author": {
+        "name": "Fuat Yazar",
+        "email": "fyazar@gmail.com"
+      }
     },
     {
       "id": "devops",
@@ -30,7 +38,11 @@
       "questionCount": 150,
       "topicCount": 6,
       "bundled": false,
-      "packUrl": "https://raw.githubusercontent.com/fuvito/interview-prep/main/packs/devops.json"
+      "packUrl": "https://raw.githubusercontent.com/fuvito/interview-prep/main/packs/devops.json",
+      "author": {
+        "name": "Fuat Yazar",
+        "email": "fyazar@gmail.com"
+      }
     },
     {
       "id": "java",
@@ -40,7 +52,11 @@
       "questionCount": 150,
       "topicCount": 6,
       "bundled": false,
-      "packUrl": "https://raw.githubusercontent.com/fuvito/interview-prep/main/packs/java.json"
+      "packUrl": "https://raw.githubusercontent.com/fuvito/interview-prep/main/packs/java.json",
+      "author": {
+        "name": "Fuat Yazar",
+        "email": "fyazar@gmail.com"
+      }
     }
   ]
 }
