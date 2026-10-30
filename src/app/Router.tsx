@@ -9,6 +9,7 @@ import { ResultsView } from '@/features/results/ResultsView'
 import { ProgressView } from '@/features/progress/ProgressView'
 import { BookmarksView } from '@/features/bookmarks/BookmarksView'
 import { AboutView } from '@/features/about/AboutView'
+import { DocView } from '@/features/about/DocView'
 
 export function Router() {
   const { current } = useNavigationStore()
@@ -24,5 +25,6 @@ export function Router() {
     case 'progress':        return <ProgressView />
     case 'bookmarks':       return <BookmarksView />
     case 'about':           return <AboutView />
+    case 'doc':             return <DocView />
   }
 }

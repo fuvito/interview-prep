@@ -13,6 +13,7 @@ export type View =
   | { name: 'progress' }
   | { name: 'bookmarks' }
   | { name: 'about' }
+  | { name: 'doc'; docId: 'user-guide' | 'privacy' | 'terms' | 'changelog' | 'license' }
 
 interface NavigationState {
   current: View

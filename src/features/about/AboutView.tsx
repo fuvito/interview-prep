@@ -1,4 +1,5 @@
-import { BookOpen, Database, Zap, Shield, Code2 } from 'lucide-react'
+import { BookOpen, Database, Zap, Shield, Code2, ChevronRight } from 'lucide-react'
+import { useNavigationStore } from '@/store'
 import { useIconSize } from '@/hooks/useIconSize'
 
 const VERSION = '0.1.0'
@@ -39,6 +40,7 @@ function FeatureRow({ icon, title, description }: FeatureRowProps) {
 
 export function AboutView() {
   const iconSize = useIconSize()
+  const { navigate } = useNavigationStore()
   return (
     <div className="flex flex-col h-full overflow-y-auto overflow-x-hidden">
       <div className="p-5 space-y-5">
@@ -136,6 +138,29 @@ export function AboutView() {
               </div>
             ))}
           </div>
+        </section>
+
+        <hr className="border-gray-800" />
+
+        {/* Docs & Legal */}
+        <section className="space-y-1">
+          <h2 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Docs & Legal</h2>
+          {([
+            ['user-guide',  'User Guide'],
+            ['changelog',   "What's New"],
+            ['terms',       'Terms of Use'],
+            ['privacy',     'Privacy Policy'],
+            ['license',     'License (MIT)'],
+          ] as const).map(([docId, label]) => (
+            <button
+              key={docId}
+              onClick={() => navigate({ name: 'doc', docId })}
+              className="w-full flex items-center justify-between px-3 py-2.5 bg-gray-900 border border-gray-800 rounded-lg hover:border-gray-600 transition-colors text-left"
+            >
+              <span className="text-sm text-gray-300">{label}</span>
+              <ChevronRight size={iconSize(14)} className="text-gray-600 shrink-0" />
+            </button>
+          ))}
         </section>
 
         {/* Footer */}
