@@ -361,15 +361,15 @@ Implement incrementally. Do not attempt to build the entire application in one s
 - [x] Dark / light mode toggle with persistence.
 - [x] Improved text readability (contrast, gray levels, light mode code blocks).
 - [x] Progress reset with confirmation dialog.
-- [ ] About screen.
-- [ ] Full-screen / windowed view mode.
-- [ ] Extension border styling.
+- [x] About screen.
+- [x] Full-screen / windowed view mode.
+- [x] Extension border styling.
 - [ ] TopBar title reflects current subject.
 
 ### Phase 6 — Testing and Release
-- [ ] Unit tests for core engines (vitest).
-- [ ] ESLint linter setup.
-- [ ] Playwright end-to-end tests.
+- [x] Unit tests for core engines (vitest) — 63 tests, 80% coverage.
+- [x] ESLint linter setup.
+- [x] Playwright end-to-end tests — 13 tests.
 - [ ] Test database persistence.
 - [ ] Test database migrations.
 - [ ] Test offline functionality.
