@@ -1,0 +1,352 @@
+[
+  {
+    "id": "react-hooks-01",
+    "subjectId": "reactjs",
+    "topicId": "react-hooks",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What are React Hooks?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Functions that let function components use React features such as state and context"
+      },
+      {
+        "id": "b",
+        "text": "Browser APIs for CSS"
+      },
+      {
+        "id": "c",
+        "text": "A replacement for JavaScript functions"
+      },
+      {
+        "id": "d",
+        "text": "Database triggers"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "Hooks expose React capabilities to function components and custom Hooks.",
+    "keyConcepts": [
+      "Hooks",
+      "function components"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "react-hooks-02",
+    "subjectId": "reactjs",
+    "topicId": "react-hooks",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is a core Rule of Hooks?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Call Hooks inside loops"
+      },
+      {
+        "id": "b",
+        "text": "Call Hooks conditionally"
+      },
+      {
+        "id": "c",
+        "text": "Call Hooks from ordinary utility functions"
+      },
+      {
+        "id": "d",
+        "text": "Call Hooks at the top level of React components or custom Hooks"
+      }
+    ],
+    "correctAnswers": [
+      "d"
+    ],
+    "explanation": "Hooks must be called in the same order on every render. Avoid conditions, loops, and nested callbacks.",
+    "keyConcepts": [
+      "Rules of Hooks",
+      "hook ordering"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "react-hooks-03",
+    "subjectId": "reactjs",
+    "topicId": "react-hooks",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What does useRef return?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A promise for the next render"
+      },
+      {
+        "id": "b",
+        "text": "A new DOM node every call"
+      },
+      {
+        "id": "c",
+        "text": "A mutable object whose current property persists across renders"
+      },
+      {
+        "id": "d",
+        "text": "A setter that always causes rendering"
+      }
+    ],
+    "correctAnswers": [
+      "c"
+    ],
+    "explanation": "A ref object persists between renders, and changing current does not trigger a render. It is useful for DOM references and non-visual values.",
+    "keyConcepts": [
+      "useRef",
+      "mutable reference"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "react-hooks-04",
+    "subjectId": "reactjs",
+    "topicId": "react-hooks",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is useEffect primarily used for?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Computing every value in render"
+      },
+      {
+        "id": "b",
+        "text": "Synchronizing a component with external systems"
+      },
+      {
+        "id": "c",
+        "text": "Replacing all event handlers"
+      },
+      {
+        "id": "d",
+        "text": "Creating class components"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "Effects synchronize with systems such as subscriptions, timers, browser APIs, or network connections. Derived values usually do not require an effect.",
+    "keyConcepts": [
+      "useEffect",
+      "effects"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "react-hooks-05",
+    "subjectId": "reactjs",
+    "topicId": "react-hooks",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What does useMemo return?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A memoized result of a calculation while its dependencies remain unchanged"
+      },
+      {
+        "id": "b",
+        "text": "A DOM reference"
+      },
+      {
+        "id": "c",
+        "text": "A promise"
+      },
+      {
+        "id": "d",
+        "text": "A callback guaranteed to run once"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "useMemo caches a calculation result between renders. It is a performance optimization, not a correctness requirement.",
+    "keyConcepts": [
+      "useMemo",
+      "memoization"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "react-hooks-06",
+    "subjectId": "reactjs",
+    "topicId": "react-hooks",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does the dependency array of useEffect tell React?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Which children to render"
+      },
+      {
+        "id": "b",
+        "text": "The effect return type"
+      },
+      {
+        "id": "c",
+        "text": "The browser event loop configuration"
+      },
+      {
+        "id": "d",
+        "text": "Which reactive values the effect depends on"
+      }
+    ],
+    "correctAnswers": [
+      "d"
+    ],
+    "explanation": "When dependencies change, React runs cleanup for the previous effect and then runs the effect again.",
+    "keyConcepts": [
+      "effect dependencies",
+      "lifecycle"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "react-hooks-07",
+    "subjectId": "reactjs",
+    "topicId": "react-hooks",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the cleanup function returned by an effect commonly used for?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Setting all state to null"
+      },
+      {
+        "id": "b",
+        "text": "Preventing future renders"
+      },
+      {
+        "id": "c",
+        "text": "Unsubscribing, clearing timers, aborting requests, or releasing resources"
+      },
+      {
+        "id": "d",
+        "text": "Forcing a full page reload"
+      }
+    ],
+    "correctAnswers": [
+      "c"
+    ],
+    "explanation": "Cleanup reverses or releases external synchronization established by the effect. It runs before a changed effect re-runs and on unmount.",
+    "keyConcepts": [
+      "cleanup",
+      "subscriptions"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "react-hooks-08",
+    "subjectId": "reactjs",
+    "topicId": "react-hooks",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "Why should Hooks not be called inside an if statement?",
+    "options": [
+      {
+        "id": "a",
+        "text": "React converts conditions into props"
+      },
+      {
+        "id": "b",
+        "text": "Conditional calls can change Hook call order between renders"
+      },
+      {
+        "id": "c",
+        "text": "JavaScript forbids functions in conditions"
+      },
+      {
+        "id": "d",
+        "text": "Hooks only work in classes"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "React associates Hook state with call order. Conditional calls can shift that order and associate state with the wrong Hook.",
+    "keyConcepts": [
+      "Rules of Hooks",
+      "call order"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "react-hooks-09",
+    "subjectId": "reactjs",
+    "topicId": "react-hooks",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is a custom Hook?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A function starting with use that can call other Hooks to reuse stateful logic"
+      },
+      {
+        "id": "b",
+        "text": "A component that must render a button"
+      },
+      {
+        "id": "c",
+        "text": "A browser extension API"
+      },
+      {
+        "id": "d",
+        "text": "A Hook that can only be called once"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "Custom Hooks extract reusable stateful logic. Each call has independent Hook state unless it intentionally uses shared external state or context.",
+    "keyConcepts": [
+      "custom Hooks",
+      "logic reuse"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "react-hooks-10",
+    "subjectId": "reactjs",
+    "topicId": "react-hooks",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "Why should useMemo not be used to guarantee semantic persistence of a value?",
+    "options": [
+      {
+        "id": "a",
+        "text": "It always returns a new value"
+      },
+      {
+        "id": "b",
+        "text": "It cannot store objects"
+      },
+      {
+        "id": "c",
+        "text": "It prevents effects"
+      },
+      {
+        "id": "d",
+        "text": "It is a performance optimization and React may discard the cached value in some circumstances"
+      }
+    ],
+    "correctAnswers": [
+      "d"
+    ],
+    "explanation": "Code should remain correct if a memoized value is recalculated. Use state or a ref when a value must persist for semantic reasons.",
+    "keyConcepts": [
+      "useMemo",
+      "cache semantics"
+    ],
+    "commonInterviewQuestion": true
+  }
+]

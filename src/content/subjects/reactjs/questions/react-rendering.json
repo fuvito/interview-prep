@@ -1,0 +1,352 @@
+[
+  {
+    "id": "react-render-01",
+    "subjectId": "reactjs",
+    "topicId": "react-rendering",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "Which JavaScript method is commonly used to render an array of items in JSX?",
+    "options": [
+      {
+        "id": "a",
+        "text": "sort()"
+      },
+      {
+        "id": "b",
+        "text": "reduceRight() only"
+      },
+      {
+        "id": "c",
+        "text": "map()"
+      },
+      {
+        "id": "d",
+        "text": "join() only"
+      }
+    ],
+    "correctAnswers": [
+      "c"
+    ],
+    "explanation": "map transforms each data item into a React element, commonly producing a repeated list.",
+    "keyConcepts": [
+      "lists",
+      "map"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "react-render-02",
+    "subjectId": "reactjs",
+    "topicId": "react-rendering",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "Why does React ask for a key when rendering a list?",
+    "options": [
+      {
+        "id": "a",
+        "text": "To create a separate React root"
+      },
+      {
+        "id": "b",
+        "text": "To identify items across renders so React can track their identity"
+      },
+      {
+        "id": "c",
+        "text": "To encrypt each item"
+      },
+      {
+        "id": "d",
+        "text": "To set CSS z-index"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "Keys help React match items when inserted, removed, or reordered. Use stable identifiers from the data.",
+    "keyConcepts": [
+      "keys",
+      "reconciliation"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "react-render-03",
+    "subjectId": "reactjs",
+    "topicId": "react-rendering",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is usually the best key for database records rendered in a list?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A stable unique record ID"
+      },
+      {
+        "id": "b",
+        "text": "The array index in every situation"
+      },
+      {
+        "id": "c",
+        "text": "A random number generated during render"
+      },
+      {
+        "id": "d",
+        "text": "The current timestamp"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "A stable ID preserves identity across reordering and insertion. Index keys can associate component state with the wrong record.",
+    "keyConcepts": [
+      "stable keys",
+      "list identity"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "react-render-04",
+    "subjectId": "reactjs",
+    "topicId": "react-rendering",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "How can JSX render one of two branches based on a condition?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Use SQL WHERE"
+      },
+      {
+        "id": "b",
+        "text": "Use if directly between JSX attributes"
+      },
+      {
+        "id": "c",
+        "text": "Use a CSS comment"
+      },
+      {
+        "id": "d",
+        "text": "Use a ternary expression such as condition ? <A /> : <B />"
+      }
+    ],
+    "correctAnswers": [
+      "d"
+    ],
+    "explanation": "The ternary operator is a concise way to choose between JSX branches.",
+    "keyConcepts": [
+      "conditional rendering",
+      "ternary"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "react-render-05",
+    "subjectId": "reactjs",
+    "topicId": "react-rendering",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What does a React Fragment provide?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A CSS class for all children"
+      },
+      {
+        "id": "b",
+        "text": "Persistent state after reload"
+      },
+      {
+        "id": "c",
+        "text": "A way to group siblings without adding an extra DOM element"
+      },
+      {
+        "id": "d",
+        "text": "A new browser window"
+      }
+    ],
+    "correctAnswers": [
+      "c"
+    ],
+    "explanation": "Fragments allow multiple sibling elements without an unnecessary wrapper in the DOM.",
+    "keyConcepts": [
+      "Fragment",
+      "DOM structure"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "react-render-06",
+    "subjectId": "reactjs",
+    "topicId": "react-rendering",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "Why can an array index be a problematic key when items can be reordered?",
+    "options": [
+      {
+        "id": "a",
+        "text": "It disables event handling"
+      },
+      {
+        "id": "b",
+        "text": "React may associate component state with the wrong item after positions change"
+      },
+      {
+        "id": "c",
+        "text": "React refuses to render arrays"
+      },
+      {
+        "id": "d",
+        "text": "Indexes are always duplicated"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "Index keys identify positions rather than records. Reordering can cause component instances and input state to be reused for different records.",
+    "keyConcepts": [
+      "index keys",
+      "reconciliation"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "react-render-07",
+    "subjectId": "reactjs",
+    "topicId": "react-rendering",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What happens when a component's key changes between renders?",
+    "options": [
+      {
+        "id": "a",
+        "text": "React treats it as a different identity and recreates the subtree, resetting local state"
+      },
+      {
+        "id": "b",
+        "text": "Only its CSS class changes"
+      },
+      {
+        "id": "c",
+        "text": "React ignores the key"
+      },
+      {
+        "id": "d",
+        "text": "The key becomes a normal prop"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "A changed key tells React that the previous and next elements are different identities, so the old subtree is replaced.",
+    "keyConcepts": [
+      "key identity",
+      "state reset"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "react-render-08",
+    "subjectId": "reactjs",
+    "topicId": "react-rendering",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is a common pitfall with the expression count && <Badge />?",
+    "options": [
+      {
+        "id": "a",
+        "text": "React always throws an error"
+      },
+      {
+        "id": "b",
+        "text": "It renders the word true"
+      },
+      {
+        "id": "c",
+        "text": "It prevents the component from mounting"
+      },
+      {
+        "id": "d",
+        "text": "If count is zero, React may render the numeric zero"
+      }
+    ],
+    "correctAnswers": [
+      "d"
+    ],
+    "explanation": "Logical AND returns the left operand when it is falsy. Since zero is renderable, use a boolean condition such as count > 0 && ... when appropriate.",
+    "keyConcepts": [
+      "conditional rendering",
+      "logical AND"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "react-render-09",
+    "subjectId": "reactjs",
+    "topicId": "react-rendering",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does changing an element's type at the same tree position generally cause?",
+    "options": [
+      {
+        "id": "a",
+        "text": "React ignores the type"
+      },
+      {
+        "id": "b",
+        "text": "React automatically converts the component"
+      },
+      {
+        "id": "c",
+        "text": "React replaces that subtree rather than preserving the previous component state"
+      },
+      {
+        "id": "d",
+        "text": "React changes only its text"
+      }
+    ],
+    "correctAnswers": [
+      "c"
+    ],
+    "explanation": "Element type contributes to identity. A different type at the same position generally causes unmounting and mounting of a new subtree.",
+    "keyConcepts": [
+      "element identity",
+      "reconciliation"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "react-render-10",
+    "subjectId": "reactjs",
+    "topicId": "react-rendering",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is the main purpose of stable keys in dynamic lists?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Prevent all child state updates"
+      },
+      {
+        "id": "b",
+        "text": "Preserve the intended identity of each item through insertions, removals, and reordering"
+      },
+      {
+        "id": "c",
+        "text": "Guarantee components never re-render"
+      },
+      {
+        "id": "d",
+        "text": "Render list items in parallel"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "Stable keys let reconciliation match logical records rather than their current positions.",
+    "keyConcepts": [
+      "stable identity",
+      "dynamic lists"
+    ],
+    "commonInterviewQuestion": true
+  }
+]

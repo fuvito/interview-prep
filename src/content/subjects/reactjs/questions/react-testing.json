@@ -1,0 +1,352 @@
+[
+  {
+    "id": "react-test-01",
+    "subjectId": "reactjs",
+    "topicId": "react-testing",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is the main purpose of a unit test for a React component?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Measure server bandwidth"
+      },
+      {
+        "id": "b",
+        "text": "Compile the browser engine"
+      },
+      {
+        "id": "c",
+        "text": "Verify component behavior for given inputs and user interactions"
+      },
+      {
+        "id": "d",
+        "text": "Verify a database backup"
+      }
+    ],
+    "correctAnswers": [
+      "c"
+    ],
+    "explanation": "Component tests verify observable behavior such as rendered content, interactions, and state changes.",
+    "keyConcepts": [
+      "component testing",
+      "unit tests"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "react-test-02",
+    "subjectId": "reactjs",
+    "topicId": "react-testing",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "Why are accessible names important for buttons and form controls?",
+    "options": [
+      {
+        "id": "a",
+        "text": "They replace keyboard navigation"
+      },
+      {
+        "id": "b",
+        "text": "They help assistive technologies identify the purpose of controls"
+      },
+      {
+        "id": "c",
+        "text": "They make JavaScript faster"
+      },
+      {
+        "id": "d",
+        "text": "They validate input data automatically"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "Accessible names allow screen-reader users and other assistive technologies to understand a control's purpose.",
+    "keyConcepts": [
+      "accessibility",
+      "screen readers"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "react-test-03",
+    "subjectId": "reactjs",
+    "topicId": "react-testing",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "Which HTML element is generally preferable for an action that performs an operation?",
+    "options": [
+      {
+        "id": "a",
+        "text": "button"
+      },
+      {
+        "id": "b",
+        "text": "div"
+      },
+      {
+        "id": "c",
+        "text": "span"
+      },
+      {
+        "id": "d",
+        "text": "p"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "A semantic button provides built-in keyboard behavior, focusability, and accessibility semantics.",
+    "keyConcepts": [
+      "semantic HTML",
+      "button"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "react-test-04",
+    "subjectId": "reactjs",
+    "topicId": "react-testing",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is an error boundary used for?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Catch every network error automatically"
+      },
+      {
+        "id": "b",
+        "text": "Validate every form field"
+      },
+      {
+        "id": "c",
+        "text": "Prevent all JavaScript exceptions"
+      },
+      {
+        "id": "d",
+        "text": "Catch rendering errors in descendant components and display fallback UI"
+      }
+    ],
+    "correctAnswers": [
+      "d"
+    ],
+    "explanation": "Error boundaries catch errors during descendant rendering and certain lifecycle paths. They do not catch every event-handler or asynchronous error.",
+    "keyConcepts": [
+      "error boundaries",
+      "fallback UI"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "react-test-05",
+    "subjectId": "reactjs",
+    "topicId": "react-testing",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is a common benefit of testing user-visible behavior?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Implementation details are always wrong"
+      },
+      {
+        "id": "b",
+        "text": "It eliminates integration tests"
+      },
+      {
+        "id": "c",
+        "text": "Tests are less coupled to internal structure and better reflect user interactions"
+      },
+      {
+        "id": "d",
+        "text": "Tests never need updates"
+      }
+    ],
+    "correctAnswers": [
+      "c"
+    ],
+    "explanation": "Tests based on roles, labels, text, and interactions are often more resilient than tests of private implementation details.",
+    "keyConcepts": [
+      "user-centric testing",
+      "maintainability"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "react-test-06",
+    "subjectId": "reactjs",
+    "topicId": "react-testing",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What are React Testing Library userEvent utilities designed for?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Replacing assertions"
+      },
+      {
+        "id": "b",
+        "text": "Simulating user interactions in a way that is closer to real browser usage"
+      },
+      {
+        "id": "c",
+        "text": "Generating production bundles"
+      },
+      {
+        "id": "d",
+        "text": "Mocking every network request automatically"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "userEvent simulates higher-level interactions such as typing and clicking, allowing tests to assert visible outcomes.",
+    "keyConcepts": [
+      "React Testing Library",
+      "userEvent"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "react-test-07",
+    "subjectId": "reactjs",
+    "topicId": "react-testing",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "Why should asynchronous UI updates often be awaited in component tests?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The update may happen after a promise, event, or scheduled render completes"
+      },
+      {
+        "id": "b",
+        "text": "React renders every update synchronously"
+      },
+      {
+        "id": "c",
+        "text": "Assertions wait automatically forever"
+      },
+      {
+        "id": "d",
+        "text": "Awaiting disables state updates"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "Use asynchronous queries or wait utilities to avoid asserting before the UI has updated.",
+    "keyConcepts": [
+      "async testing",
+      "waitFor"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "react-test-08",
+    "subjectId": "reactjs",
+    "topicId": "react-testing",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does createPortal allow a component to do?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Create a separate app automatically"
+      },
+      {
+        "id": "b",
+        "text": "Move state to a server"
+      },
+      {
+        "id": "c",
+        "text": "Render JSX as CSS"
+      },
+      {
+        "id": "d",
+        "text": "Render children into a different DOM node while keeping them in the React tree"
+      }
+    ],
+    "correctAnswers": [
+      "d"
+    ],
+    "explanation": "Portals are useful for modals and tooltips that need different DOM placement. Events still propagate according to the React tree.",
+    "keyConcepts": [
+      "portals",
+      "createPortal"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "react-test-09",
+    "subjectId": "reactjs",
+    "topicId": "react-testing",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is hydration in a server-rendered React application?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Converting JSON into CSS"
+      },
+      {
+        "id": "b",
+        "text": "Loading a database connection"
+      },
+      {
+        "id": "c",
+        "text": "Attaching React behavior to HTML that was already rendered on the server"
+      },
+      {
+        "id": "d",
+        "text": "Deleting server HTML"
+      }
+    ],
+    "correctAnswers": [
+      "c"
+    ],
+    "explanation": "Hydration lets React take over server-generated markup and attach event handling. Initial client output must be compatible with server output.",
+    "keyConcepts": [
+      "hydration",
+      "SSR"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "react-test-10",
+    "subjectId": "reactjs",
+    "topicId": "react-testing",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is a purpose of useTransition in modern React?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Guarantee a network request finishes in the background"
+      },
+      {
+        "id": "b",
+        "text": "Mark updates as non-urgent so React can keep the interface responsive"
+      },
+      {
+        "id": "c",
+        "text": "Start a database transaction"
+      },
+      {
+        "id": "d",
+        "text": "Create a CSS transition only"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "useTransition marks certain state updates as transitions so React can prioritize urgent updates such as typing over non-urgent rendering work.",
+    "keyConcepts": [
+      "useTransition",
+      "update priority"
+    ],
+    "commonInterviewQuestion": true
+  }
+]

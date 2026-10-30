@@ -59,6 +59,20 @@
       }
     },
     {
+      "id": "reactjs",
+      "name": "React",
+      "description": "Prepare for React interviews, from fundamentals and component design to state, Hooks, forms, performance, routing, testing, accessibility, and modern React patterns.",
+      "version": "1.0.0",
+      "questionCount": 80,
+      "topicCount": 8,
+      "bundled": false,
+      "packUrl": "https://raw.githubusercontent.com/fuvito/interview-prep/main/packs/reactjs.json",
+      "author": {
+        "name": "Fuat Yazar",
+        "email": "fyazar@gmail.com"
+      }
+    },
+    {
       "id": "springboot",
       "name": "Spring Boot",
       "description": "Spring Boot fundamentals, auto-configuration, dependency injection, REST APIs, JPA, transactions, security, testing, Actuator, and microservices.",

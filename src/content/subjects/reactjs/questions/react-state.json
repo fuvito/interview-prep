@@ -1,0 +1,352 @@
+[
+  {
+    "id": "react-state-01",
+    "subjectId": "reactjs",
+    "topicId": "react-state",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "Which Hook adds local state to a function component?",
+    "options": [
+      {
+        "id": "a",
+        "text": "useState"
+      },
+      {
+        "id": "b",
+        "text": "useEffect"
+      },
+      {
+        "id": "c",
+        "text": "useRef"
+      },
+      {
+        "id": "d",
+        "text": "useMemo"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "useState returns the current state value and a setter that schedules an update.",
+    "keyConcepts": [
+      "useState",
+      "Hooks"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "react-state-02",
+    "subjectId": "reactjs",
+    "topicId": "react-state",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What does calling a useState setter do?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Changes the DOM node directly"
+      },
+      {
+        "id": "b",
+        "text": "Reloads the browser page"
+      },
+      {
+        "id": "c",
+        "text": "Updates every component's state"
+      },
+      {
+        "id": "d",
+        "text": "Schedules an update so React can render using the new state"
+      }
+    ],
+    "correctAnswers": [
+      "d"
+    ],
+    "explanation": "A setter requests an update. React may batch updates, so the state variable does not change immediately in the current render.",
+    "keyConcepts": [
+      "state setter",
+      "render cycle"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "react-state-03",
+    "subjectId": "reactjs",
+    "topicId": "react-state",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "How should an array in React state generally be updated?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Modify the DOM list manually"
+      },
+      {
+        "id": "b",
+        "text": "Store it in a global variable"
+      },
+      {
+        "id": "c",
+        "text": "Create a new array using methods such as map, filter, or spread"
+      },
+      {
+        "id": "d",
+        "text": "Mutate the existing array with push"
+      }
+    ],
+    "correctAnswers": [
+      "c"
+    ],
+    "explanation": "Treat state immutably. A new array reference makes the update explicit and supports reliable change detection.",
+    "keyConcepts": [
+      "immutability",
+      "arrays in state"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "react-state-04",
+    "subjectId": "reactjs",
+    "topicId": "react-state",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "How do you attach a click handler to a React button?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Use on-click"
+      },
+      {
+        "id": "b",
+        "text": "Use onClick and pass the handler function"
+      },
+      {
+        "id": "c",
+        "text": "Use click as a string attribute"
+      },
+      {
+        "id": "d",
+        "text": "Use lowercase onclick with a string"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "React event props use camelCase. Pass a function reference such as onClick={handleClick} rather than invoking it during render.",
+    "keyConcepts": [
+      "event handling",
+      "onClick"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "react-state-05",
+    "subjectId": "reactjs",
+    "topicId": "react-state",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "When is a functional state update useful?",
+    "options": [
+      {
+        "id": "a",
+        "text": "When the next state depends on the previous state"
+      },
+      {
+        "id": "b",
+        "text": "When updating CSS only"
+      },
+      {
+        "id": "c",
+        "text": "When forcing a browser repaint"
+      },
+      {
+        "id": "d",
+        "text": "When reading a child's props"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "A setter such as setCount(previous => previous + 1) uses the latest queued state value.",
+    "keyConcepts": [
+      "functional updates",
+      "state"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "react-state-06",
+    "subjectId": "reactjs",
+    "topicId": "react-state",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "Why might three calls to setCount(count + 1) in one handler not increment by three?",
+    "options": [
+      {
+        "id": "a",
+        "text": "React ignores all but the last setter"
+      },
+      {
+        "id": "b",
+        "text": "State setters work only once"
+      },
+      {
+        "id": "c",
+        "text": "JavaScript cannot increment in callbacks"
+      },
+      {
+        "id": "d",
+        "text": "Each expression can read the same count snapshot from the current render"
+      }
+    ],
+    "correctAnswers": [
+      "d"
+    ],
+    "explanation": "Use functional updates such as setCount(c => c + 1) so each queued update builds on the previous value.",
+    "keyConcepts": [
+      "state snapshot",
+      "batching"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "react-state-07",
+    "subjectId": "reactjs",
+    "topicId": "react-state",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does lifting state up mean?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Copying state independently into every child"
+      },
+      {
+        "id": "b",
+        "text": "Persisting every value in the URL"
+      },
+      {
+        "id": "c",
+        "text": "Moving shared state to the closest common ancestor of components that need it"
+      },
+      {
+        "id": "d",
+        "text": "Moving state into CSS"
+      }
+    ],
+    "correctAnswers": [
+      "c"
+    ],
+    "explanation": "A common owner creates a single source of truth and coordinates children through props and callbacks.",
+    "keyConcepts": [
+      "lifting state",
+      "single source of truth"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "react-state-08",
+    "subjectId": "reactjs",
+    "topicId": "react-state",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is a controlled input?",
+    "options": [
+      {
+        "id": "a",
+        "text": "An input stored only in cookies"
+      },
+      {
+        "id": "b",
+        "text": "An input whose value is driven by React state and updated through an event handler"
+      },
+      {
+        "id": "c",
+        "text": "An input that cannot be edited"
+      },
+      {
+        "id": "d",
+        "text": "An input controlled only by CSS"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "A controlled input receives value from state and updates that state in onChange.",
+    "keyConcepts": [
+      "controlled input",
+      "forms"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "react-state-09",
+    "subjectId": "reactjs",
+    "topicId": "react-state",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "Why pass a callback from a parent to a child?",
+    "options": [
+      {
+        "id": "a",
+        "text": "So the child can notify the parent about an event or user action"
+      },
+      {
+        "id": "b",
+        "text": "So the child can mutate parent props"
+      },
+      {
+        "id": "c",
+        "text": "To prevent parent renders"
+      },
+      {
+        "id": "d",
+        "text": "To persist state automatically"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "Callback props provide a communication path from child to parent, allowing the parent to update its own state.",
+    "keyConcepts": [
+      "callback props",
+      "component communication"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "react-state-10",
+    "subjectId": "reactjs",
+    "topicId": "react-state",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is state colocation?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Moving all state into one global object"
+      },
+      {
+        "id": "b",
+        "text": "Duplicating state in every component"
+      },
+      {
+        "id": "c",
+        "text": "Storing state in DOM attributes"
+      },
+      {
+        "id": "d",
+        "text": "Keeping state close to the components that use it"
+      }
+    ],
+    "correctAnswers": [
+      "d"
+    ],
+    "explanation": "Colocation clarifies ownership and limits unnecessary sharing. Lift state only when multiple components need to coordinate.",
+    "keyConcepts": [
+      "state colocation",
+      "state ownership"
+    ],
+    "commonInterviewQuestion": true
+  }
+]

@@ -1,0 +1,387 @@
+[
+  {
+    "id": "react-forms-01",
+    "subjectId": "reactjs",
+    "topicId": "react-forms",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "Which prop normally controls the current value of a React text input?",
+    "options": [
+      {
+        "id": "a",
+        "text": "selectedIndex only"
+      },
+      {
+        "id": "b",
+        "text": "key"
+      },
+      {
+        "id": "c",
+        "text": "value"
+      },
+      {
+        "id": "d",
+        "text": "defaultChecked"
+      }
+    ],
+    "correctAnswers": [
+      "c"
+    ],
+    "explanation": "A controlled text input receives its current value from state and updates it in onChange.",
+    "keyConcepts": [
+      "controlled input",
+      "value"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "react-forms-02",
+    "subjectId": "reactjs",
+    "topicId": "react-forms",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "Which event is commonly used to handle changes in a React text input?",
+    "options": [
+      {
+        "id": "a",
+        "text": "onHoverOnly"
+      },
+      {
+        "id": "b",
+        "text": "onChange"
+      },
+      {
+        "id": "c",
+        "text": "onRender"
+      },
+      {
+        "id": "d",
+        "text": "onMount"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "React's onChange event is used to respond to input changes and update the state controlling the field.",
+    "keyConcepts": [
+      "onChange",
+      "forms"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "react-forms-03",
+    "subjectId": "reactjs",
+    "topicId": "react-forms",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "How can a form's default browser submission be prevented?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Call event.preventDefault()"
+      },
+      {
+        "id": "b",
+        "text": "Call event.stopRendering()"
+      },
+      {
+        "id": "c",
+        "text": "Call event.preventSubmit()"
+      },
+      {
+        "id": "d",
+        "text": "Set the form key to null"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "preventDefault prevents the browser's default navigation or submission behavior so the application can handle the submit event.",
+    "keyConcepts": [
+      "forms",
+      "preventDefault"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "react-forms-04",
+    "subjectId": "reactjs",
+    "topicId": "react-forms",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is an uncontrolled input?",
+    "options": [
+      {
+        "id": "a",
+        "text": "An input with no attributes"
+      },
+      {
+        "id": "b",
+        "text": "An input that cannot be edited"
+      },
+      {
+        "id": "c",
+        "text": "An input that always submits automatically"
+      },
+      {
+        "id": "d",
+        "text": "An input whose current value is primarily managed by the DOM"
+      }
+    ],
+    "correctAnswers": [
+      "d"
+    ],
+    "explanation": "Uncontrolled inputs keep their current value in the DOM. A ref can read the value, and defaultValue can set its initial value.",
+    "keyConcepts": [
+      "uncontrolled input",
+      "refs"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "react-forms-05",
+    "subjectId": "reactjs",
+    "topicId": "react-forms",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "Which JSX attribute associates a label with a form control?",
+    "options": [
+      {
+        "id": "a",
+        "text": "labelTarget"
+      },
+      {
+        "id": "b",
+        "text": "ariaName"
+      },
+      {
+        "id": "c",
+        "text": "htmlFor"
+      },
+      {
+        "id": "d",
+        "text": "forId"
+      }
+    ],
+    "correctAnswers": [
+      "c"
+    ],
+    "explanation": "JSX uses htmlFor to map to the HTML for attribute. Its value should match the control's id.",
+    "keyConcepts": [
+      "accessibility",
+      "htmlFor"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "react-forms-06",
+    "subjectId": "reactjs",
+    "topicId": "react-forms",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is a common issue when an input switches between uncontrolled and controlled modes?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The form stops receiving submit events"
+      },
+      {
+        "id": "b",
+        "text": "React may warn because the input changes between DOM-managed and state-managed modes"
+      },
+      {
+        "id": "c",
+        "text": "The browser changes the input type"
+      },
+      {
+        "id": "d",
+        "text": "The input becomes permanently read-only"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "Keep a controlled input's value consistently defined, often using an empty string for an initially empty text input.",
+    "keyConcepts": [
+      "controlled input",
+      "uncontrolled input"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "react-forms-07",
+    "subjectId": "reactjs",
+    "topicId": "react-forms",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "How should a checkbox be controlled in React?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Use checked and update state in onChange"
+      },
+      {
+        "id": "b",
+        "text": "Use value only"
+      },
+      {
+        "id": "c",
+        "text": "Set the DOM checked property during render"
+      },
+      {
+        "id": "d",
+        "text": "Use defaultValue and ignore events"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "Checkbox state is represented by checked. The handler reads event.target.checked.",
+    "keyConcepts": [
+      "checkbox",
+      "checked"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "react-forms-08",
+    "subjectId": "reactjs",
+    "topicId": "react-forms",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the primary purpose of React Context?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Persist data across browser restarts"
+      },
+      {
+        "id": "b",
+        "text": "Replace all local state"
+      },
+      {
+        "id": "c",
+        "text": "Make HTTP requests"
+      },
+      {
+        "id": "d",
+        "text": "Make a value available to components in a subtree without passing it through every intermediate component"
+      }
+    ],
+    "correctAnswers": [
+      "d"
+    ],
+    "explanation": "Context shares values such as theme, locale, or user information through a component tree and can reduce prop drilling.",
+    "keyConcepts": [
+      "Context",
+      "prop drilling"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "react-forms-09",
+    "subjectId": "reactjs",
+    "topicId": "react-forms",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does useReducer return?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A DOM reference and cleanup function"
+      },
+      {
+        "id": "b",
+        "text": "A promise and abort controller"
+      },
+      {
+        "id": "c",
+        "text": "The current state and a dispatch function"
+      },
+      {
+        "id": "d",
+        "text": "A state value and numeric setter only"
+      }
+    ],
+    "correctAnswers": [
+      "c"
+    ],
+    "explanation": "useReducer returns state and dispatch. The reducer receives the current state and an action and returns the next state.",
+    "keyConcepts": [
+      "useReducer",
+      "reducer"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "react-forms-10",
+    "subjectId": "reactjs",
+    "topicId": "react-forms",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "Why is Context not automatically a complete replacement for every state-management library?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Context always requires a backend"
+      },
+      {
+        "id": "b",
+        "text": "Context transports values but does not itself provide all features such as selectors, caching, or async workflows"
+      },
+      {
+        "id": "c",
+        "text": "Context cannot carry objects"
+      },
+      {
+        "id": "d",
+        "text": "Context only works in classes"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "Context is a value propagation mechanism. Larger applications may need additional patterns for derived selectors, caching, complex updates, and asynchronous workflows.",
+    "keyConcepts": [
+      "Context",
+      "state management"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "react-forms-11",
+    "subjectId": "reactjs",
+    "topicId": "react-forms",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "Why should API responses be treated as untrusted even when TypeScript interfaces describe them?",
+    "options": [
+      {
+        "id": "a",
+        "text": "TypeScript types are erased at runtime and do not validate the actual network payload"
+      },
+      {
+        "id": "b",
+        "text": "The browser modifies every JSON response"
+      },
+      {
+        "id": "c",
+        "text": "Interfaces encrypt response fields"
+      },
+      {
+        "id": "d",
+        "text": "TypeScript prevents malformed server responses"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "Static types do not inspect runtime data. Validate external payloads when correctness or security requires it.",
+    "keyConcepts": [
+      "runtime validation",
+      "API boundaries"
+    ],
+    "commonInterviewQuestion": true
+  }
+]

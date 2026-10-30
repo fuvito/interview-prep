@@ -1,0 +1,317 @@
+[
+  {
+    "id": "react-perf-01",
+    "subjectId": "reactjs",
+    "topicId": "react-perf",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What does React.memo do?",
+    "options": [
+      {
+        "id": "a",
+        "text": "It prevents mounting"
+      },
+      {
+        "id": "b",
+        "text": "It stores state in localStorage"
+      },
+      {
+        "id": "c",
+        "text": "It converts a component into a class"
+      },
+      {
+        "id": "d",
+        "text": "It can skip re-rendering when props compare equal"
+      }
+    ],
+    "correctAnswers": [
+      "d"
+    ],
+    "explanation": "React.memo memoizes a component based on props comparison. Its own state and consumed context can still cause renders.",
+    "keyConcepts": [
+      "React.memo",
+      "memoization"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "react-perf-02",
+    "subjectId": "reactjs",
+    "topicId": "react-perf",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is useCallback used for?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Storing a function in the DOM"
+      },
+      {
+        "id": "b",
+        "text": "Preventing a function from reading props"
+      },
+      {
+        "id": "c",
+        "text": "Memoizing a function reference while its dependencies remain unchanged"
+      },
+      {
+        "id": "d",
+        "text": "Executing a callback immediately"
+      }
+    ],
+    "correctAnswers": [
+      "c"
+    ],
+    "explanation": "useCallback returns a memoized function reference. It can help when referential stability matters to memoized children or dependencies.",
+    "keyConcepts": [
+      "useCallback",
+      "function identity"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "react-perf-03",
+    "subjectId": "reactjs",
+    "topicId": "react-perf",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is code splitting?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Splitting a component into DOM nodes"
+      },
+      {
+        "id": "b",
+        "text": "Breaking application code into smaller chunks that can be loaded when needed"
+      },
+      {
+        "id": "c",
+        "text": "Combining every file into one large bundle"
+      },
+      {
+        "id": "d",
+        "text": "Removing components manually"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "Code splitting reduces the initial JavaScript payload by loading parts of an application on demand.",
+    "keyConcepts": [
+      "code splitting",
+      "bundle size"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "react-perf-04",
+    "subjectId": "reactjs",
+    "topicId": "react-perf",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What does React.lazy help with?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Loading a component dynamically when it is rendered"
+      },
+      {
+        "id": "b",
+        "text": "Memoizing props"
+      },
+      {
+        "id": "c",
+        "text": "Creating a global store"
+      },
+      {
+        "id": "d",
+        "text": "Validating forms"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "React.lazy loads a component through a dynamic import and is commonly paired with Suspense for a loading fallback.",
+    "keyConcepts": [
+      "React.lazy",
+      "dynamic import"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "react-perf-05",
+    "subjectId": "reactjs",
+    "topicId": "react-perf",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is client-side routing?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Routing SQL queries"
+      },
+      {
+        "id": "b",
+        "text": "Selecting CSS by screen size"
+      },
+      {
+        "id": "c",
+        "text": "Moving components to another server"
+      },
+      {
+        "id": "d",
+        "text": "Changing the displayed view based on the URL without a full document navigation for every route"
+      }
+    ],
+    "correctAnswers": [
+      "d"
+    ],
+    "explanation": "Client-side routers map URLs to UI views and manage browser history. The server must still serve the app entry point for supported routes.",
+    "keyConcepts": [
+      "routing",
+      "SPA"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "react-perf-06",
+    "subjectId": "reactjs",
+    "topicId": "react-perf",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "Why should an API request generally not start directly in the component body?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Requests can only be made from CSS"
+      },
+      {
+        "id": "b",
+        "text": "The browser blocks function requests"
+      },
+      {
+        "id": "c",
+        "text": "Rendering can run repeatedly, so the request could be started multiple times"
+      },
+      {
+        "id": "d",
+        "text": "Components cannot access fetch"
+      }
+    ],
+    "correctAnswers": [
+      "c"
+    ],
+    "explanation": "Keep render pure. Start synchronization in an effect, user-triggered requests in event handlers, or use a data-fetching framework.",
+    "keyConcepts": [
+      "render purity",
+      "data fetching"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "react-perf-07",
+    "subjectId": "reactjs",
+    "topicId": "react-perf",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "Why use TypeScript types for API response data?",
+    "options": [
+      {
+        "id": "a",
+        "text": "They prevent network failures"
+      },
+      {
+        "id": "b",
+        "text": "They document expected data shapes and provide compile-time checking"
+      },
+      {
+        "id": "c",
+        "text": "They validate JSON at runtime automatically"
+      },
+      {
+        "id": "d",
+        "text": "They encrypt responses"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "TypeScript helps catch incompatible property access at compile time, but types are erased at runtime and do not validate untrusted JSON.",
+    "keyConcepts": [
+      "TypeScript",
+      "API contracts"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "react-perf-08",
+    "subjectId": "reactjs",
+    "topicId": "react-perf",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is route-level code splitting used for?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Loading code for a route when needed to reduce the initial bundle"
+      },
+      {
+        "id": "b",
+        "text": "Encrypting route parameters"
+      },
+      {
+        "id": "c",
+        "text": "Making all routes public"
+      },
+      {
+        "id": "d",
+        "text": "Removing browser history"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "Lazy-loading route components can reduce initial bundle size, especially in applications with many feature areas.",
+    "keyConcepts": [
+      "route splitting",
+      "lazy loading"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "react-perf-09",
+    "subjectId": "reactjs",
+    "topicId": "react-perf",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "Why can React.memo fail to skip a child render when data looks unchanged?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The child has a display name"
+      },
+      {
+        "id": "b",
+        "text": "The child returns JSX"
+      },
+      {
+        "id": "c",
+        "text": "The child has a CSS class"
+      },
+      {
+        "id": "d",
+        "text": "The parent may pass a newly created object or function prop on each render"
+      }
+    ],
+    "correctAnswers": [
+      "d"
+    ],
+    "explanation": "Shallow comparison sees new object and function references as changed. Stable references may help when profiling shows a real problem.",
+    "keyConcepts": [
+      "referential equality",
+      "React.memo"
+    ],
+    "commonInterviewQuestion": true
+  }
+]

@@ -1,0 +1,356 @@
+[
+  {
+    "id": "react-fund-01",
+    "subjectId": "reactjs",
+    "topicId": "react-fundamentals",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is React primarily used for?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Building user interfaces"
+      },
+      {
+        "id": "b",
+        "text": "Managing relational databases"
+      },
+      {
+        "id": "c",
+        "text": "Writing operating systems"
+      },
+      {
+        "id": "d",
+        "text": "Replacing JavaScript"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "React is a JavaScript library for building interactive user interfaces from reusable components.",
+    "keyConcepts": [
+      "React",
+      "UI",
+      "components"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "react-fund-02",
+    "subjectId": "reactjs",
+    "topicId": "react-fundamentals",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is a React component?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A database table"
+      },
+      {
+        "id": "b",
+        "text": "A CSS selector"
+      },
+      {
+        "id": "c",
+        "text": "A browser permission"
+      },
+      {
+        "id": "d",
+        "text": "A reusable piece of UI that can be composed with other components"
+      }
+    ],
+    "correctAnswers": [
+      "d"
+    ],
+    "explanation": "Components split a UI into reusable pieces. Function components commonly receive props and return React elements.",
+    "keyConcepts": [
+      "components",
+      "composition"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "react-fund-03",
+    "subjectId": "reactjs",
+    "topicId": "react-fundamentals",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is JSX?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A CSS preprocessor"
+      },
+      {
+        "id": "b",
+        "text": "A replacement for the JavaScript runtime"
+      },
+      {
+        "id": "c",
+        "text": "A syntax extension that lets you describe UI with markup-like syntax in JavaScript"
+      },
+      {
+        "id": "d",
+        "text": "A database query language"
+      }
+    ],
+    "correctAnswers": [
+      "c"
+    ],
+    "explanation": "JSX is transformed by build tooling into JavaScript calls that create React elements.",
+    "keyConcepts": [
+      "JSX",
+      "React elements"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "react-fund-04",
+    "subjectId": "reactjs",
+    "topicId": "react-fundamentals",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "How do you embed a JavaScript expression inside JSX?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Use angle brackets around the variable"
+      },
+      {
+        "id": "b",
+        "text": "Wrap the expression in curly braces"
+      },
+      {
+        "id": "c",
+        "text": "Wrap it in square brackets"
+      },
+      {
+        "id": "d",
+        "text": "Use a dollar sign"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "Curly braces switch from JSX markup into a JavaScript expression, for example a user name or item count.",
+    "keyConcepts": [
+      "JSX expressions",
+      "curly braces"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "react-fund-05",
+    "subjectId": "reactjs",
+    "topicId": "react-fundamentals",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What does declarative UI mean in React?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Describe what the UI should look like for the current state"
+      },
+      {
+        "id": "b",
+        "text": "Manually update every DOM node"
+      },
+      {
+        "id": "c",
+        "text": "Write HTML strings for every event"
+      },
+      {
+        "id": "d",
+        "text": "Avoid JavaScript in the UI"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "React lets components describe the desired UI. React handles reconciling changes to the rendered output.",
+    "keyConcepts": [
+      "declarative UI",
+      "state-driven rendering"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "react-fund-06",
+    "subjectId": "reactjs",
+    "topicId": "react-fundamentals",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is React reconciliation?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Compiling TypeScript"
+      },
+      {
+        "id": "b",
+        "text": "Sending API requests"
+      },
+      {
+        "id": "c",
+        "text": "Selecting CSS media queries"
+      },
+      {
+        "id": "d",
+        "text": "The process of determining how to update the rendered UI from a new element tree"
+      }
+    ],
+    "correctAnswers": [
+      "d"
+    ],
+    "explanation": "Reconciliation compares previous and next React element descriptions to determine necessary host updates.",
+    "keyConcepts": [
+      "reconciliation",
+      "rendering"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "react-fund-07",
+    "subjectId": "reactjs",
+    "topicId": "react-fundamentals",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "Which change can cause a function component to render again?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Only a CSS file change"
+      },
+      {
+        "id": "b",
+        "text": "Any function call anywhere in the app"
+      },
+      {
+        "id": "c",
+        "text": "A state update, changed props, or a changed context value it consumes"
+      },
+      {
+        "id": "d",
+        "text": "Only a browser refresh"
+      }
+    ],
+    "correctAnswers": [
+      "c"
+    ],
+    "explanation": "Components may render due to their own state, parent renders with new props, or consumed context updates. Development checks can also cause extra renders.",
+    "keyConcepts": [
+      "render cycle",
+      "props",
+      "state",
+      "context"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "react-fund-08",
+    "subjectId": "reactjs",
+    "topicId": "react-fundamentals",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the difference between a React element and a component?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A component is a CSS class"
+      },
+      {
+        "id": "b",
+        "text": "An element describes what to render; a component is a function or class that can produce elements"
+      },
+      {
+        "id": "c",
+        "text": "They are always identical"
+      },
+      {
+        "id": "d",
+        "text": "An element is always a DOM node"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "A component is reusable UI logic. JSX creates element descriptions that React uses during rendering.",
+    "keyConcepts": [
+      "React element",
+      "component"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "react-fund-09",
+    "subjectId": "reactjs",
+    "topicId": "react-fundamentals",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "Why should rendering be kept free of side effects?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Rendering should be predictable and may be repeated, so side effects belong in event handlers or effects"
+      },
+      {
+        "id": "b",
+        "text": "React does not allow functions in render"
+      },
+      {
+        "id": "c",
+        "text": "Side effects only work in class components"
+      },
+      {
+        "id": "d",
+        "text": "It prevents JSX from compiling"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "A render should calculate UI from current inputs. Starting requests or subscriptions during render can cause repeated or inconsistent side effects.",
+    "keyConcepts": [
+      "pure rendering",
+      "side effects"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "react-fund-10",
+    "subjectId": "reactjs",
+    "topicId": "react-fundamentals",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What determines whether React preserves state for a component between renders?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The component's filename"
+      },
+      {
+        "id": "b",
+        "text": "The number of CSS classes"
+      },
+      {
+        "id": "c",
+        "text": "The order of imports"
+      },
+      {
+        "id": "d",
+        "text": "Its position and identity in the rendered tree, including element type and key"
+      }
+    ],
+    "correctAnswers": [
+      "d"
+    ],
+    "explanation": "React associates state with component identity in the tree. Changing the type or key can cause the old subtree to be replaced and state reset.",
+    "keyConcepts": [
+      "component identity",
+      "keys",
+      "state preservation"
+    ],
+    "commonInterviewQuestion": true
+  }
+]

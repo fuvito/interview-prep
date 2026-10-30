@@ -1,0 +1,354 @@
+[
+  {
+    "id": "react-comp-01",
+    "subjectId": "reactjs",
+    "topicId": "react-components",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "How does a parent normally pass data to a child component?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Through localStorage only"
+      },
+      {
+        "id": "b",
+        "text": "Through browser cookies"
+      },
+      {
+        "id": "c",
+        "text": "Through props"
+      },
+      {
+        "id": "d",
+        "text": "Through CSS selectors"
+      }
+    ],
+    "correctAnswers": [
+      "c"
+    ],
+    "explanation": "Props are inputs supplied by a parent and allow a child component to be configured.",
+    "keyConcepts": [
+      "props",
+      "data flow"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "react-comp-02",
+    "subjectId": "reactjs",
+    "topicId": "react-components",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "Should a child component mutate props it receives?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Props are automatically mutable"
+      },
+      {
+        "id": "b",
+        "text": "No; props should be treated as read-only"
+      },
+      {
+        "id": "c",
+        "text": "Yes, whenever the child needs a change"
+      },
+      {
+        "id": "d",
+        "text": "Only object props can be mutated"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "A component should not mutate props. The owner should update state and pass the new value down.",
+    "keyConcepts": [
+      "props",
+      "immutability"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "react-comp-03",
+    "subjectId": "reactjs",
+    "topicId": "react-components",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What does the special children prop represent?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Content nested between a component's opening and closing tags"
+      },
+      {
+        "id": "b",
+        "text": "The component's state"
+      },
+      {
+        "id": "c",
+        "text": "All DOM nodes in the document"
+      },
+      {
+        "id": "d",
+        "text": "The component's event handlers"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "Nested JSX is passed through props.children, enabling wrapper and layout components.",
+    "keyConcepts": [
+      "children",
+      "composition"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "react-comp-04",
+    "subjectId": "reactjs",
+    "topicId": "react-components",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "Which is a valid function component declaration?",
+    "options": [
+      {
+        "id": "a",
+        "text": "component Greeting = <h1>Hello</h1>"
+      },
+      {
+        "id": "b",
+        "text": "function component<Greeting>"
+      },
+      {
+        "id": "c",
+        "text": "class = Greeting() => <h1>Hello</h1>"
+      },
+      {
+        "id": "d",
+        "text": "function Greeting() { return <h1>Hello</h1>; }"
+      }
+    ],
+    "correctAnswers": [
+      "d"
+    ],
+    "explanation": "A function component is a JavaScript function that returns React-renderable content. Component names start with an uppercase letter.",
+    "keyConcepts": [
+      "function components",
+      "JSX"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "react-comp-05",
+    "subjectId": "reactjs",
+    "topicId": "react-components",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "Why do component names start with an uppercase letter in JSX?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Uppercase names enable CSS modules"
+      },
+      {
+        "id": "b",
+        "text": "React requires uppercase filenames"
+      },
+      {
+        "id": "c",
+        "text": "JSX uses capitalization to distinguish custom components from built-in HTML tags"
+      },
+      {
+        "id": "d",
+        "text": "Browsers reject lowercase functions"
+      }
+    ],
+    "correctAnswers": [
+      "c"
+    ],
+    "explanation": "A lowercase JSX tag such as div is treated as a built-in element; an uppercase identifier such as Profile refers to a component.",
+    "keyConcepts": [
+      "JSX",
+      "component naming"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "react-comp-06",
+    "subjectId": "reactjs",
+    "topicId": "react-components",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is component composition?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Passing state through global variables"
+      },
+      {
+        "id": "b",
+        "text": "Building larger UI pieces by combining smaller components"
+      },
+      {
+        "id": "c",
+        "text": "Putting all code in one component"
+      },
+      {
+        "id": "d",
+        "text": "Using inheritance for every UI relationship"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "Composition uses components as building blocks and often gives more flexibility than deep inheritance.",
+    "keyConcepts": [
+      "composition",
+      "reusability"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "react-comp-07",
+    "subjectId": "reactjs",
+    "topicId": "react-components",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is a render prop?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A function passed as a prop so a component can delegate part of its rendering to the caller"
+      },
+      {
+        "id": "b",
+        "text": "A special DOM attribute"
+      },
+      {
+        "id": "c",
+        "text": "A CSS property"
+      },
+      {
+        "id": "d",
+        "text": "A replacement for React state"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "A render prop shares behavior while letting the consumer decide what UI to render. Hooks and composition are common alternatives today.",
+    "keyConcepts": [
+      "render props",
+      "reusable logic"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "react-comp-08",
+    "subjectId": "reactjs",
+    "topicId": "react-components",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "When is children-based composition especially useful?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Only for database tables"
+      },
+      {
+        "id": "b",
+        "text": "When avoiding all props"
+      },
+      {
+        "id": "c",
+        "text": "When a child must mutate its parent"
+      },
+      {
+        "id": "d",
+        "text": "For reusable layouts, panels, dialogs, and containers around caller-provided content"
+      }
+    ],
+    "correctAnswers": [
+      "d"
+    ],
+    "explanation": "A wrapper can provide shared layout or behavior while callers supply inner content through children.",
+    "keyConcepts": [
+      "children",
+      "layout",
+      "composition"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "react-comp-09",
+    "subjectId": "reactjs",
+    "topicId": "react-components",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "How can a reusable Button component support different visual styles?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Read the caller's local variables automatically"
+      },
+      {
+        "id": "b",
+        "text": "Create a separate React root per style"
+      },
+      {
+        "id": "c",
+        "text": "Accept a variant prop and map it to the appropriate classes or styles"
+      },
+      {
+        "id": "d",
+        "text": "Change the source code for each usage"
+      }
+    ],
+    "correctAnswers": [
+      "c"
+    ],
+    "explanation": "A variant prop creates a clear component API and allows the same component to support primary, secondary, and other styles.",
+    "keyConcepts": [
+      "component API",
+      "props",
+      "variants"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "react-comp-10",
+    "subjectId": "reactjs",
+    "topicId": "react-components",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is a compound component pattern?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A component cannot accept children"
+      },
+      {
+        "id": "b",
+        "text": "Related components coordinate state and structure, often through context or controlled props"
+      },
+      {
+        "id": "c",
+        "text": "One component contains the entire application"
+      },
+      {
+        "id": "d",
+        "text": "A component renders only text"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "Compound components expose coordinated pieces such as Tabs, Tabs.List, and Tabs.Panel while keeping the API expressive.",
+    "keyConcepts": [
+      "compound components",
+      "context"
+    ],
+    "commonInterviewQuestion": true
+  }
+]

@@ -1,0 +1,10 @@
+{
+  "id": "reactjs",
+  "name": "ReactJS",
+  "description": "Prepare for React interviews, from fundamentals and component design to state, Hooks, forms, performance, routing, testing, accessibility, and modern React patterns.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Fuat Yazar",
+    "email": "fyazar@gmail.com"
+  }
+}

@@ -1,0 +1,58 @@
+[
+  {
+    "id": "react-fundamentals",
+    "subjectId": "reactjs",
+    "name": "React Fundamentals",
+    "description": "React's declarative UI model, JSX, elements, and rendering.",
+    "order": 1
+  },
+  {
+    "id": "react-components",
+    "subjectId": "reactjs",
+    "name": "Components, Props & Composition",
+    "description": "Function components, props, children, and reusable component design.",
+    "order": 2
+  },
+  {
+    "id": "react-state",
+    "subjectId": "reactjs",
+    "name": "State & Event Handling",
+    "description": "Local state, immutable updates, event handlers, and state ownership.",
+    "order": 3
+  },
+  {
+    "id": "react-rendering",
+    "subjectId": "reactjs",
+    "name": "Rendering, Lists & Conditional UI",
+    "description": "Conditional rendering, list rendering, keys, and reconciliation.",
+    "order": 4
+  },
+  {
+    "id": "react-hooks",
+    "subjectId": "reactjs",
+    "name": "Hooks & Effects",
+    "description": "Rules of Hooks, useState, useEffect, useRef, memoization, and effect cleanup.",
+    "order": 5
+  },
+  {
+    "id": "react-forms",
+    "subjectId": "reactjs",
+    "name": "Forms, Context & State Management",
+    "description": "Controlled forms, validation, Context API, reducers, and shared state.",
+    "order": 6
+  },
+  {
+    "id": "react-perf",
+    "subjectId": "reactjs",
+    "name": "Performance, Routing & APIs",
+    "description": "Render optimization, code splitting, routing, API integration, and application structure.",
+    "order": 7
+  },
+  {
+    "id": "react-testing",
+    "subjectId": "reactjs",
+    "name": "Testing, Accessibility & Modern React",
+    "description": "Component testing, accessible UI, error boundaries, portals, Suspense, and SSR concepts.",
+    "order": 8
+  }
+]
