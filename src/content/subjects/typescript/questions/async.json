@@ -1,0 +1,365 @@
+[
+  {
+    "id": "ts-async-001",
+    "subjectId": "typescript",
+    "topicId": "async",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is the relationship between `async` functions and Promises in TypeScript?",
+    "options": [
+      {
+        "id": "a",
+        "text": "`async` functions always run on a separate thread"
+      },
+      {
+        "id": "b",
+        "text": "An `async` function always returns a Promise; a returned value is wrapped in a fulfilled Promise"
+      },
+      {
+        "id": "c",
+        "text": "`async` changes the return type to `void`"
+      },
+      {
+        "id": "d",
+        "text": "An `async` function can return only an explicitly created Promise"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "An `async` function always returns a Promise. Returning a plain value is equivalent to returning `Promise.resolve(value)` from the async function. If the function throws, its returned Promise rejects.\n\n```typescript\nasync function getCount(): Promise<number> {\n  return 3;\n}\n```",
+    "keyConcepts": [
+      "async",
+      "Promise",
+      "return type"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "ts-async-002",
+    "subjectId": "typescript",
+    "topicId": "async",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the inferred return type of this function?\n\n```typescript\nasync function getUser() {\n  return { id: 1, name: 'Ada' };\n}\n```",
+    "options": [
+      {
+        "id": "a",
+        "text": "{ id: number; name: string }"
+      },
+      {
+        "id": "b",
+        "text": "Promise<{ id: number; name: string }>"
+      },
+      {
+        "id": "c",
+        "text": "Promise<any>"
+      },
+      {
+        "id": "d",
+        "text": "any"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "TypeScript infers the resolved value type and wraps it in `Promise`. The function's return type is `Promise<{ id: number; name: string }>`. An explicit annotation can make the contract clearer:\n\n```typescript\nasync function getUser(): Promise<User> {\n  return { id: 1, name: 'Ada' };\n}\n```",
+    "keyConcepts": [
+      "async return type",
+      "Promise<T>",
+      "type inference"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "ts-async-003",
+    "subjectId": "typescript",
+    "topicId": "async",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the difference between `Promise.all()` and `Promise.allSettled()`?",
+    "options": [
+      {
+        "id": "a",
+        "text": "`Promise.all()` waits for every promise to finish even after a rejection; `allSettled()` rejects immediately"
+      },
+      {
+        "id": "b",
+        "text": "`Promise.all()` rejects when an input rejects; `allSettled()` waits for every input to settle and reports each outcome"
+      },
+      {
+        "id": "c",
+        "text": "`Promise.allSettled()` returns only fulfilled values"
+      },
+      {
+        "id": "d",
+        "text": "They are identical except for their TypeScript typings"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "`Promise.all()` fulfills with an array of results when all inputs fulfill, but rejects when an input rejects. `Promise.allSettled()` waits until every input has fulfilled or rejected and returns a status/result object for each input.\n\nUse `all` when every operation must succeed; use `allSettled` when each outcome matters independently.",
+    "keyConcepts": [
+      "Promise.all",
+      "Promise.allSettled",
+      "concurrency",
+      "error handling"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "ts-async-004",
+    "subjectId": "typescript",
+    "topicId": "async",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does `Promise.race()` do?",
+    "options": [
+      {
+        "id": "a",
+        "text": "It fulfills only when all promises fulfill"
+      },
+      {
+        "id": "b",
+        "text": "It settles with the outcome of the first input promise to settle"
+      },
+      {
+        "id": "c",
+        "text": "It returns the first fulfilled promise and ignores earlier rejections"
+      },
+      {
+        "id": "d",
+        "text": "It cancels all promises except the fastest one"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "`Promise.race()` adopts the state and value/reason of the first input promise that settles, whether that outcome is fulfillment or rejection. It does not cancel the other promises.\n\nA common use is implementing a timeout race, although the underlying operation continues unless separately cancelled.",
+    "keyConcepts": [
+      "Promise.race",
+      "settlement",
+      "timeouts"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "ts-async-005",
+    "subjectId": "typescript",
+    "topicId": "async",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "How does `Promise.any()` differ from `Promise.race()`?",
+    "options": [
+      {
+        "id": "a",
+        "text": "`Promise.any()` fulfills with the first fulfilled input and rejects only if all inputs reject"
+      },
+      {
+        "id": "b",
+        "text": "`Promise.any()` always returns the first input's result"
+      },
+      {
+        "id": "c",
+        "text": "`Promise.any()` waits for all inputs to settle before fulfilling"
+      },
+      {
+        "id": "d",
+        "text": "`Promise.any()` cancels rejected promises"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "`Promise.any()` fulfills as soon as one input fulfills. Rejections are ignored while other inputs remain; if all inputs reject, it rejects with an `AggregateError`. By contrast, `Promise.race()` settles on the first fulfillment or rejection.",
+    "keyConcepts": [
+      "Promise.any",
+      "Promise.race",
+      "AggregateError"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "ts-async-006",
+    "subjectId": "typescript",
+    "topicId": "async",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What happens when an exception is thrown inside an `async` function?",
+    "options": [
+      {
+        "id": "a",
+        "text": "It is thrown synchronously to the caller before a Promise is returned"
+      },
+      {
+        "id": "b",
+        "text": "The function's returned Promise is rejected with that exception"
+      },
+      {
+        "id": "c",
+        "text": "The exception is swallowed automatically"
+      },
+      {
+        "id": "d",
+        "text": "The function returns `undefined`"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "An exception thrown inside an async function causes its returned Promise to reject. Callers can handle it with `await` inside `try/catch` or with `.catch()`.\n\n```typescript\nasync function load(): Promise<string> {\n  throw new Error('failed');\n}\n\ntry {\n  await load();\n} catch (error) {\n  // handle rejection\n}\n```",
+    "keyConcepts": [
+      "async",
+      "Promise rejection",
+      "try/catch"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "ts-async-007",
+    "subjectId": "typescript",
+    "topicId": "async",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the difference between `return await promise` and `return promise` inside an `async` function?",
+    "options": [
+      {
+        "id": "a",
+        "text": "They always have different resolved values"
+      },
+      {
+        "id": "b",
+        "text": "`return await` can make a surrounding `try/catch` catch the rejection before the function returns; `return promise` passes the Promise through without awaiting it in that block"
+      },
+      {
+        "id": "c",
+        "text": "`return promise` converts rejection into fulfillment"
+      },
+      {
+        "id": "d",
+        "text": "`return await` creates a new thread"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "Both usually produce the same eventual fulfillment value, but they differ with local control flow. A rejection from `return await promise` is observed at the `await` expression and can be caught by a surrounding `try/catch`. With `return promise`, the function returns that Promise, so a local `catch` around the return statement does not catch its later rejection.\n\nUse `return await` when local `try/catch/finally` behavior requires it; otherwise returning the Promise directly is often sufficient.",
+    "keyConcepts": [
+      "await",
+      "error propagation",
+      "try/catch",
+      "Promise"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "ts-async-008",
+    "subjectId": "typescript",
+    "topicId": "async",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What does `Promise<T>` represent in TypeScript?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A value of type T that is always available synchronously"
+      },
+      {
+        "id": "b",
+        "text": "An object representing an asynchronous operation that may fulfill with a T or reject"
+      },
+      {
+        "id": "c",
+        "text": "A thread that executes a function returning T"
+      },
+      {
+        "id": "d",
+        "text": "A type that guarantees the operation cannot fail"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "`Promise<T>` describes the fulfillment value type of a Promise. It does not encode a typed rejection reason: JavaScript Promises can reject with arbitrary values, and TypeScript does not provide a separate generic rejection type in the standard `Promise<T>` definition.",
+    "keyConcepts": [
+      "Promise<T>",
+      "async operations",
+      "rejection typing"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "ts-async-009",
+    "subjectId": "typescript",
+    "topicId": "async",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the main difference between sequentially awaiting operations and starting them before `Promise.all()`?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Sequential awaits can run independent operations concurrently"
+      },
+      {
+        "id": "b",
+        "text": "Starting independent operations before `Promise.all()` allows them to overlap; sequential awaits wait for each operation before starting the next"
+      },
+      {
+        "id": "c",
+        "text": "`Promise.all()` makes synchronous functions asynchronous"
+      },
+      {
+        "id": "d",
+        "text": "Sequential awaits always use fewer resources and are faster"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "When operations are independent, start them first and await them together:\n\n```typescript\nconst userPromise = getUser();\nconst ordersPromise = getOrders();\nconst [user, orders] = await Promise.all([userPromise, ordersPromise]);\n```\n\nThis allows the operations to proceed concurrently. Awaiting `getUser()` before calling `getOrders()` makes the second operation wait unnecessarily.",
+    "keyConcepts": [
+      "Promise.all",
+      "concurrency",
+      "async/await",
+      "performance"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "ts-async-010",
+    "subjectId": "typescript",
+    "topicId": "async",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is the purpose of `Awaited<T>`?",
+    "options": [
+      {
+        "id": "a",
+        "text": "It converts any type to `any`"
+      },
+      {
+        "id": "b",
+        "text": "It recursively unwraps Promise-like types to obtain the awaited result type"
+      },
+      {
+        "id": "c",
+        "text": "It creates a Promise from a synchronous type"
+      },
+      {
+        "id": "d",
+        "text": "It removes `null` and `undefined` from a type"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "`Awaited<T>` models the behavior of `await` by recursively unwrapping Promise-like types.\n\n```typescript\ntype A = Awaited<Promise<string>>; // string\ntype B = Awaited<Promise<Promise<number>>>; // number\n```\n\nIt is useful when deriving the resolved value type of asynchronous APIs.",
+    "keyConcepts": [
+      "Awaited",
+      "utility types",
+      "Promise-like types"
+    ],
+    "commonInterviewQuestion": true
+  }
+]

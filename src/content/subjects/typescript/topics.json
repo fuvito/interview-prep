@@ -40,5 +40,40 @@
     "name": "Advanced Types",
     "description": "Union, intersection, conditional, mapped, and template literal types.",
     "order": 6
+  },
+  {
+    "id": "async",
+    "subjectId": "typescript",
+    "name": "Async Programming & Promises",
+    "description": "Promise typing, async/await, error propagation, concurrent promise combinators, and asynchronous control flow.",
+    "order": 7
+  },
+  {
+    "id": "modules",
+    "subjectId": "typescript",
+    "name": "Modules & Module Resolution",
+    "description": "ES modules, imports and exports, type-only imports, dynamic imports, module resolution, and declaration augmentation.",
+    "order": 8
+  },
+  {
+    "id": "compiler-config",
+    "subjectId": "typescript",
+    "name": "Compiler Configuration & Build Tooling",
+    "description": "Important tsconfig options, compiler targets, declaration generation, project references, and TypeScript build behavior.",
+    "order": 9
+  },
+  {
+    "id": "runtime-validation",
+    "subjectId": "typescript",
+    "name": "Runtime Validation & Error Handling",
+    "description": "Runtime validation at trust boundaries, safe error handling, assertion functions, and the distinction between static types and runtime values.",
+    "order": 10
+  },
+  {
+    "id": "real-world",
+    "subjectId": "typescript",
+    "name": "TypeScript in Real-World Applications",
+    "description": "Practical patterns for API responses, configuration, reusable data models, callbacks, and maintainable application code.",
+    "order": 11
   }
 ]

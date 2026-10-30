@@ -1,0 +1,291 @@
+[
+  {
+    "id": "ts-compiler-001",
+    "subjectId": "typescript",
+    "topicId": "compiler-config",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is the purpose of `tsconfig.json`?",
+    "options": [
+      {
+        "id": "a",
+        "text": "It stores runtime application settings"
+      },
+      {
+        "id": "b",
+        "text": "It defines compiler options and the TypeScript project files to include or exclude"
+      },
+      {
+        "id": "c",
+        "text": "It configures the browser's JavaScript engine"
+      },
+      {
+        "id": "d",
+        "text": "It replaces package.json"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "`tsconfig.json` defines a TypeScript project: compiler options, file inclusion/exclusion, and project references. Running `tsc` in a directory with this file uses it to configure compilation and type checking.",
+    "keyConcepts": [
+      "tsconfig.json",
+      "compiler options",
+      "TypeScript project"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "ts-compiler-002",
+    "subjectId": "typescript",
+    "topicId": "compiler-config",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the difference between `target` and `lib` in `tsconfig.json`?",
+    "options": [
+      {
+        "id": "a",
+        "text": "`target` selects available type definitions; `lib` controls emitted JavaScript syntax"
+      },
+      {
+        "id": "b",
+        "text": "`target` controls the JavaScript language level emitted; `lib` controls which built-in API declarations TypeScript includes for type checking"
+      },
+      {
+        "id": "c",
+        "text": "They are aliases for the same setting"
+      },
+      {
+        "id": "d",
+        "text": "`target` controls module resolution; `lib` controls output directory"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "`target` determines the JavaScript syntax level emitted by the compiler. `lib` selects declaration files for built-in APIs such as ES features or browser DOM APIs. Including a DOM library provides types for `document`, but it does not polyfill DOM APIs at runtime.",
+    "keyConcepts": [
+      "target",
+      "lib",
+      "compiler output",
+      "type declarations"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "ts-compiler-003",
+    "subjectId": "typescript",
+    "topicId": "compiler-config",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does the `noEmit` compiler option do?",
+    "options": [
+      {
+        "id": "a",
+        "text": "It disables type checking"
+      },
+      {
+        "id": "b",
+        "text": "It prevents TypeScript from emitting output files while still allowing type checking"
+      },
+      {
+        "id": "c",
+        "text": "It removes all imports from source files"
+      },
+      {
+        "id": "d",
+        "text": "It disables source maps"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "`noEmit: true` tells `tsc` not to write JavaScript, declaration, or source-map output. It is commonly used when another tool such as Vite, esbuild, or SWC handles transpilation while TypeScript is used for type checking.",
+    "keyConcepts": [
+      "noEmit",
+      "type checking",
+      "build tools"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "ts-compiler-004",
+    "subjectId": "typescript",
+    "topicId": "compiler-config",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does `declaration: true` do?",
+    "options": [
+      {
+        "id": "a",
+        "text": "It generates JavaScript declarations at runtime"
+      },
+      {
+        "id": "b",
+        "text": "It emits `.d.ts` declaration files describing the public types of the compiled modules"
+      },
+      {
+        "id": "c",
+        "text": "It prevents consumers from importing the package"
+      },
+      {
+        "id": "d",
+        "text": "It enables declaration merging automatically"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "`declaration: true` instructs TypeScript to generate `.d.ts` files alongside the build output. These files allow TypeScript consumers to understand a library's public API without needing its implementation source.",
+    "keyConcepts": [
+      "declaration files",
+      "library publishing",
+      "compiler output"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "ts-compiler-005",
+    "subjectId": "typescript",
+    "topicId": "compiler-config",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the purpose of `sourceMap: true`?",
+    "options": [
+      {
+        "id": "a",
+        "text": "It embeds TypeScript types into JavaScript"
+      },
+      {
+        "id": "b",
+        "text": "It generates source maps that map emitted JavaScript back to the original TypeScript source for debugging"
+      },
+      {
+        "id": "c",
+        "text": "It validates source files against JSON schemas"
+      },
+      {
+        "id": "d",
+        "text": "It minifies emitted JavaScript"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "Source maps connect generated JavaScript locations to original TypeScript locations. Debuggers can use them to show TypeScript source and map breakpoints and stack traces back to the original files.",
+    "keyConcepts": [
+      "source maps",
+      "debugging",
+      "compiler output"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "ts-compiler-006",
+    "subjectId": "typescript",
+    "topicId": "compiler-config",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What does `skipLibCheck` do?",
+    "options": [
+      {
+        "id": "a",
+        "text": "It skips type checking of all application source files"
+      },
+      {
+        "id": "b",
+        "text": "It skips type checking of declaration files, which can reduce compile time but may hide errors in library declarations"
+      },
+      {
+        "id": "c",
+        "text": "It prevents TypeScript from loading node_modules"
+      },
+      {
+        "id": "d",
+        "text": "It skips JavaScript compilation but still checks declarations"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "`skipLibCheck` skips checking the contents of declaration files (`.d.ts`). It can improve build performance, especially in projects with many dependencies, but it does not mean application source files are skipped. It can also hide inconsistent or incorrect dependency declarations.",
+    "keyConcepts": [
+      "skipLibCheck",
+      "declaration files",
+      "build performance"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "ts-compiler-007",
+    "subjectId": "typescript",
+    "topicId": "compiler-config",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is the purpose of project references in TypeScript?",
+    "options": [
+      {
+        "id": "a",
+        "text": "To reference external websites from source files"
+      },
+      {
+        "id": "b",
+        "text": "To split a codebase into smaller TypeScript projects with explicit dependencies and support for incremental builds"
+      },
+      {
+        "id": "c",
+        "text": "To make every source file a global script"
+      },
+      {
+        "id": "d",
+        "text": "To replace module imports with relative paths"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "Project references let one TypeScript project depend on another through `references` in `tsconfig.json`. They support large multi-project repositories, build ordering, and incremental compilation, commonly used with `tsc --build`.",
+    "keyConcepts": [
+      "project references",
+      "monorepos",
+      "incremental builds"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "ts-compiler-008",
+    "subjectId": "typescript",
+    "topicId": "compiler-config",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does `noEmitOnError` control?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Whether TypeScript reports errors"
+      },
+      {
+        "id": "b",
+        "text": "Whether the compiler emits output files when type errors are present"
+      },
+      {
+        "id": "c",
+        "text": "Whether JavaScript files can import TypeScript modules"
+      },
+      {
+        "id": "d",
+        "text": "Whether unused variables are reported"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "When `noEmitOnError` is enabled, TypeScript does not emit output if errors are reported. Without it, the compiler may emit JavaScript even when type errors exist. This option affects emission, not whether diagnostics are produced.",
+    "keyConcepts": [
+      "noEmitOnError",
+      "compiler diagnostics",
+      "emission"
+    ],
+    "commonInterviewQuestion": true
+  }
+]

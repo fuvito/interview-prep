@@ -6,9 +6,9 @@
       "id": "typescript",
       "name": "TypeScript",
       "description": "Master TypeScript's type system, from basic annotations to advanced patterns used in real-world codebases.",
-      "version": "1.0.0",
-      "questionCount": 155,
-      "topicCount": 6,
+      "version": "1.1.0",
+      "questionCount": 197,
+      "topicCount": 11,
       "bundled": true,
       "packUrl": "https://raw.githubusercontent.com/fuvito/interview-prep/main/packs/typescript.json",
       "author": {

@@ -1,0 +1,290 @@
+[
+  {
+    "id": "ts-modules-001",
+    "subjectId": "typescript",
+    "topicId": "modules",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is the difference between a named export and a default export?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A module can have only one named export"
+      },
+      {
+        "id": "b",
+        "text": "A default export is imported without braces by its chosen local name; named exports are imported by exported name, usually in braces"
+      },
+      {
+        "id": "c",
+        "text": "Named exports cannot be renamed during import"
+      },
+      {
+        "id": "d",
+        "text": "Default exports are available only in CommonJS"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "A module can have multiple named exports and at most one default export. Named exports are imported by name and can be aliased with `as`; a default export can be assigned any local import name.\n\n```typescript\n// math.ts\nexport const add = () => {};\nexport default function multiply() {}\n\n// consumer.ts\nimport multiply, { add as sum } from './math';\n```",
+    "keyConcepts": [
+      "ES modules",
+      "named exports",
+      "default exports"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "ts-modules-002",
+    "subjectId": "typescript",
+    "topicId": "modules",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the purpose of `import type`?",
+    "options": [
+      {
+        "id": "a",
+        "text": "It imports a module only at runtime"
+      },
+      {
+        "id": "b",
+        "text": "It marks an import as type-only so it can be erased from emitted JavaScript"
+      },
+      {
+        "id": "c",
+        "text": "It loads a type definition from DefinitelyTyped at runtime"
+      },
+      {
+        "id": "d",
+        "text": "It converts a JavaScript module into TypeScript"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "`import type` explicitly imports declarations for type usage only. The import is erased from emitted JavaScript, helping distinguish type dependencies from runtime dependencies.\n\n```typescript\nimport type { User } from './models';\nimport { createUser } from './users';\n```",
+    "keyConcepts": [
+      "import type",
+      "type-only imports",
+      "type erasure"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "ts-modules-003",
+    "subjectId": "typescript",
+    "topicId": "modules",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does `export type` do?",
+    "options": [
+      {
+        "id": "a",
+        "text": "It exports a runtime JavaScript object"
+      },
+      {
+        "id": "b",
+        "text": "It exports a declaration for use only in type positions"
+      },
+      {
+        "id": "c",
+        "text": "It makes an exported interface available at runtime"
+      },
+      {
+        "id": "d",
+        "text": "It is an alias for `export default`"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "`export type` creates a type-only export. It is available to TypeScript consumers for annotations and other type expressions, but it does not create a runtime JavaScript export.\n\n```typescript\nexport type UserId = string;\nexport interface User { id: UserId }\n```",
+    "keyConcepts": [
+      "export type",
+      "type-only exports",
+      "runtime erasure"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "ts-modules-004",
+    "subjectId": "typescript",
+    "topicId": "modules",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is a dynamic `import()` used for?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Importing a module synchronously at compile time only"
+      },
+      {
+        "id": "b",
+        "text": "Loading a module asynchronously at runtime, often for code splitting or conditional loading"
+      },
+      {
+        "id": "c",
+        "text": "Declaring a type-only dependency"
+      },
+      {
+        "id": "d",
+        "text": "Replacing all static imports in a project"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "`import()` returns a Promise that fulfills with the module namespace. It is useful for lazy loading, conditional loading, and bundler code splitting.\n\n```typescript\nconst module = await import('./reports');\nmodule.openReport();\n```",
+    "keyConcepts": [
+      "dynamic import",
+      "lazy loading",
+      "code splitting"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "ts-modules-005",
+    "subjectId": "typescript",
+    "topicId": "modules",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the purpose of `export {}` in an otherwise empty TypeScript file?",
+    "options": [
+      {
+        "id": "a",
+        "text": "It exports every local variable"
+      },
+      {
+        "id": "b",
+        "text": "It marks the file as a module rather than a script, creating its own module scope"
+      },
+      {
+        "id": "c",
+        "text": "It disables type checking for the file"
+      },
+      {
+        "id": "d",
+        "text": "It converts the file to CommonJS"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "A file with a top-level import or export is treated as a module. `export {}` is an explicit empty export that makes the file a module, preventing its declarations from being treated as script-level globals.",
+    "keyConcepts": [
+      "modules",
+      "global scope",
+      "module scope"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "ts-modules-006",
+    "subjectId": "typescript",
+    "topicId": "modules",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is the role of the `moduleResolution` compiler option?",
+    "options": [
+      {
+        "id": "a",
+        "text": "It determines how TypeScript checks generic constraints"
+      },
+      {
+        "id": "b",
+        "text": "It controls how TypeScript resolves module specifiers to files or package entry points"
+      },
+      {
+        "id": "c",
+        "text": "It selects the JavaScript syntax level emitted by the compiler"
+      },
+      {
+        "id": "d",
+        "text": "It determines whether modules are bundled into one file"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "`moduleResolution` controls how TypeScript finds the file or package corresponding to an import. Options include resolution strategies such as `node16`, `nodenext`, and `bundler`, each reflecting different runtime or bundler expectations. The appropriate setting should match the project's execution and build environment.",
+    "keyConcepts": [
+      "moduleResolution",
+      "module systems",
+      "package resolution"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "ts-modules-007",
+    "subjectId": "typescript",
+    "topicId": "modules",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the difference between `import type { User }` and `import { User }` when `User` is used only as a type?",
+    "options": [
+      {
+        "id": "a",
+        "text": "They are always emitted identically in every compiler configuration"
+      },
+      {
+        "id": "b",
+        "text": "`import type` explicitly guarantees a type-only import and is erased; a regular import may be subject to compiler settings and import elision rules"
+      },
+      {
+        "id": "c",
+        "text": "`import type` loads the type at runtime"
+      },
+      {
+        "id": "d",
+        "text": "A regular import cannot be used in type positions"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "`import type` communicates that the imported symbol is needed only by the type system and is erased from JavaScript output. A normal import can be used in value positions and may be affected by options such as `verbatimModuleSyntax`. Explicit type-only imports make intent and runtime dependencies clearer.",
+    "keyConcepts": [
+      "type-only imports",
+      "verbatimModuleSyntax",
+      "module emit"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "ts-modules-008",
+    "subjectId": "typescript",
+    "topicId": "modules",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is module augmentation used for?",
+    "options": [
+      {
+        "id": "a",
+        "text": "To add runtime methods to an already loaded JavaScript module automatically"
+      },
+      {
+        "id": "b",
+        "text": "To extend the type declarations of an existing module, for example to add a property to a library interface"
+      },
+      {
+        "id": "c",
+        "text": "To merge two JavaScript bundles at runtime"
+      },
+      {
+        "id": "d",
+        "text": "To convert a default export into named exports"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "Module augmentation lets a project extend declarations from an existing module. It changes TypeScript's understanding of the module's types; it does not implement or add runtime behavior.\n\n```typescript\ndeclare module 'some-library' {\n  interface Options {\n    traceId?: string;\n  }\n}\n```\n\nThe runtime library must still actually support any added property or method.",
+    "keyConcepts": [
+      "module augmentation",
+      "declaration merging",
+      "type declarations"
+    ],
+    "commonInterviewQuestion": true
+  }
+]

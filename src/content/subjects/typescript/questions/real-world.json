@@ -1,0 +1,290 @@
+[
+  {
+    "id": "ts-realworld-001",
+    "subjectId": "typescript",
+    "topicId": "real-world",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "Why is `interface ApiResponse<T> { data: T }` useful for API client design?",
+    "options": [
+      {
+        "id": "a",
+        "text": "It validates the JSON response at runtime"
+      },
+      {
+        "id": "b",
+        "text": "It allows one reusable response shape to describe different payload types while preserving type information"
+      },
+      {
+        "id": "c",
+        "text": "It forces every endpoint to return the same concrete object type"
+      },
+      {
+        "id": "d",
+        "text": "It removes the need to handle network errors"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "A generic response interface captures a shared envelope while allowing each endpoint to specify its payload:\n\n```typescript\ninterface ApiResponse<T> {\n  data: T;\n  requestId: string;\n}\n\ntype UserResponse = ApiResponse<User>;\ntype OrderResponse = ApiResponse<Order[]>;\n```\n\nThis provides compile-time consistency but does not replace runtime validation of external data.",
+    "keyConcepts": [
+      "generics",
+      "API design",
+      "reusable types"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "ts-realworld-002",
+    "subjectId": "typescript",
+    "topicId": "real-world",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is a good way to represent application states such as loading, success, and error so invalid combinations are harder to express?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Use one interface with many unrelated optional properties"
+      },
+      {
+        "id": "b",
+        "text": "Use a discriminated union with a `status` field and state-specific properties"
+      },
+      {
+        "id": "c",
+        "text": "Use `any` for the state object"
+      },
+      {
+        "id": "d",
+        "text": "Use three unrelated boolean flags"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "A discriminated union models each valid state explicitly:\n\n```typescript\ntype LoadState<T> =\n  | { status: 'loading' }\n  | { status: 'success'; data: T }\n  | { status: 'error'; message: string };\n```\n\nChecking `status` narrows the state and ensures that `data` is available only in the success case.",
+    "keyConcepts": [
+      "discriminated unions",
+      "state modeling",
+      "exhaustiveness"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "ts-realworld-003",
+    "subjectId": "typescript",
+    "topicId": "real-world",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "Why should environment variables be validated at application startup?",
+    "options": [
+      {
+        "id": "a",
+        "text": "TypeScript automatically converts all environment variables to their declared types"
+      },
+      {
+        "id": "b",
+        "text": "Environment variables are external string values and may be missing or malformed despite static type declarations"
+      },
+      {
+        "id": "c",
+        "text": "Environment variables are always available as numbers"
+      },
+      {
+        "id": "d",
+        "text": "Validation makes environment variables available in the browser"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "Environment variables are runtime inputs, commonly represented as strings or possibly undefined. A TypeScript declaration for `process.env` does not guarantee that a variable exists or has a valid value. Validate required values and parse numbers, URLs, and enumerations at startup.",
+    "keyConcepts": [
+      "environment variables",
+      "runtime validation",
+      "configuration"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "ts-realworld-004",
+    "subjectId": "typescript",
+    "topicId": "real-world",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the benefit of using `Record<Status, Handler>` for a handler lookup table?",
+    "options": [
+      {
+        "id": "a",
+        "text": "It allows arbitrary string keys without checking them"
+      },
+      {
+        "id": "b",
+        "text": "It requires a handler for every member of Status and checks each handler's value type"
+      },
+      {
+        "id": "c",
+        "text": "It converts the object into a Map at runtime"
+      },
+      {
+        "id": "d",
+        "text": "It makes handlers execute in enum declaration order"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "`Record<Keys, Value>` creates an object type with a property for each key in `Keys`, each having the specified value type.\n\n```typescript\ntype Status = 'pending' | 'done';\ntype Handler = () => void;\nconst handlers: Record<Status, Handler> = {\n  pending: () => {},\n  done: () => {},\n};\n```\n\nOmitting a required status produces a type error.",
+    "keyConcepts": [
+      "Record",
+      "exhaustive mappings",
+      "type safety"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "ts-realworld-005",
+    "subjectId": "typescript",
+    "topicId": "real-world",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is the main advantage of using a generic repository interface such as `Repository<T, Id>`?",
+    "options": [
+      {
+        "id": "a",
+        "text": "It forces all entities to use the same runtime class"
+      },
+      {
+        "id": "b",
+        "text": "It captures common data-access operations while preserving the entity and identifier types for each implementation"
+      },
+      {
+        "id": "c",
+        "text": "It automatically generates SQL queries"
+      },
+      {
+        "id": "d",
+        "text": "It guarantees database transactions"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "A generic repository interface can express reusable operations without losing entity-specific types:\n\n```typescript\ninterface Repository<T, Id> {\n  findById(id: Id): Promise<T | undefined>;\n  save(entity: T): Promise<T>;\n  delete(id: Id): Promise<void>;\n}\n```\n\nA `Repository<User, string>` and `Repository<Order, number>` share a contract while retaining different entity and identifier types.",
+    "keyConcepts": [
+      "generics",
+      "repository pattern",
+      "abstraction"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "ts-realworld-006",
+    "subjectId": "typescript",
+    "topicId": "real-world",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "When should a callback parameter be typed as `(...args: unknown[]) => unknown` rather than `Function`?",
+    "options": [
+      {
+        "id": "a",
+        "text": "`Function` is always more type-safe"
+      },
+      {
+        "id": "b",
+        "text": "The explicit signature describes the arguments and return value, allowing meaningful call-site checking; `Function` provides very weak guarantees"
+      },
+      {
+        "id": "c",
+        "text": "They are exactly equivalent"
+      },
+      {
+        "id": "d",
+        "text": "`unknown[]` prevents the callback from being invoked"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "The global `Function` type is too broad to describe a useful call contract. Prefer a specific function signature when possible, or a generic callable type when the exact signature must be preserved. `unknown` is safer than `any` because values must be narrowed before use.",
+    "keyConcepts": [
+      "function types",
+      "unknown",
+      "callback typing"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "ts-realworld-007",
+    "subjectId": "typescript",
+    "topicId": "real-world",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "Why might a library expose both a runtime value and a type with the same name?",
+    "options": [
+      {
+        "id": "a",
+        "text": "TypeScript has separate type and value namespaces, allowing some declarations such as classes and enums to be used in both positions"
+      },
+      {
+        "id": "b",
+        "text": "TypeScript automatically duplicates every interface at runtime"
+      },
+      {
+        "id": "c",
+        "text": "Every type alias creates a JavaScript variable"
+      },
+      {
+        "id": "d",
+        "text": "Only namespaces can have names"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "TypeScript has distinct type and value spaces. A class declaration, for example, provides both an instance type and a runtime constructor value:\n\n```typescript\nclass User { constructor(public id: string) {} }\nconst user: User = new User('u1');\n```\n\nThe identifier `User` refers to a type in the annotation and a value in the expression.",
+    "keyConcepts": [
+      "type namespace",
+      "value namespace",
+      "classes"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "ts-realworld-008",
+    "subjectId": "typescript",
+    "topicId": "real-world",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the benefit of defining a shared domain type separately from UI-specific view models?",
+    "options": [
+      {
+        "id": "a",
+        "text": "It makes TypeScript skip structural type checking"
+      },
+      {
+        "id": "b",
+        "text": "It separates the core data contract from presentation-specific fields and transformations"
+      },
+      {
+        "id": "c",
+        "text": "It guarantees the UI model matches the API at runtime"
+      },
+      {
+        "id": "d",
+        "text": "It prevents the domain model from being reused"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "Separating domain models from view models avoids coupling business concepts to one UI representation. A view model can add formatted labels, derived fields, or UI state without changing the underlying domain contract. Transformations between the two should be explicit and type-checked.",
+    "keyConcepts": [
+      "domain modeling",
+      "view models",
+      "separation of concerns"
+    ],
+    "commonInterviewQuestion": true
+  }
+]

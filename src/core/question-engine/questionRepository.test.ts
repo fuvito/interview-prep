@@ -88,8 +88,8 @@ describe('questionRepository', () => {
   })
 
   describe('countBySubject', () => {
-    it('returns 155 for typescript', () => {
-      expect(questionRepository.countBySubject('typescript')).toBe(155)
+    it('returns 197 for typescript', () => {
+      expect(questionRepository.countBySubject('typescript')).toBe(197)
     })
 
     it('returns 0 for unknown subject', () => {

@@ -8,6 +8,11 @@ import functionsData from './subjects/typescript/questions/functions.json'
 import genericsData from './subjects/typescript/questions/generics.json'
 import classesData from './subjects/typescript/questions/classes.json'
 import advancedTypesData from './subjects/typescript/questions/advanced-types.json'
+import asyncData from './subjects/typescript/questions/async.json'
+import modulesData from './subjects/typescript/questions/modules.json'
+import compilerConfigData from './subjects/typescript/questions/compiler-config.json'
+import runtimeValidationData from './subjects/typescript/questions/runtime-validation.json'
+import realWorldData from './subjects/typescript/questions/real-world.json'
 
 export const allSubjects: Subject[] = [
   tsSubjectData as unknown as Subject,
@@ -24,6 +29,11 @@ export const allQuestions: Question[] = [
   ...(genericsData as unknown as Question[]),
   ...(classesData as unknown as Question[]),
   ...(advancedTypesData as unknown as Question[]),
+  ...(asyncData as unknown as Question[]),
+  ...(modulesData as unknown as Question[]),
+  ...(compilerConfigData as unknown as Question[]),
+  ...(runtimeValidationData as unknown as Question[]),
+  ...(realWorldData as unknown as Question[]),
 ]
 
 export function getSubjectById(id: string): Subject | undefined {

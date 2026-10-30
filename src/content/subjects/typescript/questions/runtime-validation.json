@@ -1,0 +1,291 @@
+[
+  {
+    "id": "ts-runtime-001",
+    "subjectId": "typescript",
+    "topicId": "runtime-validation",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "Why should an API response commonly be treated as `unknown` rather than trusted as a TypeScript interface?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Because TypeScript automatically validates interfaces at runtime"
+      },
+      {
+        "id": "b",
+        "text": "Because TypeScript types are erased and an external response is not validated merely by assigning a static type"
+      },
+      {
+        "id": "c",
+        "text": "Because `unknown` converts malformed JSON into valid objects"
+      },
+      {
+        "id": "d",
+        "text": "Because API responses cannot contain objects"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "TypeScript types are compile-time constructs and do not validate network data at runtime. An API response can be malformed or differ from the expected contract. Treat untrusted data as `unknown`, validate its shape, and only then use it as a trusted application type.",
+    "keyConcepts": [
+      "runtime validation",
+      "unknown",
+      "type erasure",
+      "API boundaries"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "ts-runtime-002",
+    "subjectId": "typescript",
+    "topicId": "runtime-validation",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the safest type for a caught error when `useUnknownInCatchVariables` is enabled?",
+    "options": [
+      {
+        "id": "a",
+        "text": "any"
+      },
+      {
+        "id": "b",
+        "text": "unknown"
+      },
+      {
+        "id": "c",
+        "text": "Error"
+      },
+      {
+        "id": "d",
+        "text": "never"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "With `useUnknownInCatchVariables`, a catch variable is `unknown` because JavaScript allows throwing any value, not just `Error` objects. Narrow it before accessing properties:\n\n```typescript\ntry {\n  runTask();\n} catch (error: unknown) {\n  if (error instanceof Error) {\n    console.error(error.message);\n  }\n}\n```",
+    "keyConcepts": [
+      "unknown",
+      "catch variables",
+      "error narrowing"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "ts-runtime-003",
+    "subjectId": "typescript",
+    "topicId": "runtime-validation",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the difference between a type guard and runtime schema validation?",
+    "options": [
+      {
+        "id": "a",
+        "text": "They are identical in all circumstances"
+      },
+      {
+        "id": "b",
+        "text": "A type guard is a TypeScript-recognized narrowing check; schema validation checks data against runtime rules and may report detailed validation failures"
+      },
+      {
+        "id": "c",
+        "text": "Schema validation is performed automatically by the TypeScript compiler"
+      },
+      {
+        "id": "d",
+        "text": "Type guards can validate JSON but schema validation cannot"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "A type guard such as `value is User` tells TypeScript how a boolean check narrows a value. The check itself must be implemented correctly. Runtime schema validation uses executable rules to inspect actual data and can provide structured errors. Libraries such as Zod or Valibot are commonly used for this purpose.",
+    "keyConcepts": [
+      "type guards",
+      "runtime schemas",
+      "validation"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "ts-runtime-004",
+    "subjectId": "typescript",
+    "topicId": "runtime-validation",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is the main limitation of using `as User` on data returned by `JSON.parse()`?",
+    "options": [
+      {
+        "id": "a",
+        "text": "It validates all User properties but does not validate optional properties"
+      },
+      {
+        "id": "b",
+        "text": "It only tells the compiler to treat the value as User; it performs no runtime validation"
+      },
+      {
+        "id": "c",
+        "text": "It converts the parsed object into a class instance"
+      },
+      {
+        "id": "d",
+        "text": "It rejects malformed property values at runtime"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "A type assertion is erased and does not inspect or transform the value. `JSON.parse()` returns untrusted runtime data; asserting it as `User` can hide invalid or missing fields. Prefer parsing into `unknown` and validating before use.",
+    "keyConcepts": [
+      "type assertion",
+      "JSON.parse",
+      "runtime safety"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "ts-runtime-005",
+    "subjectId": "typescript",
+    "topicId": "runtime-validation",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the purpose of an assertion function declared with `asserts value is User`?",
+    "options": [
+      {
+        "id": "a",
+        "text": "It converts the input object into a User instance"
+      },
+      {
+        "id": "b",
+        "text": "If the function returns normally, TypeScript narrows the asserted value to User; the function should throw when the condition is not met"
+      },
+      {
+        "id": "c",
+        "text": "It makes User available at runtime"
+      },
+      {
+        "id": "d",
+        "text": "It tells TypeScript to skip checking the function body"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "An assertion function either returns normally after verifying a condition or throws. Its `asserts value is User` return annotation tells TypeScript that the value is a `User` after the call.\n\n```typescript\nfunction assertUser(value: unknown): asserts value is User {\n  if (!isUser(value)) throw new Error('Invalid user');\n}\n```",
+    "keyConcepts": [
+      "assertion functions",
+      "asserts",
+      "runtime checks"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "ts-runtime-006",
+    "subjectId": "typescript",
+    "topicId": "runtime-validation",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "Why is `instanceof Error` not always sufficient to normalize every caught error?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Because `Error` is a compile-time-only interface"
+      },
+      {
+        "id": "b",
+        "text": "Because JavaScript permits throwing non-Error values, such as strings or plain objects"
+      },
+      {
+        "id": "c",
+        "text": "Because `instanceof` works only with primitive values"
+      },
+      {
+        "id": "d",
+        "text": "Because TypeScript converts all thrown values to unknown objects"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "JavaScript permits `throw 'failure'`, `throw 42`, or throwing arbitrary objects. A robust error-normalization function should handle non-Error values as well as actual Error instances.",
+    "keyConcepts": [
+      "error handling",
+      "unknown",
+      "instanceof"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "ts-runtime-007",
+    "subjectId": "typescript",
+    "topicId": "runtime-validation",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "Which statement about TypeScript's `readonly` modifier is correct?",
+    "options": [
+      {
+        "id": "a",
+        "text": "It deeply freezes an object and all nested objects at runtime"
+      },
+      {
+        "id": "b",
+        "text": "It is a compile-time restriction on assignment through that typed reference; it does not itself freeze the runtime object"
+      },
+      {
+        "id": "c",
+        "text": "It prevents other JavaScript code from modifying the object"
+      },
+      {
+        "id": "d",
+        "text": "It automatically clones the object"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "`readonly` is enforced by TypeScript's type checker and is not a runtime immutability mechanism. It is generally shallow: a readonly property that references an object does not automatically make all nested properties readonly. Use runtime freezing or immutable data techniques when runtime enforcement is required.",
+    "keyConcepts": [
+      "readonly",
+      "immutability",
+      "runtime behavior"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "ts-runtime-008",
+    "subjectId": "typescript",
+    "topicId": "runtime-validation",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is a practical way to model an operation that can either succeed with data or fail with an error?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Use `any` for both outcomes"
+      },
+      {
+        "id": "b",
+        "text": "Use a discriminated union such as `{ ok: true; data: T } | { ok: false; error: Error }`"
+      },
+      {
+        "id": "c",
+        "text": "Use `void | never`"
+      },
+      {
+        "id": "d",
+        "text": "Use an optional property for every field and avoid a discriminant"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "A discriminated union makes success and failure explicit and allows safe narrowing:\n\n```typescript\ntype Result<T> =\n  | { ok: true; data: T }\n  | { ok: false; error: Error };\n\nfunction handle<T>(result: Result<T>) {\n  if (result.ok) {\n    return result.data;\n  }\n  throw result.error;\n}\n```\n\nThis is useful when callers should handle expected failures without relying exclusively on thrown exceptions.",
+    "keyConcepts": [
+      "Result type",
+      "discriminated unions",
+      "error handling"
+    ],
+    "commonInterviewQuestion": true
+  }
+]
