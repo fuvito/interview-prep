@@ -2,6 +2,20 @@ import { BookOpen, Database, Zap, Shield, Code2 } from 'lucide-react'
 
 const VERSION = '0.1.0'
 
+interface InfoRowProps {
+  label: string
+  value: React.ReactNode
+}
+
+function InfoRow({ label, value }: InfoRowProps) {
+  return (
+    <div className="flex items-center justify-between py-3 border-b border-gray-800 last:border-0">
+      <span className="text-sm text-gray-500">{label}</span>
+      <span className="text-sm font-semibold text-gray-100">{value}</span>
+    </div>
+  )
+}
+
 interface FeatureRowProps {
   icon: React.ReactNode
   title: string
@@ -11,7 +25,7 @@ interface FeatureRowProps {
 function FeatureRow({ icon, title, description }: FeatureRowProps) {
   return (
     <div className="flex items-start gap-3">
-      <div className="w-8 h-8 rounded-lg bg-gray-800 border border-gray-700 flex items-center justify-center shrink-0 text-blue-400">
+      <div className="w-7 h-7 rounded-lg bg-gray-800 border border-gray-700 flex items-center justify-center shrink-0 text-blue-400">
         {icon}
       </div>
       <div>
@@ -25,43 +39,56 @@ function FeatureRow({ icon, title, description }: FeatureRowProps) {
 export function AboutView() {
   return (
     <div className="flex flex-col h-full overflow-y-auto">
-      <div className="p-5 space-y-6">
+      <div className="p-5 space-y-5">
 
         {/* Hero */}
-        <div className="text-center space-y-2 pt-2">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-900/30 border border-blue-800/50 rounded-full">
-            <span className="text-xs font-bold tracking-widest text-blue-400 uppercase">IP</span>
-            <span className="text-xs text-blue-300 font-medium">InterviewPrep</span>
+        <div className="text-center space-y-3 pt-2">
+          <div className="flex justify-center">
+            <div className="w-16 h-16 rounded-2xl bg-blue-600 flex items-center justify-center shadow-lg shadow-blue-900/40">
+              <span className="text-xl font-black text-white tracking-tight">IP</span>
+            </div>
           </div>
-          <p className="text-xs text-gray-400">v{VERSION}</p>
-          <p className="text-sm text-gray-300 leading-relaxed max-w-xs mx-auto">
-            Offline-first technical interview preparation for software developers.
+          <div className="space-y-0.5">
+            <h1 className="text-lg font-bold text-gray-100">InterviewPrep</h1>
+            <p className="text-xs text-gray-500">Version {VERSION}</p>
+          </div>
+          <p className="text-sm text-gray-400 leading-relaxed max-w-xs mx-auto">
+            Offline-first technical interview preparation for software developers. Free, open-source, and fully offline.
           </p>
         </div>
 
         <hr className="border-gray-800" />
 
+        {/* Info rows */}
+        <div className="border border-gray-800 rounded-lg px-3 overflow-hidden">
+          <InfoRow label="Author" value="Fuat Yazar" />
+          <InfoRow label="License" value="MIT" />
+          <InfoRow label="Version" value={VERSION} />
+        </div>
+
+        <hr className="border-gray-800" />
+
         {/* Features */}
-        <section className="space-y-4">
-          <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Features</h2>
-          <div className="space-y-4">
+        <section className="space-y-3">
+          <h2 className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Features</h2>
+          <div className="space-y-3.5">
             <FeatureRow
-              icon={<BookOpen size={15} />}
+              icon={<BookOpen size={14} />}
               title="Structured Question Banks"
               description="Curated questions across topics, levels, and types — single choice, multiple select, code output, and open-ended."
             />
             <FeatureRow
-              icon={<Zap size={15} />}
+              icon={<Zap size={14} />}
               title="Interview Simulation"
               description="Timed quiz sessions with scoring, answer review, and session history."
             />
             <FeatureRow
-              icon={<Database size={15} />}
+              icon={<Database size={14} />}
               title="Local-first Persistence"
               description="All progress, bookmarks, and preferences are stored locally in IndexedDB. Nothing leaves your device."
             />
             <FeatureRow
-              icon={<Shield size={15} />}
+              icon={<Shield size={14} />}
               title="No Account Required"
               description="No sign-up, no tracking, no internet connection needed. Works fully offline."
             />
@@ -72,7 +99,7 @@ export function AboutView() {
 
         {/* Content */}
         <section className="space-y-2">
-          <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Content</h2>
+          <h2 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Content</h2>
           <div className="bg-gray-900 border border-gray-800 rounded-lg p-3 space-y-2">
             <div className="flex justify-between items-center">
               <span className="text-sm text-gray-200">TypeScript</span>
@@ -84,14 +111,14 @@ export function AboutView() {
               ))}
             </div>
           </div>
-          <p className="text-xs text-gray-500 pt-1">More subjects coming in future releases.</p>
+          <p className="text-xs text-gray-600 pt-0.5">More subjects coming in future releases.</p>
         </section>
 
         <hr className="border-gray-800" />
 
         {/* Stack */}
         <section className="space-y-3">
-          <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Built With</h2>
+          <h2 className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Built With</h2>
           <div className="grid grid-cols-2 gap-1.5 text-xs">
             {[
               ['React 19', 'UI'],

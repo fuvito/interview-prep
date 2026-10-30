@@ -1,7 +1,9 @@
-import { ArrowLeft, Sun, Moon, Info } from 'lucide-react'
+import { ArrowLeft, Sun, Moon, Info, Maximize2 } from 'lucide-react'
 import { useNavigationStore, useThemeStore } from '@/store'
 import { questionRepository } from '@/core/question-engine'
 import type { View } from '@/store'
+
+const isPopup = window.innerWidth <= 500
 
 function getTitle(view: View): string {
   switch (view.name) {
@@ -20,9 +22,13 @@ function getTitle(view: View): string {
 
 export function TopBar() {
   const { current, stack, navigate, goBack } = useNavigationStore()
-  const { theme, toggle } = useThemeStore()
+  const { theme, toggle, fontSize, increaseFontSize, decreaseFontSize } = useThemeStore()
   const canGoBack = stack.length > 0
   const isDashboard = current.name === 'dashboard'
+
+  function openFullTab() {
+    chrome.tabs.create({ url: chrome.runtime.getURL('index.html') })
+  }
 
   return (
     <header className="h-12 flex items-center px-4 border-b border-gray-800 shrink-0 gap-3">
@@ -57,6 +63,24 @@ export function TopBar() {
             <Info size={15} />
           </button>
         )}
+
+        <button
+          onClick={() => void decreaseFontSize()}
+          disabled={fontSize === 'sm'}
+          className="text-gray-500 hover:text-gray-300 transition-colors px-0.5 disabled:opacity-30 disabled:cursor-not-allowed leading-none"
+          aria-label="Decrease font size"
+        >
+          <span className="font-bold select-none" style={{ fontSize: '10px' }}>A</span>
+        </button>
+        <button
+          onClick={() => void increaseFontSize()}
+          disabled={fontSize === 'lg'}
+          className="text-gray-500 hover:text-gray-300 transition-colors px-0.5 disabled:opacity-30 disabled:cursor-not-allowed leading-none"
+          aria-label="Increase font size"
+        >
+          <span className="font-bold select-none" style={{ fontSize: '14px' }}>A</span>
+        </button>
+
         <button
           onClick={() => void toggle()}
           className="text-gray-500 hover:text-gray-300 transition-colors p-0.5"
@@ -64,6 +88,16 @@ export function TopBar() {
         >
           {theme === 'dark' ? <Sun size={15} /> : <Moon size={15} />}
         </button>
+
+        {isPopup && (
+          <button
+            onClick={openFullTab}
+            className="text-gray-500 hover:text-gray-300 transition-colors p-0.5"
+            aria-label="Open in full window"
+          >
+            <Maximize2 size={14} />
+          </button>
+        )}
       </div>
     </header>
   )
