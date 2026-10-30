@@ -19,7 +19,7 @@ export function ResultsView() {
 
   return (
     <div className="flex flex-col h-full">
-      <div className="flex-1 overflow-y-auto min-h-0">
+      <div className="flex-1 overflow-y-auto overflow-x-hidden min-h-0">
         {/* Score summary */}
         <div className="px-6 py-6 border-b border-gray-800 text-center space-y-3">
           <p className={`text-5xl font-bold ${scoreColor}`}>{score}%</p>

@@ -38,7 +38,7 @@ function FeatureRow({ icon, title, description }: FeatureRowProps) {
 
 export function AboutView() {
   return (
-    <div className="flex flex-col h-full overflow-y-auto">
+    <div className="flex flex-col h-full overflow-y-auto overflow-x-hidden">
       <div className="p-5 space-y-5">
 
         {/* Hero */}

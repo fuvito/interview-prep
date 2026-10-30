@@ -55,7 +55,7 @@ export function SubjectsView() {
   }
 
   return (
-    <div className="flex flex-col h-full overflow-y-auto">
+    <div className="flex flex-col h-full overflow-y-auto overflow-x-hidden">
       <div className="p-4 space-y-2">
         {subjects.map((s) => {
           const isUploaded = uploadedIds.has(s.id)

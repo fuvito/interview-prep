@@ -32,7 +32,7 @@ export function InterviewView() {
       </div>
 
       {/* Content */}
-      <div className="flex-1 overflow-y-auto px-4 py-4 space-y-4 min-h-0">
+      <div className="flex-1 overflow-y-auto overflow-x-hidden px-4 py-4 space-y-4 min-h-0">
         <div className="flex items-center gap-2 flex-wrap">
           <DifficultyBadge difficulty={question.difficulty} />
           <TypeBadge type={question.type} />
