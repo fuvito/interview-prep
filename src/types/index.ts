@@ -66,7 +66,7 @@ export interface Bookmark {
 export interface UserPreferences {
   id: string
   theme: 'dark' | 'light' | 'system'
-  fontSize?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'
+  fontSize?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl'
   defaultDifficulty?: Difficulty
   lastSubjectId?: string
 }

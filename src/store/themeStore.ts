@@ -2,9 +2,9 @@ import { create } from 'zustand'
 import { userPreferencesRepository } from '@/database/repositories'
 
 type Theme = 'dark' | 'light'
-type FontSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'
+type FontSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl'
 
-const FONT_PX: Record<FontSize, number> = { xs: 14, sm: 15, md: 17, lg: 19, xl: 21, '2xl': 23 }
+const FONT_PX: Record<FontSize, number> = { xs: 14, sm: 15, md: 17, lg: 19, xl: 21, '2xl': 23, '3xl': 26, '4xl': 30 }
 
 interface ThemeState {
   theme: Theme
@@ -46,7 +46,7 @@ export const useThemeStore = create<ThemeState>((set, get) => ({
   },
 
   increaseFontSize: async () => {
-    const order: FontSize[] = ['xs', 'sm', 'md', 'lg', 'xl', '2xl']
+    const order: FontSize[] = ['xs', 'sm', 'md', 'lg', 'xl', '2xl', '3xl', '4xl']
     const current = get().fontSize
     const next = order[Math.min(order.indexOf(current) + 1, order.length - 1)]
     if (next === current) return
@@ -56,7 +56,7 @@ export const useThemeStore = create<ThemeState>((set, get) => ({
   },
 
   decreaseFontSize: async () => {
-    const order: FontSize[] = ['xs', 'sm', 'md', 'lg', 'xl', '2xl']
+    const order: FontSize[] = ['xs', 'sm', 'md', 'lg', 'xl', '2xl', '3xl', '4xl']
     const current = get().fontSize
     const next = order[Math.max(order.indexOf(current) - 1, 0)]
     if (next === current) return

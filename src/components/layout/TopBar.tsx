@@ -83,7 +83,7 @@ export function TopBar() {
         </button>
         <button
           onClick={() => void increaseFontSize()}
-          disabled={fontSize === 'lg'}
+          disabled={fontSize === '4xl'}
           className={`${btnClass} disabled:opacity-30 disabled:cursor-not-allowed leading-none px-0.5`}
           aria-label="Increase font size"
         >

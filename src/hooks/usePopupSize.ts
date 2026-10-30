@@ -4,7 +4,7 @@ import { useSyncExternalStore } from 'react'
 const STORAGE_KEY = 'ip-expanded'
 
 const SIZE_NORMAL   = { w: 480, h: 600 } as const
-const SIZE_EXPANDED = { w: 800, h: 700 } as const
+const SIZE_EXPANDED = { w: 800, h: 600 } as const
 
 type Listener = () => void
 const listeners = new Set<Listener>()
