@@ -1,4 +1,4 @@
-import type { Subject, Topic, Question } from '@/types'
+import type { Subject, Topic, Question, UploadedSubjectPack } from '@/types'
 
 import subjectData from './subjects/typescript/subject.json'
 import topicsData from './subjects/typescript/topics.json'
@@ -44,4 +44,28 @@ export function getQuestionsBySubject(subjectId: string): Question[] {
 
 export function getQuestionById(id: string): Question | undefined {
   return allQuestions.find((q) => q.id === id)
+}
+
+export function registerUploadedPacks(packs: UploadedSubjectPack[]): void {
+  for (const pack of packs) {
+    allSubjects.push(pack.subject)
+    allTopics.push(...pack.topics)
+    allQuestions.push(...pack.questions)
+  }
+}
+
+export function deregisterUploadedPack(pack: UploadedSubjectPack): void {
+  const subjectIds = new Set([pack.subject.id])
+  const topicIds = new Set(pack.topics.map((t) => t.id))
+  const questionIds = new Set(pack.questions.map((q) => q.id))
+
+  for (let i = allSubjects.length - 1; i >= 0; i--) {
+    if (subjectIds.has(allSubjects[i].id)) allSubjects.splice(i, 1)
+  }
+  for (let i = allTopics.length - 1; i >= 0; i--) {
+    if (topicIds.has(allTopics[i].id)) allTopics.splice(i, 1)
+  }
+  for (let i = allQuestions.length - 1; i >= 0; i--) {
+    if (questionIds.has(allQuestions[i].id)) allQuestions.splice(i, 1)
+  }
 }

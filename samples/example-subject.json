@@ -1,0 +1,135 @@
+{
+  "subject": {
+    "name": "JavaScript Fundamentals",
+    "description": "Core JavaScript concepts for interview preparation",
+    "version": "1.0"
+  },
+  "topics": [
+    {
+      "name": "Variables and Scope",
+      "description": "var, let, const, hoisting, closures, and lexical scope",
+      "order": 1
+    },
+    {
+      "name": "Functions",
+      "description": "Function declarations, expressions, arrow functions, and higher-order functions",
+      "order": 2
+    },
+    {
+      "name": "Async JavaScript",
+      "description": "Promises, async/await, and the event loop",
+      "order": 3
+    }
+  ],
+  "questions": [
+    {
+      "topic": "Variables and Scope",
+      "type": "single",
+      "difficulty": "beginner",
+      "question": "Which keyword declares a block-scoped variable that cannot be reassigned?",
+      "options": [
+        { "id": "a", "text": "var" },
+        { "id": "b", "text": "let" },
+        { "id": "c", "text": "const" },
+        { "id": "d", "text": "static" }
+      ],
+      "correctAnswers": ["c"],
+      "explanation": "`const` declares a block-scoped binding that cannot be reassigned after initialization. Note that for objects and arrays, the binding itself is immutable but the contents can still be mutated.",
+      "keyConcepts": ["const", "block scope", "immutable binding"],
+      "commonInterviewQuestion": true
+    },
+    {
+      "topic": "Variables and Scope",
+      "type": "multiple",
+      "difficulty": "intermediate",
+      "question": "Which of the following statements about `var` are true?",
+      "options": [
+        { "id": "a", "text": "var declarations are function-scoped" },
+        { "id": "b", "text": "var declarations are hoisted to the top of their scope" },
+        { "id": "c", "text": "var declarations are block-scoped" },
+        { "id": "d", "text": "var can be redeclared within the same scope" }
+      ],
+      "correctAnswers": ["a", "b", "d"],
+      "explanation": "`var` is function-scoped (not block-scoped), is hoisted (initialized to `undefined`), and can be redeclared in the same scope without error. This differs from `let` and `const`, which are block-scoped and cannot be redeclared.",
+      "keyConcepts": ["var", "hoisting", "function scope"],
+      "commonInterviewQuestion": true
+    },
+    {
+      "topic": "Variables and Scope",
+      "type": "code",
+      "difficulty": "intermediate",
+      "question": "What does this code log to the console?",
+      "codeSnippet": "for (var i = 0; i < 3; i++) {\n  setTimeout(() => console.log(i), 0)\n}",
+      "options": [
+        { "id": "a", "text": "0, 1, 2" },
+        { "id": "b", "text": "3, 3, 3" },
+        { "id": "c", "text": "0, 0, 0" },
+        { "id": "d", "text": "undefined, undefined, undefined" }
+      ],
+      "correctAnswers": ["b"],
+      "explanation": "Because `var` is function-scoped, all three arrow functions close over the same `i`. By the time the `setTimeout` callbacks run, the loop has completed and `i` is 3. Using `let` instead would log 0, 1, 2 because each iteration creates a new block-scoped binding.",
+      "codeExample": "// Fix: use let instead of var\nfor (let i = 0; i < 3; i++) {\n  setTimeout(() => console.log(i), 0) // logs 0, 1, 2\n}",
+      "keyConcepts": ["closure", "var hoisting", "event loop", "let vs var"],
+      "commonInterviewQuestion": true
+    },
+    {
+      "topic": "Functions",
+      "type": "single",
+      "difficulty": "beginner",
+      "question": "Which of the following is NOT a characteristic of arrow functions?",
+      "options": [
+        { "id": "a", "text": "They have a concise body syntax" },
+        { "id": "b", "text": "They have their own `this` binding" },
+        { "id": "c", "text": "They cannot be used as constructors" },
+        { "id": "d", "text": "They do not have an `arguments` object" }
+      ],
+      "correctAnswers": ["b"],
+      "explanation": "Arrow functions do NOT have their own `this` binding — they inherit `this` from the enclosing lexical scope. This is one of their key differences from regular functions and makes them useful for callbacks where you want to preserve the outer `this`.",
+      "keyConcepts": ["arrow functions", "this binding", "lexical scope"],
+      "commonInterviewQuestion": true
+    },
+    {
+      "topic": "Functions",
+      "type": "text",
+      "difficulty": "advanced",
+      "question": "Explain what a closure is and give a practical use case.",
+      "explanation": "A closure is a function that retains access to its lexical scope even when the function executes outside that scope. In practice, every function in JavaScript forms a closure over the variables in its enclosing scope.\n\nPractical use cases include: data privacy (factory functions that expose only a limited API), partial application / currying, and memoization. For example, a counter factory returns a function that closes over a private `count` variable — the count is inaccessible from outside but persists across calls.",
+      "codeExample": "function makeCounter() {\n  let count = 0\n  return {\n    increment() { return ++count },\n    decrement() { return --count },\n    value() { return count },\n  }\n}\n\nconst counter = makeCounter()\ncounter.increment() // 1\ncounter.increment() // 2\ncounter.value()     // 2",
+      "keyConcepts": ["closure", "lexical scope", "data privacy", "factory function"],
+      "commonInterviewQuestion": true
+    },
+    {
+      "topic": "Async JavaScript",
+      "type": "single",
+      "difficulty": "intermediate",
+      "question": "What is the output order of the following code?",
+      "codeSnippet": "console.log('A')\nsetTimeout(() => console.log('B'), 0)\nPromise.resolve().then(() => console.log('C'))\nconsole.log('D')",
+      "options": [
+        { "id": "a", "text": "A, B, C, D" },
+        { "id": "b", "text": "A, D, B, C" },
+        { "id": "c", "text": "A, D, C, B" },
+        { "id": "d", "text": "A, C, D, B" }
+      ],
+      "correctAnswers": ["c"],
+      "explanation": "Synchronous code runs first (A, D). Microtasks (Promise callbacks) run before macrotasks (setTimeout), so C logs before B. The order is: A → D (sync) → C (microtask queue) → B (macrotask queue).",
+      "keyConcepts": ["event loop", "microtask queue", "macrotask queue", "Promise", "setTimeout"],
+      "commonInterviewQuestion": true
+    },
+    {
+      "topic": "Async JavaScript",
+      "type": "multiple",
+      "difficulty": "advanced",
+      "question": "Which of the following are true about async/await?",
+      "options": [
+        { "id": "a", "text": "An async function always returns a Promise" },
+        { "id": "b", "text": "await can only be used inside an async function" },
+        { "id": "c", "text": "await blocks the entire JavaScript thread" },
+        { "id": "d", "text": "Errors in an async function can be caught with try/catch" }
+      ],
+      "correctAnswers": ["a", "b", "d"],
+      "explanation": "Async functions always wrap their return value in a Promise. `await` is only valid inside `async` functions (or at the top level of a module). `await` does NOT block the thread — it suspends only the current async function while the event loop continues processing other work. Errors thrown or rejected promises can be caught with `try/catch` inside an async function.",
+      "keyConcepts": ["async/await", "Promise", "error handling", "non-blocking"],
+      "commonInterviewQuestion": true
+    }
+  ]
+}

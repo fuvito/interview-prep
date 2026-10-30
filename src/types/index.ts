@@ -70,6 +70,40 @@ export interface UserPreferences {
   defaultDifficulty?: Difficulty
 }
 
+export interface UploadedSubjectPack {
+  id: string
+  subject: Subject
+  topics: Topic[]
+  questions: Question[]
+  importedAt: string
+}
+
+export interface SubjectPackJSON {
+  subject: {
+    name: string
+    description: string
+    version?: string
+  }
+  topics: Array<{
+    name: string
+    description: string
+    order?: number
+  }>
+  questions: Array<{
+    topic: string
+    type: QuestionType
+    difficulty: Difficulty
+    question: string
+    codeSnippet?: string
+    options?: Array<{ id: string; text: string }>
+    correctAnswers?: string[]
+    explanation: string
+    codeExample?: string
+    keyConcepts: string[]
+    commonInterviewQuestion: boolean
+  }>
+}
+
 export interface ReviewScheduleEntry {
   questionId: string
   nextReviewAt: string
