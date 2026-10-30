@@ -23,7 +23,7 @@ export function ResultsView() {
         {/* Score summary */}
         <div className="px-6 py-6 border-b border-gray-800 text-center space-y-3">
           <p className={`text-5xl font-bold ${scoreColor}`}>{score}%</p>
-          <p className="text-gray-400 text-sm">{scoreLabel}</p>
+          <p className="text-gray-300 text-sm font-medium">{scoreLabel}</p>
           <ScoreBar score={score} />
           <div className="flex justify-center gap-6 text-sm pt-1">
             <span className="text-emerald-400"><strong>{completedSession.correctAnswers}</strong> correct</span>
@@ -33,7 +33,7 @@ export function ResultsView() {
 
         {/* Question review */}
         <div className="p-4 space-y-2">
-          <h2 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Review</h2>
+          <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Review</h2>
           {questions.map((q) => {
             const result = results[q.id]
             const isExpanded = expandedId === q.id
@@ -48,9 +48,9 @@ export function ResultsView() {
                   {isCorrect
                     ? <CheckCircle size={15} className="text-emerald-400 shrink-0" />
                     : <XCircle size={15} className="text-red-400 shrink-0" />}
-                  <span className="text-sm text-gray-300 flex-1 line-clamp-1">{q.question.replace(/`/g, '')}</span>
+                  <span className="text-sm text-gray-200 flex-1 line-clamp-1">{q.question.replace(/`/g, '')}</span>
                   <DifficultyBadge difficulty={q.difficulty} />
-                  {isExpanded ? <ChevronUp size={14} className="text-gray-500 shrink-0" /> : <ChevronDown size={14} className="text-gray-500 shrink-0" />}
+                  {isExpanded ? <ChevronUp size={14} className="text-gray-400 shrink-0" /> : <ChevronDown size={14} className="text-gray-400 shrink-0" />}
                 </button>
 
                 {isExpanded && (
@@ -64,7 +64,7 @@ export function ResultsView() {
                       </div>
                     )}
                     <div>
-                      <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">Explanation</p>
+                      <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1.5">Explanation</p>
                       <MarkdownRenderer>{q.explanation}</MarkdownRenderer>
                     </div>
                   </div>

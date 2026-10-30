@@ -30,7 +30,7 @@ export function LearningView() {
     <div className="flex flex-col h-full">
       {/* Progress header */}
       <div className="px-4 py-2.5 border-b border-gray-800">
-        <div className="flex justify-between text-xs text-gray-500 mb-1.5">
+        <div className="flex justify-between text-xs text-gray-400 mb-1.5">
           <span>{store.currentIndex + 1} / {store.questions.length}</span>
           <span>{Math.round((store.currentIndex / store.questions.length) * 100)}%</span>
         </div>
@@ -64,7 +64,7 @@ export function LearningView() {
               value={store.textInput}
               onChange={(e) => store.setTextInput(e.target.value)}
               placeholder="Write your answer here..."
-              className="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-gray-300 placeholder:text-gray-600 resize-none h-28 focus:outline-none focus:border-blue-500 text-sm"
+              className="w-full bg-gray-900 border border-gray-700 rounded-lg p-3 text-gray-200 placeholder:text-gray-500 resize-none h-28 focus:outline-none focus:border-blue-500 text-sm"
             />
           )
         )}
@@ -118,7 +118,7 @@ function BookmarkButton({ questionId }: { questionId: string }) {
   }
 
   return (
-    <button onClick={() => void toggle()} className="ml-auto text-gray-500 hover:text-amber-400 transition-colors" title="Bookmark">
+    <button onClick={() => void toggle()} className="ml-auto text-gray-400 hover:text-amber-400 transition-colors" title="Bookmark">
       {bookmarked ? <BookmarkCheck size={16} className="text-amber-400" /> : <Bookmark size={16} />}
     </button>
   )
@@ -139,11 +139,11 @@ function ChoiceOptions({ question }: { question: Question }) {
         if (revealed) {
           if (isCorrect) cls += 'border-emerald-600 bg-emerald-900/20 text-emerald-300'
           else if (isSelected) cls += 'border-red-600 bg-red-900/20 text-red-300'
-          else cls += 'border-gray-800 bg-gray-900/50 text-gray-500'
+          else cls += 'border-gray-800 bg-gray-900/50 text-gray-400'
         } else if (isSelected) {
-          cls += 'border-blue-500 bg-blue-900/20 text-blue-200'
+          cls += 'border-blue-500 bg-blue-900/20 text-blue-100'
         } else {
-          cls += 'border-gray-700 bg-gray-900 text-gray-300 hover:border-gray-500'
+          cls += 'border-gray-700 bg-gray-900 text-gray-200 hover:border-gray-500'
         }
 
         return (
@@ -176,7 +176,7 @@ function ExplanationBlock({ question, result }: { question: Question; result: Ev
 
       {/* Explanation */}
       <div>
-        <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Explanation</p>
+        <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Explanation</p>
         <MarkdownRenderer>{question.explanation}</MarkdownRenderer>
       </div>
 

@@ -24,7 +24,7 @@ export function BookmarksView() {
 
   return (
     <div className="p-4 space-y-2">
-      <p className="text-xs text-gray-500 mb-3">{questions.length} bookmarked</p>
+      <p className="text-xs text-gray-400 mb-3">{questions.length} bookmarked</p>
       {questions.map((q) => {
         const isExpanded = expandedId === q.id
         return (
@@ -34,12 +34,12 @@ export function BookmarksView() {
                 className="flex-1 text-left flex items-start gap-2 min-w-0"
                 onClick={() => setExpandedId(isExpanded ? null : q.id)}
               >
-                <span className="text-sm text-gray-300 flex-1 line-clamp-2 leading-snug">{q.question.replace(/```[\s\S]*?```/g, '[code]').replace(/`/g, '')}</span>
-                {isExpanded ? <ChevronUp size={14} className="text-gray-500 shrink-0 mt-0.5" /> : <ChevronDown size={14} className="text-gray-500 shrink-0 mt-0.5" />}
+                <span className="text-sm text-gray-200 flex-1 line-clamp-2 leading-snug">{q.question.replace(/```[\s\S]*?```/g, '[code]').replace(/`/g, '')}</span>
+                {isExpanded ? <ChevronUp size={14} className="text-gray-400 shrink-0 mt-0.5" /> : <ChevronDown size={14} className="text-gray-400 shrink-0 mt-0.5" />}
               </button>
               <button
                 onClick={() => void removeBookmark(q.id)}
-                className="text-gray-600 hover:text-red-400 transition-colors shrink-0"
+                className="text-gray-500 hover:text-red-400 transition-colors shrink-0"
                 title="Remove bookmark"
               >
                 <BookmarkX size={15} />
@@ -55,7 +55,7 @@ export function BookmarksView() {
                 <MarkdownRenderer>{q.question}</MarkdownRenderer>
                 {q.codeSnippet && <MarkdownRenderer>{`\`\`\`typescript\n${q.codeSnippet}\n\`\`\``}</MarkdownRenderer>}
                 <div>
-                  <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">Explanation</p>
+                  <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-1.5">Explanation</p>
                   <MarkdownRenderer>{q.explanation}</MarkdownRenderer>
                 </div>
                 {q.keyConcepts.length > 0 && (

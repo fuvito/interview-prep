@@ -1,4 +1,4 @@
-import { questionProgressRepository } from '@/database/repositories'
+import { questionProgressRepository, assessmentSessionRepository } from '@/database/repositories'
 import { questionRepository } from '@/core/question-engine'
 import { calculateSessionScore } from '@/core/scoring-engine'
 import type { QuestionProgress, SubjectStats, TopicStats, WeakArea } from '@/types'
@@ -89,6 +89,13 @@ export const progressTracker = {
         correctRate: ts.correctRate,
         attemptedQuestions: ts.attemptedQuestions,
       }))
+  },
+
+  async resetAllProgress(): Promise<void> {
+    await Promise.all([
+      questionProgressRepository.clear(),
+      assessmentSessionRepository.clear(),
+    ])
   },
 
   async getRecentlyAttempted(limit = 10): Promise<QuestionProgress[]> {

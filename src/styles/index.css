@@ -7,25 +7,45 @@
 .light-mode {
   --color-bg:      #f8fafc;
   --color-surface: #ffffff;
-  --color-border:  #e2e8f0;
+  --color-border:  #cbd5e1;
   --color-text:    #0f172a;
-  --color-muted:   #64748b;
+  --color-muted:   #475569;
 }
 
 .light-mode body,
 .light-mode [class*="bg-gray-950"] { background-color: var(--color-bg) !important; }
 .light-mode [class*="bg-gray-900"] { background-color: var(--color-surface) !important; }
 .light-mode [class*="bg-gray-800"] { background-color: #f1f5f9 !important; }
+.light-mode pre                    { background-color: #f1f5f9 !important; }
 .light-mode [class*="border-gray-800"],
 .light-mode [class*="border-gray-700"] { border-color: var(--color-border) !important; }
 .light-mode [class*="text-gray-100"],
 .light-mode [class*="text-white"] { color: var(--color-text) !important; }
 .light-mode [class*="text-gray-300"],
-.light-mode [class*="text-gray-200"] { color: #334155 !important; }
-.light-mode [class*="text-gray-400"],
+.light-mode [class*="text-gray-200"] { color: #1e293b !important; }
+.light-mode [class*="text-gray-400"] { color: #334155 !important; }
 .light-mode [class*="text-gray-500"],
 .light-mode [class*="text-gray-600"] { color: var(--color-muted) !important; }
-.light-mode .hljs { color: #24292e; }
 .light-mode [class*="bg-blue-900"] { background-color: #dbeafe !important; }
 .light-mode [class*="text-blue-300"],
 .light-mode [class*="text-blue-200"] { color: #1d4ed8 !important; }
+
+/* Syntax highlighting — light mode token overrides */
+.light-mode .hljs                 { color: #24292e; }
+.light-mode .hljs-comment,
+.light-mode .hljs-quote           { color: #6a737d; font-style: italic; }
+.light-mode .hljs-keyword,
+.light-mode .hljs-selector-tag   { color: #d73a49; }
+.light-mode .hljs-string,
+.light-mode .hljs-attr            { color: #032f62; }
+.light-mode .hljs-number,
+.light-mode .hljs-literal,
+.light-mode .hljs-built_in        { color: #005cc5; }
+.light-mode .hljs-title,
+.light-mode .hljs-name,
+.light-mode .hljs-type            { color: #6f42c1; }
+.light-mode .hljs-tag             { color: #22863a; }
+.light-mode .hljs-variable,
+.light-mode .hljs-template-variable { color: #e36209; }
+.light-mode .hljs-addition        { background: #f0fff4; color: #22863a; }
+.light-mode .hljs-deletion        { background: #ffeef0; color: #b31d28; }

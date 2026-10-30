@@ -29,4 +29,8 @@ export const assessmentSessionRepository = {
   async delete(id: string): Promise<void> {
     await db.assessmentSessions.delete(id)
   },
+
+  async clear(): Promise<void> {
+    await db.assessmentSessions.clear()
+  },
 }

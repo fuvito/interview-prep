@@ -37,7 +37,7 @@ export function TopicsView({ subjectId }: Props) {
         <Zap size={16} className="text-blue-400 shrink-0" />
       </button>
 
-      <h2 className="text-xs font-semibold text-gray-500 uppercase tracking-wider pb-1">Topics</h2>
+      <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-wider pb-1">Topics</h2>
 
       {topics.map((topic) => {
         const stats = statsMap[topic.id]
@@ -51,7 +51,7 @@ export function TopicsView({ subjectId }: Props) {
             <div className="flex items-start justify-between gap-2">
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-medium text-gray-200 truncate">{topic.name}</p>
-                <p className="text-xs text-gray-500">{questionRepository.countByTopic(topic.id)} questions</p>
+                <p className="text-xs text-gray-400">{questionRepository.countByTopic(topic.id)} questions</p>
               </div>
               {correctRate !== null && (
                 <span className={`text-xs font-mono shrink-0 ${correctRate >= 75 ? 'text-emerald-400' : correctRate >= 50 ? 'text-amber-400' : 'text-red-400'}`}>

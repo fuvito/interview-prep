@@ -350,21 +350,31 @@ Implement incrementally. Do not attempt to build the entire application in one s
 - [x] Bookmarks screen.
 
 ### Phase 5 — TypeScript Content Pack
-- [ ] Create 150–200 high-quality questions.
-- [ ] Cover beginner, intermediate, and advanced levels.
-- [ ] Include detailed explanations.
-- [ ] Include practical code examples.
-- [ ] Include common interview questions.
-- [ ] Validate all questions and answers.
+- [x] Create 150–200 high-quality questions. (155 across 6 topics)
+- [x] Cover beginner, intermediate, and advanced levels.
+- [x] Include detailed explanations.
+- [x] Include practical code examples.
+- [x] Include common interview questions.
+- [x] Validate all questions and answers.
+
+### Phase 5b — UI Polish (post-content)
+- [x] Dark / light mode toggle with persistence.
+- [x] Improved text readability (contrast, gray levels, light mode code blocks).
+- [x] Progress reset with confirmation dialog.
+- [ ] About screen.
+- [ ] Full-screen / windowed view mode.
+- [ ] Extension border styling.
+- [ ] TopBar title reflects current subject.
 
 ### Phase 6 — Testing and Release
-- [ ] Unit tests for core engines.
+- [ ] Unit tests for core engines (vitest).
+- [ ] ESLint linter setup.
+- [ ] Playwright end-to-end tests.
 - [ ] Test database persistence.
 - [ ] Test database migrations.
 - [ ] Test offline functionality.
 - [ ] Test Chrome extension lifecycle.
-- [ ] Test responsive layouts.
-- [ ] Optimize bundle size.
+- [ ] Optimize bundle size (highlight.js language subset).
 - [ ] Prepare Chrome Web Store release.
 
 ---
