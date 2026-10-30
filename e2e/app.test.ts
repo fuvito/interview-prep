@@ -33,7 +33,10 @@ test.describe('Navigation', () => {
     // Clicking a subject card uses navigate() (stack push), so the back button appears
     await page.getByText('TypeScript').click()
     await page.getByRole('button', { name: 'Go back' }).click()
-    await expect(page.getByText('InterviewPrep').first()).toBeVisible()
+    // After going back, the back button should be gone (we're at a root view again)
+    await expect(page.getByRole('button', { name: 'Go back' })).not.toBeVisible()
+    // Bottom nav is only shown at root views
+    await expect(page.getByRole('button', { name: 'Home' })).toBeVisible()
   })
 
   test('navigates to About view', async ({ page }) => {
@@ -83,15 +86,18 @@ test.describe('Font size controls', () => {
 
   test('decrease button becomes disabled at minimum font size', async ({ page }) => {
     await page.goto('/')
-    // Default is md; one click reaches sm (minimum)
+    // Default is md; click down twice to reach xs (minimum: xs, sm, md, lg, xl, 2xl, 3xl, 4xl)
+    await page.getByRole('button', { name: 'Decrease font size' }).click()
     await page.getByRole('button', { name: 'Decrease font size' }).click()
     await expect(page.getByRole('button', { name: 'Decrease font size' })).toBeDisabled()
   })
 
   test('increase button becomes disabled at maximum font size', async ({ page }) => {
     await page.goto('/')
-    // Default is md; one click reaches lg (maximum)
-    await page.getByRole('button', { name: 'Increase font size' }).click()
+    // Default is md; click up 5 times to reach 4xl (maximum)
+    for (let i = 0; i < 5; i++) {
+      await page.getByRole('button', { name: 'Increase font size' }).click()
+    }
     await expect(page.getByRole('button', { name: 'Increase font size' })).toBeDisabled()
   })
 })

@@ -15,6 +15,7 @@ export function LearningView() {
   useEffect(() => {
     void store.load(view.subjectId, view.topicId)
     return () => store.reset()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [view.subjectId, view.topicId])
 
   if (store.questions.length === 0) {

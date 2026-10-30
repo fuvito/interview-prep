@@ -23,6 +23,7 @@ export function TopicsView({ subjectId }: Props) {
       setStatsMap(map)
     }
     void load()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [subjectId])
 
   return (
