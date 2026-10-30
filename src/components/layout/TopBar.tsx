@@ -11,7 +11,7 @@ function getTitle(view: View): string {
     case 'subjects':        return 'Subjects'
     case 'topics':          return questionRepository.getSubjectById(view.subjectId)?.name ?? 'Topics'
     case 'learning':        return questionRepository.getTopicById(view.topicId)?.name ?? 'Study'
-    case 'interview-setup': return 'Interview Setup'
+    case 'interview-setup': return questionRepository.getSubjectById(view.subjectId)?.name ?? 'Interview Setup'
     case 'interview':       return 'Interview'
     case 'results':         return 'Results'
     case 'progress':        return 'Progress'

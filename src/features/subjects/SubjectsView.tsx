@@ -51,11 +51,6 @@ export function SubjectsView() {
     await uploadedContentRepository.delete(pack.id)
     deregisterUploadedPack(pack)
     setUploadedPacks((prev) => prev.filter((p) => p.id !== pack.id))
-    setUploadedIds((prev) => {
-      const next = new Set(prev)
-      next.delete(pack.id)
-      return next
-    })
     setSubjects(questionRepository.getAllSubjects())
   }
 

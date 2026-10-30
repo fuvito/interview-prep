@@ -364,7 +364,7 @@ Implement incrementally. Do not attempt to build the entire application in one s
 - [x] About screen.
 - [x] Full-screen / windowed view mode.
 - [x] Extension border styling.
-- [ ] TopBar title reflects current subject.
+- [x] TopBar title reflects current subject.
 
 ### Phase 6 — Testing and Release
 - [x] Unit tests for core engines (vitest) — 63 tests, 80% coverage.
