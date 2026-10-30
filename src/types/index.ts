@@ -68,6 +68,7 @@ export interface UserPreferences {
   theme: 'dark' | 'light' | 'system'
   fontSize?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'
   defaultDifficulty?: Difficulty
+  lastSubjectId?: string
 }
 
 export interface UploadedSubjectPack {

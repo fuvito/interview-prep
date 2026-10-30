@@ -5,9 +5,12 @@ import type { View } from '@/store'
 
 const isPopup = window.innerWidth <= 500
 
-function getTitle(view: View): string {
+function getTitle(view: View, currentSubjectId: string | null): string {
   switch (view.name) {
-    case 'dashboard':       return 'InterviewPrep'
+    case 'dashboard': {
+      const subject = currentSubjectId ? questionRepository.getSubjectById(currentSubjectId) : null
+      return subject?.name ?? 'InterviewPrep'
+    }
     case 'subjects':        return 'Subjects'
     case 'topics':          return questionRepository.getSubjectById(view.subjectId)?.name ?? 'Topics'
     case 'learning':        return questionRepository.getTopicById(view.topicId)?.name ?? 'Study'
@@ -21,21 +24,24 @@ function getTitle(view: View): string {
 }
 
 export function TopBar() {
-  const { current, stack, navigate, goBack } = useNavigationStore()
+  const { current, stack, navigate, goBack, currentSubjectId } = useNavigationStore()
   const { theme, toggle, fontSize, increaseFontSize, decreaseFontSize } = useThemeStore()
   const canGoBack = stack.length > 0
   const isDashboard = current.name === 'dashboard'
+  const hasSubject = isDashboard && currentSubjectId !== null
 
   function openFullTab() {
     chrome.tabs.create({ url: chrome.runtime.getURL('index.html') })
   }
 
+  const title = getTitle(current, currentSubjectId)
+
   return (
-    <header className="h-12 flex items-center px-4 border-b border-gray-800 shrink-0 gap-3">
+    <header className="h-12 flex items-center px-4 border-b border-blue-900/40 bg-[#0c1628] shrink-0 gap-3">
       {canGoBack ? (
         <button
           onClick={goBack}
-          className="text-gray-400 hover:text-gray-200 transition-colors p-0.5 shrink-0"
+          className="text-blue-300/70 hover:text-blue-200 transition-colors p-0.5 shrink-0"
           aria-label="Go back"
         >
           <ArrowLeft size={18} />
@@ -44,20 +50,25 @@ export function TopBar() {
         <div className="w-5 shrink-0" />
       )}
 
-      {isDashboard ? (
+      {isDashboard && !hasSubject ? (
         <div className="flex items-baseline gap-1.5">
           <span className="text-xs font-bold tracking-widest text-blue-400 uppercase">IP</span>
-          <span className="text-xs text-gray-500 font-medium">InterviewPrep</span>
+          <span className="text-xs text-blue-300/50 font-medium">InterviewPrep</span>
         </div>
       ) : (
-        <h1 className="text-sm font-semibold text-gray-100 truncate">{getTitle(current)}</h1>
+        <div className="flex items-center gap-2 min-w-0">
+          {isDashboard && (
+            <span className="text-[10px] font-bold tracking-widest text-blue-500 uppercase shrink-0">IP</span>
+          )}
+          <h1 className="text-sm font-semibold text-blue-100 truncate">{title}</h1>
+        </div>
       )}
 
       <div className="ml-auto flex items-center gap-1 shrink-0">
         {isDashboard && (
           <button
             onClick={() => navigate({ name: 'about' })}
-            className="text-gray-500 hover:text-gray-300 transition-colors p-0.5"
+            className="text-blue-400/50 hover:text-blue-300 transition-colors p-0.5"
             aria-label="About"
           >
             <Info size={15} />
@@ -67,7 +78,7 @@ export function TopBar() {
         <button
           onClick={() => void decreaseFontSize()}
           disabled={fontSize === 'xs'}
-          className="text-gray-500 hover:text-gray-300 transition-colors px-0.5 disabled:opacity-30 disabled:cursor-not-allowed leading-none"
+          className="text-blue-400/50 hover:text-blue-300 transition-colors px-0.5 disabled:opacity-30 disabled:cursor-not-allowed leading-none"
           aria-label="Decrease font size"
         >
           <span className="font-bold select-none" style={{ fontSize: '10px' }}>A</span>
@@ -75,7 +86,7 @@ export function TopBar() {
         <button
           onClick={() => void increaseFontSize()}
           disabled={fontSize === 'lg'}
-          className="text-gray-500 hover:text-gray-300 transition-colors px-0.5 disabled:opacity-30 disabled:cursor-not-allowed leading-none"
+          className="text-blue-400/50 hover:text-blue-300 transition-colors px-0.5 disabled:opacity-30 disabled:cursor-not-allowed leading-none"
           aria-label="Increase font size"
         >
           <span className="font-bold select-none" style={{ fontSize: '14px' }}>A</span>
@@ -83,7 +94,7 @@ export function TopBar() {
 
         <button
           onClick={() => void toggle()}
-          className="text-gray-500 hover:text-gray-300 transition-colors p-0.5"
+          className="text-blue-400/50 hover:text-blue-300 transition-colors p-0.5"
           aria-label="Toggle theme"
         >
           {theme === 'dark' ? <Sun size={15} /> : <Moon size={15} />}
@@ -92,7 +103,7 @@ export function TopBar() {
         {isPopup && (
           <button
             onClick={openFullTab}
-            className="text-gray-500 hover:text-gray-300 transition-colors p-0.5"
+            className="text-blue-400/50 hover:text-blue-300 transition-colors p-0.5"
             aria-label="Open in full window"
           >
             <Maximize2 size={14} />

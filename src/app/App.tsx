@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Layout } from '@/components/layout'
 import { Router } from './Router'
-import { useThemeStore } from '@/store'
+import { useThemeStore, useNavigationStore } from '@/store'
 import { uploadedContentRepository } from '@/database/repositories'
 import { registerUploadedPacks } from '@/content'
 
@@ -10,6 +10,7 @@ const containerClass = `${isPopup ? 'w-[480px] h-[600px]' : 'w-full h-screen'} b
 
 export default function App() {
   const { load } = useThemeStore()
+  const { initCurrentSubject } = useNavigationStore()
   const [ready, setReady] = useState(false)
 
   useEffect(() => {
@@ -17,12 +18,13 @@ export default function App() {
       const [packs] = await Promise.all([
         uploadedContentRepository.getAll(),
         load(),
+        initCurrentSubject(),
       ])
       registerUploadedPacks(packs)
       setReady(true)
     }
     void init()
-  }, [load])
+  }, [load, initCurrentSubject])
 
   if (!ready) return <div className={containerClass} />
 

@@ -1,0 +1,44 @@
+[
+  {
+    "id": "devops-docker",
+    "subjectId": "devops",
+    "name": "Docker & Containers",
+    "description": "Container fundamentals, Dockerfile best practices, images, volumes, networking, and Docker Compose.",
+    "order": 1
+  },
+  {
+    "id": "devops-kubernetes",
+    "subjectId": "devops",
+    "name": "Kubernetes",
+    "description": "Pods, Deployments, Services, ConfigMaps, Secrets, Ingress, RBAC, and cluster management.",
+    "order": 2
+  },
+  {
+    "id": "devops-cicd",
+    "subjectId": "devops",
+    "name": "CI/CD Pipelines",
+    "description": "Continuous integration, delivery, and deployment concepts with GitHub Actions, GitLab CI, Jenkins, and pipeline design patterns.",
+    "order": 3
+  },
+  {
+    "id": "devops-linux",
+    "subjectId": "devops",
+    "name": "Linux & Shell",
+    "description": "Linux fundamentals, file system, process management, permissions, networking commands, and shell scripting.",
+    "order": 4
+  },
+  {
+    "id": "devops-iac",
+    "subjectId": "devops",
+    "name": "Infrastructure as Code",
+    "description": "Terraform, Ansible, CloudFormation, and IaC principles for provisioning and managing infrastructure.",
+    "order": 5
+  },
+  {
+    "id": "devops-monitoring",
+    "subjectId": "devops",
+    "name": "Monitoring & Observability",
+    "description": "Metrics, logs, traces, alerting, Prometheus, Grafana, ELK stack, and SRE principles.",
+    "order": 6
+  }
+]

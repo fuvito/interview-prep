@@ -18,14 +18,25 @@ import nodeCoreModulesData from './subjects/nodejs/questions/node-core-modules.j
 import nodeExpressData from './subjects/nodejs/questions/node-express.json'
 import nodeStreamsEventsData from './subjects/nodejs/questions/node-streams-events.json'
 
+import devopsSubjectData from './subjects/devops/subject.json'
+import devopsTopicsData from './subjects/devops/topics.json'
+import dockerData from './subjects/devops/questions/docker.json'
+import kubernetesData from './subjects/devops/questions/kubernetes.json'
+import cicdData from './subjects/devops/questions/cicd.json'
+import linuxShellData from './subjects/devops/questions/linux-shell.json'
+import iacData from './subjects/devops/questions/iac.json'
+import monitoringData from './subjects/devops/questions/monitoring.json'
+
 export const allSubjects: Subject[] = [
   tsSubjectData as unknown as Subject,
   nodeSubjectData as unknown as Subject,
+  devopsSubjectData as unknown as Subject,
 ]
 
 export const allTopics: Topic[] = [
   ...(tsTopicsData as unknown as Topic[]),
   ...(nodeTopicsData as unknown as Topic[]),
+  ...(devopsTopicsData as unknown as Topic[]),
 ]
 
 export const allQuestions: Question[] = [
@@ -41,6 +52,12 @@ export const allQuestions: Question[] = [
   ...(nodeCoreModulesData as unknown as Question[]),
   ...(nodeExpressData as unknown as Question[]),
   ...(nodeStreamsEventsData as unknown as Question[]),
+  ...(dockerData as unknown as Question[]),
+  ...(kubernetesData as unknown as Question[]),
+  ...(cicdData as unknown as Question[]),
+  ...(linuxShellData as unknown as Question[]),
+  ...(iacData as unknown as Question[]),
+  ...(monitoringData as unknown as Question[]),
 ]
 
 export function getSubjectById(id: string): Subject | undefined {

@@ -1,0 +1,457 @@
+[
+  {
+    "id": "devops-linux-001",
+    "subjectId": "devops",
+    "topicId": "devops-linux",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What does `chmod 755 script.sh` do?",
+    "options": [
+      "Sets the file owner to user 755",
+      "Gives owner read/write/execute, group read/execute, others read/execute",
+      "Gives everyone full permissions (read/write/execute)",
+      "Removes all permissions from the file"
+    ],
+    "correctAnswers": [1],
+    "explanation": "chmod uses octal notation: 4=read, 2=write, 1=execute. 755 = owner(7=4+2+1=rwx), group(5=4+0+1=r-x), others(5=r-x). Common patterns: 755 for executables, 644 for regular files, 600 for private keys.",
+    "keyConcepts": ["chmod", "file permissions", "octal notation", "rwx"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "devops-linux-002",
+    "subjectId": "devops",
+    "topicId": "devops-linux",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is the difference between a hard link and a symbolic (soft) link?",
+    "options": [
+      "Hard links work across filesystems; symbolic links do not",
+      "A hard link is another directory entry pointing to the same inode; a symbolic link is a file containing a path to another file",
+      "Symbolic links are faster to access; hard links use more disk space",
+      "There is no practical difference — both point to the same file"
+    ],
+    "correctAnswers": [1],
+    "explanation": "Hard link: shares the same inode as the original — both are equal; deleting the original doesn't break the hard link. Symbolic link: a separate file containing a path; if the original is deleted, the symlink is broken (dangling). Symlinks can cross filesystems and link to directories; hard links cannot.",
+    "keyConcepts": ["hard link", "symbolic link", "inode", "ln command", "filesystem"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "devops-linux-003",
+    "subjectId": "devops",
+    "topicId": "devops-linux",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What does `ps aux` show?",
+    "options": [
+      "All network processes and their ports",
+      "A snapshot of all running processes with user, PID, CPU%, memory%, command",
+      "Only processes belonging to the current user",
+      "The process tree in hierarchical format"
+    ],
+    "correctAnswers": [1],
+    "explanation": "`ps aux`: `a` = all users, `u` = user-oriented format (shows USER, CPU%, MEM%), `x` = include processes without a TTY. Shows a point-in-time snapshot. For a live, updating view use `top` or `htop`. `ps aux | grep nginx` is the classic way to find a process.",
+    "keyConcepts": ["ps aux", "process listing", "PID", "CPU/memory usage"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "devops-linux-004",
+    "subjectId": "devops",
+    "topicId": "devops-linux",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is the difference between `>` and `>>` when redirecting output?",
+    "options": [
+      "`>` appends to a file; `>>` overwrites it",
+      "`>` overwrites (truncates) the file; `>>` appends to the end",
+      "`>` redirects stdout; `>>` redirects stderr",
+      "`>` is for text files; `>>` is for binary files"
+    ],
+    "correctAnswers": [1],
+    "explanation": "`command > file` overwrites the file (truncates it first). `command >> file` appends to the end. `2>` redirects stderr. `2>&1` redirects stderr to wherever stdout is going. `&>` redirects both stdout and stderr to a file.",
+    "codeSnippet": "echo 'Hello' > output.txt     # Creates/overwrites\necho 'World' >> output.txt    # Appends\ncommand 2>errors.log          # Stderr only\ncommand > out.log 2>&1        # Both stdout+stderr",
+    "keyConcepts": ["output redirection", "stdout", "stderr", "append vs overwrite"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "devops-linux-005",
+    "subjectId": "devops",
+    "topicId": "devops-linux",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does `grep -r 'error' /var/log/` do?",
+    "options": [
+      "Removes all files containing 'error' in /var/log/",
+      "Recursively searches all files under /var/log/ and prints lines containing 'error'",
+      "Counts the number of files containing 'error' in /var/log/",
+      "Renames files containing 'error' in /var/log/"
+    ],
+    "correctAnswers": [1],
+    "explanation": "`grep` searches for patterns in files. `-r` (recursive) traverses directories. Common flags: `-i` (case-insensitive), `-n` (show line numbers), `-l` (show only filenames), `-c` (count matches), `-v` (invert — show non-matching lines), `-E` (extended regex). `grep -rn 'ERROR' /var/log/ | tail -50`",
+    "keyConcepts": ["grep", "-r flag", "pattern matching", "log searching", "regex"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "devops-linux-006",
+    "subjectId": "devops",
+    "topicId": "devops-linux",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the purpose of `cron` and what does `0 2 * * *` mean in a crontab?",
+    "options": [
+      "cron is a process manager; `0 2 * * *` means every 2 seconds",
+      "cron is a task scheduler; `0 2 * * *` means every day at 2:00 AM",
+      "cron is a log rotator; `0 2 * * *` means twice daily at midnight",
+      "cron is a backup tool; `0 2 * * *` means every 2 minutes"
+    ],
+    "correctAnswers": [1],
+    "explanation": "Cron runs scheduled commands. Crontab format: `minute hour day-of-month month day-of-week command`. `0 2 * * *` = minute 0, hour 2, every day, every month, every weekday → daily at 02:00. Use `crontab -e` to edit, `crontab -l` to list. `@daily`, `@weekly` are shorthand aliases.",
+    "codeSnippet": "# minute hour dom month dow command\n0 2 * * *    /usr/bin/backup.sh\n*/15 * * * * /usr/bin/healthcheck.sh  # Every 15 min\n0 0 1 * *    /usr/bin/monthly.sh      # First of month",
+    "keyConcepts": ["cron", "crontab", "scheduled tasks", "cron syntax", "@daily"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "devops-linux-007",
+    "subjectId": "devops",
+    "topicId": "devops-linux",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the difference between `kill`, `kill -9`, and `killall`?",
+    "options": [
+      "`kill` deletes a process; `kill -9` pauses it; `killall` resumes it",
+      "`kill PID` sends SIGTERM (graceful); `kill -9 PID` sends SIGKILL (force); `killall name` sends a signal to all processes with that name",
+      "`kill -9` is safer than `kill`; `killall` only works as root",
+      "All three do the same thing — just different syntax"
+    ],
+    "correctAnswers": [1],
+    "explanation": "`kill PID` sends SIGTERM (15) — process can catch it and shut down gracefully. `kill -9 PID` sends SIGKILL — uncatchable, immediate termination, risk of data corruption. `killall nginx` sends SIGTERM to all processes named nginx. `pkill -f pattern` kills by command pattern. Always try SIGTERM first.",
+    "keyConcepts": ["kill", "SIGTERM", "SIGKILL", "killall", "process signals"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "devops-linux-008",
+    "subjectId": "devops",
+    "topicId": "devops-linux",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does `netstat -tlnp` or `ss -tlnp` show?",
+    "options": [
+      "All network traffic in real-time",
+      "All TCP listening ports with the PID/program name bound to them",
+      "The routing table of the host",
+      "Network interface statistics and bandwidth usage"
+    ],
+    "correctAnswers": [1],
+    "explanation": "`ss -tlnp` (modern replacement for netstat): `-t` TCP, `-l` listening only, `-n` numeric (no DNS lookup), `-p` show process. Shows which ports are open and which process owns them. Useful for: confirming your app started on the right port, finding port conflicts, security auditing of exposed services.",
+    "keyConcepts": ["ss", "netstat", "listening ports", "network debugging", "port conflicts"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "devops-linux-009",
+    "subjectId": "devops",
+    "topicId": "devops-linux",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is `systemd` and how do you manage services with it?",
+    "options": [
+      "systemd is a file synchronization daemon; services are managed with `sync` command",
+      "systemd is the init system and service manager on most modern Linux distros; services are managed with `systemctl start/stop/enable/disable/status`",
+      "systemd is a package manager; services are installed with `systemd install`",
+      "systemd is a log viewer; services emit logs to systemd with syslog"
+    ],
+    "correctAnswers": [1],
+    "explanation": "systemd is PID 1 on most modern Linux systems (Ubuntu 16+, RHEL 7+, Debian 8+). Key commands: `systemctl start nginx`, `systemctl stop nginx`, `systemctl restart nginx`, `systemctl enable nginx` (start at boot), `systemctl status nginx` (view state + recent logs), `journalctl -u nginx -f` (follow logs).",
+    "keyConcepts": ["systemd", "systemctl", "service management", "init system", "journalctl"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "devops-linux-010",
+    "subjectId": "devops",
+    "topicId": "devops-linux",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does `df -h` vs `du -sh *` tell you?",
+    "options": [
+      "Both show disk usage — `df` is faster, `du` is more accurate",
+      "`df -h` shows filesystem disk space usage (free/used per partition); `du -sh *` shows disk usage of each item in the current directory",
+      "`df` shows disk failures; `du` shows disk utilization per process",
+      "`df -h` shows RAM usage; `du -sh *` shows disk usage"
+    ],
+    "correctAnswers": [1],
+    "explanation": "`df -h` (disk free): shows filesystem-level free/used space per mounted partition. `-h` = human-readable. `du -sh *` (disk usage): shows how much space each file/directory in the current path uses. `-s` = summary (don't recurse into dirs), `-h` = human-readable. Use `du -sh * | sort -rh | head -10` to find the biggest directories.",
+    "keyConcepts": ["df", "du", "disk space", "filesystem usage", "disk debugging"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "devops-linux-011",
+    "subjectId": "devops",
+    "topicId": "devops-linux",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is `ssh-keygen` and what does passwordless SSH authentication look like?",
+    "options": [
+      "ssh-keygen generates passwords for SSH servers",
+      "ssh-keygen generates a key pair; the public key is added to ~/.ssh/authorized_keys on the server; private key stays on the client — no password needed",
+      "ssh-keygen generates a session token that expires in 24 hours",
+      "Passwordless SSH is not possible; a password is always required"
+    ],
+    "correctAnswers": [1],
+    "explanation": "Flow: `ssh-keygen -t ed25519 -C 'mykey'` creates `id_ed25519` (private, keep secret) and `id_ed25519.pub` (public). Copy public key to server: `ssh-copy-id user@server` (appends to `~/.ssh/authorized_keys`). SSH challenges the client to prove they have the private key without sending it over the network.",
+    "keyConcepts": ["ssh-keygen", "public key auth", "authorized_keys", "ed25519", "passwordless SSH"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "devops-linux-012",
+    "subjectId": "devops",
+    "topicId": "devops-linux",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does `awk '{print $2}' file.txt` do?",
+    "options": [
+      "Prints the second line of the file",
+      "Prints the second field (column) of each line, using whitespace as the default delimiter",
+      "Adds a second copy of each line to the output",
+      "Skips the first line and prints all remaining lines"
+    ],
+    "correctAnswers": [1],
+    "explanation": "`awk` is a text processing tool. `$1`, `$2`, `$NF` refer to fields. Default field separator is whitespace. Example: `ps aux | awk '{print $1, $2, $11}'` prints user, PID, and command. `awk -F: '{print $1}' /etc/passwd` prints usernames (`:` delimiter). `awk '/pattern/ {print $0}'` prints matching lines.",
+    "keyConcepts": ["awk", "field processing", "text manipulation", "delimiter", "$NF"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "devops-linux-013",
+    "subjectId": "devops",
+    "topicId": "devops-linux",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is a bash `set -euo pipefail` and why do scripts use it?",
+    "options": [
+      "It enables debug mode, printing every command before execution",
+      "`-e` exits on error, `-u` errors on unset variables, `-o pipefail` causes pipes to fail if any command fails — makes scripts fail fast and predictably",
+      "It enables strict mode that prevents any command from running as root",
+      "It configures the shell to use UTC timezone for all date commands"
+    ],
+    "correctAnswers": [1],
+    "explanation": "Without `set -e`, a script continues after a failed command. Without `-u`, using an unset variable silently substitutes empty string (data loss risk). Without `pipefail`, `failing-command | grep x` succeeds because grep finds nothing, hiding the upstream failure. Together, these flags catch errors early in CI scripts.",
+    "codeSnippet": "#!/bin/bash\nset -euo pipefail\n\nDEPLOY_ENV=\"${DEPLOY_ENV}\"  # Fails if DEPLOY_ENV not set\ndocker build -t myapp .\ndocker push myapp            # Script stops here if this fails",
+    "keyConcepts": ["set -e", "set -u", "pipefail", "shell scripting", "error handling"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "devops-linux-014",
+    "subjectId": "devops",
+    "topicId": "devops-linux",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is `tail -f /var/log/app.log` used for?",
+    "options": [
+      "Shows the first 10 lines of the log file",
+      "Follows the log file in real-time, printing new lines as they are written",
+      "Deletes the last 10 lines from the log file",
+      "Compresses the log file using the f (fast) algorithm"
+    ],
+    "correctAnswers": [1],
+    "explanation": "`tail -f` (follow) keeps the file open and prints new lines as they appear — essential for live log monitoring. `-n 100 -f` shows last 100 lines then follows. Modern alternative: `journalctl -u myservice -f` for systemd services. `tail -f` works on any file including Docker log files.",
+    "keyConcepts": ["tail -f", "log following", "real-time logs", "log monitoring"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "devops-linux-015",
+    "subjectId": "devops",
+    "topicId": "devops-linux",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is the Linux `/proc` filesystem?",
+    "options": [
+      "A filesystem for storing application configuration files",
+      "A virtual filesystem exposing kernel and process information as files — reading `/proc/PID/status` gives process info without any syscall overhead",
+      "A protected filesystem only accessible by root",
+      "A filesystem for storing process core dumps"
+    ],
+    "correctAnswers": [1],
+    "explanation": "The `/proc` filesystem is a virtual FS that exists only in memory. It provides a window into kernel state: `/proc/cpuinfo` (CPU info), `/proc/meminfo` (RAM usage), `/proc/PID/fd` (open file descriptors), `/proc/PID/environ` (environment variables), `/proc/net/tcp` (TCP connections). Tools like `ps`, `top`, `ss` read from `/proc`.",
+    "keyConcepts": ["/proc filesystem", "virtual filesystem", "kernel interface", "process info", "procfs"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "devops-linux-016",
+    "subjectId": "devops",
+    "topicId": "devops-linux",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does `curl -I https://example.com` do?",
+    "options": [
+      "Downloads the page content of example.com",
+      "Sends an HTTP HEAD request and shows only the response headers",
+      "Tests if port 443 is open on example.com",
+      "Prints information about the curl binary itself"
+    ],
+    "correctAnswers": [1],
+    "explanation": "`-I` (or `--head`) sends HTTP HEAD — gets only headers, no body. Useful for checking status codes, content-type, server version, cache headers, and redirect chains without downloading content. `curl -IL` follows redirects. For full request/response debugging: `curl -v https://example.com`.",
+    "keyConcepts": ["curl", "HTTP HEAD", "response headers", "network debugging", "-v flag"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "devops-linux-017",
+    "subjectId": "devops",
+    "topicId": "devops-linux",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is `sudo` and what is the difference between `sudo command` and `su -`?",
+    "options": [
+      "`sudo` runs one command as root; `su -` opens a full root shell — both require the root password",
+      "`sudo command` runs one command as root using YOUR password; `su -` switches to the root user entirely using the root password",
+      "`sudo` is for installing packages; `su` is for service management",
+      "They are identical — `sudo` is just shorthand for `su -c`"
+    ],
+    "correctAnswers": [1],
+    "explanation": "`sudo` (Superuser Do) elevates one command using your own password, governed by `/etc/sudoers`. It's audited (logged to syslog). `su -` starts a full root login shell — requires knowing the root password (disabled on Ubuntu by default). `sudo -i` or `sudo su -` gives a root shell using sudo policy.",
+    "keyConcepts": ["sudo", "su", "privilege escalation", "/etc/sudoers", "root access"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "devops-linux-018",
+    "subjectId": "devops",
+    "topicId": "devops-linux",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is a Linux signal and what are the most important ones to know?",
+    "options": [
+      "Signals are kernel notifications sent to processes to request an action or notify of an event",
+      "Signals are network packets sent between Linux servers",
+      "Signals are log messages written to /var/log/signals",
+      "Signals are CPU interrupts that pause process execution"
+    ],
+    "correctAnswers": [0],
+    "explanation": "Key signals: SIGTERM (15) — graceful shutdown request, can be caught; SIGKILL (9) — immediate kill, cannot be caught or ignored; SIGHUP (1) — traditionally reloads config (nginx: `kill -HUP PID`); SIGINT (2) — Ctrl+C; SIGQUIT (3) — Ctrl+\\, creates core dump; SIGUSR1/SIGUSR2 — user-defined, many apps use for log rotation.",
+    "keyConcepts": ["Linux signals", "SIGTERM", "SIGKILL", "SIGHUP", "signal handling"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "devops-linux-019",
+    "subjectId": "devops",
+    "topicId": "devops-linux",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is the difference between a process and a thread in Linux?",
+    "options": [
+      "Processes share memory; threads have separate memory spaces",
+      "A process has its own memory space (virtual address space); threads within a process share the same memory space but have separate execution stacks",
+      "Threads are managed by the kernel; processes are managed by the application",
+      "Processes run in parallel; threads run sequentially"
+    ],
+    "correctAnswers": [1],
+    "explanation": "Processes are independent units with separate address spaces — inter-process communication requires IPC mechanisms (pipes, sockets, shared memory). Threads within a process share the same virtual memory, file descriptors, and signal handlers, but each has its own stack and registers. In Linux, both are created with `clone()` syscall with different flags.",
+    "keyConcepts": ["process", "thread", "virtual address space", "IPC", "clone syscall"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "devops-linux-020",
+    "subjectId": "devops",
+    "topicId": "devops-linux",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is `strace` and when would you use it?",
+    "options": [
+      "strace tracks network connections made by a process",
+      "strace intercepts and logs system calls made by a process — used for debugging mysterious crashes, permission errors, or to understand what files/sockets a process accesses",
+      "strace is a CPU performance profiler",
+      "strace traces bash script execution line by line"
+    ],
+    "correctAnswers": [1],
+    "explanation": "`strace -p PID` attaches to a running process and logs every syscall (open, read, write, connect, execve...). `strace -e trace=file,network mycommand` filters to file and network calls. Use when: app fails silently, you suspect a permission issue, you need to find what config file is being read, or debugging a binary you don't have source for.",
+    "keyConcepts": ["strace", "system calls", "debugging", "syscall tracing", "lsof"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "devops-linux-021",
+    "subjectId": "devops",
+    "topicId": "devops-linux",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is an environment variable and how do you make one persist across sessions?",
+    "options": [
+      "Environment variables exist only in memory; to persist, add `export VAR=value` to ~/.bashrc or ~/.bash_profile",
+      "All environment variables persist automatically between sessions",
+      "Environment variables are stored in /etc/environment and automatically apply to all users",
+      "Use `setenv VAR value` to make a variable persistent"
+    ],
+    "correctAnswers": [0],
+    "explanation": "Environment variables set with `export VAR=value` exist only for the current session and child processes. For persistence: add to `~/.bashrc` (bash interactive shells), `~/.bash_profile` (bash login shells), or `/etc/environment` (system-wide). `source ~/.bashrc` reloads without restarting the shell.",
+    "codeSnippet": "# Temporary (current session only)\nexport NODE_ENV=production\n\n# Persistent — add to ~/.bashrc\necho 'export NODE_ENV=production' >> ~/.bashrc\nsource ~/.bashrc",
+    "keyConcepts": ["environment variables", "export", ".bashrc", ".bash_profile", "session persistence"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "devops-linux-022",
+    "subjectId": "devops",
+    "topicId": "devops-linux",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What does `|` (pipe) do in Linux shell commands?",
+    "options": [
+      "Pipes write output to a file",
+      "Pipes connect the stdout of one command to the stdin of the next, enabling command chaining",
+      "Pipes run two commands simultaneously in background",
+      "Pipes redirect stderr to /dev/null"
+    ],
+    "correctAnswers": [1],
+    "explanation": "The pipe `|` passes stdout of the left command as stdin to the right command. This enables the Unix philosophy of small tools that do one thing well, composed together. Example: `ps aux | grep nginx | awk '{print $2}' | xargs kill` — find nginx PIDs and kill them. Pipes work in memory with no temp files.",
+    "codeSnippet": "# Find top 5 memory-consuming processes\nps aux | sort -rk 4 | head -5\n\n# Count error lines in logs\ngrep 'ERROR' app.log | wc -l\n\n# Find and kill a process\npgrep nginx | xargs kill -9",
+    "keyConcepts": ["pipe", "stdin/stdout", "command composition", "Unix philosophy"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "devops-linux-023",
+    "subjectId": "devops",
+    "topicId": "devops-linux",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does `find /var/log -name '*.log' -mtime +7 -delete` do?",
+    "options": [
+      "Finds log files modified in the last 7 days and deletes them",
+      "Finds .log files in /var/log that were last modified more than 7 days ago and deletes them",
+      "Finds files larger than 7MB and moves them to /var/log",
+      "Counts all log files older than 7 minutes"
+    ],
+    "correctAnswers": [1],
+    "explanation": "`find` with `-mtime +7` means 'modified more than 7 days ago' (`+` means older, `-` means newer). `-name '*.log'` filters by filename pattern. `-delete` deletes matching files (use without `-delete` first to preview). Commonly used in cron for log cleanup. `-exec rm {} \\;` is the alternative to `-delete`.",
+    "keyConcepts": ["find command", "-mtime", "-name", "-delete", "log rotation", "file age"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "devops-linux-024",
+    "subjectId": "devops",
+    "topicId": "devops-linux",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is `lsof` and how is it useful?",
+    "options": [
+      "lsof lists all open file systems",
+      "lsof (list open files) shows all files opened by processes — including network sockets, so `lsof -i :3000` shows what's using port 3000",
+      "lsof lists recently deleted files that can be recovered",
+      "lsof is a log viewer for system open file events"
+    ],
+    "correctAnswers": [1],
+    "explanation": "`lsof -i :3000` shows what process has port 3000 open. `lsof -p PID` shows all files/sockets a process has open. `lsof /path/to/file` shows which process has a file open (useful when you can't delete a file that's 'in use'). In Linux, everything is a file — including network connections.",
+    "keyConcepts": ["lsof", "open files", "network sockets", "port ownership", "file descriptors"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "devops-linux-025",
+    "subjectId": "devops",
+    "topicId": "devops-linux",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What are Linux namespaces and cgroups, and how do they relate to containers?",
+    "options": [
+      "Namespaces are file permission groups; cgroups are network isolation zones",
+      "Namespaces provide isolation of system resources (PID, network, filesystem, users); cgroups limit resource usage (CPU, memory). Together they are the kernel features that containers are built on",
+      "They are Linux kernel modules for hypervisor virtualization",
+      "Namespaces are for user accounts; cgroups manage process groups"
+    ],
+    "correctAnswers": [1],
+    "explanation": "Linux namespaces isolate a process's view of the system: PID namespace (own PID 1), network namespace (own network stack), mount namespace (own filesystem view), UTS namespace (own hostname), IPC namespace. Cgroups (control groups) limit and account for resource usage. Docker uses both: namespaces for isolation, cgroups for resource limits — containers are just processes with restricted views.",
+    "keyConcepts": ["namespaces", "cgroups", "container internals", "process isolation", "resource limits"],
+    "commonInterviewQuestion": true
+  }
+]

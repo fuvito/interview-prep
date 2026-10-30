@@ -1,0 +1,456 @@
+[
+  {
+    "id": "devops-docker-001",
+    "subjectId": "devops",
+    "topicId": "devops-docker",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is the difference between a Docker image and a Docker container?",
+    "options": [
+      "An image is a running process; a container is a static file",
+      "An image is a read-only template; a container is a running instance of an image",
+      "An image is stored in memory; a container is stored on disk",
+      "There is no difference — the terms are interchangeable"
+    ],
+    "correctAnswers": [1],
+    "explanation": "A Docker image is a read-only, layered filesystem snapshot that serves as a blueprint. A container is a live, writable instance created from that image with an additional writable layer on top. Multiple containers can run from the same image simultaneously.",
+    "keyConcepts": ["image vs container", "read-only layers", "copy-on-write", "container lifecycle"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "devops-docker-002",
+    "subjectId": "devops",
+    "topicId": "devops-docker",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "Which Dockerfile instruction sets the base image for subsequent build instructions?",
+    "options": ["BASE", "FROM", "IMAGE", "START"],
+    "correctAnswers": [1],
+    "explanation": "`FROM` is always the first instruction in a Dockerfile (excluding ARG). It sets the base image. Example: `FROM node:20-alpine`. Multi-stage builds can have multiple FROM instructions.",
+    "codeSnippet": "FROM node:20-alpine\nWORKDIR /app\nCOPY package*.json ./\nRUN npm ci\nCOPY . .\nCMD [\"node\", \"server.js\"]",
+    "keyConcepts": ["FROM instruction", "base image", "Dockerfile syntax"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "devops-docker-003",
+    "subjectId": "devops",
+    "topicId": "devops-docker",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What does `docker build -t myapp:1.0 .` do?",
+    "options": [
+      "Pulls the myapp:1.0 image from Docker Hub",
+      "Runs a container named myapp with tag 1.0",
+      "Builds an image tagged as myapp:1.0 from the Dockerfile in the current directory",
+      "Starts a build server on port 1.0"
+    ],
+    "correctAnswers": [2],
+    "explanation": "`docker build` builds an image from a Dockerfile. `-t myapp:1.0` tags the image with name `myapp` and version `1.0`. The final `.` is the build context (current directory) that is sent to the Docker daemon.",
+    "keyConcepts": ["docker build", "-t flag", "build context", "image tagging"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "devops-docker-004",
+    "subjectId": "devops",
+    "topicId": "devops-docker",
+    "type": "multiple",
+    "difficulty": "intermediate",
+    "question": "Which Dockerfile best practices reduce final image size? (Select all that apply)",
+    "options": [
+      "Use multi-stage builds",
+      "Use a minimal base image like alpine",
+      "Combine multiple RUN commands into one with &&",
+      "Include all source files with COPY . .",
+      "Install devDependencies in production image"
+    ],
+    "correctAnswers": [0, 1, 2],
+    "explanation": "Multi-stage builds discard build-time layers. Alpine images are ~5MB vs ~900MB for debian. Chaining RUN commands with && avoids creating intermediate layers for each command. Copying everything and installing devDependencies bloats the image unnecessarily.",
+    "codeSnippet": "# Multi-stage build\nFROM node:20-alpine AS builder\nWORKDIR /app\nCOPY package*.json ./\nRUN npm ci\nCOPY . .\nRUN npm run build\n\nFROM node:20-alpine\nWORKDIR /app\nCOPY --from=builder /app/dist ./dist\nCOPY package*.json ./\nRUN npm ci --omit=dev\nCMD [\"node\", \"dist/server.js\"]",
+    "keyConcepts": ["multi-stage builds", "alpine", "layer caching", "image optimization"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "devops-docker-005",
+    "subjectId": "devops",
+    "topicId": "devops-docker",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is Docker layer caching, and when is a cached layer invalidated?",
+    "options": [
+      "Caching stores containers in RAM; invalidated on restart",
+      "Each instruction in a Dockerfile creates a layer; layers are reused unless the instruction or its context changes",
+      "Caching is a Docker Hub feature for storing popular images",
+      "Layers are invalidated every 24 hours automatically"
+    ],
+    "correctAnswers": [1],
+    "explanation": "Docker builds images in layers. Each instruction (RUN, COPY, ADD) creates a layer. During rebuilds, Docker reuses cached layers up to the first changed instruction. This is why `COPY package.json` and `RUN npm install` should come before `COPY . .` — source code changes won't invalidate the dependency install layer.",
+    "keyConcepts": ["layer caching", "cache invalidation", "build optimization", "Dockerfile order"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "devops-docker-006",
+    "subjectId": "devops",
+    "topicId": "devops-docker",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the difference between CMD and ENTRYPOINT in a Dockerfile?",
+    "options": [
+      "CMD runs during build; ENTRYPOINT runs at startup",
+      "ENTRYPOINT defines the executable; CMD provides default arguments that can be overridden",
+      "CMD is required; ENTRYPOINT is optional",
+      "They are identical — only one should be used"
+    ],
+    "correctAnswers": [1],
+    "explanation": "ENTRYPOINT sets the main executable that always runs. CMD provides default arguments to that executable, but can be overridden with `docker run <image> <new-args>`. Using both: `ENTRYPOINT [\"node\"]` + `CMD [\"server.js\"]` means `docker run myapp` runs `node server.js`, but `docker run myapp scripts/migrate.js` runs `node scripts/migrate.js`.",
+    "codeSnippet": "# CMD can be completely replaced at runtime\nCMD [\"node\", \"server.js\"]\n\n# ENTRYPOINT + CMD: CMD acts as default args\nENTRYPOINT [\"node\"]\nCMD [\"server.js\"]",
+    "keyConcepts": ["CMD", "ENTRYPOINT", "exec form", "shell form", "container startup"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "devops-docker-007",
+    "subjectId": "devops",
+    "topicId": "devops-docker",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What does the `-p 8080:3000` flag do in `docker run -p 8080:3000 myapp`?",
+    "options": [
+      "Allocates 8080 MB of memory and 3000 CPU cycles",
+      "Maps host port 8080 to container port 3000",
+      "Maps container port 8080 to host port 3000",
+      "Exposes both ports 8080 and 3000 to the internet"
+    ],
+    "correctAnswers": [1],
+    "explanation": "The `-p` flag format is `HOST_PORT:CONTAINER_PORT`. So `-p 8080:3000` means traffic arriving on host port 8080 is forwarded into the container on port 3000. The app inside the container still listens on 3000; the host just translates 8080 → 3000.",
+    "keyConcepts": ["port mapping", "port binding", "host port", "container port"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "devops-docker-008",
+    "subjectId": "devops",
+    "topicId": "devops-docker",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the purpose of a `.dockerignore` file?",
+    "options": [
+      "Lists images that Docker should never pull",
+      "Prevents specified files and directories from being sent in the build context",
+      "Configures Docker daemon to ignore certain errors",
+      "Marks files as read-only inside the container"
+    ],
+    "correctAnswers": [1],
+    "explanation": "When `docker build` runs, it sends the entire build context directory to the Docker daemon. `.dockerignore` lists patterns (like `.git`, `node_modules`, `*.log`) to exclude from that transfer. This speeds up builds and prevents accidentally leaking sensitive files into the image.",
+    "keyConcepts": [".dockerignore", "build context", "security", "build performance"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "devops-docker-009",
+    "subjectId": "devops",
+    "topicId": "devops-docker",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the difference between a Docker volume and a bind mount?",
+    "options": [
+      "Volumes are temporary; bind mounts are permanent",
+      "Volumes are managed by Docker and stored in Docker's storage area; bind mounts map a specific host path into the container",
+      "Bind mounts are managed by Docker; volumes map host paths",
+      "There is no practical difference"
+    ],
+    "correctAnswers": [1],
+    "explanation": "Volumes (`-v myvolume:/app/data`) are managed by Docker, portable, and stored in `/var/lib/docker/volumes`. Bind mounts (`-v /host/path:/container/path`) map a specific host filesystem path into the container — good for development (live code reload) but less portable across hosts.",
+    "keyConcepts": ["volumes", "bind mounts", "data persistence", "docker storage"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "devops-docker-010",
+    "subjectId": "devops",
+    "topicId": "devops-docker",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What happens to data inside a container when it is stopped and removed?",
+    "options": [
+      "Data persists in the image automatically",
+      "Data is lost unless it was stored in a volume or bind mount",
+      "Data is saved to the host's /tmp directory",
+      "Docker automatically backs up container data on removal"
+    ],
+    "correctAnswers": [1],
+    "explanation": "Containers are ephemeral. Any data written to a container's writable layer is lost when the container is removed. To persist data (databases, uploads, logs), use Docker volumes or bind mounts — these exist outside the container's lifecycle.",
+    "keyConcepts": ["container ephemerality", "data persistence", "volumes", "stateless containers"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "devops-docker-011",
+    "subjectId": "devops",
+    "topicId": "devops-docker",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "In Docker networking, what is the default bridge network behavior for container-to-container communication?",
+    "options": [
+      "Containers on the default bridge can communicate using container names as hostnames",
+      "Containers on the default bridge cannot communicate with each other",
+      "Containers on the default bridge can communicate by IP but not by container name (DNS not enabled on default bridge)",
+      "All containers share the same IP on the default bridge"
+    ],
+    "correctAnswers": [2],
+    "explanation": "The default `bridge` network does not provide automatic DNS resolution between containers — they must use IP addresses. User-defined bridge networks DO provide DNS resolution by container name. This is why `docker network create mynet` + adding containers to it is the recommended approach for multi-container apps.",
+    "keyConcepts": ["bridge network", "user-defined network", "DNS resolution", "container networking"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "devops-docker-012",
+    "subjectId": "devops",
+    "topicId": "devops-docker",
+    "type": "code",
+    "difficulty": "intermediate",
+    "question": "What is wrong with this Dockerfile from a security perspective?",
+    "codeSnippet": "FROM node:20\nWORKDIR /app\nCOPY . .\nRUN npm install\nEXPOSE 3000\nCMD [\"node\", \"server.js\"]",
+    "options": [
+      "EXPOSE 3000 is a security risk",
+      "The container runs as root by default — should add a non-root USER",
+      "npm install should use npm ci",
+      "node:20 is an insecure base image"
+    ],
+    "correctAnswers": [1],
+    "explanation": "Without a USER instruction, Docker containers run as root (UID 0). This is a security risk: if the app is compromised, the attacker has root access inside the container. Best practice: create a non-root user with `RUN addgroup -S app && adduser -S app -G app` then `USER app`.",
+    "codeExample": "FROM node:20-alpine\nWORKDIR /app\nCOPY package*.json ./\nRUN npm ci --omit=dev\nCOPY . .\nRUN addgroup -S app && adduser -S app -G app\nUSER app\nEXPOSE 3000\nCMD [\"node\", \"server.js\"]",
+    "keyConcepts": ["USER instruction", "non-root container", "container security", "least privilege"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "devops-docker-013",
+    "subjectId": "devops",
+    "topicId": "devops-docker",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does `docker-compose up --build` do differently from `docker-compose up`?",
+    "options": [
+      "It forces rebuilding all service images even if they already exist",
+      "It builds the images but does not start the containers",
+      "It only rebuilds images that have changed Dockerfiles",
+      "It runs the build stage in detached mode"
+    ],
+    "correctAnswers": [0],
+    "explanation": "`docker-compose up` starts containers using existing images (pulling if needed). `docker-compose up --build` forces a rebuild of all images defined in the `build:` section of the compose file, even if an image with that tag already exists. This ensures your containers run the latest code.",
+    "keyConcepts": ["docker-compose", "--build flag", "image rebuild", "compose workflow"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "devops-docker-014",
+    "subjectId": "devops",
+    "topicId": "devops-docker",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the purpose of `HEALTHCHECK` in a Dockerfile?",
+    "options": [
+      "It checks the host machine's health before building",
+      "It defines a command Docker runs periodically to check if a container is healthy",
+      "It validates that all COPY instructions copied files successfully",
+      "It performs a security scan of the image layers"
+    ],
+    "correctAnswers": [1],
+    "explanation": "`HEALTHCHECK` tells Docker how to test if a container is still working. Docker runs the check on an interval and marks containers as `healthy`, `unhealthy`, or `starting`. Orchestrators like Kubernetes use this signal to decide whether to send traffic to a container or restart it.",
+    "codeSnippet": "HEALTHCHECK --interval=30s --timeout=3s --retries=3 \\\n  CMD curl -f http://localhost:3000/health || exit 1",
+    "keyConcepts": ["HEALTHCHECK", "container health", "liveness", "orchestration"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "devops-docker-015",
+    "subjectId": "devops",
+    "topicId": "devops-docker",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is the difference between `docker stop` and `docker kill`?",
+    "options": [
+      "`docker stop` removes the container; `docker kill` only stops it",
+      "`docker stop` sends SIGTERM and waits for graceful shutdown (default 10s), then sends SIGKILL; `docker kill` sends SIGKILL immediately",
+      "`docker kill` sends SIGTERM; `docker stop` sends SIGKILL",
+      "There is no difference — both immediately terminate the container"
+    ],
+    "correctAnswers": [1],
+    "explanation": "`docker stop` sends SIGTERM to PID 1 in the container, giving the app a chance to shut down gracefully (close connections, flush buffers). After the timeout (default 10 seconds), it sends SIGKILL to force-terminate. `docker kill` sends SIGKILL immediately with no grace period — data loss risk.",
+    "keyConcepts": ["SIGTERM", "SIGKILL", "graceful shutdown", "container lifecycle", "signal handling"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "devops-docker-016",
+    "subjectId": "devops",
+    "topicId": "devops-docker",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "How do you pass environment variables to a running container?",
+    "options": [
+      "Using the ENV instruction in Dockerfile at runtime",
+      "Using `docker run -e KEY=VALUE` or `--env-file .env`",
+      "Environment variables cannot be passed to running containers",
+      "Using `docker env set KEY=VALUE`"
+    ],
+    "correctAnswers": [1],
+    "explanation": "`docker run -e DATABASE_URL=postgres://... myapp` injects environment variables. `--env-file .env` reads from a file. The Dockerfile `ENV` instruction sets build-time defaults, but runtime `-e` flags override them and are preferred for secrets — never bake secrets into images.",
+    "keyConcepts": ["environment variables", "-e flag", "--env-file", "secrets management"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "devops-docker-017",
+    "subjectId": "devops",
+    "topicId": "devops-docker",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is a Docker registry, and how does it differ from Docker Hub?",
+    "options": [
+      "A registry is Docker's internal cache; Hub is for public images",
+      "A registry is any storage and distribution system for Docker images; Docker Hub is one public registry operated by Docker Inc",
+      "A registry is for Kubernetes; Hub is for Docker Swarm",
+      "They are the same thing — different names for the same service"
+    ],
+    "correctAnswers": [1],
+    "explanation": "A Docker registry is any service that stores and distributes images (using the OCI Distribution Spec). Docker Hub is the default public registry. Others include AWS ECR, Google Artifact Registry, GitHub Container Registry (ghcr.io), and self-hosted options like Harbor or GitLab Registry.",
+    "keyConcepts": ["Docker registry", "Docker Hub", "ECR", "image distribution", "OCI"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "devops-docker-018",
+    "subjectId": "devops",
+    "topicId": "devops-docker",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What does `--no-cache` do in `docker build --no-cache`?",
+    "options": [
+      "Prevents Docker from caching the built image for future use",
+      "Forces Docker to re-execute every instruction without using any cached layers",
+      "Disables caching on the host filesystem during build",
+      "Prevents the base image from being pulled from cache"
+    ],
+    "correctAnswers": [1],
+    "explanation": "`--no-cache` tells Docker to ignore all cached layers and re-execute every instruction from scratch. Useful when a `RUN apt-get update` step might use a stale cache, or when you want to ensure the image is built with the latest dependencies regardless of whether instructions changed.",
+    "keyConcepts": ["--no-cache", "layer invalidation", "build reproducibility", "cache busting"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "devops-docker-019",
+    "subjectId": "devops",
+    "topicId": "devops-docker",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does `docker exec -it mycontainer sh` do?",
+    "options": [
+      "Replaces the main process of mycontainer with a shell",
+      "Creates a new container from mycontainer's image and runs a shell",
+      "Runs an additional `sh` process inside the running mycontainer, attached to your terminal",
+      "Exports the container filesystem to a shell script"
+    ],
+    "correctAnswers": [2],
+    "explanation": "`docker exec` runs a new command in a running container without affecting its main process. `-i` keeps stdin open, `-t` allocates a pseudo-TTY. Together, `-it` gives an interactive terminal. This is the standard way to debug a running container.",
+    "keyConcepts": ["docker exec", "-it flag", "interactive terminal", "container debugging"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "devops-docker-020",
+    "subjectId": "devops",
+    "topicId": "devops-docker",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is Docker BuildKit and what advantage does it provide?",
+    "options": [
+      "BuildKit is a Docker GUI for building images",
+      "BuildKit is the next-generation image build engine with parallel builds, better caching, secret mounts, and SSH forwarding",
+      "BuildKit is a cloud service for building images remotely",
+      "BuildKit is a Dockerfile linter"
+    ],
+    "correctAnswers": [1],
+    "explanation": "BuildKit (enabled via `DOCKER_BUILDKIT=1` or default in Docker 23+) is the modern build engine. It supports parallel execution of independent build stages, more efficient layer caching (including cache mounts for package managers), secret mounting (`--mount=type=secret`) so secrets never appear in layers, and SSH forwarding for private repos.",
+    "codeSnippet": "# syntax=docker/dockerfile:1\nFROM node:20-alpine\nWORKDIR /app\nCOPY package*.json ./\nRUN --mount=type=cache,target=/root/.npm \\\n    npm ci\nCOPY . .\nCMD [\"node\", \"server.js\"]",
+    "keyConcepts": ["BuildKit", "cache mounts", "secret mounts", "parallel builds"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "devops-docker-021",
+    "subjectId": "devops",
+    "topicId": "devops-docker",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is the purpose of `EXPOSE` in a Dockerfile?",
+    "options": [
+      "It opens the port on the host machine to the internet",
+      "It documents which port the container listens on, but does not actually publish the port",
+      "It is required for containers to receive network traffic",
+      "It maps the container port to a random host port"
+    ],
+    "correctAnswers": [1],
+    "explanation": "`EXPOSE` is documentation — it tells other developers and tools (like docker-compose) which port the application uses. It does NOT bind the port to the host. Actual port publishing requires `-p HOST:CONTAINER` at `docker run` time or `ports:` in docker-compose.yml.",
+    "keyConcepts": ["EXPOSE instruction", "port documentation", "port publishing", "docker run -p"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "devops-docker-022",
+    "subjectId": "devops",
+    "topicId": "devops-docker",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is the difference between `COPY` and `ADD` in a Dockerfile?",
+    "options": [
+      "COPY is for local files; ADD can also extract tar archives and fetch remote URLs",
+      "ADD is for local files; COPY can fetch remote URLs",
+      "They are identical — both copy files from the build context",
+      "COPY creates new layers; ADD does not"
+    ],
+    "correctAnswers": [0],
+    "explanation": "`COPY` simply copies files from the build context into the image. `ADD` does everything COPY does plus: extracts local `.tar` archives automatically and can fetch from remote URLs (though `curl` + `RUN` is preferred for URLs to control when the layer is cached). Best practice: use `COPY` unless you specifically need `ADD`'s extraction feature.",
+    "keyConcepts": ["COPY vs ADD", "tar extraction", "build context", "Dockerfile best practices"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "devops-docker-023",
+    "subjectId": "devops",
+    "topicId": "devops-docker",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is `docker-compose.override.yml` used for?",
+    "options": [
+      "It replaces docker-compose.yml entirely in production",
+      "It is automatically merged with docker-compose.yml to override settings — commonly used for local development overrides",
+      "It disables all compose services not listed in it",
+      "It is a backup file created automatically by Docker Compose"
+    ],
+    "correctAnswers": [1],
+    "explanation": "Docker Compose automatically merges `docker-compose.yml` with `docker-compose.override.yml`. This pattern is used to keep production-safe config in the base file and dev-only config (bind mounts, debug ports, local env vars) in the override. Override files are not committed to production deployments.",
+    "keyConcepts": ["docker-compose.override.yml", "compose file merging", "dev vs prod config"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "devops-docker-024",
+    "subjectId": "devops",
+    "topicId": "devops-docker",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is the OCI (Open Container Initiative) and why does it matter?",
+    "options": [
+      "OCI is Docker's internal team that reviews pull requests",
+      "OCI defines open standards for container image format and runtime, enabling interoperability between tools",
+      "OCI is a cloud provider that hosts container registries",
+      "OCI is a security certification for Docker images"
+    ],
+    "correctAnswers": [1],
+    "explanation": "The Open Container Initiative (OCI) defines open standards: the Image Spec (how images are structured), the Distribution Spec (how registries work), and the Runtime Spec (how containers execute). Thanks to OCI, images built with Docker run on containerd, Podman, or any OCI-compliant runtime — vendor lock-in is avoided.",
+    "keyConcepts": ["OCI", "container standards", "Image Spec", "Runtime Spec", "interoperability"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "devops-docker-025",
+    "subjectId": "devops",
+    "topicId": "devops-docker",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is a `tmpfs` mount in Docker and when would you use it?",
+    "options": [
+      "A mount that stores container logs to a temp file",
+      "A mount that stores data in the container's memory (RAM), not on disk — data is lost when container stops",
+      "A mount that temporarily copies a volume to the host",
+      "A mount type used only in Windows containers"
+    ],
+    "correctAnswers": [1],
+    "explanation": "`tmpfs` mounts store data in the host's memory. They are never written to disk. Use cases: storing sensitive data (session tokens, temp credentials) that must never touch disk, or high-performance scratch space for computations that don't need persistence.",
+    "codeSnippet": "docker run --tmpfs /run:rw,noexec,nosuid,size=65536k myapp",
+    "keyConcepts": ["tmpfs", "in-memory storage", "security", "ephemeral data"],
+    "commonInterviewQuestion": false
+  }
+]

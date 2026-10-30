@@ -8,7 +8,7 @@ import { parseSubjectPack, ImportError } from '@/lib/subjectImporter'
 import type { UploadedSubjectPack } from '@/types'
 
 export function SubjectsView() {
-  const { navigate } = useNavigationStore()
+  const { navigate, setCurrentSubject } = useNavigationStore()
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [subjects, setSubjects] = useState(() => questionRepository.getAllSubjects())
   const [uploadedPacks, setUploadedPacks] = useState<UploadedSubjectPack[]>([])
@@ -63,7 +63,7 @@ export function SubjectsView() {
           return (
             <div key={s.id} className="flex items-stretch gap-2">
               <button
-                onClick={() => navigate({ name: 'topics', subjectId: s.id })}
+                onClick={() => { void setCurrentSubject(s.id); navigate({ name: 'topics', subjectId: s.id }) }}
                 className="flex-1 flex items-center justify-between p-4 bg-gray-900 border border-gray-800 rounded-lg hover:border-gray-600 transition-colors text-left"
               >
                 <div>

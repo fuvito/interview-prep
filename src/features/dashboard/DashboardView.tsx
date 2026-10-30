@@ -7,32 +7,63 @@ import { ScoreBar } from '@/components/common'
 import type { SubjectStats, WeakArea } from '@/types'
 
 export function DashboardView() {
-  const { navigate } = useNavigationStore()
+  const { navigate, currentSubjectId, setCurrentSubject } = useNavigationStore()
   const [stats, setStats] = useState<SubjectStats | null>(null)
   const [weakAreas, setWeakAreas] = useState<WeakArea[]>([])
 
+  const subjects = questionRepository.getAllSubjects()
+  const subject = currentSubjectId ? questionRepository.getSubjectById(currentSubjectId) : null
+
   useEffect(() => {
+    if (!currentSubjectId) return
     async function load() {
-      const subjects = questionRepository.getAllSubjects()
-      if (subjects.length === 0) return
       const [s, w] = await Promise.all([
-        progressTracker.getSubjectStats(subjects[0].id),
-        progressTracker.getWeakAreas(subjects[0].id),
+        progressTracker.getSubjectStats(currentSubjectId!),
+        progressTracker.getWeakAreas(currentSubjectId!),
       ])
       setStats(s)
       setWeakAreas(w)
     }
     void load()
-  }, [])
+  }, [currentSubjectId])
 
-  const subjects = questionRepository.getAllSubjects()
+  // First launch — no subject selected yet
+  if (!subject) {
+    return (
+      <div className="p-4 space-y-4">
+        <div className="pt-2">
+          <p className="text-sm text-gray-400 mb-4">Choose a subject to get started:</p>
+          <div className="space-y-2">
+            {subjects.map((s) => (
+              <button
+                key={s.id}
+                onClick={() => {
+                  void setCurrentSubject(s.id)
+                  navigate({ name: 'topics', subjectId: s.id })
+                }}
+                className="w-full flex items-center justify-between p-4 bg-gray-900 border border-gray-800 rounded-lg hover:border-blue-700 transition-colors text-left"
+              >
+                <div>
+                  <p className="font-medium text-gray-100">{s.name}</p>
+                  <p className="text-xs text-gray-500 mt-0.5">{questionRepository.countBySubject(s.id)} questions</p>
+                </div>
+                <ChevronRight size={16} className="text-gray-400" />
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  const topics = questionRepository.getTopicsBySubject(currentSubjectId!)
 
   return (
     <div className="p-4 space-y-5">
-      {/* Stats */}
+      {/* Progress stats for current subject */}
       {stats && (
         <section>
-          <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Overall Progress</h2>
+          <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Progress</h2>
           <div className="grid grid-cols-3 gap-2">
             <StatCard label="Questions" value={stats.totalQuestions} />
             <StatCard label="Attempted" value={stats.attemptedQuestions} />
@@ -44,19 +75,19 @@ export function DashboardView() {
         </section>
       )}
 
-      {/* Subjects */}
+      {/* Topics for current subject */}
       <section>
-        <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Subjects</h2>
+        <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Topics</h2>
         <div className="space-y-2">
-          {subjects.map((s) => (
+          {topics.map((t) => (
             <button
-              key={s.id}
-              onClick={() => navigate({ name: 'topics', subjectId: s.id })}
+              key={t.id}
+              onClick={() => navigate({ name: 'learning', subjectId: currentSubjectId!, topicId: t.id })}
               className="w-full flex items-center justify-between p-3 bg-gray-900 border border-gray-800 rounded-lg hover:border-gray-600 transition-colors text-left"
             >
               <div>
-                <p className="text-sm font-medium text-gray-200">{s.name}</p>
-                <p className="text-xs text-gray-400">{questionRepository.countBySubject(s.id)} questions</p>
+                <p className="text-sm font-medium text-gray-200">{t.name}</p>
+                <p className="text-xs text-gray-500">{questionRepository.countByTopic(t.id)} questions</p>
               </div>
               <ChevronRight size={16} className="text-gray-400" />
             </button>
