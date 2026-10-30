@@ -57,6 +57,20 @@
         "name": "Fuat Yazar",
         "email": "fyazar@gmail.com"
       }
+    },
+    {
+      "id": "springboot",
+      "name": "Spring Boot",
+      "description": "Spring Boot fundamentals, auto-configuration, dependency injection, REST APIs, JPA, transactions, security, testing, Actuator, and microservices.",
+      "version": "1.0.0",
+      "questionCount": 120,
+      "topicCount": 12,
+      "bundled": false,
+      "packUrl": "https://raw.githubusercontent.com/fuvito/interview-prep/main/packs/springboot.json",
+      "author": {
+        "name": "Fuat Yazar",
+        "email": "fyazar@gmail.com"
+      }
     }
   ]
 }

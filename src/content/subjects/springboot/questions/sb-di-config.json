@@ -1,0 +1,362 @@
+[
+  {
+    "id": "sb-di-001",
+    "subjectId": "springboot",
+    "topicId": "sb-di-config",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "Which injection style is generally recommended for required dependencies in Spring components?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Field injection"
+      },
+      {
+        "id": "b",
+        "text": "Constructor injection"
+      },
+      {
+        "id": "c",
+        "text": "Static injection"
+      },
+      {
+        "id": "d",
+        "text": "Lookup through a global application context"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "Constructor injection makes required dependencies explicit, supports immutable fields, simplifies unit testing, and avoids partially initialized objects. A single constructor does not usually need `@Autowired`.",
+    "keyConcepts": [
+      "constructor injection",
+      "dependency injection",
+      "testability"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-di-002",
+    "subjectId": "springboot",
+    "topicId": "sb-di-config",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What does `@Component` do?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Marks a class as a candidate for component scanning and bean registration"
+      },
+      {
+        "id": "b",
+        "text": "Starts an HTTP server"
+      },
+      {
+        "id": "c",
+        "text": "Creates a database table"
+      },
+      {
+        "id": "d",
+        "text": "Enables transaction management by itself"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "`@Component` is a stereotype annotation. Spring can discover it through component scanning and register an instance as a bean.",
+    "keyConcepts": [
+      "@Component",
+      "component scanning",
+      "bean"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-di-003",
+    "subjectId": "springboot",
+    "topicId": "sb-di-config",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "When should `@ConfigurationProperties` be preferred over many individual `@Value` fields?",
+    "options": [
+      {
+        "id": "a",
+        "text": "When binding a group of related configuration properties into a typed object"
+      },
+      {
+        "id": "b",
+        "text": "Only when injecting a single constant"
+      },
+      {
+        "id": "c",
+        "text": "When mapping request parameters to a controller"
+      },
+      {
+        "id": "d",
+        "text": "When declaring JPA relationships"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "`@ConfigurationProperties` provides structured, type-safe binding for related settings, supports validation, and is easier to organize and test than many unrelated `@Value` expressions.",
+    "keyConcepts": [
+      "@ConfigurationProperties",
+      "type-safe configuration",
+      "configuration validation"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-di-004",
+    "subjectId": "springboot",
+    "topicId": "sb-di-config",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the default scope of a Spring bean?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Prototype"
+      },
+      {
+        "id": "b",
+        "text": "Request"
+      },
+      {
+        "id": "c",
+        "text": "Singleton"
+      },
+      {
+        "id": "d",
+        "text": "Session"
+      }
+    ],
+    "correctAnswers": [
+      "c"
+    ],
+    "explanation": "Singleton is the default: one bean instance per bean definition per Spring application context. It does not mean one instance per JVM across all contexts.",
+    "keyConcepts": [
+      "bean scopes",
+      "singleton",
+      "application context"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-di-005",
+    "subjectId": "springboot",
+    "topicId": "sb-di-config",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What happens when two beans of the same type are candidates for a single injection point and no qualifier or primary bean resolves the ambiguity?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Spring normally reports a NoUniqueBeanDefinitionException"
+      },
+      {
+        "id": "b",
+        "text": "Spring silently injects both into every field"
+      },
+      {
+        "id": "c",
+        "text": "Spring always chooses the bean created first"
+      },
+      {
+        "id": "d",
+        "text": "The application automatically changes both beans to prototype scope"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "An ambiguous single-valued dependency normally causes a startup failure. Resolve it with `@Primary`, `@Qualifier`, or a more specific injection design.",
+    "keyConcepts": [
+      "@Primary",
+      "@Qualifier",
+      "bean ambiguity"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-di-006",
+    "subjectId": "springboot",
+    "topicId": "sb-di-config",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the purpose of Spring profiles?",
+    "options": [
+      {
+        "id": "a",
+        "text": "To activate environment-specific bean definitions and configuration"
+      },
+      {
+        "id": "b",
+        "text": "To encrypt all properties automatically"
+      },
+      {
+        "id": "c",
+        "text": "To create a separate JVM for each environment"
+      },
+      {
+        "id": "d",
+        "text": "To define REST API versions"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "Profiles allow configuration and beans to be selected for environments such as local, test, staging, and production. Profile activation can come from properties, environment variables, or command-line arguments.",
+    "keyConcepts": [
+      "profiles",
+      "environment configuration",
+      "@Profile"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-di-007",
+    "subjectId": "springboot",
+    "topicId": "sb-di-config",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is a potential problem when injecting a prototype-scoped bean directly into a singleton bean?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The singleton receives one prototype instance at its own creation time rather than a fresh instance on every use"
+      },
+      {
+        "id": "b",
+        "text": "The singleton is converted into a prototype"
+      },
+      {
+        "id": "c",
+        "text": "Spring creates a new singleton for each request"
+      },
+      {
+        "id": "d",
+        "text": "The application context cannot start"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "Direct injection resolves the prototype dependency when the singleton is created. If a fresh instance is needed for each operation, use a provider such as `ObjectProvider`, a scoped proxy, or another lookup mechanism.",
+    "keyConcepts": [
+      "prototype scope",
+      "singleton scope",
+      "ObjectProvider"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-di-008",
+    "subjectId": "springboot",
+    "topicId": "sb-di-config",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is the purpose of `@DependsOn`?",
+    "options": [
+      {
+        "id": "a",
+        "text": "To declare that one bean should be initialized before another bean"
+      },
+      {
+        "id": "b",
+        "text": "To inject a list of all beans"
+      },
+      {
+        "id": "c",
+        "text": "To create a circular dependency automatically"
+      },
+      {
+        "id": "d",
+        "text": "To define a transaction boundary"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "`@DependsOn` expresses initialization ordering between named beans. It is not a general replacement for constructor dependencies, which already express a natural dependency relationship.",
+    "keyConcepts": [
+      "@DependsOn",
+      "bean lifecycle",
+      "initialization order"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-di-009",
+    "subjectId": "springboot",
+    "topicId": "sb-di-config",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "Why can circular constructor dependencies cause application startup to fail?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Neither object can be constructed without the other being available first"
+      },
+      {
+        "id": "b",
+        "text": "Constructor injection disables component scanning"
+      },
+      {
+        "id": "c",
+        "text": "Spring cannot create more than one bean at a time"
+      },
+      {
+        "id": "d",
+        "text": "All singleton beans must be immutable"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "A constructor cycle such as A requiring B and B requiring A prevents either constructor from completing. Refactor responsibilities or introduce an appropriate indirection rather than relying on circular references.",
+    "keyConcepts": [
+      "circular dependencies",
+      "constructor injection",
+      "design refactoring"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-di-010",
+    "subjectId": "springboot",
+    "topicId": "sb-di-config",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does `@Value(\"${service.timeout}\")` do?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Injects a property value resolved from the Spring Environment"
+      },
+      {
+        "id": "b",
+        "text": "Creates a property named service.timeout in the database"
+      },
+      {
+        "id": "c",
+        "text": "Validates an incoming HTTP header"
+      },
+      {
+        "id": "d",
+        "text": "Loads a profile-specific class"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "`@Value` resolves a property placeholder or expression and injects the resulting value. For groups of related settings, `@ConfigurationProperties` is often more maintainable.",
+    "keyConcepts": [
+      "@Value",
+      "property placeholders",
+      "Spring Environment"
+    ],
+    "commonInterviewQuestion": true
+  }
+]

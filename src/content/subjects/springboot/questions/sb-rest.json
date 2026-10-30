@@ -1,0 +1,362 @@
+[
+  {
+    "id": "sb-rest-001",
+    "subjectId": "springboot",
+    "topicId": "sb-rest",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "Which annotation is commonly used to define a REST controller whose return values are written to the HTTP response body?",
+    "options": [
+      {
+        "id": "a",
+        "text": "@ControllerAdvice"
+      },
+      {
+        "id": "b",
+        "text": "@RestController"
+      },
+      {
+        "id": "c",
+        "text": "@Repository"
+      },
+      {
+        "id": "d",
+        "text": "@Configuration"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "`@RestController` combines `@Controller` and `@ResponseBody`, so handler return values are serialized into the response body by message converters.",
+    "keyConcepts": [
+      "@RestController",
+      "Spring MVC",
+      "message converters"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-rest-002",
+    "subjectId": "springboot",
+    "topicId": "sb-rest",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "Which annotation binds a path segment such as `/orders/{id}` to a controller method parameter?",
+    "options": [
+      {
+        "id": "a",
+        "text": "@RequestBody"
+      },
+      {
+        "id": "b",
+        "text": "@PathVariable"
+      },
+      {
+        "id": "c",
+        "text": "@RequestHeader"
+      },
+      {
+        "id": "d",
+        "text": "@ModelAttribute"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "`@PathVariable` binds a URI template variable to a method parameter. `@RequestParam` is used for query parameters.",
+    "keyConcepts": [
+      "@PathVariable",
+      "URI templates",
+      "request mapping"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-rest-003",
+    "subjectId": "springboot",
+    "topicId": "sb-rest",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "Which annotation binds JSON from an HTTP request body to a Java object?",
+    "options": [
+      {
+        "id": "a",
+        "text": "@RequestBody"
+      },
+      {
+        "id": "b",
+        "text": "@RequestParam"
+      },
+      {
+        "id": "c",
+        "text": "@CookieValue"
+      },
+      {
+        "id": "d",
+        "text": "@ResponseStatus"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "`@RequestBody` asks an HTTP message converter, commonly Jackson for JSON, to deserialize the request body into the declared Java type.",
+    "keyConcepts": [
+      "@RequestBody",
+      "Jackson",
+      "HTTP message converters"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-rest-004",
+    "subjectId": "springboot",
+    "topicId": "sb-rest",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "Which HTTP status code is most appropriate when a resource is successfully created?",
+    "options": [
+      {
+        "id": "a",
+        "text": "200 OK in every case"
+      },
+      {
+        "id": "b",
+        "text": "201 Created"
+      },
+      {
+        "id": "c",
+        "text": "204 No Content"
+      },
+      {
+        "id": "d",
+        "text": "302 Found"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "`201 Created` indicates that the request created a resource. The response may include a `Location` header identifying the new resource. A `200` can also be valid for some API designs, but 201 is the conventional creation status.",
+    "keyConcepts": [
+      "HTTP status codes",
+      "201 Created",
+      "REST semantics"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-rest-005",
+    "subjectId": "springboot",
+    "topicId": "sb-rest",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the typical purpose of `ResponseEntity<T>` in a controller?",
+    "options": [
+      {
+        "id": "a",
+        "text": "To control the response body, status code, and headers"
+      },
+      {
+        "id": "b",
+        "text": "To open a database transaction"
+      },
+      {
+        "id": "c",
+        "text": "To define a JPA entity"
+      },
+      {
+        "id": "d",
+        "text": "To create a scheduled task"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "`ResponseEntity` gives a controller explicit control over the HTTP response status, headers, and body.",
+    "keyConcepts": [
+      "ResponseEntity",
+      "HTTP response",
+      "controller"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-rest-006",
+    "subjectId": "springboot",
+    "topicId": "sb-rest",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "Which annotation maps HTTP GET requests to a controller method?",
+    "options": [
+      {
+        "id": "a",
+        "text": "@GetMapping"
+      },
+      {
+        "id": "b",
+        "text": "@PostMapping"
+      },
+      {
+        "id": "c",
+        "text": "@PatchMapping"
+      },
+      {
+        "id": "d",
+        "text": "@DeleteMapping"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "`@GetMapping` is a composed shortcut for `@RequestMapping(method = RequestMethod.GET)`. Similar shortcuts exist for POST, PUT, PATCH, and DELETE.",
+    "keyConcepts": [
+      "@GetMapping",
+      "@RequestMapping",
+      "HTTP methods"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-rest-007",
+    "subjectId": "springboot",
+    "topicId": "sb-rest",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the main difference between PUT and PATCH in typical REST semantics?",
+    "options": [
+      {
+        "id": "a",
+        "text": "PUT generally replaces the target representation; PATCH applies a partial modification"
+      },
+      {
+        "id": "b",
+        "text": "PUT is always read-only; PATCH always creates a resource"
+      },
+      {
+        "id": "c",
+        "text": "PUT is for query parameters; PATCH is for headers"
+      },
+      {
+        "id": "d",
+        "text": "There is no semantic difference"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "PUT conventionally replaces the resource representation and is idempotent. PATCH applies a set of partial modifications; its exact semantics depend on the patch format and API contract.",
+    "keyConcepts": [
+      "PUT",
+      "PATCH",
+      "idempotency"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-rest-008",
+    "subjectId": "springboot",
+    "topicId": "sb-rest",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "Why should a REST controller usually return DTOs rather than exposing JPA entities directly?",
+    "options": [
+      {
+        "id": "a",
+        "text": "DTOs decouple the API contract from persistence, limit data exposure, and avoid serialization issues with entity graphs"
+      },
+      {
+        "id": "b",
+        "text": "DTOs automatically make every endpoint asynchronous"
+      },
+      {
+        "id": "c",
+        "text": "JPA entities cannot be serialized under any circumstances"
+      },
+      {
+        "id": "d",
+        "text": "DTOs eliminate the need for validation"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "Returning entities can expose internal fields, create accidental API coupling, trigger lazy-loading queries, or cause recursion in bidirectional relationships. DTOs provide an explicit API boundary.",
+    "keyConcepts": [
+      "DTOs",
+      "API design",
+      "JPA serialization"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-rest-009",
+    "subjectId": "springboot",
+    "topicId": "sb-rest",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is a common risk of performing blocking JPA calls on a reactive WebFlux event-loop thread?",
+    "options": [
+      {
+        "id": "a",
+        "text": "It can block event-loop threads and reduce the scalability of the reactive request pipeline"
+      },
+      {
+        "id": "b",
+        "text": "It automatically converts JPA to R2DBC"
+      },
+      {
+        "id": "c",
+        "text": "It improves backpressure handling"
+      },
+      {
+        "id": "d",
+        "text": "It causes every transaction to become distributed"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "Traditional JPA is blocking. Mixing it directly into reactive event-loop processing can block scarce event-loop threads. Use a blocking MVC stack for blocking persistence or isolate blocking work appropriately; use reactive data access for an end-to-end reactive design.",
+    "keyConcepts": [
+      "Spring MVC",
+      "WebFlux",
+      "blocking I/O"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-rest-010",
+    "subjectId": "springboot",
+    "topicId": "sb-rest",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "Which annotation can be used to set a fixed HTTP response status on a controller method or exception class?",
+    "options": [
+      {
+        "id": "a",
+        "text": "@ResponseStatus"
+      },
+      {
+        "id": "b",
+        "text": "@Transactional"
+      },
+      {
+        "id": "c",
+        "text": "@Entity"
+      },
+      {
+        "id": "d",
+        "text": "@Profile"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "`@ResponseStatus` declares the HTTP status associated with a handler method or exception. For more dynamic responses, use `ResponseEntity` or exception handlers.",
+    "keyConcepts": [
+      "@ResponseStatus",
+      "HTTP status",
+      "exception handling"
+    ],
+    "commonInterviewQuestion": true
+  }
+]

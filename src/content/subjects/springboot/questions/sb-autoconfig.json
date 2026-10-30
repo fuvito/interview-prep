@@ -1,0 +1,362 @@
+[
+  {
+    "id": "sb-auto-001",
+    "subjectId": "springboot",
+    "topicId": "sb-autoconfig",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What does Spring Boot auto-configuration primarily do?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Automatically writes application business logic"
+      },
+      {
+        "id": "b",
+        "text": "Configures beans based on classpath contents, existing beans, and configuration properties"
+      },
+      {
+        "id": "c",
+        "text": "Creates a new database for every application"
+      },
+      {
+        "id": "d",
+        "text": "Disables explicit configuration"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "Auto-configuration contributes configuration when its conditions match. It commonly checks available classes, properties, and whether an application has already supplied a bean. Developers can override defaults by defining their own configuration.",
+    "keyConcepts": [
+      "auto-configuration",
+      "conditional configuration",
+      "classpath"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-auto-002",
+    "subjectId": "springboot",
+    "topicId": "sb-autoconfig",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is a Spring Boot starter?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A curated dependency descriptor that brings in a useful set of related dependencies"
+      },
+      {
+        "id": "b",
+        "text": "A Java class that starts every bean manually"
+      },
+      {
+        "id": "c",
+        "text": "A replacement for the Spring container"
+      },
+      {
+        "id": "d",
+        "text": "A production deployment server"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "Starters simplify dependency management by grouping commonly used libraries for a capability, such as web, validation, data JPA, or security.",
+    "keyConcepts": [
+      "starter dependencies",
+      "dependency management",
+      "spring-boot-starter"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-auto-003",
+    "subjectId": "springboot",
+    "topicId": "sb-autoconfig",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "Which annotation is commonly used to enable a configuration class only when a class is present on the classpath?",
+    "options": [
+      {
+        "id": "a",
+        "text": "@ConditionalOnClass"
+      },
+      {
+        "id": "b",
+        "text": "@Primary"
+      },
+      {
+        "id": "c",
+        "text": "@Order"
+      },
+      {
+        "id": "d",
+        "text": "@Lazy"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "`@ConditionalOnClass` is one of Boot's condition annotations. It allows configuration to match only when specified classes are available, helping auto-configuration adapt to the application's dependencies.",
+    "keyConcepts": [
+      "@ConditionalOnClass",
+      "conditional annotations",
+      "auto-configuration"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-auto-004",
+    "subjectId": "springboot",
+    "topicId": "sb-autoconfig",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does `@ConditionalOnMissingBean` typically allow an auto-configuration to do?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Create a default bean only when the application has not already provided a matching bean"
+      },
+      {
+        "id": "b",
+        "text": "Create a bean only when a database row is missing"
+      },
+      {
+        "id": "c",
+        "text": "Disable all user-defined beans"
+      },
+      {
+        "id": "d",
+        "text": "Force two beans to have the same name"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "It backs off when a matching bean already exists, allowing application-specific beans to replace Boot defaults.",
+    "keyConcepts": [
+      "@ConditionalOnMissingBean",
+      "back-off behavior",
+      "customization"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-auto-005",
+    "subjectId": "springboot",
+    "topicId": "sb-autoconfig",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "How can a developer inspect which auto-configurations matched or did not match during startup?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Use the condition evaluation report, for example by enabling the debug startup report"
+      },
+      {
+        "id": "b",
+        "text": "Read the JVM heap dump only"
+      },
+      {
+        "id": "c",
+        "text": "Enable SQL logging only"
+      },
+      {
+        "id": "d",
+        "text": "Inspect the browser developer console"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "Boot can print a condition evaluation report when debug mode is enabled. Actuator's conditions endpoint may also expose condition information when appropriately configured and secured.",
+    "keyConcepts": [
+      "condition evaluation report",
+      "debug",
+      "Actuator conditions"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-auto-006",
+    "subjectId": "springboot",
+    "topicId": "sb-autoconfig",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the purpose of `@ConditionalOnProperty`?",
+    "options": [
+      {
+        "id": "a",
+        "text": "To apply configuration when a specified property has a matching value or is present, depending on its settings"
+      },
+      {
+        "id": "b",
+        "text": "To validate every HTTP request body"
+      },
+      {
+        "id": "c",
+        "text": "To map a Java field to a database column"
+      },
+      {
+        "id": "d",
+        "text": "To select a transaction isolation level"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "`@ConditionalOnProperty` lets configuration be enabled or disabled through environment properties, often using a feature flag such as `feature.audit.enabled=true`.",
+    "keyConcepts": [
+      "@ConditionalOnProperty",
+      "feature flags",
+      "configuration"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-auto-007",
+    "subjectId": "springboot",
+    "topicId": "sb-autoconfig",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is the recommended modern mechanism for registering custom auto-configuration in a Spring Boot library?",
+    "options": [
+      {
+        "id": "a",
+        "text": "List the auto-configuration class in `META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports`"
+      },
+      {
+        "id": "b",
+        "text": "Add it only to `web.xml`"
+      },
+      {
+        "id": "c",
+        "text": "Put it in the root package and rely on component scanning by every consumer"
+      },
+      {
+        "id": "d",
+        "text": "Register it in the JVM manifest"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "Modern Spring Boot versions use the `AutoConfiguration.imports` resource to list auto-configuration classes. Older Boot versions used `spring.factories` for this purpose.",
+    "keyConcepts": [
+      "AutoConfiguration.imports",
+      "custom starter",
+      "library authoring"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-auto-008",
+    "subjectId": "springboot",
+    "topicId": "sb-autoconfig",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "Why should auto-configuration classes generally avoid broad component scanning?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Broad scanning can unexpectedly register application components from packages that the library does not own"
+      },
+      {
+        "id": "b",
+        "text": "Component scanning prevents conditional annotations from working"
+      },
+      {
+        "id": "c",
+        "text": "It makes all beans prototype scoped"
+      },
+      {
+        "id": "d",
+        "text": "It disables configuration properties"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "Library auto-configuration should be explicit and narrowly scoped. Broad scanning can cause bean collisions and surprising side effects in consuming applications.",
+    "keyConcepts": [
+      "auto-configuration design",
+      "component scanning",
+      "library isolation"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-auto-009",
+    "subjectId": "springboot",
+    "topicId": "sb-autoconfig",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is the purpose of `@AutoConfiguration` in recent Spring Boot versions?",
+    "options": [
+      {
+        "id": "a",
+        "text": "It marks a class as an auto-configuration candidate"
+      },
+      {
+        "id": "b",
+        "text": "It marks a controller as reactive"
+      },
+      {
+        "id": "c",
+        "text": "It enables database migrations"
+      },
+      {
+        "id": "d",
+        "text": "It turns a class into a test fixture"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "`@AutoConfiguration` is a specialized configuration annotation intended for Boot auto-configuration classes. It communicates the class's role and supports ordering metadata.",
+    "keyConcepts": [
+      "@AutoConfiguration",
+      "configuration ordering",
+      "Boot libraries"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-auto-010",
+    "subjectId": "springboot",
+    "topicId": "sb-autoconfig",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is a practical reason to exclude a specific auto-configuration?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The application intentionally supplies an alternative or does not want that integration configured"
+      },
+      {
+        "id": "b",
+        "text": "The application needs to increase HTTP request throughput automatically"
+      },
+      {
+        "id": "c",
+        "text": "The application wants to skip Java compilation"
+      },
+      {
+        "id": "d",
+        "text": "The application wants to remove all Spring beans"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "Exclusions are useful when a default integration is unwanted or conflicts with an intentional alternative. They should be targeted rather than used as a substitute for understanding configuration conditions.",
+    "keyConcepts": [
+      "auto-configuration exclusion",
+      "custom configuration",
+      "troubleshooting"
+    ],
+    "commonInterviewQuestion": true
+  }
+]

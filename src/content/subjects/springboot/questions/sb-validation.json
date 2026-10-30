@@ -1,0 +1,362 @@
+[
+  {
+    "id": "sb-val-001",
+    "subjectId": "springboot",
+    "topicId": "sb-validation",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "Which annotation is commonly used to enforce that a request field is not null during Bean Validation?",
+    "options": [
+      {
+        "id": "a",
+        "text": "@NotNull"
+      },
+      {
+        "id": "b",
+        "text": "@Autowired"
+      },
+      {
+        "id": "c",
+        "text": "@Transactional"
+      },
+      {
+        "id": "d",
+        "text": "@Transient"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "`@NotNull` is a Jakarta Bean Validation constraint. It is commonly applied to DTO fields and triggered when validation is requested, for example with `@Valid` on a controller parameter.",
+    "keyConcepts": [
+      "Jakarta Bean Validation",
+      "@NotNull",
+      "@Valid"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-val-002",
+    "subjectId": "springboot",
+    "topicId": "sb-validation",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does `@Valid` on a `@RequestBody` parameter normally do?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Triggers validation of the deserialized object using its declared constraints"
+      },
+      {
+        "id": "b",
+        "text": "Encrypts the request body"
+      },
+      {
+        "id": "c",
+        "text": "Validates the caller's JWT signature"
+      },
+      {
+        "id": "d",
+        "text": "Starts a new transaction"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "`@Valid` asks Spring MVC to validate the bound object. Constraint violations are typically translated into a validation exception that can be handled centrally.",
+    "keyConcepts": [
+      "@Valid",
+      "request validation",
+      "DTO"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-val-003",
+    "subjectId": "springboot",
+    "topicId": "sb-validation",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "Which annotation is intended to handle exceptions across multiple controller classes?",
+    "options": [
+      {
+        "id": "a",
+        "text": "@ControllerAdvice"
+      },
+      {
+        "id": "b",
+        "text": "@Service"
+      },
+      {
+        "id": "c",
+        "text": "@ConfigurationProperties"
+      },
+      {
+        "id": "d",
+        "text": "@EnableScheduling"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "`@ControllerAdvice` provides cross-cutting controller functionality, including centralized exception handling with `@ExceptionHandler`. `@RestControllerAdvice` adds response-body semantics.",
+    "keyConcepts": [
+      "@ControllerAdvice",
+      "@ExceptionHandler",
+      "centralized errors"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-val-004",
+    "subjectId": "springboot",
+    "topicId": "sb-validation",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is a good API response practice for validation errors?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Return a stable error structure with field-level messages and an appropriate 4xx status"
+      },
+      {
+        "id": "b",
+        "text": "Return the complete Java stack trace to every client"
+      },
+      {
+        "id": "c",
+        "text": "Always return HTTP 200 with an error string"
+      },
+      {
+        "id": "d",
+        "text": "Return database credentials to help debugging"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "Clients benefit from a predictable error contract containing an error code or message and field-level validation details. Internal stack traces and sensitive implementation details should remain in server logs.",
+    "keyConcepts": [
+      "API error contract",
+      "validation errors",
+      "HTTP 4xx"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-val-005",
+    "subjectId": "springboot",
+    "topicId": "sb-validation",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is the difference between `@NotBlank` and `@NotEmpty` for a String?",
+    "options": [
+      {
+        "id": "a",
+        "text": "@NotBlank rejects null, empty, and whitespace-only strings; @NotEmpty rejects null and empty but permits whitespace-only strings"
+      },
+      {
+        "id": "b",
+        "text": "They are identical"
+      },
+      {
+        "id": "c",
+        "text": "@NotEmpty rejects all strings longer than one character"
+      },
+      {
+        "id": "d",
+        "text": "@NotBlank only works on numeric fields"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "`@NotBlank` requires at least one non-whitespace character. `@NotEmpty` requires a non-null value with nonzero length, so a string containing only spaces passes `@NotEmpty`.",
+    "keyConcepts": [
+      "@NotBlank",
+      "@NotEmpty",
+      "constraint semantics"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-val-006",
+    "subjectId": "springboot",
+    "topicId": "sb-validation",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "When using nested DTOs, what is commonly needed to cascade validation into a nested object?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Place `@Valid` on the nested property"
+      },
+      {
+        "id": "b",
+        "text": "Add `@Primary` to the nested property"
+      },
+      {
+        "id": "c",
+        "text": "Use `@Lazy` on the controller"
+      },
+      {
+        "id": "d",
+        "text": "Mark the nested object as `@Entity`"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "Constraints on a nested object are not automatically traversed merely because the object is a field. `@Valid` on the nested property requests cascaded validation.",
+    "keyConcepts": [
+      "cascaded validation",
+      "nested DTO",
+      "@Valid"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-val-007",
+    "subjectId": "springboot",
+    "topicId": "sb-validation",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "Which exception is commonly raised by Spring MVC when request-body Bean Validation fails?",
+    "options": [
+      {
+        "id": "a",
+        "text": "MethodArgumentNotValidException"
+      },
+      {
+        "id": "b",
+        "text": "NoSuchBeanDefinitionException"
+      },
+      {
+        "id": "c",
+        "text": "SQLException"
+      },
+      {
+        "id": "d",
+        "text": "ClassNotFoundException"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "For many `@Valid @RequestBody` validation failures, Spring MVC raises `MethodArgumentNotValidException`. Method-level validation and newer framework versions can involve other exception types, so centralized handling should account for the application's actual validation path.",
+    "keyConcepts": [
+      "MethodArgumentNotValidException",
+      "Spring MVC",
+      "validation"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-val-008",
+    "subjectId": "springboot",
+    "topicId": "sb-validation",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is the purpose of a domain-specific exception such as `OrderNotFoundException`?",
+    "options": [
+      {
+        "id": "a",
+        "text": "To express a meaningful application failure that can be mapped consistently at the API boundary"
+      },
+      {
+        "id": "b",
+        "text": "To replace every checked and unchecked exception in Java"
+      },
+      {
+        "id": "c",
+        "text": "To make the database return HTTP status codes"
+      },
+      {
+        "id": "d",
+        "text": "To bypass transaction rollback rules"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "Domain-specific exceptions communicate application meaning without coupling the domain layer to HTTP. The web layer can translate them into appropriate status codes and response bodies.",
+    "keyConcepts": [
+      "domain exceptions",
+      "layering",
+      "exception mapping"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-val-009",
+    "subjectId": "springboot",
+    "topicId": "sb-validation",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "Which HTTP status is generally appropriate when a client submits syntactically valid input that violates a business rule?",
+    "options": [
+      {
+        "id": "a",
+        "text": "400 Bad Request"
+      },
+      {
+        "id": "b",
+        "text": "101 Switching Protocols"
+      },
+      {
+        "id": "c",
+        "text": "301 Moved Permanently"
+      },
+      {
+        "id": "d",
+        "text": "503 Service Unavailable"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "`400 Bad Request` is commonly used for invalid client input, including business-rule validation failures. Some APIs use `409 Conflict` for state conflicts; the important point is to define and apply a consistent contract.",
+    "keyConcepts": [
+      "400 Bad Request",
+      "business validation",
+      "409 Conflict"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-val-010",
+    "subjectId": "springboot",
+    "topicId": "sb-validation",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "Why should an exception handler avoid returning raw exception messages from infrastructure libraries to clients?",
+    "options": [
+      {
+        "id": "a",
+        "text": "They can reveal internal implementation details, sensitive data, or unstable messages not intended as an API contract"
+      },
+      {
+        "id": "b",
+        "text": "They prevent the JVM from collecting garbage"
+      },
+      {
+        "id": "c",
+        "text": "They always contain invalid Unicode"
+      },
+      {
+        "id": "d",
+        "text": "They cannot be serialized as JSON"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "Raw infrastructure exception messages can expose SQL, hostnames, table names, or other internal details. Log diagnostic context securely and return a stable, sanitized API error.",
+    "keyConcepts": [
+      "information disclosure",
+      "error handling",
+      "secure API design"
+    ],
+    "commonInterviewQuestion": true
+  }
+]

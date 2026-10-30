@@ -1,0 +1,86 @@
+[
+  {
+    "id": "sb-fundamentals",
+    "subjectId": "springboot",
+    "name": "Spring Boot Fundamentals",
+    "description": "Spring Boot application structure, starters, embedded servers, and application lifecycle.",
+    "order": 1
+  },
+  {
+    "id": "sb-autoconfig",
+    "subjectId": "springboot",
+    "name": "Auto-Configuration & Starters",
+    "description": "Conditional configuration, starter dependencies, and understanding Spring Boot's conventions.",
+    "order": 2
+  },
+  {
+    "id": "sb-di-config",
+    "subjectId": "springboot",
+    "name": "Dependency Injection & Configuration",
+    "description": "Beans, scopes, configuration properties, profiles, and application configuration.",
+    "order": 3
+  },
+  {
+    "id": "sb-rest",
+    "subjectId": "springboot",
+    "name": "REST APIs & Web Layer",
+    "description": "Spring MVC controllers, request mapping, serialization, and HTTP semantics.",
+    "order": 4
+  },
+  {
+    "id": "sb-validation",
+    "subjectId": "springboot",
+    "name": "Validation & Exception Handling",
+    "description": "Bean Validation, request validation, exception mapping, and API error design.",
+    "order": 5
+  },
+  {
+    "id": "sb-jpa",
+    "subjectId": "springboot",
+    "name": "Spring Data JPA & Persistence",
+    "description": "Repositories, entity mapping, fetching, pagination, and persistence context behavior.",
+    "order": 6
+  },
+  {
+    "id": "sb-transactions",
+    "subjectId": "springboot",
+    "name": "Transactions & Data Consistency",
+    "description": "Transaction boundaries, propagation, isolation, rollback rules, and consistency.",
+    "order": 7
+  },
+  {
+    "id": "sb-security",
+    "subjectId": "springboot",
+    "name": "Spring Security",
+    "description": "Authentication, authorization, filter chains, OAuth2/JWT concepts, and security configuration.",
+    "order": 8
+  },
+  {
+    "id": "sb-testing",
+    "subjectId": "springboot",
+    "name": "Testing Spring Boot Applications",
+    "description": "Unit tests, integration tests, MockMvc, test slices, and test database strategies.",
+    "order": 9
+  },
+  {
+    "id": "sb-actuator",
+    "subjectId": "springboot",
+    "name": "Actuator, Observability & Operations",
+    "description": "Health checks, metrics, logging, tracing, readiness, and production operations.",
+    "order": 10
+  },
+  {
+    "id": "sb-microservices",
+    "subjectId": "springboot",
+    "name": "Microservices & Messaging",
+    "description": "Service communication, resilience, event-driven patterns, and messaging integration.",
+    "order": 11
+  },
+  {
+    "id": "sb-performance",
+    "subjectId": "springboot",
+    "name": "Performance & Production Design",
+    "description": "Application startup, connection pools, caching, scalability, and production readiness.",
+    "order": 12
+  }
+]

@@ -1,0 +1,362 @@
+[
+  {
+    "id": "sb-test-001",
+    "subjectId": "springboot",
+    "topicId": "sb-testing",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What does `@SpringBootTest` primarily do?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Loads a Spring application context for an integration-style test"
+      },
+      {
+        "id": "b",
+        "text": "Mocks every dependency automatically"
+      },
+      {
+        "id": "c",
+        "text": "Runs only repository tests"
+      },
+      {
+        "id": "d",
+        "text": "Starts a production deployment"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "`@SpringBootTest` creates an application context using Boot's test support. It is useful for integration tests but can be slower than focused test slices or plain unit tests.",
+    "keyConcepts": [
+      "@SpringBootTest",
+      "integration testing",
+      "application context"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-test-002",
+    "subjectId": "springboot",
+    "topicId": "sb-testing",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the purpose of `@WebMvcTest`?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Loads a focused Spring MVC test slice, typically for controllers and related web components"
+      },
+      {
+        "id": "b",
+        "text": "Loads every production bean and external service"
+      },
+      {
+        "id": "c",
+        "text": "Starts a real production database by default"
+      },
+      {
+        "id": "d",
+        "text": "Tests only Java compiler behavior"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "`@WebMvcTest` limits the context to MVC-related components. Collaborators such as services are commonly supplied as mocks, and requests can be exercised using MockMvc.",
+    "keyConcepts": [
+      "@WebMvcTest",
+      "test slices",
+      "MockMvc"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-test-003",
+    "subjectId": "springboot",
+    "topicId": "sb-testing",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does `MockMvc` allow a test to do?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Exercise Spring MVC request handling without starting a real HTTP server"
+      },
+      {
+        "id": "b",
+        "text": "Run database migrations only"
+      },
+      {
+        "id": "c",
+        "text": "Mock JVM threads"
+      },
+      {
+        "id": "d",
+        "text": "Test a browser's CSS layout"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "MockMvc performs requests through the Spring MVC infrastructure in-process, allowing assertions on status, headers, and response content without binding a network port.",
+    "keyConcepts": [
+      "MockMvc",
+      "MVC testing",
+      "HTTP assertions"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-test-004",
+    "subjectId": "springboot",
+    "topicId": "sb-testing",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the purpose of `@DataJpaTest`?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Load a JPA-focused test slice for entity and repository behavior"
+      },
+      {
+        "id": "b",
+        "text": "Load all web and security components"
+      },
+      {
+        "id": "c",
+        "text": "Start a Kafka cluster automatically"
+      },
+      {
+        "id": "d",
+        "text": "Test only DTO validation"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "`@DataJpaTest` configures a focused JPA test environment, scans entities and repositories, and commonly uses an embedded database when available unless configured otherwise.",
+    "keyConcepts": [
+      "@DataJpaTest",
+      "repository testing",
+      "test slice"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-test-005",
+    "subjectId": "springboot",
+    "topicId": "sb-testing",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "Why can an integration test pass with an embedded database but fail in production?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The embedded database may differ in SQL dialect, constraints, locking, and behavior from the production database"
+      },
+      {
+        "id": "b",
+        "text": "Embedded databases never support transactions"
+      },
+      {
+        "id": "c",
+        "text": "Spring Boot ignores JPA mappings in production"
+      },
+      {
+        "id": "d",
+        "text": "Production databases do not support indexes"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "Database engines differ in SQL syntax, type handling, isolation, locking, constraints, and query planning. Testcontainers or a production-compatible database can expose these differences earlier.",
+    "keyConcepts": [
+      "database compatibility",
+      "Testcontainers",
+      "integration testing"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-test-006",
+    "subjectId": "springboot",
+    "topicId": "sb-testing",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the purpose of `@MockBean` or its modern replacement patterns in Spring Boot tests?",
+    "options": [
+      {
+        "id": "a",
+        "text": "To provide a mock in the Spring test application context in place of a bean"
+      },
+      {
+        "id": "b",
+        "text": "To create a mock HTTP server in every case"
+      },
+      {
+        "id": "c",
+        "text": "To generate a database schema"
+      },
+      {
+        "id": "d",
+        "text": "To bypass all test assertions"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "Spring test bean-mocking support replaces or overrides a bean in the test context. In newer Spring Boot/Spring Framework versions, bean override and Mockito integration APIs may differ, so use the API supported by the project's version.",
+    "keyConcepts": [
+      "mock beans",
+      "Spring test context",
+      "Mockito"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-test-007",
+    "subjectId": "springboot",
+    "topicId": "sb-testing",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is a key advantage of Testcontainers for Spring Boot integration tests?",
+    "options": [
+      {
+        "id": "a",
+        "text": "It runs dependencies such as databases in disposable containers, allowing tests against realistic services"
+      },
+      {
+        "id": "b",
+        "text": "It removes the need for assertions"
+      },
+      {
+        "id": "c",
+        "text": "It guarantees production data is copied into tests"
+      },
+      {
+        "id": "d",
+        "text": "It replaces the application context"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "Testcontainers can provision disposable instances of real infrastructure such as PostgreSQL or Kafka. This improves fidelity compared with substitutes, while requiring container runtime support in the test environment.",
+    "keyConcepts": [
+      "Testcontainers",
+      "integration tests",
+      "real dependencies"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-test-008",
+    "subjectId": "springboot",
+    "topicId": "sb-testing",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does `@ActiveProfiles(\"test\")` do in a Spring test?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Activates the named Spring profile for the test context"
+      },
+      {
+        "id": "b",
+        "text": "Changes the Java language version"
+      },
+      {
+        "id": "c",
+        "text": "Runs the test in a separate JVM automatically"
+      },
+      {
+        "id": "d",
+        "text": "Disables all auto-configuration"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "`@ActiveProfiles` selects profile-specific configuration and beans for the test application context.",
+    "keyConcepts": [
+      "@ActiveProfiles",
+      "profiles",
+      "test configuration"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-test-009",
+    "subjectId": "springboot",
+    "topicId": "sb-testing",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "Why should tests avoid depending on execution order or shared mutable database state?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Such dependencies make tests non-deterministic and can cause failures when tests run in parallel or isolation changes"
+      },
+      {
+        "id": "b",
+        "text": "JUnit requires tests to be order-independent only for performance"
+      },
+      {
+        "id": "c",
+        "text": "Database state is always reset automatically"
+      },
+      {
+        "id": "d",
+        "text": "Test order changes Java type inference"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "Independent tests are easier to run repeatedly, in parallel, and in different environments. Use isolated fixtures, transactional rollback where appropriate, and explicit setup/cleanup.",
+    "keyConcepts": [
+      "test isolation",
+      "deterministic tests",
+      "parallel execution"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-test-010",
+    "subjectId": "springboot",
+    "topicId": "sb-testing",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is a good way to test a controller's validation behavior?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Send invalid request data through MockMvc and assert the expected status and error response"
+      },
+      {
+        "id": "b",
+        "text": "Call the controller method directly without validation infrastructure"
+      },
+      {
+        "id": "c",
+        "text": "Only test the DTO constructor"
+      },
+      {
+        "id": "d",
+        "text": "Inspect the source code manually"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "An MVC-level test verifies request binding, Bean Validation, exception translation, and the resulting HTTP contract together.",
+    "keyConcepts": [
+      "controller validation tests",
+      "MockMvc",
+      "error contract"
+    ],
+    "commonInterviewQuestion": true
+  }
+]

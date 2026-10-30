@@ -1,0 +1,362 @@
+[
+  {
+    "id": "sb-fund-001",
+    "subjectId": "springboot",
+    "topicId": "sb-fundamentals",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is the primary goal of Spring Boot?",
+    "options": [
+      {
+        "id": "a",
+        "text": "To eliminate the need for the Spring Framework"
+      },
+      {
+        "id": "b",
+        "text": "To simplify the creation of production-ready Spring applications with opinionated defaults"
+      },
+      {
+        "id": "c",
+        "text": "To replace Java with a configuration language"
+      },
+      {
+        "id": "d",
+        "text": "To provide only an embedded database"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "Spring Boot builds on the Spring Framework. It reduces setup and configuration through auto-configuration, starter dependencies, embedded servers, and operational features. It does not replace Spring or require a particular database.",
+    "keyConcepts": [
+      "Spring Boot",
+      "convention over configuration",
+      "production-ready applications"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-fund-002",
+    "subjectId": "springboot",
+    "topicId": "sb-fundamentals",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "Which annotation is commonly used on the main class of a Spring Boot application?",
+    "options": [
+      {
+        "id": "a",
+        "text": "@EnableWebMvc"
+      },
+      {
+        "id": "b",
+        "text": "@SpringBootApplication"
+      },
+      {
+        "id": "c",
+        "text": "@ConfigurationProperties"
+      },
+      {
+        "id": "d",
+        "text": "@ComponentScan only"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "`@SpringBootApplication` combines `@SpringBootConfiguration`, `@EnableAutoConfiguration`, and `@ComponentScan`. It is the conventional entry-point annotation for a Boot application.",
+    "keyConcepts": [
+      "@SpringBootApplication",
+      "auto-configuration",
+      "component scanning"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-fund-003",
+    "subjectId": "springboot",
+    "topicId": "sb-fundamentals",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What does `SpringApplication.run(MyApplication.class, args)` do?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Compiles all Java source files"
+      },
+      {
+        "id": "b",
+        "text": "Creates and refreshes the Spring application context and starts the application"
+      },
+      {
+        "id": "c",
+        "text": "Runs only the unit tests"
+      },
+      {
+        "id": "d",
+        "text": "Generates database schema files"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "`SpringApplication.run` bootstraps the application: it prepares the environment, creates the appropriate application context, registers beans, refreshes the context, and starts the embedded web server when applicable.",
+    "keyConcepts": [
+      "SpringApplication",
+      "application context",
+      "bootstrap"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-fund-004",
+    "subjectId": "springboot",
+    "topicId": "sb-fundamentals",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "Which embedded servlet container is commonly used by default by the standard Spring Boot web starter?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Tomcat"
+      },
+      {
+        "id": "b",
+        "text": "WebLogic"
+      },
+      {
+        "id": "c",
+        "text": "IBM WebSphere"
+      },
+      {
+        "id": "d",
+        "text": "IIS"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "`spring-boot-starter-web` traditionally brings embedded Tomcat by default. Jetty or Undertow can be used by replacing the relevant server dependency. The exact default can depend on the Boot generation and selected starter.",
+    "keyConcepts": [
+      "embedded server",
+      "spring-boot-starter-web",
+      "Tomcat"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-fund-005",
+    "subjectId": "springboot",
+    "topicId": "sb-fundamentals",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the main benefit of an executable Spring Boot JAR?",
+    "options": [
+      {
+        "id": "a",
+        "text": "It contains a complete operating system"
+      },
+      {
+        "id": "b",
+        "text": "It packages the application and its dependencies so it can be launched with `java -jar`"
+      },
+      {
+        "id": "c",
+        "text": "It removes the JVM requirement"
+      },
+      {
+        "id": "d",
+        "text": "It guarantees that the application has no external configuration"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "An executable Boot JAR packages application classes and dependencies in a Boot-compatible layout and includes a launcher. A compatible Java runtime is still required, and external configuration or infrastructure may still be needed.",
+    "keyConcepts": [
+      "executable JAR",
+      "packaging",
+      "java -jar"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-fund-006",
+    "subjectId": "springboot",
+    "topicId": "sb-fundamentals",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the purpose of `SpringApplicationBuilder`?",
+    "options": [
+      {
+        "id": "a",
+        "text": "To build SQL queries"
+      },
+      {
+        "id": "b",
+        "text": "To configure and build Spring applications or application contexts programmatically"
+      },
+      {
+        "id": "c",
+        "text": "To generate REST controllers"
+      },
+      {
+        "id": "d",
+        "text": "To replace Maven"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "`SpringApplicationBuilder` provides a fluent API for configuring an application, including profiles, properties, parent/child contexts, and application sources.",
+    "keyConcepts": [
+      "SpringApplicationBuilder",
+      "application context",
+      "programmatic configuration"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-fund-007",
+    "subjectId": "springboot",
+    "topicId": "sb-fundamentals",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "Which file is a conventional location for externalized Spring Boot configuration?",
+    "options": [
+      {
+        "id": "a",
+        "text": "application.properties or application.yml"
+      },
+      {
+        "id": "b",
+        "text": "pom.xml only"
+      },
+      {
+        "id": "c",
+        "text": "MANIFEST.MF only"
+      },
+      {
+        "id": "d",
+        "text": "settings.gradle only"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "Boot loads configuration from multiple locations and formats. `application.properties` and `application.yml` are conventional application configuration files; command-line arguments, environment variables, and external files can override values according to property-source precedence.",
+    "keyConcepts": [
+      "externalized configuration",
+      "application.properties",
+      "application.yml"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-fund-008",
+    "subjectId": "springboot",
+    "topicId": "sb-fundamentals",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the purpose of the `spring-boot-starter-parent` Maven parent?",
+    "options": [
+      {
+        "id": "a",
+        "text": "It provides dependency and plugin management defaults for Boot projects"
+      },
+      {
+        "id": "b",
+        "text": "It replaces the Java compiler"
+      },
+      {
+        "id": "c",
+        "text": "It runs the application in Kubernetes"
+      },
+      {
+        "id": "d",
+        "text": "It stores application secrets"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "The starter parent provides managed dependency versions, plugin management, and useful Maven defaults. Projects can instead import the Spring Boot dependency BOM and manage their own parent.",
+    "keyConcepts": [
+      "starter parent",
+      "Maven",
+      "dependency management"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-fund-009",
+    "subjectId": "springboot",
+    "topicId": "sb-fundamentals",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is the most accurate statement about Spring Boot's embedded server?",
+    "options": [
+      {
+        "id": "a",
+        "text": "It is mandatory for every Spring Boot application"
+      },
+      {
+        "id": "b",
+        "text": "It is started for web application types that use an embedded web server; non-web applications need not start one"
+      },
+      {
+        "id": "c",
+        "text": "It runs in a separate operating system process"
+      },
+      {
+        "id": "d",
+        "text": "It replaces the application context"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "Boot supports servlet, reactive, and non-web application types. A servlet or reactive web application commonly starts an embedded server; a command-line or other non-web application does not need one.",
+    "keyConcepts": [
+      "web application type",
+      "embedded server",
+      "non-web application"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-fund-010",
+    "subjectId": "springboot",
+    "topicId": "sb-fundamentals",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is the role of `ApplicationRunner`?",
+    "options": [
+      {
+        "id": "a",
+        "text": "To execute application logic after the application context has been created and startup is nearly complete"
+      },
+      {
+        "id": "b",
+        "text": "To run before the JVM starts"
+      },
+      {
+        "id": "c",
+        "text": "To intercept every HTTP request"
+      },
+      {
+        "id": "d",
+        "text": "To replace bean initialization callbacks"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "`ApplicationRunner` is called with parsed application arguments after the application context has been refreshed. It is useful for startup tasks that need initialized Spring beans. `CommandLineRunner` serves a similar purpose with raw string arguments.",
+    "keyConcepts": [
+      "ApplicationRunner",
+      "startup lifecycle",
+      "CommandLineRunner"
+    ],
+    "commonInterviewQuestion": true
+  }
+]

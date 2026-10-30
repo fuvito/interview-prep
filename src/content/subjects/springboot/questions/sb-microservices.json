@@ -1,0 +1,362 @@
+[
+  {
+    "id": "sb-micro-001",
+    "subjectId": "springboot",
+    "topicId": "sb-microservices",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "Why should microservices generally avoid sharing the same database schema as a single tightly coupled data model?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Shared schemas create deployment and ownership coupling between services"
+      },
+      {
+        "id": "b",
+        "text": "A relational database cannot serve multiple services"
+      },
+      {
+        "id": "c",
+        "text": "Microservices cannot use SQL"
+      },
+      {
+        "id": "d",
+        "text": "Sharing a schema automatically provides event sourcing"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "Independent service ownership of data reduces coupling and allows services to evolve their persistence models. Cross-service data needs are commonly handled through APIs, events, or read models.",
+    "keyConcepts": [
+      "database per service",
+      "bounded context",
+      "service autonomy"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-micro-002",
+    "subjectId": "springboot",
+    "topicId": "sb-microservices",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the purpose of a circuit breaker in service-to-service communication?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Stop repeated calls to a failing dependency temporarily and allow recovery checks"
+      },
+      {
+        "id": "b",
+        "text": "Encrypt messages between services"
+      },
+      {
+        "id": "c",
+        "text": "Guarantee exactly-once delivery"
+      },
+      {
+        "id": "d",
+        "text": "Replace all retry logic with infinite retries"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "A circuit breaker transitions between closed, open, and half-open states based on failures. It can prevent cascading failures by failing fast while a dependency is unhealthy.",
+    "keyConcepts": [
+      "circuit breaker",
+      "resilience",
+      "cascading failures"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-micro-003",
+    "subjectId": "springboot",
+    "topicId": "sb-microservices",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the main risk of using unbounded retries for a failing downstream service?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Retries can amplify load and worsen an outage"
+      },
+      {
+        "id": "b",
+        "text": "Retries guarantee lower latency"
+      },
+      {
+        "id": "c",
+        "text": "Retries remove the need for timeouts"
+      },
+      {
+        "id": "d",
+        "text": "Retries make non-idempotent operations safe"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "Retry storms can overload an already unhealthy dependency. Use bounded retries, backoff, jitter, timeouts, and retry only failures that are plausibly transient and safe to repeat.",
+    "keyConcepts": [
+      "retry policy",
+      "backoff",
+      "resilience"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-micro-004",
+    "subjectId": "springboot",
+    "topicId": "sb-microservices",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What does idempotency mean for an API operation?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Repeating the same request has the same intended effect as performing it once"
+      },
+      {
+        "id": "b",
+        "text": "The request can only be sent once"
+      },
+      {
+        "id": "c",
+        "text": "The request never changes server state"
+      },
+      {
+        "id": "d",
+        "text": "The response must always be identical byte-for-byte"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "An idempotent operation can be repeated without multiplying its intended effect. This is important for safe retries; an idempotency key is often used for operations such as payment creation.",
+    "keyConcepts": [
+      "idempotency",
+      "retries",
+      "distributed systems"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-micro-005",
+    "subjectId": "springboot",
+    "topicId": "sb-microservices",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the purpose of a message broker such as Kafka or RabbitMQ in an event-driven system?",
+    "options": [
+      {
+        "id": "a",
+        "text": "To decouple producers and consumers and support asynchronous message delivery"
+      },
+      {
+        "id": "b",
+        "text": "To replace every service's database"
+      },
+      {
+        "id": "c",
+        "text": "To compile Java classes"
+      },
+      {
+        "id": "d",
+        "text": "To enforce HTTP request validation"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "A broker buffers and routes messages, allowing producers and consumers to operate independently in time and scale. Delivery semantics, ordering, retention, and acknowledgments depend on the broker and configuration.",
+    "keyConcepts": [
+      "message broker",
+      "asynchronous messaging",
+      "event-driven architecture"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-micro-006",
+    "subjectId": "springboot",
+    "topicId": "sb-microservices",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "Why should message consumers commonly be designed to handle duplicate delivery?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Many broker and failure scenarios can cause a message to be delivered more than once"
+      },
+      {
+        "id": "b",
+        "text": "All brokers guarantee duplicate delivery"
+      },
+      {
+        "id": "c",
+        "text": "Consumers cannot acknowledge messages"
+      },
+      {
+        "id": "d",
+        "text": "Duplicate messages always have different IDs"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "At-least-once delivery and retry/rebalance scenarios can produce duplicates. Consumers should use idempotent processing, deduplication, or transactional techniques appropriate to the system.",
+    "keyConcepts": [
+      "at-least-once delivery",
+      "idempotent consumer",
+      "deduplication"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-micro-007",
+    "subjectId": "springboot",
+    "topicId": "sb-microservices",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is the Saga pattern used for?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Coordinating a business transaction across multiple services through local transactions and compensating actions"
+      },
+      {
+        "id": "b",
+        "text": "Running one ACID transaction across every database automatically"
+      },
+      {
+        "id": "c",
+        "text": "Replacing service discovery"
+      },
+      {
+        "id": "d",
+        "text": "Compressing events before publication"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "A saga decomposes a distributed business process into local transactions. If a later step fails, compensating actions can semantically undo earlier steps; this is not equivalent to a single global ACID transaction.",
+    "keyConcepts": [
+      "Saga pattern",
+      "compensating transaction",
+      "distributed transaction"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-micro-008",
+    "subjectId": "springboot",
+    "topicId": "sb-microservices",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is service discovery used for in a dynamic microservice environment?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Finding the current network locations of service instances"
+      },
+      {
+        "id": "b",
+        "text": "Discovering Java annotations at compile time"
+      },
+      {
+        "id": "c",
+        "text": "Finding database indexes"
+      },
+      {
+        "id": "d",
+        "text": "Generating OAuth access tokens"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "Service discovery provides a way to resolve logical service names to current instances as they scale, restart, or move.",
+    "keyConcepts": [
+      "service discovery",
+      "dynamic instances",
+      "microservices"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-micro-009",
+    "subjectId": "springboot",
+    "topicId": "sb-microservices",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "Why is distributed tracing context propagated across asynchronous message boundaries?",
+    "options": [
+      {
+        "id": "a",
+        "text": "So spans from producer and consumer work can be correlated into the same end-to-end trace"
+      },
+      {
+        "id": "b",
+        "text": "So the broker can execute Java code"
+      },
+      {
+        "id": "c",
+        "text": "So message payloads become encrypted automatically"
+      },
+      {
+        "id": "d",
+        "text": "So the consumer can skip authentication"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "Propagating trace context in message headers allows observability systems to connect producer and consumer spans, even when processing is asynchronous.",
+    "keyConcepts": [
+      "trace context propagation",
+      "messaging",
+      "distributed tracing"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-micro-010",
+    "subjectId": "springboot",
+    "topicId": "sb-microservices",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the primary purpose of an API gateway?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Provide a managed entry point for routing and cross-cutting concerns such as authentication, rate limiting, and request policies"
+      },
+      {
+        "id": "b",
+        "text": "Replace all internal service boundaries"
+      },
+      {
+        "id": "c",
+        "text": "Store every service's domain entities"
+      },
+      {
+        "id": "d",
+        "text": "Guarantee that downstream services never fail"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "An API gateway can centralize edge concerns and route requests to backend services. Business authorization and domain rules should still be enforced by the services that own the resources.",
+    "keyConcepts": [
+      "API gateway",
+      "edge routing",
+      "cross-cutting concerns"
+    ],
+    "commonInterviewQuestion": true
+  }
+]

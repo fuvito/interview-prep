@@ -1,0 +1,362 @@
+[
+  {
+    "id": "sb-tx-001",
+    "subjectId": "springboot",
+    "topicId": "sb-transactions",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "Which annotation is commonly used to declare a Spring-managed transaction boundary?",
+    "options": [
+      {
+        "id": "a",
+        "text": "@Transactional"
+      },
+      {
+        "id": "b",
+        "text": "@RequestMapping"
+      },
+      {
+        "id": "c",
+        "text": "@Entity"
+      },
+      {
+        "id": "d",
+        "text": "@Async"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "`@Transactional` typically applies transaction demarcation through Spring's transaction infrastructure, often using an AOP proxy around the method invocation.",
+    "keyConcepts": [
+      "@Transactional",
+      "transaction management",
+      "AOP"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-tx-002",
+    "subjectId": "springboot",
+    "topicId": "sb-transactions",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "By default, which exception types cause Spring's declarative transaction to roll back?",
+    "options": [
+      {
+        "id": "a",
+        "text": "RuntimeException and Error, but not checked exceptions by default"
+      },
+      {
+        "id": "b",
+        "text": "All checked and unchecked exceptions"
+      },
+      {
+        "id": "c",
+        "text": "Only SQLException"
+      },
+      {
+        "id": "d",
+        "text": "No exceptions cause rollback"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "Spring's default rollback rules roll back on unchecked exceptions (`RuntimeException`) and `Error`. Checked exceptions do not trigger rollback by default unless rollback rules are configured.",
+    "keyConcepts": [
+      "rollback rules",
+      "RuntimeException",
+      "checked exceptions"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-tx-003",
+    "subjectId": "springboot",
+    "topicId": "sb-transactions",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does `Propagation.REQUIRED` mean?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Join the current transaction if one exists; otherwise create a new transaction"
+      },
+      {
+        "id": "b",
+        "text": "Always suspend the current transaction and create a new one"
+      },
+      {
+        "id": "c",
+        "text": "Never create or join a transaction"
+      },
+      {
+        "id": "d",
+        "text": "Run the method asynchronously"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "`REQUIRED` is the default propagation behavior. It participates in an existing transaction or starts one when no transaction exists.",
+    "keyConcepts": [
+      "transaction propagation",
+      "REQUIRED",
+      "transaction boundary"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-tx-004",
+    "subjectId": "springboot",
+    "topicId": "sb-transactions",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the purpose of `Propagation.REQUIRES_NEW`?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Suspend an existing transaction and execute within a new, independent transaction"
+      },
+      {
+        "id": "b",
+        "text": "Join the current transaction without changing it"
+      },
+      {
+        "id": "c",
+        "text": "Disable transaction synchronization"
+      },
+      {
+        "id": "d",
+        "text": "Retry the method after every exception"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "`REQUIRES_NEW` suspends the current transaction, if present, and starts a new one. The inner transaction can commit or roll back independently of the outer transaction.",
+    "keyConcepts": [
+      "REQUIRES_NEW",
+      "transaction propagation",
+      "independent transaction"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-tx-005",
+    "subjectId": "springboot",
+    "topicId": "sb-transactions",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "Why might `@Transactional` appear not to work when one method in a class calls another annotated method on the same instance?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The self-invocation may bypass the Spring AOP proxy that applies transaction advice"
+      },
+      {
+        "id": "b",
+        "text": "Spring transactions only work on private fields"
+      },
+      {
+        "id": "c",
+        "text": "The database does not support transactions"
+      },
+      {
+        "id": "d",
+        "text": "The annotation is valid only on interfaces"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "In the default proxy-based mode, calls must pass through the proxy for advice to run. A direct `this.someMethod()` call does not cross that proxy. Refactoring the transactional operation into another bean is often the cleanest fix.",
+    "keyConcepts": [
+      "self-invocation",
+      "AOP proxy",
+      "transaction advice"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-tx-006",
+    "subjectId": "springboot",
+    "topicId": "sb-transactions",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What does the READ COMMITTED isolation level generally prevent?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Dirty reads"
+      },
+      {
+        "id": "b",
+        "text": "All non-repeatable reads and phantom reads"
+      },
+      {
+        "id": "c",
+        "text": "All write skew anomalies"
+      },
+      {
+        "id": "d",
+        "text": "Every possible concurrency anomaly"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "READ COMMITTED prevents dirty reads. Non-repeatable reads and phantom reads may still occur, depending on the database implementation and transaction behavior.",
+    "keyConcepts": [
+      "READ COMMITTED",
+      "isolation levels",
+      "dirty reads"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-tx-007",
+    "subjectId": "springboot",
+    "topicId": "sb-transactions",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is a likely trade-off of using SERIALIZABLE isolation?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Stronger isolation with potentially lower concurrency and more blocking or transaction retries"
+      },
+      {
+        "id": "b",
+        "text": "No locking or conflicts under any database"
+      },
+      {
+        "id": "c",
+        "text": "Guaranteed faster writes"
+      },
+      {
+        "id": "d",
+        "text": "Automatic distributed consistency across services"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "Serializable isolation aims to make concurrent transactions behave as if executed serially. It can increase contention, blocking, aborts, and retry requirements.",
+    "keyConcepts": [
+      "SERIALIZABLE",
+      "concurrency",
+      "transaction isolation"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-tx-008",
+    "subjectId": "springboot",
+    "topicId": "sb-transactions",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the purpose of `readOnly = true` on a transactional service method?",
+    "options": [
+      {
+        "id": "a",
+        "text": "It communicates read-only intent and may allow transaction-provider or database optimizations; it is not a universal write-prevention guarantee"
+      },
+      {
+        "id": "b",
+        "text": "It encrypts all SELECT statements"
+      },
+      {
+        "id": "c",
+        "text": "It guarantees repeatable reads"
+      },
+      {
+        "id": "d",
+        "text": "It prevents the method from accessing repositories"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "`readOnly` is a hint whose exact effect depends on the transaction manager and persistence provider. It should not be treated as a security boundary that universally prevents writes.",
+    "keyConcepts": [
+      "read-only transaction",
+      "transaction hints",
+      "performance"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-tx-009",
+    "subjectId": "springboot",
+    "topicId": "sb-transactions",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is the transactional outbox pattern intended to solve?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The dual-write problem when a service must update its database and publish an event reliably"
+      },
+      {
+        "id": "b",
+        "text": "The problem of choosing a database primary key"
+      },
+      {
+        "id": "c",
+        "text": "The need to validate JSON payloads"
+      },
+      {
+        "id": "d",
+        "text": "The problem of caching HTTP GET responses"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "The service writes its business change and an outbox record in the same local database transaction. A separate publisher sends outbox events to the broker and marks them processed, enabling reliable eventual publication.",
+    "keyConcepts": [
+      "transactional outbox",
+      "dual-write problem",
+      "event-driven architecture"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-tx-010",
+    "subjectId": "springboot",
+    "topicId": "sb-transactions",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What should a service typically do when a transaction fails due to a transient deadlock or serialization conflict?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Consider a bounded retry of the entire transaction where the operation is safe to retry"
+      },
+      {
+        "id": "b",
+        "text": "Ignore the exception and return success"
+      },
+      {
+        "id": "c",
+        "text": "Retry indefinitely inside the same failed transaction"
+      },
+      {
+        "id": "d",
+        "text": "Disable database constraints"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "Transient concurrency failures can sometimes be retried, but the retry should wrap a fresh transaction, use a bounded policy with backoff, and account for idempotency and side effects.",
+    "keyConcepts": [
+      "deadlock",
+      "transaction retry",
+      "idempotency"
+    ],
+    "commonInterviewQuestion": true
+  }
+]

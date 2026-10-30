@@ -1,0 +1,363 @@
+[
+  {
+    "id": "sb-sec-001",
+    "subjectId": "springboot",
+    "topicId": "sb-security",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is the distinction between authentication and authorization?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Authentication establishes identity; authorization determines what an identity is allowed to do"
+      },
+      {
+        "id": "b",
+        "text": "Authentication assigns roles; authorization hashes passwords"
+      },
+      {
+        "id": "c",
+        "text": "They are interchangeable terms"
+      },
+      {
+        "id": "d",
+        "text": "Authorization happens only in the database"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "Authentication verifies who the caller is. Authorization evaluates whether that authenticated principal may access a resource or perform an action.",
+    "keyConcepts": [
+      "authentication",
+      "authorization",
+      "security fundamentals"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-sec-002",
+    "subjectId": "springboot",
+    "topicId": "sb-security",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "In modern Spring Security configuration, how is the HTTP security filter chain commonly customized?",
+    "options": [
+      {
+        "id": "a",
+        "text": "By declaring a `SecurityFilterChain` bean and configuring `HttpSecurity`"
+      },
+      {
+        "id": "b",
+        "text": "By extending `WebSecurityConfigurerAdapter` in all current versions"
+      },
+      {
+        "id": "c",
+        "text": "By adding rules to `application.yml` only"
+      },
+      {
+        "id": "d",
+        "text": "By annotating every entity with `@Secured`"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "Modern Spring Security configuration commonly exposes a `SecurityFilterChain` bean. `WebSecurityConfigurerAdapter` was deprecated and removed from current configuration approaches.",
+    "keyConcepts": [
+      "SecurityFilterChain",
+      "HttpSecurity",
+      "modern configuration"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-sec-003",
+    "subjectId": "springboot",
+    "topicId": "sb-security",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the role of `PasswordEncoder` in Spring Security?",
+    "options": [
+      {
+        "id": "a",
+        "text": "To hash passwords securely for storage and verify submitted passwords against stored hashes"
+      },
+      {
+        "id": "b",
+        "text": "To encrypt passwords reversibly so they can be displayed"
+      },
+      {
+        "id": "c",
+        "text": "To generate JWT signing keys"
+      },
+      {
+        "id": "d",
+        "text": "To validate SQL statements"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "`PasswordEncoder` provides password hashing and matching. A delegating encoder can support versioned formats; passwords should not be stored in plaintext or reversibly encrypted.",
+    "keyConcepts": [
+      "PasswordEncoder",
+      "password hashing",
+      "DelegatingPasswordEncoder"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-sec-004",
+    "subjectId": "springboot",
+    "topicId": "sb-security",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is CSRF protection primarily designed to mitigate?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A browser-based attacker causing an authenticated user's browser to submit unwanted state-changing requests"
+      },
+      {
+        "id": "b",
+        "text": "SQL injection in repository methods"
+      },
+      {
+        "id": "c",
+        "text": "Password brute force against a login endpoint"
+      },
+      {
+        "id": "d",
+        "text": "Cross-site scripting in static JavaScript files"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "CSRF exploits the browser's automatic inclusion of credentials, such as cookies, in requests. CSRF tokens or suitable same-site and request design controls help mitigate it. Disabling CSRF requires understanding the application's authentication model and clients.",
+    "keyConcepts": [
+      "CSRF",
+      "browser security",
+      "security tokens"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-sec-005",
+    "subjectId": "springboot",
+    "topicId": "sb-security",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "For a stateless REST API authenticated with bearer tokens and not using browser cookies for authentication, what is a common CSRF configuration approach?",
+    "options": [
+      {
+        "id": "a",
+        "text": "CSRF protection may be disabled for that API security chain after verifying the authentication and browser threat model"
+      },
+      {
+        "id": "b",
+        "text": "CSRF must always remain enabled for every endpoint"
+      },
+      {
+        "id": "c",
+        "text": "Replace bearer tokens with session cookies"
+      },
+      {
+        "id": "d",
+        "text": "Disable authorization checks"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "CSRF risk is strongly tied to credentials automatically attached by browsers. A stateless bearer-token API that does not rely on ambient browser credentials often disables CSRF for that chain, but the decision must be based on the actual client and credential behavior.",
+    "keyConcepts": [
+      "CSRF",
+      "stateless API",
+      "bearer token"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-sec-006",
+    "subjectId": "springboot",
+    "topicId": "sb-security",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the purpose of method security such as `@PreAuthorize`?",
+    "options": [
+      {
+        "id": "a",
+        "text": "To enforce authorization rules at method invocation boundaries"
+      },
+      {
+        "id": "b",
+        "text": "To configure database connection pooling"
+      },
+      {
+        "id": "c",
+        "text": "To serialize method return values"
+      },
+      {
+        "id": "d",
+        "text": "To enable component scanning"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "Method security applies authorization expressions to method calls, enabling rules close to business operations rather than relying only on URL-level rules.",
+    "keyConcepts": [
+      "@PreAuthorize",
+      "method security",
+      "authorization"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-sec-007",
+    "subjectId": "springboot",
+    "topicId": "sb-security",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "In a JWT-based resource server, what should the API validate before trusting a token?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Signature and relevant claims such as issuer, audience, expiration, and allowed algorithms"
+      },
+      {
+        "id": "b",
+        "text": "Only the token's Base64-decoded payload"
+      },
+      {
+        "id": "c",
+        "text": "Only the username claim"
+      },
+      {
+        "id": "d",
+        "text": "Only that the token contains three dot-separated segments"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "A JWT payload is not trustworthy merely because it can be decoded. Validate the signature using trusted keys and enforce relevant claims and algorithm policy, including issuer, audience, and expiration as required by the system.",
+    "keyConcepts": [
+      "JWT validation",
+      "issuer",
+      "audience",
+      "signature"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-sec-008",
+    "subjectId": "springboot",
+    "topicId": "sb-security",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is the role of an OAuth 2.0 resource server?",
+    "options": [
+      {
+        "id": "a",
+        "text": "It protects resources by validating access tokens presented by clients"
+      },
+      {
+        "id": "b",
+        "text": "It issues database passwords to repositories"
+      },
+      {
+        "id": "c",
+        "text": "It replaces the identity provider in every deployment"
+      },
+      {
+        "id": "d",
+        "text": "It stores user interface preferences"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "A resource server accepts requests with access tokens and validates them, then uses the resulting authentication and authorities to authorize access. Token issuance is typically performed by an authorization server.",
+    "keyConcepts": [
+      "OAuth 2.0",
+      "resource server",
+      "access token"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-sec-009",
+    "subjectId": "springboot",
+    "topicId": "sb-security",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does `hasRole(\"ADMIN\")` commonly check in Spring Security?",
+    "options": [
+      {
+        "id": "a",
+        "text": "For an authority named `ROLE_ADMIN` by default"
+      },
+      {
+        "id": "b",
+        "text": "For an authority named exactly `ADMIN` in every configuration"
+      },
+      {
+        "id": "c",
+        "text": "For a database column named ADMIN"
+      },
+      {
+        "id": "d",
+        "text": "For the user's OAuth client ID"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "`hasRole(\"ADMIN\")` conventionally applies the `ROLE_` prefix and checks for `ROLE_ADMIN`. `hasAuthority(\"ADMIN\")` checks the exact authority string.",
+    "keyConcepts": [
+      "hasRole",
+      "hasAuthority",
+      "GrantedAuthority"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-sec-010",
+    "subjectId": "springboot",
+    "topicId": "sb-security",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "Why should authorization be enforced in the service or method layer as well as, or instead of only, in the UI?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A client can bypass UI controls and call backend endpoints directly"
+      },
+      {
+        "id": "b",
+        "text": "The UI cannot display roles"
+      },
+      {
+        "id": "c",
+        "text": "Service methods cannot access the security context"
+      },
+      {
+        "id": "d",
+        "text": "Authorization in the backend slows all requests to zero"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "UI controls improve usability but are not a security boundary. The server must enforce authorization on every protected operation because clients can be modified or bypassed.",
+    "keyConcepts": [
+      "defense in depth",
+      "server-side authorization",
+      "zero trust"
+    ],
+    "commonInterviewQuestion": true
+  }
+]

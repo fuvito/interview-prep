@@ -1,0 +1,362 @@
+[
+  {
+    "id": "sb-act-001",
+    "subjectId": "springboot",
+    "topicId": "sb-actuator",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is Spring Boot Actuator primarily used for?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Exposing operational endpoints and application information such as health and metrics"
+      },
+      {
+        "id": "b",
+        "text": "Generating Java source code"
+      },
+      {
+        "id": "c",
+        "text": "Replacing the logging framework"
+      },
+      {
+        "id": "d",
+        "text": "Creating database entities"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "Actuator provides production-oriented features such as health, metrics, environment information, and application diagnostics. Exposed endpoints must be configured and secured carefully.",
+    "keyConcepts": [
+      "Actuator",
+      "health",
+      "metrics"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-act-002",
+    "subjectId": "springboot",
+    "topicId": "sb-actuator",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does the Actuator health endpoint generally report?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The application's health status and, when configured, health details from contributing components"
+      },
+      {
+        "id": "b",
+        "text": "A complete list of all source code files"
+      },
+      {
+        "id": "c",
+        "text": "The full contents of every database table"
+      },
+      {
+        "id": "d",
+        "text": "The application's Git history"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "The health endpoint aggregates `HealthIndicator` contributions and reports an overall status. Details may be restricted based on configuration and authorization.",
+    "keyConcepts": [
+      "health endpoint",
+      "HealthIndicator",
+      "readiness"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-act-003",
+    "subjectId": "springboot",
+    "topicId": "sb-actuator",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the difference between liveness and readiness probes?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Liveness indicates whether the process should be restarted; readiness indicates whether it should receive traffic"
+      },
+      {
+        "id": "b",
+        "text": "Liveness checks database schema; readiness checks source control"
+      },
+      {
+        "id": "c",
+        "text": "They are identical signals"
+      },
+      {
+        "id": "d",
+        "text": "Readiness determines whether the JVM can start"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "Liveness helps an orchestrator decide whether to restart a stuck or unhealthy process. Readiness indicates whether the instance should receive traffic, for example while dependencies or startup initialization are incomplete.",
+    "keyConcepts": [
+      "liveness",
+      "readiness",
+      "orchestration"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-act-004",
+    "subjectId": "springboot",
+    "topicId": "sb-actuator",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "Which Micrometer concept is commonly used to instrument application metrics?",
+    "options": [
+      {
+        "id": "a",
+        "text": "MeterRegistry"
+      },
+      {
+        "id": "b",
+        "text": "EntityManagerFactory"
+      },
+      {
+        "id": "c",
+        "text": "DispatcherServletMapping"
+      },
+      {
+        "id": "d",
+        "text": "BeanDefinitionReader"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "Micrometer provides a vendor-neutral metrics facade. A `MeterRegistry` records counters, timers, gauges, and other meters and can publish them to supported monitoring systems.",
+    "keyConcepts": [
+      "Micrometer",
+      "MeterRegistry",
+      "metrics"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-act-005",
+    "subjectId": "springboot",
+    "topicId": "sb-actuator",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "Why should high-cardinality values such as user IDs generally not be used as metric tags?",
+    "options": [
+      {
+        "id": "a",
+        "text": "They can create an unbounded number of time series and increase monitoring-system cost and resource use"
+      },
+      {
+        "id": "b",
+        "text": "They prevent metrics from being exported over HTTP"
+      },
+      {
+        "id": "c",
+        "text": "They make counters decrement automatically"
+      },
+      {
+        "id": "d",
+        "text": "They disable log correlation"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "Metric labels should have bounded cardinality. Per-user or per-request identifiers can create enormous numbers of time series; put high-cardinality identifiers in logs or traces instead.",
+    "keyConcepts": [
+      "metric cardinality",
+      "Micrometer tags",
+      "observability"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-act-006",
+    "subjectId": "springboot",
+    "topicId": "sb-actuator",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is distributed tracing intended to help diagnose?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The path and timing of a request as it crosses multiple services"
+      },
+      {
+        "id": "b",
+        "text": "The exact contents of a database backup"
+      },
+      {
+        "id": "c",
+        "text": "The number of Java source files"
+      },
+      {
+        "id": "d",
+        "text": "The CSS rendering time of a browser"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "Distributed tracing correlates spans across service boundaries, helping identify latency, dependency calls, and failures in a distributed request flow.",
+    "keyConcepts": [
+      "distributed tracing",
+      "spans",
+      "trace context"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-act-007",
+    "subjectId": "springboot",
+    "topicId": "sb-actuator",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is a useful principle when exposing Actuator endpoints in production?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Expose only required endpoints and protect sensitive operational information with appropriate access controls"
+      },
+      {
+        "id": "b",
+        "text": "Expose every endpoint publicly for easier debugging"
+      },
+      {
+        "id": "c",
+        "text": "Disable authentication on management endpoints"
+      },
+      {
+        "id": "d",
+        "text": "Return environment variables to all callers"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "Operational endpoints can reveal configuration, environment, mappings, or other sensitive details. Minimize exposure, isolate management traffic where appropriate, and apply strong authorization.",
+    "keyConcepts": [
+      "Actuator security",
+      "least privilege",
+      "management endpoints"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-act-008",
+    "subjectId": "springboot",
+    "topicId": "sb-actuator",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the purpose of structured logging?",
+    "options": [
+      {
+        "id": "a",
+        "text": "To emit logs with consistent fields that can be searched, filtered, and correlated by log platforms"
+      },
+      {
+        "id": "b",
+        "text": "To compress all logs into binary files"
+      },
+      {
+        "id": "c",
+        "text": "To prevent exceptions from being logged"
+      },
+      {
+        "id": "d",
+        "text": "To replace metrics and traces completely"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "Structured logs use fields such as timestamp, severity, service, trace ID, and event attributes. They improve querying and correlation compared with unstructured text alone.",
+    "keyConcepts": [
+      "structured logging",
+      "correlation IDs",
+      "observability"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-act-009",
+    "subjectId": "springboot",
+    "topicId": "sb-actuator",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "Why should secrets generally not be stored in committed `application.yml` files?",
+    "options": [
+      {
+        "id": "a",
+        "text": "They can be exposed through source control history, builds, and developer access; use a managed secret mechanism instead"
+      },
+      {
+        "id": "b",
+        "text": "YAML cannot represent strings securely"
+      },
+      {
+        "id": "c",
+        "text": "Spring Boot cannot read encrypted values"
+      },
+      {
+        "id": "d",
+        "text": "Secrets make auto-configuration fail"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "Committed secrets are difficult to contain even after deletion because they may remain in repository history and copies. Use a secret manager or secure deployment-time injection and rotate exposed credentials.",
+    "keyConcepts": [
+      "secrets management",
+      "configuration",
+      "secure deployment"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-act-010",
+    "subjectId": "springboot",
+    "topicId": "sb-actuator",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the purpose of a custom `HealthIndicator`?",
+    "options": [
+      {
+        "id": "a",
+        "text": "To contribute application-specific health information to the Actuator health system"
+      },
+      {
+        "id": "b",
+        "text": "To define a custom HTTP serializer"
+      },
+      {
+        "id": "c",
+        "text": "To register a JPA entity listener"
+      },
+      {
+        "id": "d",
+        "text": "To modify Java garbage collection"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "A custom `HealthIndicator` can report the health of an application-specific dependency or capability. Health checks should be bounded and designed not to overload dependencies.",
+    "keyConcepts": [
+      "HealthIndicator",
+      "custom health checks",
+      "Actuator"
+    ],
+    "commonInterviewQuestion": true
+  }
+]

@@ -1,0 +1,362 @@
+[
+  {
+    "id": "sb-jpa-001",
+    "subjectId": "springboot",
+    "topicId": "sb-jpa",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is the purpose of a Spring Data JPA repository interface?",
+    "options": [
+      {
+        "id": "a",
+        "text": "To provide a repository abstraction for common persistence operations with generated implementations"
+      },
+      {
+        "id": "b",
+        "text": "To replace the relational database"
+      },
+      {
+        "id": "c",
+        "text": "To render HTML templates"
+      },
+      {
+        "id": "d",
+        "text": "To configure HTTP security"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "Spring Data JPA creates repository implementations for interfaces such as `JpaRepository`, providing CRUD, pagination, sorting, and query derivation capabilities.",
+    "keyConcepts": [
+      "Spring Data JPA",
+      "JpaRepository",
+      "repository abstraction"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-jpa-002",
+    "subjectId": "springboot",
+    "topicId": "sb-jpa",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "Which annotation marks a class as a JPA entity?",
+    "options": [
+      {
+        "id": "a",
+        "text": "@Entity"
+      },
+      {
+        "id": "b",
+        "text": "@Component"
+      },
+      {
+        "id": "c",
+        "text": "@RestController"
+      },
+      {
+        "id": "d",
+        "text": "@Configuration"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "`@Entity` marks a class as a persistent entity managed by the JPA provider. It normally requires an identifier annotated with `@Id`.",
+    "keyConcepts": [
+      "@Entity",
+      "JPA mapping",
+      "@Id"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-jpa-003",
+    "subjectId": "springboot",
+    "topicId": "sb-jpa",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the purpose of `@ManyToOne` in JPA?",
+    "options": [
+      {
+        "id": "a",
+        "text": "It maps a many-to-one association from one entity to another"
+      },
+      {
+        "id": "b",
+        "text": "It declares a one-to-one relationship"
+      },
+      {
+        "id": "c",
+        "text": "It marks a field as a primary key"
+      },
+      {
+        "id": "d",
+        "text": "It enables optimistic locking"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "`@ManyToOne` models an association where many source entities can reference one target entity, commonly represented by a foreign key on the source table.",
+    "keyConcepts": [
+      "@ManyToOne",
+      "entity relationships",
+      "foreign key"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-jpa-004",
+    "subjectId": "springboot",
+    "topicId": "sb-jpa",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the N+1 query problem?",
+    "options": [
+      {
+        "id": "a",
+        "text": "One query loads a collection of parent records, then an additional query is issued for each parent to load related data"
+      },
+      {
+        "id": "b",
+        "text": "A query returns exactly N plus one rows"
+      },
+      {
+        "id": "c",
+        "text": "The database creates N indexes automatically"
+      },
+      {
+        "id": "d",
+        "text": "A transaction is retried N+1 times"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "The N+1 problem often occurs when lazy associations are accessed in a loop. It can be addressed with fetch joins, entity graphs, projections, or deliberate batch fetching, depending on the use case.",
+    "keyConcepts": [
+      "N+1 problem",
+      "lazy loading",
+      "fetch join"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-jpa-005",
+    "subjectId": "springboot",
+    "topicId": "sb-jpa",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does `Pageable` enable in Spring Data repositories?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Pagination and sorting parameters for repository queries"
+      },
+      {
+        "id": "b",
+        "text": "Automatic database sharding"
+      },
+      {
+        "id": "c",
+        "text": "Distributed transactions"
+      },
+      {
+        "id": "d",
+        "text": "JSON request validation"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "`Pageable` carries page number, page size, and sorting information. Repository methods can use it to retrieve a page and metadata about the result set.",
+    "keyConcepts": [
+      "Pageable",
+      "pagination",
+      "sorting"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-jpa-006",
+    "subjectId": "springboot",
+    "topicId": "sb-jpa",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the difference between `findByEmail` and `findByEmailIgnoreCase` in a derived Spring Data query?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The latter requests case-insensitive matching for the email property"
+      },
+      {
+        "id": "b",
+        "text": "The latter always performs a full table scan"
+      },
+      {
+        "id": "c",
+        "text": "The former returns a stream and the latter a list"
+      },
+      {
+        "id": "d",
+        "text": "There is no difference"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "Spring Data parses method names into query predicates. `IgnoreCase` requests case-insensitive comparison for supported property types and query strategies.",
+    "keyConcepts": [
+      "query derivation",
+      "IgnoreCase",
+      "Spring Data"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-jpa-007",
+    "subjectId": "springboot",
+    "topicId": "sb-jpa",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is a common reason for `LazyInitializationException`?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Accessing an uninitialized lazy association after the persistence context has been closed"
+      },
+      {
+        "id": "b",
+        "text": "Using an eager association inside a transaction"
+      },
+      {
+        "id": "c",
+        "text": "Calling a repository method from a service"
+      },
+      {
+        "id": "d",
+        "text": "Declaring a primary key"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "A lazy proxy needs an active persistence context to initialize. Accessing it after the session/entity manager is closed can fail. Design fetch plans and transaction boundaries deliberately rather than making every relationship eager.",
+    "keyConcepts": [
+      "LazyInitializationException",
+      "persistence context",
+      "fetch strategy"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-jpa-008",
+    "subjectId": "springboot",
+    "topicId": "sb-jpa",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is the purpose of `@Version` on a JPA entity field?",
+    "options": [
+      {
+        "id": "a",
+        "text": "To support optimistic locking by detecting conflicting updates"
+      },
+      {
+        "id": "b",
+        "text": "To store the application version"
+      },
+      {
+        "id": "c",
+        "text": "To enable pessimistic database locks on every query"
+      },
+      {
+        "id": "d",
+        "text": "To define a composite primary key"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "A version attribute is checked and incremented during updates. If another transaction has changed the row, the provider can detect the conflict and raise an optimistic locking exception.",
+    "keyConcepts": [
+      "@Version",
+      "optimistic locking",
+      "concurrency"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-jpa-009",
+    "subjectId": "springboot",
+    "topicId": "sb-jpa",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is the main difference between `save` and `saveAndFlush` in Spring Data JPA?",
+    "options": [
+      {
+        "id": "a",
+        "text": "`saveAndFlush` requests synchronization of pending persistence-context changes with the database immediately; `save` does not guarantee an immediate flush"
+      },
+      {
+        "id": "b",
+        "text": "`save` commits the transaction; `saveAndFlush` never writes to the database"
+      },
+      {
+        "id": "c",
+        "text": "`saveAndFlush` always creates a new transaction"
+      },
+      {
+        "id": "d",
+        "text": "There is no difference in all circumstances"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "`save` persists or merges an entity but the SQL may be deferred until flush or commit. `saveAndFlush` explicitly flushes the persistence context, but it does not itself guarantee transaction commit.",
+    "keyConcepts": [
+      "flush",
+      "save",
+      "transaction commit"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-jpa-010",
+    "subjectId": "springboot",
+    "topicId": "sb-jpa",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the purpose of `@EntityGraph` in Spring Data JPA?",
+    "options": [
+      {
+        "id": "a",
+        "text": "To specify associations to fetch for a query without hard-coding a fetch join into the query text"
+      },
+      {
+        "id": "b",
+        "text": "To draw an entity relationship diagram at runtime"
+      },
+      {
+        "id": "c",
+        "text": "To generate database migration scripts"
+      },
+      {
+        "id": "d",
+        "text": "To enable second-level cache automatically"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "`@EntityGraph` defines a fetch plan for an entity query, allowing selected associations to be loaded as part of that operation. It helps address use-case-specific fetching needs.",
+    "keyConcepts": [
+      "@EntityGraph",
+      "fetch plan",
+      "JPA"
+    ],
+    "commonInterviewQuestion": true
+  }
+]

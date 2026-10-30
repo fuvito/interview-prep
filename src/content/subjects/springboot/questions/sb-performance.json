@@ -1,0 +1,362 @@
+[
+  {
+    "id": "sb-perf-001",
+    "subjectId": "springboot",
+    "topicId": "sb-performance",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the purpose of a database connection pool such as HikariCP?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Reuse a bounded set of database connections instead of opening a new connection for every operation"
+      },
+      {
+        "id": "b",
+        "text": "Cache every query result permanently"
+      },
+      {
+        "id": "c",
+        "text": "Replace database transactions"
+      },
+      {
+        "id": "d",
+        "text": "Create one connection per application user"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "A connection pool amortizes connection setup cost and limits concurrent database connections. Pool sizing should reflect database capacity and application concurrency rather than simply being made as large as possible.",
+    "keyConcepts": [
+      "HikariCP",
+      "connection pooling",
+      "database capacity"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-perf-002",
+    "subjectId": "springboot",
+    "topicId": "sb-performance",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is a common risk of setting an excessively large JDBC connection pool?",
+    "options": [
+      {
+        "id": "a",
+        "text": "It can overwhelm the database with too many concurrent connections and increase contention"
+      },
+      {
+        "id": "b",
+        "text": "It guarantees lower database CPU usage"
+      },
+      {
+        "id": "c",
+        "text": "It eliminates query latency"
+      },
+      {
+        "id": "d",
+        "text": "It makes transactions serializable"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "More connections do not necessarily increase throughput. A pool larger than the database can efficiently serve may increase context switching, contention, and resource pressure.",
+    "keyConcepts": [
+      "pool sizing",
+      "database contention",
+      "throughput"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-perf-003",
+    "subjectId": "springboot",
+    "topicId": "sb-performance",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the purpose of caching frequently read, relatively stable data?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Reduce repeated expensive computation or data retrieval, while introducing freshness and invalidation considerations"
+      },
+      {
+        "id": "b",
+        "text": "Guarantee that data is always current"
+      },
+      {
+        "id": "c",
+        "text": "Eliminate the need for a database"
+      },
+      {
+        "id": "d",
+        "text": "Make every write operation faster"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "Caching can reduce latency and backend load. It introduces trade-offs involving TTL, invalidation, consistency, memory use, and cache stampedes.",
+    "keyConcepts": [
+      "caching",
+      "cache invalidation",
+      "latency"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-perf-004",
+    "subjectId": "springboot",
+    "topicId": "sb-performance",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is a cache stampede?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Many requests simultaneously attempt to recompute or reload the same expired cache entry"
+      },
+      {
+        "id": "b",
+        "text": "A cache stores too few bytes per entry"
+      },
+      {
+        "id": "c",
+        "text": "A cache key contains a timestamp"
+      },
+      {
+        "id": "d",
+        "text": "A cache returns a value from memory"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "When a popular key expires, concurrent misses can overwhelm the backing store. Techniques include request coalescing, locking, stale-while-revalidate, jittered TTLs, and refresh-ahead.",
+    "keyConcepts": [
+      "cache stampede",
+      "thundering herd",
+      "cache protection"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-perf-005",
+    "subjectId": "springboot",
+    "topicId": "sb-performance",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "Why should outbound HTTP calls from a Spring Boot service have explicit timeouts?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Without timeouts, requests may wait too long and consume application threads or resources"
+      },
+      {
+        "id": "b",
+        "text": "Timeouts disable TLS"
+      },
+      {
+        "id": "c",
+        "text": "Timeouts guarantee that the remote service responds faster"
+      },
+      {
+        "id": "d",
+        "text": "The JVM applies the same safe timeout to every client automatically"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "Explicit connect and response/read timeouts bound resource occupancy and failure detection. The exact settings depend on the HTTP client and the operation's latency budget.",
+    "keyConcepts": [
+      "HTTP client timeout",
+      "resource management",
+      "latency budget"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-perf-006",
+    "subjectId": "springboot",
+    "topicId": "sb-performance",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is bulkheading in a service architecture?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Isolating resources or workloads so failure or saturation in one area does not consume all capacity"
+      },
+      {
+        "id": "b",
+        "text": "Combining every service into one process"
+      },
+      {
+        "id": "c",
+        "text": "Encrypting all network traffic"
+      },
+      {
+        "id": "d",
+        "text": "Increasing every thread pool without limits"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "Bulkheads isolate thread pools, connection pools, or concurrency limits by dependency or workload. This reduces the chance that one slow dependency exhausts all resources.",
+    "keyConcepts": [
+      "bulkhead pattern",
+      "resource isolation",
+      "resilience"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-perf-007",
+    "subjectId": "springboot",
+    "topicId": "sb-performance",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "Why is pagination important for endpoints that return large collections?",
+    "options": [
+      {
+        "id": "a",
+        "text": "It bounds response size and database work per request and supports predictable client consumption"
+      },
+      {
+        "id": "b",
+        "text": "It guarantees that every page is read from the cache"
+      },
+      {
+        "id": "c",
+        "text": "It removes the need for indexes"
+      },
+      {
+        "id": "d",
+        "text": "It ensures results never change between pages"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "Pagination limits payload and query size. Stable ordering is important; for large or frequently changing datasets, cursor/keyset pagination can be more reliable than offset pagination.",
+    "keyConcepts": [
+      "pagination",
+      "keyset pagination",
+      "API scalability"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-perf-008",
+    "subjectId": "springboot",
+    "topicId": "sb-performance",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is a benefit of graceful shutdown in a Spring Boot service?",
+    "options": [
+      {
+        "id": "a",
+        "text": "It allows the application to stop accepting new work and gives in-flight requests or tasks a chance to complete within configured limits"
+      },
+      {
+        "id": "b",
+        "text": "It guarantees zero downtime without orchestration"
+      },
+      {
+        "id": "c",
+        "text": "It forces every database transaction to commit"
+      },
+      {
+        "id": "d",
+        "text": "It prevents all JVM crashes"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "Graceful shutdown helps avoid dropping in-flight work during deployments or restarts. It should be combined with readiness handling, bounded shutdown time, and orchestrator termination settings.",
+    "keyConcepts": [
+      "graceful shutdown",
+      "readiness",
+      "deployment"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-perf-009",
+    "subjectId": "springboot",
+    "topicId": "sb-performance",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is a good first step when a production endpoint has unexpectedly high latency?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Use metrics, traces, and logs to identify whether time is spent in the application, database, or downstream dependencies"
+      },
+      {
+        "id": "b",
+        "text": "Increase every timeout immediately"
+      },
+      {
+        "id": "c",
+        "text": "Add more application instances without measuring"
+      },
+      {
+        "id": "d",
+        "text": "Disable authentication to reduce overhead"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "Start with evidence: inspect latency percentiles, trace spans, error rates, resource saturation, and database behavior. Then target the measured bottleneck and verify the change.",
+    "keyConcepts": [
+      "performance diagnosis",
+      "metrics",
+      "distributed tracing"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "sb-perf-010",
+    "subjectId": "springboot",
+    "topicId": "sb-performance",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "Why should a Spring Boot application avoid doing lengthy blocking work on request-handling threads without capacity planning?",
+    "options": [
+      {
+        "id": "a",
+        "text": "It can exhaust the request thread pool, increasing queueing and causing cascading latency"
+      },
+      {
+        "id": "b",
+        "text": "Blocking work is always executed on a separate thread automatically"
+      },
+      {
+        "id": "c",
+        "text": "It prevents transaction management from working"
+      },
+      {
+        "id": "d",
+        "text": "It makes HTTP responses non-deterministic by definition"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "Servlet request threads are finite. Slow downstream calls or long-running work can occupy them and reduce the service's ability to handle new requests. Use bounded concurrency, timeouts, async processing where appropriate, and capacity planning.",
+    "keyConcepts": [
+      "thread pool saturation",
+      "blocking I/O",
+      "capacity planning"
+    ],
+    "commonInterviewQuestion": true
+  }
+]

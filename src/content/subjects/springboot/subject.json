@@ -1,0 +1,10 @@
+{
+  "id": "springboot",
+  "name": "Spring Boot",
+  "description": "Prepare for Spring Boot interviews, from application fundamentals and dependency injection to REST APIs, persistence, security, testing, observability, and production architecture.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Fuat Yazar",
+    "email": "fyazar@gmail.com"
+  }
+}
