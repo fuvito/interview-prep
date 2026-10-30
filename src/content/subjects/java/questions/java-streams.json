@@ -1,0 +1,427 @@
+[
+  {
+    "id": "java-streams-001",
+    "subjectId": "java",
+    "topicId": "java-streams",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is a Stream in Java and how does it differ from a Collection?",
+    "options": [
+      "A Stream is a sequence of elements supporting sequential and parallel aggregate operations; unlike Collections it does not store data",
+      "A Stream is a data structure that stores elements in memory like a List",
+      "A Stream is a byte-level I/O abstraction for reading files",
+      "A Stream is a thread-safe collection for concurrent access"
+    ],
+    "correctAnswers": [0],
+    "explanation": "A Stream is not a data structure — it carries elements from a source (Collection, array, I/O channel) through a pipeline of operations. Collections store data; Streams process data. A Stream can only be consumed once and does not modify its source.",
+    "tags": ["streams", "collections", "basics"]
+  },
+  {
+    "id": "java-streams-002",
+    "subjectId": "java",
+    "topicId": "java-streams",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is the difference between intermediate and terminal stream operations?",
+    "options": [
+      "Intermediate operations return a Stream and are lazy; terminal operations return a result or side-effect and trigger pipeline execution",
+      "Intermediate operations execute immediately; terminal operations are deferred",
+      "Intermediate operations can only filter; terminal operations can only collect",
+      "There is no functional difference — both execute the same way"
+    ],
+    "correctAnswers": [0],
+    "explanation": "Intermediate operations (filter, map, sorted, distinct, limit, skip, flatMap, peek) are lazy — they build up the pipeline but do not execute until a terminal operation (collect, forEach, reduce, count, findFirst, anyMatch, toList) is called. This enables optimization such as short-circuit evaluation.",
+    "tags": ["streams", "lazy-evaluation", "terminal", "intermediate"]
+  },
+  {
+    "id": "java-streams-003",
+    "subjectId": "java",
+    "topicId": "java-streams",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What does `map()` do in a Stream pipeline?",
+    "options": [
+      "Transforms each element to another value using a Function, producing a new Stream of the transformed values",
+      "Filters elements based on a predicate",
+      "Flattens nested collections into a single stream",
+      "Collects elements into a Map"
+    ],
+    "correctAnswers": [0],
+    "explanation": "`map(Function<T,R>)` applies the function to each element and returns a `Stream<R>`. For primitive specializations use `mapToInt`, `mapToLong`, `mapToDouble`. It is a 1-to-1 transformation, unlike `flatMap` which is 1-to-many.",
+    "tags": ["streams", "map", "transformation"]
+  },
+  {
+    "id": "java-streams-004",
+    "subjectId": "java",
+    "topicId": "java-streams",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the difference between `map()` and `flatMap()` in Stream?",
+    "options": [
+      "`map()` is one-to-one; `flatMap()` maps each element to a Stream and then flattens all those streams into one",
+      "`flatMap()` is faster than `map()` for large collections",
+      "`map()` works on primitives; `flatMap()` works on objects",
+      "`flatMap()` filters null values automatically while `map()` does not"
+    ],
+    "correctAnswers": [0],
+    "explanation": "`flatMap(Function<T, Stream<R>>)` is useful when each element maps to zero, one, or many results. Example: `Stream<List<String>>` → `flatMap(Collection::stream)` → `Stream<String>`. Without `flatMap` you would get `Stream<Stream<String>>`.",
+    "tags": ["streams", "flatMap", "map"]
+  },
+  {
+    "id": "java-streams-005",
+    "subjectId": "java",
+    "topicId": "java-streams",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is a functional interface in Java?",
+    "options": [
+      "An interface with exactly one abstract method, which can be used as the target of a lambda expression or method reference",
+      "An interface that extends java.util.function.Function",
+      "Any interface annotated with @FunctionalInterface regardless of method count",
+      "An interface with only default and static methods"
+    ],
+    "correctAnswers": [0],
+    "explanation": "A functional interface has exactly one abstract method (SAM — Single Abstract Method). It may have default and static methods. The `@FunctionalInterface` annotation is optional but documents the intent and causes a compile error if the contract is violated. Key examples: `Runnable`, `Callable`, `Comparator`, `Function`, `Predicate`, `Consumer`, `Supplier`.",
+    "tags": ["functional-interface", "lambda", "SAM"]
+  },
+  {
+    "id": "java-streams-006",
+    "subjectId": "java",
+    "topicId": "java-streams",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What are the core functional interfaces in `java.util.function` and what do they represent?",
+    "options": [
+      "Function<T,R> (T→R), Predicate<T> (T→boolean), Consumer<T> (T→void), Supplier<T> (→T), UnaryOperator<T> (T→T), BinaryOperator<T> (T,T→T)",
+      "Function<T,R>, Iterator<T>, Comparator<T>, Runnable, Callable<T>",
+      "Mapper<T,R>, Filter<T>, Reducer<T>, Collector<T>",
+      "Observable<T>, Publisher<T>, Subscriber<T>, Processor<T>"
+    ],
+    "correctAnswers": [0],
+    "explanation": "The core `java.util.function` interfaces: `Function<T,R>` transforms T to R; `Predicate<T>` tests a condition; `Consumer<T>` consumes T with no return; `Supplier<T>` produces T with no input; `UnaryOperator<T>` is Function<T,T>; `BinaryOperator<T>` is BiFunction<T,T,T>. Bi-variants exist for two-argument forms.",
+    "tags": ["functional-interface", "java.util.function", "predicate", "consumer", "supplier"]
+  },
+  {
+    "id": "java-streams-007",
+    "subjectId": "java",
+    "topicId": "java-streams",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is a lambda expression in Java?",
+    "options": [
+      "A concise anonymous function that can be used wherever a functional interface is expected, with syntax (params) -> body",
+      "A named inner class that implements a functional interface",
+      "A special type of method that can be passed as an argument to any method",
+      "An annotation that marks a method as functional"
+    ],
+    "correctAnswers": [0],
+    "explanation": "Lambda expressions provide a shorthand for implementing functional interfaces. Syntax: `(parameters) -> expression` or `(parameters) -> { statements; }`. They close over effectively-final variables from the enclosing scope. Under the hood, lambdas use `invokedynamic` and are NOT anonymous inner classes.",
+    "tags": ["lambda", "functional-interface", "syntax"]
+  },
+  {
+    "id": "java-streams-008",
+    "subjectId": "java",
+    "topicId": "java-streams",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What are method references and what are the four kinds?",
+    "options": [
+      "Shorthand for lambdas that just delegate to an existing method: static (Class::staticMethod), instance on a particular instance (obj::method), instance on an arbitrary instance (Class::instanceMethod), constructor (Class::new)",
+      "References to methods stored in variables, similar to function pointers in C",
+      "Annotations that point to a method implementation for documentation",
+      "Only two kinds exist: static method references and constructor references"
+    ],
+    "correctAnswers": [0],
+    "explanation": "The four method reference kinds: (1) Static: `Integer::parseInt`; (2) Bound instance: `str::toUpperCase` (specific object); (3) Unbound instance: `String::toUpperCase` (first arg is the receiver); (4) Constructor: `ArrayList::new`. They are equivalent to a lambda that only calls that method.",
+    "tags": ["method-reference", "lambda", "functional"]
+  },
+  {
+    "id": "java-streams-009",
+    "subjectId": "java",
+    "topicId": "java-streams",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is `Optional<T>` and why was it introduced?",
+    "options": [
+      "A container that may or may not hold a non-null value, introduced to express the absence of a value explicitly and reduce NullPointerExceptions",
+      "A special nullable type that automatically handles null without throwing exceptions",
+      "A thread-safe wrapper around a nullable value for concurrent use",
+      "A replacement for the `null` keyword that was deprecated in Java 8"
+    ],
+    "correctAnswers": [0],
+    "explanation": "`Optional<T>` forces callers to explicitly handle the empty case. Created via `Optional.of(value)`, `Optional.ofNullable(value)`, or `Optional.empty()`. Key methods: `isPresent()`, `get()`, `orElse()`, `orElseGet()`, `orElseThrow()`, `map()`, `flatMap()`, `filter()`, `ifPresent()`. Should be used as a return type, not as field type or parameter type.",
+    "tags": ["optional", "null-safety", "Java8"]
+  },
+  {
+    "id": "java-streams-010",
+    "subjectId": "java",
+    "topicId": "java-streams",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the difference between `Optional.orElse()` and `Optional.orElseGet()`?",
+    "options": [
+      "`orElse(value)` always evaluates the argument eagerly; `orElseGet(Supplier)` lazily evaluates only if the Optional is empty",
+      "`orElseGet()` throws if the Optional is empty; `orElse()` returns null",
+      "They are identical; `orElseGet` is just a more verbose form of `orElse`",
+      "`orElse` accepts a Supplier; `orElseGet` accepts a direct value"
+    ],
+    "correctAnswers": [0],
+    "explanation": "`orElse(T other)` evaluates `other` unconditionally even when the value is present — this is a performance pitfall if `other` involves a method call. `orElseGet(Supplier<T>)` only calls the supplier when the Optional is empty. Prefer `orElseGet` when the default computation is expensive.",
+    "tags": ["optional", "orElse", "orElseGet", "lazy-evaluation"]
+  },
+  {
+    "id": "java-streams-011",
+    "subjectId": "java",
+    "topicId": "java-streams",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "How does `reduce()` work in a Stream?",
+    "options": [
+      "It repeatedly applies a BinaryOperator to combine elements into a single result, optionally starting from an identity value",
+      "It filters elements down to a smaller stream based on a predicate",
+      "It collapses a Stream<Stream<T>> into a Stream<T>",
+      "It removes duplicate elements from the stream"
+    ],
+    "correctAnswers": [0],
+    "explanation": "`reduce(identity, BinaryOperator)` folds all elements starting with `identity`. E.g., `stream.reduce(0, Integer::sum)` sums all ints. `reduce(BinaryOperator)` (no identity) returns `Optional<T>` since the stream may be empty. For parallel streams, the identity must be the true identity for the operator (0 for sum, 1 for product).",
+    "tags": ["streams", "reduce", "fold", "aggregation"]
+  },
+  {
+    "id": "java-streams-012",
+    "subjectId": "java",
+    "topicId": "java-streams",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is `Collectors.groupingBy()` and how is it used?",
+    "options": [
+      "A Collector that groups stream elements by a classifier function into a `Map<K, List<T>>`; a downstream collector can be provided to further process each group",
+      "A terminal operation that partitions a stream into exactly two groups based on a Predicate",
+      "A method to sort stream elements by a key function",
+      "A Collector that merges elements with the same key using a merge function"
+    ],
+    "correctAnswers": [0],
+    "explanation": "`Collectors.groupingBy(Function classifier)` returns `Map<K, List<T>>`. A downstream collector transforms the grouped list: `groupingBy(Person::getDept, counting())` → `Map<String, Long>`. `partitioningBy(Predicate)` is the two-group variant returning `Map<Boolean, List<T>>`.",
+    "tags": ["collectors", "groupingBy", "streams"]
+  },
+  {
+    "id": "java-streams-013",
+    "subjectId": "java",
+    "topicId": "java-streams",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What does `Collectors.toList()` return and what is the preferred alternative in Java 16+?",
+    "options": [
+      "`Collectors.toList()` returns a mutable List with no guarantees on type or serializability; `Stream.toList()` (Java 16+) returns an unmodifiable List",
+      "`Collectors.toList()` returns an unmodifiable list; `Stream.toList()` returns a mutable ArrayList",
+      "Both return the same type; `Stream.toList()` is just shorthand",
+      "`Collectors.toList()` collects to ArrayList specifically; `Stream.toList()` collects to LinkedList"
+    ],
+    "correctAnswers": [0],
+    "explanation": "`Collectors.toList()` gives a mutable list (typically ArrayList) with no stronger guarantees. `Stream.toList()` added in Java 16 returns an unmodifiable list that is more efficient. For guaranteed ArrayList use `Collectors.toCollection(ArrayList::new)`. For an unmodifiable list use `Collectors.toUnmodifiableList()` (Java 10+) or `Stream.toList()`.",
+    "tags": ["collectors", "toList", "Java16", "unmodifiable"]
+  },
+  {
+    "id": "java-streams-014",
+    "subjectId": "java",
+    "topicId": "java-streams",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the purpose of `Collectors.joining()`?",
+    "options": [
+      "Concatenates stream elements (which must be CharSequence) into a single String, optionally with a delimiter, prefix, and suffix",
+      "Joins multiple streams into one",
+      "Merges two Maps produced by separate stream pipelines",
+      "Combines two Collectors into one using a BiFunction"
+    ],
+    "correctAnswers": [0],
+    "explanation": "`Collectors.joining()` concatenates without separator. `joining(\", \")` inserts delimiter. `joining(\", \", \"[\", \"]\")` wraps with prefix and suffix. Commonly used as: `stream.map(Object::toString).collect(Collectors.joining(\", \"))`.",
+    "tags": ["collectors", "joining", "string"]
+  },
+  {
+    "id": "java-streams-015",
+    "subjectId": "java",
+    "topicId": "java-streams",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the difference between `findFirst()` and `findAny()` in a Stream?",
+    "options": [
+      "`findFirst()` always returns the first element in encounter order; `findAny()` may return any element and is optimized for parallel streams",
+      "`findAny()` throws if multiple elements match; `findFirst()` always succeeds",
+      "`findFirst()` requires a sorted stream; `findAny()` works on unsorted streams",
+      "They are identical in behavior for both sequential and parallel streams"
+    ],
+    "correctAnswers": [0],
+    "explanation": "Both return `Optional<T>`. `findFirst()` is deterministic — it returns the first element in encounter order. `findAny()` allows the parallel implementation to return whichever element it finds first (faster, non-deterministic). For sequential streams they behave identically.",
+    "tags": ["streams", "findFirst", "findAny", "parallel"]
+  },
+  {
+    "id": "java-streams-016",
+    "subjectId": "java",
+    "topicId": "java-streams",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What are `IntStream`, `LongStream`, and `DoubleStream` and why do they exist?",
+    "options": [
+      "Primitive specializations of Stream that avoid boxing/unboxing overhead and provide numeric operations like sum(), average(), min(), max(), range()",
+      "Thread-safe stream variants for concurrent integer processing",
+      "Ordered streams that guarantee element order for numeric types",
+      "Streams backed by primitive arrays rather than object collections"
+    ],
+    "correctAnswers": [0],
+    "explanation": "Working with `Stream<Integer>` boxes every int — expensive for large numeric datasets. `IntStream`, `LongStream`, `DoubleStream` work with primitives directly. They add aggregate methods: `sum()`, `average()` (returns `OptionalDouble`), `summaryStatistics()`. Use `mapToInt`, `mapToLong`, `mapToDouble` to convert, and `boxed()` or `mapToObj` to go back to `Stream<T>`.",
+    "tags": ["IntStream", "primitive-streams", "boxing", "performance"]
+  },
+  {
+    "id": "java-streams-017",
+    "subjectId": "java",
+    "topicId": "java-streams",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does the `peek()` intermediate operation do and what is it intended for?",
+    "options": [
+      "Performs an action on each element as it passes through the pipeline without modifying the stream, primarily for debugging",
+      "Returns the first element without consuming the stream",
+      "Filters elements that pass a side-effectful predicate",
+      "Caches elements so they can be accessed multiple times"
+    ],
+    "correctAnswers": [0],
+    "explanation": "`peek(Consumer)` is designed for debugging — e.g., logging elements at each stage. It should NOT be used to modify state or trigger side effects in production code because: (1) it is lazy and may not execute for short-circuited operations; (2) element execution order is unspecified in parallel streams. Use `forEach` for intentional side effects.",
+    "tags": ["streams", "peek", "debugging"]
+  },
+  {
+    "id": "java-streams-018",
+    "subjectId": "java",
+    "topicId": "java-streams",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What are the rules for variables captured by lambda expressions?",
+    "options": [
+      "Lambdas can only capture variables that are effectively final — assigned once and never modified after capture",
+      "Lambdas can capture and modify any local variable from the enclosing scope",
+      "Lambdas cannot capture any variables from the enclosing scope",
+      "Lambdas can only capture static fields, not local variables or instance fields"
+    ],
+    "correctAnswers": [0],
+    "explanation": "Local variables captured by a lambda must be effectively final (final or never reassigned after the initial assignment). This is because local variables live on the stack and a lambda may outlive the stack frame — the lambda gets a copy of the value. Instance fields and static fields are accessed via the captured `this` reference and can be mutable. Attempting to reassign a captured local is a compile error.",
+    "tags": ["lambda", "closure", "effectively-final", "variable-capture"]
+  },
+  {
+    "id": "java-streams-019",
+    "subjectId": "java",
+    "topicId": "java-streams",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "How do parallel streams work and what pitfalls should you watch for?",
+    "options": [
+      "Parallel streams use the ForkJoinPool.commonPool() to split work; pitfalls include non-associative reduce operations, stateful lambdas, shared mutable state, and overhead making them slower for small datasets",
+      "Parallel streams create a new thread per element, making them always faster than sequential streams",
+      "Parallel streams guarantee the same order of results as sequential streams",
+      "Parallel streams are safe to use with any Collector since all Collectors are thread-safe"
+    ],
+    "correctAnswers": [0],
+    "explanation": "`stream.parallel()` or `Collection.parallelStream()` uses ForkJoinPool (default: CPU cores - 1 threads). Pitfalls: (1) reduce identity must be a true identity for the operator; (2) stateful intermediate ops (sorted, distinct) require coordination; (3) shared mutable state causes race conditions; (4) blocking ops can starve the common pool; (5) overhead makes parallel slower for small/cheap pipelines. Use parallel for large datasets with CPU-intensive, stateless, independent operations.",
+    "tags": ["parallel-streams", "ForkJoinPool", "concurrency", "performance"]
+  },
+  {
+    "id": "java-streams-020",
+    "subjectId": "java",
+    "topicId": "java-streams",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is a Collector and how does `Collectors.toMap()` differ from `Collectors.groupingBy()`?",
+    "options": [
+      "`toMap()` produces a Map<K,V> with one entry per element requiring unique keys (throws on duplicates by default); `groupingBy()` allows multiple elements per key producing Map<K,List<T>>",
+      "`groupingBy()` requires sorted input; `toMap()` works on any order",
+      "`toMap()` is only for numeric values; `groupingBy()` works on any type",
+      "They are functionally equivalent; `toMap` is just an older API"
+    ],
+    "correctAnswers": [0],
+    "explanation": "`Collectors.toMap(keyMapper, valueMapper)` maps each element to a unique key — duplicate keys throw `IllegalStateException` (use the merge function overload to handle duplicates). `groupingBy(classifier)` groups elements sharing a key into a `List`, never throwing on duplicates. Choose `toMap` for 1:1 mapping, `groupingBy` for 1:many.",
+    "tags": ["collectors", "toMap", "groupingBy", "streams"]
+  },
+  {
+    "id": "java-streams-021",
+    "subjectId": "java",
+    "topicId": "java-streams",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is the difference between `Predicate.and()`, `Predicate.or()`, and `Predicate.negate()`?",
+    "options": [
+      "They are default methods for composing Predicates: `and` is short-circuit AND, `or` is short-circuit OR, `negate` returns the logical complement",
+      "They are static utility methods in Predicates class that combine multiple streams",
+      "`negate` reverses the order of elements; `and` filters to intersection; `or` merges two streams",
+      "They are only available on BiPredicate, not on Predicate<T>"
+    ],
+    "correctAnswers": [0],
+    "explanation": "`Predicate` default methods allow combinator-style logic: `p1.and(p2)` — true only if both; `p1.or(p2)` — true if either; `p.negate()` — logical NOT. `Predicate.not(pred)` (static, Java 11+) is handy for method references: `Predicate.not(String::isEmpty)`. Example: `stream.filter(isAdult.and(hasEmail.negate()))`.",
+    "tags": ["predicate", "composition", "functional"]
+  },
+  {
+    "id": "java-streams-022",
+    "subjectId": "java",
+    "topicId": "java-streams",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What happens if you try to reuse a Stream after it has been consumed?",
+    "options": [
+      "An `IllegalStateException` is thrown with message 'stream has already been operated upon or closed'",
+      "The stream is automatically reset to the beginning",
+      "The stream silently returns an empty result",
+      "It works fine — streams can be consumed multiple times like Iterables"
+    ],
+    "correctAnswers": [0],
+    "explanation": "Streams are single-use — once a terminal operation is called, the stream is closed and cannot be reused. Unlike `Iterable` (which can produce multiple `Iterator`s), a `Stream` represents a single traversal. To process the same data multiple times, obtain a new stream from the source each time or use a `Supplier<Stream<T>>` to defer creation.",
+    "tags": ["streams", "single-use", "IllegalStateException"]
+  },
+  {
+    "id": "java-streams-023",
+    "subjectId": "java",
+    "topicId": "java-streams",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is `Collectors.teeing()` introduced in Java 12?",
+    "options": [
+      "A Collector that passes elements to two downstream Collectors simultaneously and merges their results with a BiFunction",
+      "A Collector that splits a stream into two separate streams for independent processing",
+      "A method to apply the same Collector twice for validation purposes",
+      "A Collector for processing streams of Pair or Tuple objects"
+    ],
+    "correctAnswers": [0],
+    "explanation": "`Collectors.teeing(downstream1, downstream2, merger)` fans elements out to two collectors and combines their results. Example: compute min and max in one pass: `stream.collect(teeing(minBy(comparator), maxBy(comparator), (min, max) -> new Range(min, max)))`. Avoids two separate stream traversals when you need two aggregates.",
+    "tags": ["collectors", "teeing", "Java12", "aggregation"]
+  },
+  {
+    "id": "java-streams-024",
+    "subjectId": "java",
+    "topicId": "java-streams",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "How do `Function.andThen()` and `Function.compose()` differ?",
+    "options": [
+      "`f.andThen(g)` applies f first then g (f → g); `f.compose(g)` applies g first then f (g → f) — they are the opposite direction of composition",
+      "`compose` is for Consumers; `andThen` is for Functions",
+      "`andThen` returns a BiFunction; `compose` returns a UnaryOperator",
+      "They are identical — both apply functions left to right"
+    ],
+    "correctAnswers": [0],
+    "explanation": "`f.andThen(g)` = g(f(x)) — mathematically (g ∘ f). `f.compose(g)` = f(g(x)) — mathematically (f ∘ g). So `addOne.andThen(double)` doubles after adding; `addOne.compose(double)` doubles before adding. `Consumer` also has `andThen` but no `compose`. Remember: `andThen` means \"after me, then this\" — intuitive pipeline order.",
+    "tags": ["function", "composition", "andThen", "compose"]
+  },
+  {
+    "id": "java-streams-025",
+    "subjectId": "java",
+    "topicId": "java-streams",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What are `Stream.generate()` and `Stream.iterate()` and how do they differ?",
+    "options": [
+      "`generate(Supplier)` creates an infinite stream by repeatedly calling the Supplier; `iterate(seed, UnaryOperator)` creates an infinite stream by repeatedly applying the operator to the previous value; Java 9 added an `iterate` overload with a Predicate to terminate",
+      "`generate` uses an index; `iterate` uses random values",
+      "`iterate` is finite by default; `generate` is always infinite",
+      "Both are identical except `iterate` preserves insertion order"
+    ],
+    "correctAnswers": [0],
+    "explanation": "`Stream.generate(Supplier<T>)` — e.g., `Stream.generate(Math::random)` — is stateless, producing independent values each call (suitable for parallel use). `Stream.iterate(seed, f)` produces `seed, f(seed), f(f(seed)), ...` — each value depends on the previous (inherently sequential). Java 9 added `Stream.iterate(seed, predicate, f)` which terminates when predicate returns false, similar to a for-loop. Both require `limit()` or another short-circuit op to terminate the infinite stream.",
+    "tags": ["streams", "generate", "iterate", "infinite-stream", "Java9"]
+  }
+]

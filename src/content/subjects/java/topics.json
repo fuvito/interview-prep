@@ -1,0 +1,44 @@
+[
+  {
+    "id": "java-fundamentals",
+    "subjectId": "java",
+    "name": "Java Fundamentals & OOP",
+    "description": "Classes, objects, inheritance, polymorphism, encapsulation, abstraction, interfaces, and core Java syntax.",
+    "order": 1
+  },
+  {
+    "id": "java-collections",
+    "subjectId": "java",
+    "name": "Collections Framework",
+    "description": "List, Set, Map, Queue implementations, generics, Comparable vs Comparator, and choosing the right collection.",
+    "order": 2
+  },
+  {
+    "id": "java-concurrency",
+    "subjectId": "java",
+    "name": "Concurrency & Multithreading",
+    "description": "Threads, synchronization, locks, ExecutorService, CompletableFuture, and concurrent data structures.",
+    "order": 3
+  },
+  {
+    "id": "java-jvm",
+    "subjectId": "java",
+    "name": "JVM & Memory Management",
+    "description": "JVM architecture, heap vs stack, garbage collection algorithms, class loading, and JIT compilation.",
+    "order": 4
+  },
+  {
+    "id": "java-spring",
+    "subjectId": "java",
+    "name": "Spring & Spring Boot",
+    "description": "IoC container, dependency injection, Spring MVC, REST APIs, Spring Data JPA, and Spring Boot auto-configuration.",
+    "order": 5
+  },
+  {
+    "id": "java-streams",
+    "subjectId": "java",
+    "name": "Streams & Functional Java",
+    "description": "Stream API, lambda expressions, Optional, method references, functional interfaces, and collectors.",
+    "order": 6
+  }
+]

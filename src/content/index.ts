@@ -27,16 +27,27 @@ import linuxShellData from './subjects/devops/questions/linux-shell.json'
 import iacData from './subjects/devops/questions/iac.json'
 import monitoringData from './subjects/devops/questions/monitoring.json'
 
+import javaSubjectData from './subjects/java/subject.json'
+import javaTopicsData from './subjects/java/topics.json'
+import javaFundamentalsData from './subjects/java/questions/java-fundamentals.json'
+import javaCollectionsData from './subjects/java/questions/java-collections.json'
+import javaConcurrencyData from './subjects/java/questions/java-concurrency.json'
+import javaJvmData from './subjects/java/questions/java-jvm.json'
+import javaSpringData from './subjects/java/questions/java-spring.json'
+import javaStreamsData from './subjects/java/questions/java-streams.json'
+
 export const allSubjects: Subject[] = [
   tsSubjectData as unknown as Subject,
   nodeSubjectData as unknown as Subject,
   devopsSubjectData as unknown as Subject,
+  javaSubjectData as unknown as Subject,
 ]
 
 export const allTopics: Topic[] = [
   ...(tsTopicsData as unknown as Topic[]),
   ...(nodeTopicsData as unknown as Topic[]),
   ...(devopsTopicsData as unknown as Topic[]),
+  ...(javaTopicsData as unknown as Topic[]),
 ]
 
 export const allQuestions: Question[] = [
@@ -58,6 +69,12 @@ export const allQuestions: Question[] = [
   ...(linuxShellData as unknown as Question[]),
   ...(iacData as unknown as Question[]),
   ...(monitoringData as unknown as Question[]),
+  ...(javaFundamentalsData as unknown as Question[]),
+  ...(javaCollectionsData as unknown as Question[]),
+  ...(javaConcurrencyData as unknown as Question[]),
+  ...(javaJvmData as unknown as Question[]),
+  ...(javaSpringData as unknown as Question[]),
+  ...(javaStreamsData as unknown as Question[]),
 ]
 
 export function getSubjectById(id: string): Subject | undefined {

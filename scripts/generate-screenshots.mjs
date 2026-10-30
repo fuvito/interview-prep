@@ -1,6 +1,6 @@
 /**
- * Generates Chrome Web Store screenshots at 1280×800.
- * Shows the extension popup (480×600) centred on a branded background.
+ * Generates Chrome Web Store screenshots at 1280×800 in light mode.
+ * The UI fills the entire viewport with a desktop-style layout.
  *
  * Run: node scripts/generate-screenshots.mjs
  */
@@ -14,314 +14,367 @@ const __dirname = dirname(fileURLToPath(import.meta.url))
 const OUT_DIR = join(__dirname, '..', 'store-assets')
 mkdirSync(OUT_DIR, { recursive: true })
 
-// ─── Design tokens ────────────────────────────────────────────────────────────
-const BG_DEEP   = '#060e1a'
-const BG_NAVY   = '#0c1628'
-const BG_CARD   = '#111827'  // gray-900
-const BG_950    = '#030712'  // gray-950
+// ─── Light mode design tokens ─────────────────────────────────────────────────
+const BG_MAIN   = '#f1f5f9'   // slate-100
+const BG_CARD   = '#ffffff'
+const BG_TOP    = '#ffffff'
+const BG_SIDE   = '#ffffff'
 const BLUE      = '#3b82f6'
 const BLUE_L    = '#60a5fa'
-const BLUE_DIM  = '#1e3a5f'
+const BLUE_BG   = '#eff6ff'   // blue-50
+const BLUE_B    = '#bfdbfe'   // blue-200
 const AMBER     = '#f59e0b'
+const AMBER_BG  = '#fffbeb'
 const GREEN     = '#22c55e'
+const GREEN_BG  = '#f0fdf4'
+const GREEN_B   = '#bbf7d0'
 const RED       = '#ef4444'
-const TEXT_W    = '#f1f5f9'
-const TEXT_G    = '#9ca3af'  // gray-400
-const TEXT_D    = '#4b5563'  // gray-600
-const BORDER    = '#1f2937'  // gray-800
+const RED_BG    = '#fef2f2'
+const RED_B     = '#fecaca'
+const TEXT_1    = '#0f172a'   // slate-900
+const TEXT_2    = '#475569'   // slate-600
+const TEXT_3    = '#94a3b8'   // slate-400
+const BORDER    = '#e2e8f0'   // slate-200
+const BORDER_D  = '#cbd5e1'   // slate-300
+const NAVY      = '#0c1628'
 
-// ─── Shared shell: wraps any popup HTML in a 1280×800 branded canvas ─────────
-function shell(title, popupHtml) {
+// ─── Full-page shell with sidebar nav ─────────────────────────────────────────
+function page(activeNav, titleText, mainHtml) {
+  const navItems = [
+    { id: 'home',      icon: '⌂',  label: 'Home' },
+    { id: 'subjects',  icon: '📖', label: 'Subjects' },
+    { id: 'progress',  icon: '📊', label: 'Progress' },
+    { id: 'bookmarks', icon: '🔖', label: 'Bookmarks' },
+  ]
+
+  const navHtml = navItems.map(n => {
+    const active = n.id === activeNav
+    return `<div class="nav-item ${active ? 'active' : ''}">
+      <span class="nav-icon">${n.icon}</span>
+      <span class="nav-label">${n.label}</span>
+    </div>`
+  }).join('')
+
   return `<!DOCTYPE html><html><head>
   <meta charset="utf-8"/>
   <style>
     * { margin:0; padding:0; box-sizing:border-box; }
-    html, body { width:1280px; height:800px; overflow:hidden; }
-    body {
-      background: linear-gradient(135deg, #04090f 0%, ${BG_DEEP} 40%, #081428 70%, #04090f 100%);
-      display:flex; flex-direction:column; align-items:center; justify-content:center;
-      font-family:'Segoe UI', system-ui, sans-serif; position:relative; gap:18px;
-    }
-    .grid-bg {
-      position:absolute; inset:0;
-      background-image:
-        linear-gradient(${BLUE}06 1px, transparent 1px),
-        linear-gradient(90deg, ${BLUE}06 1px, transparent 1px);
-      background-size:60px 60px;
-    }
-    .glow { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
-      width:900px; height:900px;
-      background:radial-gradient(circle, ${BLUE}0a 0%, transparent 55%); }
+    html, body { width:1280px; height:800px; overflow:hidden; background:${BG_MAIN};
+      font-family:'Segoe UI', system-ui, -apple-system, sans-serif; color:${TEXT_1}; }
 
-    .caption { font-size:13px; font-weight:600; letter-spacing:0.1em; text-transform:uppercase;
-      color:${BLUE_L}; z-index:2; }
+    /* Layout */
+    .layout { display:flex; flex-direction:column; height:100vh; }
 
-    /* The popup frame */
-    .popup {
-      width:480px; height:600px;
-      background:${BG_950}; border-radius:12px;
-      border:1px solid ${BLUE_DIM}40;
-      box-shadow: 0 32px 80px #00000080, 0 0 0 1px ${BLUE}18;
-      overflow:hidden; display:flex; flex-direction:column;
-      z-index:2; flex-shrink:0;
-    }
-
-    /* TopBar */
+    /* Topbar */
     .topbar {
-      height:48px; background:${BG_NAVY}; border-bottom:1px solid ${BLUE_DIM};
-      display:flex; align-items:center; padding:0 16px; gap:10px; flex-shrink:0;
+      height:56px; background:${NAVY}; border-bottom:1px solid ${BORDER};
+      display:flex; align-items:center; padding:0 24px; gap:14px; flex-shrink:0;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
     }
-    .tb-ip { font-size:11px; font-weight:900; letter-spacing:0.1em; color:${BLUE}; text-transform:uppercase; }
-    .tb-title { font-size:14px; font-weight:600; color:#dbeafe; }
-    .tb-actions { margin-left:auto; display:flex; gap:6px; align-items:center; }
-    .tb-icon { width:15px; height:15px; background:${BLUE}30; border-radius:3px; }
+    .tb-logo { display:flex; align-items:center; gap:8px; }
+    .tb-ip { font-size:16px; font-weight:900; letter-spacing:-0.02em;
+      background:linear-gradient(135deg,${BLUE},${BLUE_L});
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+    .tb-dot { width:6px; height:6px; border-radius:50%; background:${AMBER}; }
+    .tb-divider { width:1px; height:20px; background:rgba(255,255,255,0.15); }
+    .tb-title { font-size:15px; font-weight:600; color:#f1f5f9; }
+    .tb-spacer { flex:1; }
+    .tb-badge { font-size:11px; font-weight:600; background:rgba(59,130,246,0.2);
+      color:${BLUE_L}; border:1px solid rgba(59,130,246,0.3); border-radius:20px; padding:3px 10px; }
 
-    /* BottomNav */
-    .bottomnav {
-      height:56px; background:${BG_950}; border-top:1px solid ${BORDER};
-      display:flex; align-items:stretch; flex-shrink:0;
+    /* Body split: sidebar + content */
+    .body { display:flex; flex:1; overflow:hidden; }
+
+    /* Sidebar */
+    .sidebar {
+      width:200px; background:${BG_SIDE}; border-right:1px solid ${BORDER};
+      display:flex; flex-direction:column; padding:16px 0; gap:2px; flex-shrink:0;
     }
-    .nav-item { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; }
-    .nav-item.active .nav-icon { color:${BLUE}; }
-    .nav-item.active .nav-label { color:${BLUE}; }
-    .nav-icon { font-size:18px; color:${TEXT_D}; line-height:1; }
-    .nav-label { font-size:10px; font-weight:500; color:${TEXT_D}; }
+    .nav-item {
+      display:flex; align-items:center; gap:10px; padding:10px 20px;
+      border-radius:0; cursor:pointer; font-size:14px; font-weight:500; color:${TEXT_2};
+      transition:all 0.15s;
+    }
+    .nav-item.active { background:${BLUE_BG}; color:${BLUE}; border-right:3px solid ${BLUE}; }
+    .nav-item:not(.active):hover { background:${BG_MAIN}; }
+    .nav-icon { font-size:16px; width:20px; text-align:center; }
+    .nav-label { font-size:14px; }
 
-    /* Scrollable content area */
-    .content { flex:1; overflow:hidden; display:flex; flex-direction:column; }
-    .scroll { flex:1; overflow-y:auto; padding:16px; display:flex; flex-direction:column; gap:16px; }
+    /* Main content */
+    .main { flex:1; overflow-y:auto; padding:28px 32px; }
 
-    /* Cards */
-    .card { background:${BG_CARD}; border:1px solid ${BORDER}; border-radius:10px; padding:14px; }
-    .card-title { font-size:10px; font-weight:600; color:${TEXT_G}; letter-spacing:0.08em; text-transform:uppercase; margin-bottom:10px; }
-    .stat-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
-    .stat-cell { background:${BG_CARD}; border:1px solid ${BORDER}; border-radius:8px; padding:12px 8px; text-align:center; }
-    .stat-n { font-size:22px; font-weight:800; color:${TEXT_W}; }
+    /* Page heading */
+    .page-heading { font-size:22px; font-weight:700; color:${TEXT_1}; margin-bottom:6px; }
+    .page-sub { font-size:13px; color:${TEXT_2}; margin-bottom:24px; }
+
+    /* Stat cards */
+    .stat-row { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-bottom:24px; }
+    .stat-card { background:${BG_CARD}; border:1px solid ${BORDER}; border-radius:12px; padding:18px 20px; }
+    .stat-n { font-size:28px; font-weight:800; color:${TEXT_1}; letter-spacing:-0.02em; }
     .stat-n.blue { color:${BLUE}; }
-    .stat-l { font-size:10px; color:${TEXT_G}; margin-top:2px; }
-    .scorebar { height:6px; background:#1f2937; border-radius:3px; margin-top:10px; }
-    .scorebar-fill { height:100%; border-radius:3px; background:linear-gradient(90deg,${AMBER},${BLUE}); }
+    .stat-n.green { color:${GREEN}; }
+    .stat-n.amber { color:${AMBER}; }
+    .stat-l { font-size:12px; color:${TEXT_2}; margin-top:4px; font-weight:500; }
+    .stat-bar { height:4px; border-radius:2px; background:${BORDER}; margin-top:10px; }
+    .stat-bar-fill { height:100%; border-radius:2px; background:linear-gradient(90deg,${BLUE},${BLUE_L}); }
 
-    .subject-row { display:flex; align-items:center; justify-content:space-between;
-      background:${BG_CARD}; border:1px solid ${BORDER}; border-radius:10px;
-      padding:12px 14px; }
-    .subject-name { font-size:14px; font-weight:600; color:${TEXT_W}; }
-    .subject-sub  { font-size:11px; color:${TEXT_G}; margin-top:2px; }
-    .chevron { font-size:14px; color:${TEXT_D}; }
+    /* Section titles */
+    .section-title { font-size:13px; font-weight:700; color:${TEXT_3}; letter-spacing:0.07em;
+      text-transform:uppercase; margin-bottom:12px; }
+
+    /* Topic rows */
+    .topic-list { background:${BG_CARD}; border:1px solid ${BORDER}; border-radius:12px; overflow:hidden; }
+    .topic-row { display:flex; align-items:center; padding:14px 18px; border-bottom:1px solid ${BORDER}; gap:12px; cursor:pointer; }
+    .topic-row:last-child { border-bottom:none; }
+    .topic-row:hover { background:${BG_MAIN}; }
+    .topic-icon { width:36px; height:36px; background:${BLUE_BG}; border-radius:8px;
+      display:flex; align-items:center; justify-content:center; font-size:16px; flex-shrink:0; }
+    .topic-name { font-size:14px; font-weight:600; color:${TEXT_1}; flex:1; }
+    .topic-sub  { font-size:12px; color:${TEXT_2}; margin-top:2px; }
+    .topic-progress { display:flex; align-items:center; gap:10px; }
+    .topic-bar { width:80px; height:5px; background:${BORDER}; border-radius:3px; }
+    .topic-fill { height:100%; border-radius:3px; background:${BLUE}; }
+    .topic-pct { font-size:12px; font-weight:700; color:${TEXT_2}; width:32px; text-align:right; }
+    .chevron { font-size:16px; color:${TEXT_3}; }
 
     /* Question card */
-    .q-card { background:${BG_CARD}; border:1px solid ${BORDER}; border-radius:10px; padding:16px; }
-    .q-meta { display:flex; gap:6px; margin-bottom:12px; }
-    .badge { font-size:10px; font-weight:600; padding:2px 8px; border-radius:20px; }
-    .badge-blue { background:${BLUE}20; color:${BLUE_L}; border:1px solid ${BLUE}40; }
-    .badge-green { background:${GREEN}20; color:${GREEN}; border:1px solid ${GREEN}40; }
-    .badge-amber { background:${AMBER}20; color:${AMBER}; border:1px solid ${AMBER}40; }
-    .q-text { font-size:13px; color:${TEXT_W}; line-height:1.6; margin-bottom:14px; font-weight:500; }
-    .option { display:flex; align-items:flex-start; gap:10px; padding:10px 12px;
-      border-radius:8px; border:1px solid ${BORDER}; margin-bottom:6px; cursor:pointer; }
-    .option.correct { border-color:${GREEN}60; background:${GREEN}10; }
-    .option.wrong   { border-color:${RED}60; background:${RED}10; }
-    .option.selected { border-color:${BLUE}60; background:${BLUE}10; }
-    .option-bullet { width:16px; height:16px; border-radius:50%; border:1px solid ${TEXT_D};
-      display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px; }
-    .option-bullet.correct { background:${GREEN}; border-color:${GREEN}; color:#fff; font-size:10px; }
-    .option-bullet.wrong   { background:${RED}; border-color:${RED}; color:#fff; font-size:10px; }
-    .option-bullet.dot { background:${BLUE}; border-color:${BLUE}; }
-    .option-text { font-size:12px; color:${TEXT_W}; line-height:1.5; }
+    .q-card { background:${BG_CARD}; border:1px solid ${BORDER}; border-radius:12px; padding:24px; margin-bottom:16px; }
+    .q-meta { display:flex; gap:8px; margin-bottom:14px; }
+    .badge { font-size:11px; font-weight:600; padding:3px 10px; border-radius:20px; }
+    .badge-blue  { background:${BLUE_BG}; color:${BLUE}; border:1px solid ${BLUE_B}; }
+    .badge-green { background:${GREEN_BG}; color:${GREEN}; border:1px solid ${GREEN_B}; }
+    .badge-amber { background:${AMBER_BG}; color:${AMBER}; border:1px solid #fde68a; }
+    .q-text { font-size:15px; font-weight:500; color:${TEXT_1}; line-height:1.6; margin-bottom:18px; }
 
-    /* Explanation box */
-    .explanation { background:#0f2918; border:1px solid ${GREEN}30; border-radius:8px;
-      padding:12px; font-size:11px; color:#86efac; line-height:1.6; }
-    .expl-label { font-size:10px; font-weight:700; color:${GREEN}; letter-spacing:0.06em; margin-bottom:6px; }
+    /* Options */
+    .option { display:flex; align-items:flex-start; gap:12px; padding:12px 14px;
+      border-radius:8px; border:1.5px solid ${BORDER}; margin-bottom:8px; cursor:pointer; }
+    .option.correct { border-color:${GREEN}; background:${GREEN_BG}; }
+    .option.wrong   { border-color:${RED}; background:${RED_BG}; }
+    .option.selected { border-color:${BLUE}; background:${BLUE_BG}; }
+    .option-bullet { width:20px; height:20px; border-radius:50%; border:2px solid ${BORDER_D};
+      display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px; }
+    .option-bullet.correct { background:${GREEN}; border-color:${GREEN}; color:#fff; font-size:11px; }
+    .option-bullet.wrong   { background:${RED}; border-color:${RED}; color:#fff; font-size:11px; }
+    .option-bullet.dot { background:${BLUE}; border-color:${BLUE}; }
+    .option-text { font-size:13px; color:${TEXT_1}; line-height:1.55; }
+
+    /* Explanation */
+    .explanation { background:${GREEN_BG}; border:1px solid ${GREEN_B}; border-radius:10px;
+      padding:14px 16px; font-size:13px; color:#15803d; line-height:1.6; }
+    .expl-label { font-size:11px; font-weight:700; color:${GREEN}; letter-spacing:0.06em; margin-bottom:6px; }
 
     /* Code block */
-    .code-block { background:#0a0f1a; border:1px solid ${BLUE_DIM}; border-radius:8px;
-      padding:12px; font-family:'Consolas','Courier New',monospace; font-size:11px;
-      color:#93c5fd; line-height:1.6; margin-bottom:10px; white-space:pre; }
+    .code-block { background:#1e293b; border-radius:10px; padding:16px;
+      font-family:'Consolas','Courier New',monospace; font-size:12px;
+      color:#e2e8f0; line-height:1.6; margin-bottom:14px; white-space:pre; }
     .code-kw  { color:#c084fc; }
     .code-str { color:#86efac; }
-    .code-num { color:#fb923c; }
-    .code-cmt { color:#4b5563; }
+    .code-cmt { color:#64748b; }
 
-    /* Progress bars */
-    .topic-row { display:flex; align-items:center; gap:10px; padding:8px 0;
-      border-bottom:1px solid ${BORDER}; }
-    .topic-row:last-child { border-bottom:none; }
-    .topic-name { font-size:12px; color:${TEXT_W}; flex:1; }
-    .topic-bar  { flex:1; height:4px; background:${BORDER}; border-radius:2px; }
-    .topic-fill { height:100%; border-radius:2px; }
-    .topic-pct  { font-size:11px; font-weight:600; color:${TEXT_G}; width:32px; text-align:right; }
+    /* Buttons */
+    .btn { padding:10px 20px; border-radius:8px; font-size:13px; font-weight:600; cursor:pointer; border:none; }
+    .btn-primary { background:${BLUE}; color:#fff; }
+    .btn-secondary { background:${BG_CARD}; color:${TEXT_2}; border:1px solid ${BORDER}; }
+    .btn-row { display:flex; gap:10px; }
 
-    /* Interview timer */
-    .timer-row { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
-    .timer { font-size:18px; font-weight:700; color:${AMBER}; font-variant-numeric:tabular-nums; }
-    .q-counter { font-size:11px; color:${TEXT_G}; }
-    .submit-btn { background:${BLUE}; color:#fff; border:none; border-radius:8px;
-      padding:10px; font-size:13px; font-weight:600; width:100%; margin-top:12px; cursor:pointer; }
+    /* Timer */
+    .timer-bar { background:${BG_CARD}; border:1px solid ${BORDER}; border-radius:12px;
+      padding:16px 20px; display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; }
+    .timer-time { font-size:28px; font-weight:800; color:${AMBER}; font-variant-numeric:tabular-nums; }
+    .q-progress-bar { flex:1; height:8px; background:${BORDER}; border-radius:4px; margin:0 20px; }
+    .q-progress-fill { height:100%; border-radius:4px; background:linear-gradient(90deg,${BLUE},${BLUE_L}); }
+    .q-count { font-size:14px; font-weight:700; color:${TEXT_1}; }
 
-    /* Bookmark star */
-    .bk-row { display:flex; align-items:center; justify-content:space-between;
-      padding:10px 14px; background:${BG_CARD}; border:1px solid ${BORDER}; border-radius:10px; margin-bottom:6px; }
-    .bk-q   { font-size:12px; color:${TEXT_W}; flex:1; margin-right:10px; }
-    .bk-tag { font-size:10px; color:${BLUE_L}; }
-    .star   { color:${AMBER}; font-size:15px; }
+    /* Results */
+    .score-ring { width:120px; height:120px; border-radius:50%;
+      border:8px solid ${BLUE_B}; display:flex; flex-direction:column;
+      align-items:center; justify-content:center; flex-shrink:0; }
+    .score-n { font-size:32px; font-weight:900; color:${BLUE}; line-height:1; }
+    .score-label { font-size:11px; color:${TEXT_3}; font-weight:600; margin-top:3px; }
+
+    /* Subject cards */
+    .subject-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:16px; }
+    .subject-card { background:${BG_CARD}; border:1px solid ${BORDER}; border-radius:12px;
+      padding:20px; cursor:pointer; }
+    .subject-card:hover { border-color:${BLUE}; }
+    .subject-card-name { font-size:16px; font-weight:700; color:${TEXT_1}; margin-bottom:6px; }
+    .subject-card-desc { font-size:12px; color:${TEXT_2}; line-height:1.5; margin-bottom:12px; }
+    .subject-card-footer { display:flex; align-items:center; justify-content:space-between; }
+    .subject-q-count { font-size:12px; font-weight:600; color:${TEXT_3}; }
+    .start-btn { font-size:12px; font-weight:600; color:${BLUE};
+      background:${BLUE_BG}; border:1px solid ${BLUE_B}; border-radius:6px; padding:4px 12px; }
   </style>
   </head><body>
-    <div class="grid-bg"></div>
-    <div class="glow"></div>
-    <div class="caption">${title}</div>
-    <div class="popup">${popupHtml}</div>
+  <div class="layout">
+    <div class="topbar">
+      <div class="tb-logo">
+        <span class="tb-ip">IP</span>
+        <div class="tb-dot"></div>
+      </div>
+      <div class="tb-divider"></div>
+      <span class="tb-title">${titleText}</span>
+      <div class="tb-spacer"></div>
+      <span class="tb-badge">Offline</span>
+    </div>
+    <div class="body">
+      <div class="sidebar">${navHtml}</div>
+      <div class="main">${mainHtml}</div>
+    </div>
+  </div>
   </body></html>`
 }
 
 // ─── Screen 1: Home — subject progress + topics ───────────────────────────────
 function screen1() {
-  const popup = `
-    <div class="topbar">
-      <span class="tb-ip">IP</span>
-      <span class="tb-title">TypeScript</span>
-      <div class="tb-actions">
-        <div class="tb-icon"></div>
-        <div class="tb-icon"></div>
-        <div class="tb-icon"></div>
-      </div>
-    </div>
-    <div class="content">
-      <div class="scroll">
-        <div>
-          <div class="card-title">Progress</div>
-          <div class="stat-grid">
-            <div class="stat-cell"><div class="stat-n">155</div><div class="stat-l">Questions</div></div>
-            <div class="stat-cell"><div class="stat-n">42</div><div class="stat-l">Attempted</div></div>
-            <div class="stat-cell"><div class="stat-n blue">78%</div><div class="stat-l">Score</div></div>
-          </div>
-          <div class="scorebar"><div class="scorebar-fill" style="width:78%"></div></div>
-        </div>
+  const main = `
+    <div class="page-heading">TypeScript</div>
+    <div class="page-sub">Your current subject — pick up where you left off</div>
 
-        <div>
-          <div class="card-title">Topics</div>
-          <div style="display:flex;flex-direction:column;gap:6px;">
-            <div class="subject-row">
-              <div><div class="subject-name">TypeScript Basics</div><div class="subject-sub">25 questions</div></div>
-              <span class="chevron">›</span>
-            </div>
-            <div class="subject-row">
-              <div><div class="subject-name">Interfaces & Types</div><div class="subject-sub">25 questions</div></div>
-              <span class="chevron">›</span>
-            </div>
-            <div class="subject-row">
-              <div><div class="subject-name">Functions</div><div class="subject-sub">25 questions</div></div>
-              <span class="chevron">›</span>
-            </div>
-            <div class="subject-row">
-              <div><div class="subject-name">Generics</div><div class="subject-sub">25 questions</div></div>
-              <span class="chevron">›</span>
-            </div>
-            <div class="subject-row" style="border-color:#1e3a5f40;">
-              <div><div class="subject-name" style="color:#f59e0b;">⚠ Advanced Types</div><div class="subject-sub">Weak area — 48%</div></div>
-              <span class="chevron">›</span>
-            </div>
-          </div>
-        </div>
+    <div class="stat-row">
+      <div class="stat-card">
+        <div class="stat-n">155</div>
+        <div class="stat-l">Total Questions</div>
+        <div class="stat-bar"><div class="stat-bar-fill" style="width:100%"></div></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-n">62</div>
+        <div class="stat-l">Attempted</div>
+        <div class="stat-bar"><div class="stat-bar-fill" style="width:40%"></div></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-n green">81%</div>
+        <div class="stat-l">Accuracy</div>
+        <div class="stat-bar"><div class="stat-bar-fill" style="width:81%;background:${GREEN}"></div></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-n amber">2</div>
+        <div class="stat-l">Weak Areas</div>
+        <div class="stat-bar"><div class="stat-bar-fill" style="width:33%;background:${AMBER}"></div></div>
       </div>
     </div>
-    <div class="bottomnav">
-      <div class="nav-item active"><span class="nav-icon">⌂</span><span class="nav-label">Home</span></div>
-      <div class="nav-item"><span class="nav-icon">📖</span><span class="nav-label">Subjects</span></div>
-      <div class="nav-item"><span class="nav-icon">📊</span><span class="nav-label">Progress</span></div>
-      <div class="nav-item"><span class="nav-icon">🔖</span><span class="nav-label">Bookmarks</span></div>
-    </div>`
-  return shell('Home — Subject Progress & Topics', popup)
+
+    <div class="section-title">Topics</div>
+    <div class="topic-list">
+      <div class="topic-row">
+        <div class="topic-icon">📘</div>
+        <div style="flex:1"><div class="topic-name">TypeScript Basics</div><div class="topic-sub">25 questions · 100% complete</div></div>
+        <div class="topic-progress">
+          <div class="topic-bar"><div class="topic-fill" style="width:100%;background:${GREEN}"></div></div>
+          <div class="topic-pct" style="color:${GREEN}">100%</div>
+        </div>
+        <span class="chevron">›</span>
+      </div>
+      <div class="topic-row">
+        <div class="topic-icon">🔷</div>
+        <div style="flex:1"><div class="topic-name">Interfaces &amp; Types</div><div class="topic-sub">25 questions · 88% complete</div></div>
+        <div class="topic-progress">
+          <div class="topic-bar"><div class="topic-fill" style="width:88%"></div></div>
+          <div class="topic-pct">88%</div>
+        </div>
+        <span class="chevron">›</span>
+      </div>
+      <div class="topic-row">
+        <div class="topic-icon">⚙️</div>
+        <div style="flex:1"><div class="topic-name">Functions</div><div class="topic-sub">25 questions · 72% complete</div></div>
+        <div class="topic-progress">
+          <div class="topic-bar"><div class="topic-fill" style="width:72%"></div></div>
+          <div class="topic-pct">72%</div>
+        </div>
+        <span class="chevron">›</span>
+      </div>
+      <div class="topic-row">
+        <div class="topic-icon">🧩</div>
+        <div style="flex:1"><div class="topic-name">Generics</div><div class="topic-sub">25 questions · 40% complete</div></div>
+        <div class="topic-progress">
+          <div class="topic-bar"><div class="topic-fill" style="width:40%"></div></div>
+          <div class="topic-pct">40%</div>
+        </div>
+        <span class="chevron">›</span>
+      </div>
+      <div class="topic-row">
+        <div class="topic-icon" style="background:${AMBER_BG}">⚠️</div>
+        <div style="flex:1"><div class="topic-name" style="color:${AMBER}">Advanced Types</div><div class="topic-sub">Weak area · 48% accuracy</div></div>
+        <div class="topic-progress">
+          <div class="topic-bar"><div class="topic-fill" style="width:48%;background:${AMBER}"></div></div>
+          <div class="topic-pct" style="color:${AMBER}">48%</div>
+        </div>
+        <span class="chevron">›</span>
+      </div>
+    </div>
+  `
+  return page('home', 'TypeScript', main)
 }
 
 // ─── Screen 2: Study mode — question with answer revealed ─────────────────────
 function screen2() {
-  const popup = `
-    <div class="topbar">
-      <span style="color:${BLUE_L};font-size:15px;">←</span>
-      <span class="tb-title" style="margin-left:6px;">TypeScript Basics</span>
-      <div class="tb-actions"><div class="tb-icon"></div></div>
-    </div>
-    <div class="content">
-      <div class="scroll">
-        <div style="display:flex;align-items:center;justify-content:space-between;padding:2px 0;">
-          <span style="font-size:11px;color:${TEXT_G};">Question 3 of 25</span>
-          <span style="font-size:10px;color:${TEXT_D};font-weight:600;letter-spacing:0.06em;">BEGINNER</span>
-        </div>
+  const main = `
+    <div class="page-heading">TypeScript Basics</div>
+    <div class="page-sub">Study mode · Question 3 of 25</div>
 
-        <div class="q-card">
-          <div class="q-meta">
-            <span class="badge badge-blue">Single choice</span>
-            <span class="badge badge-green">Beginner</span>
-          </div>
-          <div class="q-text">What is the difference between <code style="background:#1e293b;padding:1px 5px;border-radius:3px;color:#93c5fd;font-family:monospace;">type</code> and <code style="background:#1e293b;padding:1px 5px;border-radius:3px;color:#93c5fd;font-family:monospace;">interface</code> in TypeScript?</div>
+    <div class="q-card">
+      <div class="q-meta">
+        <span class="badge badge-blue">Single choice</span>
+        <span class="badge badge-green">Beginner</span>
+      </div>
+      <div class="q-text">What is the difference between <code style="background:#f1f5f9;padding:2px 7px;border-radius:4px;color:#3b82f6;font-family:monospace;font-size:14px;">type</code> and <code style="background:#f1f5f9;padding:2px 7px;border-radius:4px;color:#3b82f6;font-family:monospace;font-size:14px;">interface</code> in TypeScript?</div>
 
-          <div class="option correct">
-            <div class="option-bullet correct">✓</div>
-            <div class="option-text">Both can define object shapes; interfaces support declaration merging while types can define unions, intersections, and mapped types</div>
-          </div>
-          <div class="option wrong">
-            <div class="option-bullet wrong">✗</div>
-            <div class="option-text">Types are only for primitives; interfaces are for objects</div>
-          </div>
-          <div class="option">
-            <div class="option-bullet"></div>
-            <div class="option-text">Interfaces are compiled away; types remain at runtime</div>
-          </div>
-          <div class="option">
-            <div class="option-bullet"></div>
-            <div class="option-text">They are completely identical — no difference exists</div>
-          </div>
-        </div>
-
-        <div class="explanation">
-          <div class="expl-label">EXPLANATION</div>
-          Both <code style="color:#86efac;">type</code> and <code style="color:#86efac;">interface</code> can describe object shapes and are largely interchangeable. Key differences: interfaces support declaration merging (you can reopen and extend them), while type aliases support unions, intersections, conditional types, and mapped types. Prefer interfaces for public API shapes; prefer types for complex type manipulations.
-        </div>
-
-        <div style="display:flex;gap:8px;margin-top:4px;">
-          <button style="flex:1;padding:10px;background:${BG_CARD};border:1px solid ${BORDER};border-radius:8px;color:${TEXT_G};font-size:12px;font-weight:600;cursor:pointer;">← Previous</button>
-          <button style="flex:1;padding:10px;background:${BLUE};border:none;border-radius:8px;color:#fff;font-size:12px;font-weight:600;cursor:pointer;">Next →</button>
-        </div>
+      <div class="option correct">
+        <div class="option-bullet correct">✓</div>
+        <div class="option-text">Both can define object shapes; interfaces support declaration merging while types can define unions, intersections, and mapped types</div>
+      </div>
+      <div class="option wrong">
+        <div class="option-bullet wrong">✗</div>
+        <div class="option-text">Types are only for primitives; interfaces are only for objects</div>
+      </div>
+      <div class="option">
+        <div class="option-bullet"></div>
+        <div class="option-text">Interfaces are compiled away; types remain at runtime</div>
+      </div>
+      <div class="option">
+        <div class="option-bullet"></div>
+        <div class="option-text">They are completely identical — no difference exists</div>
       </div>
     </div>
-    <div class="bottomnav">
-      <div class="nav-item active"><span class="nav-icon">⌂</span><span class="nav-label">Home</span></div>
-      <div class="nav-item"><span class="nav-icon">📖</span><span class="nav-label">Subjects</span></div>
-      <div class="nav-item"><span class="nav-icon">📊</span><span class="nav-label">Progress</span></div>
-      <div class="nav-item"><span class="nav-icon">🔖</span><span class="nav-label">Bookmarks</span></div>
-    </div>`
-  return shell('Study Mode — Questions with Explanations', popup)
+
+    <div class="explanation">
+      <div class="expl-label">EXPLANATION</div>
+      Both <strong>type</strong> and <strong>interface</strong> can describe object shapes. Key difference: interfaces support declaration merging (you can reopen and extend them), while type aliases support unions, intersections, conditional types, and mapped types. Prefer interfaces for public API shapes; types for complex type manipulations.
+    </div>
+
+    <div class="btn-row" style="margin-top:16px;">
+      <button class="btn btn-secondary">← Previous</button>
+      <button class="btn btn-primary" style="flex:1;">Next Question →</button>
+      <button style="padding:10px 14px;background:${AMBER_BG};border:1px solid #fde68a;border-radius:8px;font-size:18px;cursor:pointer;">🔖</button>
+    </div>
+  `
+  return page('home', 'TypeScript · Basics', main)
 }
 
-// ─── Screen 3: Interview simulation — code question ───────────────────────────
+// ─── Screen 3: Interview simulation ──────────────────────────────────────────
 function screen3() {
-  const popup = `
-    <div class="topbar">
-      <span style="color:${BLUE_L};font-size:15px;">←</span>
-      <span class="tb-title" style="margin-left:6px;">Interview</span>
-      <div class="tb-actions"><div class="tb-icon"></div></div>
+  const main = `
+    <div class="timer-bar">
+      <div>
+        <div style="font-size:11px;font-weight:600;color:${TEXT_3};letter-spacing:0.07em;text-transform:uppercase;margin-bottom:4px;">Time Remaining</div>
+        <div class="timer-time">12:34</div>
+      </div>
+      <div class="q-progress-bar">
+        <div class="q-progress-fill" style="width:35%"></div>
+      </div>
+      <div style="text-align:right;">
+        <div style="font-size:11px;font-weight:600;color:${TEXT_3};letter-spacing:0.07em;text-transform:uppercase;margin-bottom:4px;">Progress</div>
+        <div class="q-count">7 / 20 Questions</div>
+      </div>
     </div>
-    <div class="content">
-      <div class="scroll">
-        <div class="timer-row">
-          <div>
-            <div class="timer">12:34</div>
-            <div style="font-size:10px;color:${TEXT_G};margin-top:2px;">Time remaining</div>
-          </div>
-          <div style="text-align:right;">
-            <div class="q-counter" style="font-size:14px;font-weight:700;color:${TEXT_W};">7 / 20</div>
-            <div style="font-size:10px;color:${TEXT_G};">Questions</div>
-          </div>
-        </div>
 
-        <div class="q-card">
-          <div class="q-meta">
-            <span class="badge badge-blue">Code</span>
-            <span class="badge badge-amber">Intermediate</span>
-          </div>
-          <div class="q-text">What will the following code output, and why?</div>
-          <div class="code-block"><span class="code-kw">async function</span> <span style="color:#60a5fa;">fetchData</span>() {
+    <div class="q-card">
+      <div class="q-meta">
+        <span class="badge badge-blue">Code</span>
+        <span class="badge badge-amber">Intermediate</span>
+      </div>
+      <div class="q-text">What will happen when <code style="background:#f1f5f9;padding:2px 7px;border-radius:4px;color:#3b82f6;font-family:monospace;font-size:14px;">/api/posts</code> fails in the following code?</div>
+      <div class="code-block"><span class="code-kw">async function</span> fetchData() {
   <span class="code-kw">const</span> result = <span class="code-kw">await</span> Promise.all([
     fetch(<span class="code-str">'/api/users'</span>),
     fetch(<span class="code-str">'/api/posts'</span>),
@@ -330,171 +383,166 @@ function screen3() {
 }
 <span class="code-cmt">// What happens if /api/posts fails?</span></div>
 
-          <div class="option selected">
-            <div class="option-bullet dot"></div>
-            <div class="option-text">The entire Promise.all rejects immediately — even if /api/users succeeded</div>
-          </div>
-          <div class="option">
-            <div class="option-bullet"></div>
-            <div class="option-text">Only the failed promise rejects; users data is still returned</div>
-          </div>
-          <div class="option">
-            <div class="option-bullet"></div>
-            <div class="option-text">Both promises are retried automatically</div>
-          </div>
-          <div class="option">
-            <div class="option-bullet"></div>
-            <div class="option-text">An empty array is returned</div>
-          </div>
-        </div>
-
-        <button class="submit-btn">Submit Answer</button>
+      <div class="option selected">
+        <div class="option-bullet dot"></div>
+        <div class="option-text">The entire Promise.all rejects immediately — even if /api/users succeeded</div>
+      </div>
+      <div class="option">
+        <div class="option-bullet"></div>
+        <div class="option-text">Only the failed promise rejects; users data is still returned</div>
+      </div>
+      <div class="option">
+        <div class="option-bullet"></div>
+        <div class="option-text">Both promises are retried automatically by the browser</div>
+      </div>
+      <div class="option">
+        <div class="option-bullet"></div>
+        <div class="option-text">An empty array is returned as the result</div>
       </div>
     </div>
-    <div class="bottomnav">
-      <div class="nav-item active"><span class="nav-icon">⌂</span><span class="nav-label">Home</span></div>
-      <div class="nav-item"><span class="nav-icon">📖</span><span class="nav-label">Subjects</span></div>
-      <div class="nav-item"><span class="nav-icon">📊</span><span class="nav-label">Progress</span></div>
-      <div class="nav-item"><span class="nav-icon">🔖</span><span class="nav-label">Bookmarks</span></div>
-    </div>`
-  return shell('Interview Simulation — Timed Practice Sessions', popup)
+
+    <button class="btn btn-primary" style="width:100%;padding:12px;font-size:14px;">Submit Answer</button>
+  `
+  return page('home', 'Interview Simulation', main)
 }
 
 // ─── Screen 4: Subjects selection ────────────────────────────────────────────
 function screen4() {
-  const popup = `
-    <div class="topbar">
-      <div style="width:20px;"></div>
-      <span class="tb-title">Subjects</span>
-      <div class="tb-actions"><div class="tb-icon"></div></div>
-    </div>
-    <div class="content">
-      <div class="scroll">
-        <div style="display:flex;flex-direction:column;gap:8px;">
-          <div class="subject-row" style="padding:16px 14px;border-color:${BLUE_DIM};">
-            <div>
-              <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
-                <div class="subject-name">TypeScript</div>
-              </div>
-              <div style="font-size:11px;color:${TEXT_G};line-height:1.5;max-width:280px;">Types, generics, classes, advanced patterns & compiler</div>
-              <div style="font-size:10px;color:${TEXT_D};margin-top:4px;">155 questions</div>
-            </div>
-            <span class="chevron">›</span>
-          </div>
-          <div class="subject-row" style="padding:16px 14px;">
-            <div>
-              <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
-                <div class="subject-name">Node.js</div>
-              </div>
-              <div style="font-size:11px;color:${TEXT_G};line-height:1.5;max-width:280px;">Event loop, streams, Express, async patterns & core modules</div>
-              <div style="font-size:10px;color:${TEXT_D};margin-top:4px;">150 questions</div>
-            </div>
-            <span class="chevron">›</span>
-          </div>
-          <div class="subject-row" style="padding:16px 14px;">
-            <div>
-              <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
-                <div class="subject-name">DevOps</div>
-              </div>
-              <div style="font-size:11px;color:${TEXT_G};line-height:1.5;max-width:280px;">Docker, Kubernetes, CI/CD, Linux, Terraform & monitoring</div>
-              <div style="font-size:10px;color:${TEXT_D};margin-top:4px;">150 questions</div>
-            </div>
-            <span class="chevron">›</span>
-          </div>
+  const main = `
+    <div class="page-heading">Subjects</div>
+    <div class="page-sub">Choose a subject to study or switch your active subject</div>
 
-          <div style="border:1px dashed ${TEXT_D};border-radius:10px;padding:14px;display:flex;align-items:center;justify-content:center;gap:8px;margin-top:4px;">
-            <span style="font-size:14px;">+</span>
-            <span style="font-size:12px;color:${TEXT_G};font-weight:500;">Upload Custom Subject JSON</span>
-          </div>
+    <div class="subject-grid">
+      <div class="subject-card" style="border-color:${BLUE};background:${BLUE_BG};">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+          <span style="font-size:24px;">📘</span>
+          <div class="subject-card-name" style="color:${BLUE};">TypeScript</div>
+          <span style="font-size:11px;background:${BLUE};color:#fff;border-radius:20px;padding:2px 8px;font-weight:600;margin-left:auto;">Active</span>
+        </div>
+        <div class="subject-card-desc">Types, generics, classes, advanced patterns &amp; compiler internals</div>
+        <div class="subject-card-footer">
+          <span class="subject-q-count">155 questions · 6 topics</span>
+          <span class="start-btn">Study →</span>
+        </div>
+      </div>
+      <div class="subject-card">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+          <span style="font-size:24px;">🟢</span>
+          <div class="subject-card-name">Node.js</div>
+        </div>
+        <div class="subject-card-desc">Event loop, streams, Express, core modules &amp; async patterns</div>
+        <div class="subject-card-footer">
+          <span class="subject-q-count">150 questions · 6 topics</span>
+          <span class="start-btn">Study →</span>
+        </div>
+      </div>
+      <div class="subject-card">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+          <span style="font-size:24px;">🐳</span>
+          <div class="subject-card-name">DevOps</div>
+        </div>
+        <div class="subject-card-desc">Docker, Kubernetes, CI/CD, Linux, Terraform &amp; monitoring</div>
+        <div class="subject-card-footer">
+          <span class="subject-q-count">150 questions · 6 topics</span>
+          <span class="start-btn">Study →</span>
+        </div>
+      </div>
+      <div class="subject-card">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+          <span style="font-size:24px;">☕</span>
+          <div class="subject-card-name">Java</div>
+        </div>
+        <div class="subject-card-desc">OOP, Collections, Concurrency, JVM, Spring &amp; Streams</div>
+        <div class="subject-card-footer">
+          <span class="subject-q-count">150 questions · 6 topics</span>
+          <span class="start-btn">Study →</span>
         </div>
       </div>
     </div>
-    <div class="bottomnav">
-      <div class="nav-item"><span class="nav-icon">⌂</span><span class="nav-label">Home</span></div>
-      <div class="nav-item active"><span class="nav-icon">📖</span><span class="nav-label">Subjects</span></div>
-      <div class="nav-item"><span class="nav-icon">📊</span><span class="nav-label">Progress</span></div>
-      <div class="nav-item"><span class="nav-icon">🔖</span><span class="nav-label">Bookmarks</span></div>
-    </div>`
-  return shell('3 Built-in Subjects + Upload Your Own', popup)
+
+    <div style="border:2px dashed ${BORDER_D};border-radius:12px;padding:20px;display:flex;align-items:center;gap:14px;margin-top:16px;cursor:pointer;">
+      <div style="width:40px;height:40px;background:${BG_MAIN};border:2px dashed ${BORDER_D};border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:20px;">+</div>
+      <div>
+        <div style="font-size:14px;font-weight:600;color:${TEXT_2};">Upload Custom Subject JSON</div>
+        <div style="font-size:12px;color:${TEXT_3};margin-top:2px;">Import your own questions in the standard format</div>
+      </div>
+    </div>
+  `
+  return page('subjects', 'Subjects', main)
 }
 
 // ─── Screen 5: Interview results ──────────────────────────────────────────────
 function screen5() {
-  const popup = `
-    <div class="topbar">
-      <div style="width:20px;"></div>
-      <span class="tb-title">Results</span>
-      <div class="tb-actions"><div class="tb-icon"></div></div>
-    </div>
-    <div class="content">
-      <div class="scroll">
-        <div style="text-align:center;padding:8px 0 4px;">
-          <div style="font-size:52px;font-weight:900;color:${BLUE};letter-spacing:-0.03em;line-height:1;">82%</div>
-          <div style="font-size:12px;color:${TEXT_G};margin-top:4px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;">Interview Score</div>
-          <div style="display:flex;justify-content:center;gap:20px;margin-top:12px;">
-            <div style="text-align:center;">
-              <div style="font-size:20px;font-weight:800;color:${GREEN};">16</div>
-              <div style="font-size:10px;color:${TEXT_G};">Correct</div>
-            </div>
-            <div style="width:1px;background:${BORDER};"></div>
-            <div style="text-align:center;">
-              <div style="font-size:20px;font-weight:800;color:${RED};">4</div>
-              <div style="font-size:10px;color:${TEXT_G};">Wrong</div>
-            </div>
-            <div style="width:1px;background:${BORDER};"></div>
-            <div style="text-align:center;">
-              <div style="font-size:20px;font-weight:800;color:${AMBER};">18:22</div>
-              <div style="font-size:10px;color:${TEXT_G};">Time</div>
-            </div>
-          </div>
-        </div>
+  const main = `
+    <div class="page-heading">Interview Results</div>
+    <div class="page-sub">TypeScript · Completed just now · 20 questions</div>
 
-        <div>
-          <div class="card-title">Performance by Topic</div>
-          <div class="card">
-            <div class="topic-row">
-              <span class="topic-name">TypeScript Basics</span>
-              <div class="topic-bar"><div class="topic-fill" style="width:100%;background:${GREEN};"></div></div>
-              <span class="topic-pct" style="color:${GREEN};">100%</span>
-            </div>
-            <div class="topic-row">
-              <span class="topic-name">Interfaces & Types</span>
-              <div class="topic-bar"><div class="topic-fill" style="width:80%;background:${BLUE};"></div></div>
-              <span class="topic-pct" style="color:${BLUE};">80%</span>
-            </div>
-            <div class="topic-row">
-              <span class="topic-name">Generics</span>
-              <div class="topic-bar"><div class="topic-fill" style="width:75%;background:${BLUE};"></div></div>
-              <span class="topic-pct" style="color:${BLUE};">75%</span>
-            </div>
-            <div class="topic-row">
-              <span class="topic-name">Advanced Types</span>
-              <div class="topic-bar"><div class="topic-fill" style="width:50%;background:${AMBER};"></div></div>
-              <span class="topic-pct" style="color:${AMBER};">50%</span>
-            </div>
-          </div>
+    <div style="display:flex;gap:24px;margin-bottom:24px;align-items:flex-start;">
+      <div class="score-ring">
+        <div class="score-n">82%</div>
+        <div class="score-label">Score</div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;flex:1;">
+        <div class="stat-card">
+          <div class="stat-n green">16</div>
+          <div class="stat-l">Correct</div>
         </div>
-
-        <div style="display:flex;gap:8px;">
-          <button style="flex:1;padding:10px;background:${BG_CARD};border:1px solid ${BORDER};border-radius:8px;color:${TEXT_G};font-size:12px;font-weight:600;">Review Answers</button>
-          <button style="flex:1;padding:10px;background:${BLUE};border:none;border-radius:8px;color:#fff;font-size:12px;font-weight:600;">New Interview</button>
+        <div class="stat-card">
+          <div class="stat-n" style="color:${RED}">4</div>
+          <div class="stat-l">Wrong</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-n amber">18:22</div>
+          <div class="stat-l">Time</div>
         </div>
       </div>
     </div>
-    <div class="bottomnav">
-      <div class="nav-item active"><span class="nav-icon">⌂</span><span class="nav-label">Home</span></div>
-      <div class="nav-item"><span class="nav-icon">📖</span><span class="nav-label">Subjects</span></div>
-      <div class="nav-item"><span class="nav-icon">📊</span><span class="nav-label">Progress</span></div>
-      <div class="nav-item"><span class="nav-icon">🔖</span><span class="nav-label">Bookmarks</span></div>
-    </div>`
-  return shell('Interview Results — Detailed Score Breakdown', popup)
+
+    <div class="section-title">Performance by Topic</div>
+    <div class="topic-list">
+      <div class="topic-row">
+        <div style="flex:1"><div class="topic-name">TypeScript Basics</div></div>
+        <div class="topic-progress">
+          <div class="topic-bar"><div class="topic-fill" style="width:100%;background:${GREEN}"></div></div>
+          <div class="topic-pct" style="color:${GREEN}">100%</div>
+        </div>
+      </div>
+      <div class="topic-row">
+        <div style="flex:1"><div class="topic-name">Interfaces &amp; Types</div></div>
+        <div class="topic-progress">
+          <div class="topic-bar"><div class="topic-fill" style="width:80%"></div></div>
+          <div class="topic-pct">80%</div>
+        </div>
+      </div>
+      <div class="topic-row">
+        <div style="flex:1"><div class="topic-name">Generics</div></div>
+        <div class="topic-progress">
+          <div class="topic-bar"><div class="topic-fill" style="width:75%"></div></div>
+          <div class="topic-pct">75%</div>
+        </div>
+      </div>
+      <div class="topic-row">
+        <div style="flex:1"><div class="topic-name">Advanced Types</div><div class="topic-sub" style="color:${AMBER}">Needs practice</div></div>
+        <div class="topic-progress">
+          <div class="topic-bar"><div class="topic-fill" style="width:50%;background:${AMBER}"></div></div>
+          <div class="topic-pct" style="color:${AMBER}">50%</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="btn-row" style="margin-top:16px;">
+      <button class="btn btn-secondary" style="flex:1;">Review Answers</button>
+      <button class="btn btn-primary" style="flex:1;">New Interview</button>
+    </div>
+  `
+  return page('home', 'Results', main)
 }
 
 // ─── Main ─────────────────────────────────────────────────────────────────────
 async function main() {
   const browser = await chromium.launch()
-  const page = await browser.newPage()
-  await page.setViewportSize({ width: 1280, height: 800 })
+  const pg = await browser.newPage()
+  await pg.setViewportSize({ width: 1280, height: 800 })
 
   const screens = [
     { name: 'screenshot-1-home.png',        html: screen1() },
@@ -505,13 +553,13 @@ async function main() {
   ]
 
   for (const { name, html } of screens) {
-    await page.setContent(html, { waitUntil: 'networkidle' })
-    await page.screenshot({ path: join(OUT_DIR, name), clip: { x: 0, y: 0, width: 1280, height: 800 } })
+    await pg.setContent(html, { waitUntil: 'networkidle' })
+    await pg.screenshot({ path: join(OUT_DIR, name), clip: { x: 0, y: 0, width: 1280, height: 800 } })
     console.log(`✓ ${name}`)
   }
 
   await browser.close()
-  console.log(`\nAll screenshots saved to store-assets/ (1280×800)`)
+  console.log(`\nAll screenshots saved to store-assets/ (1280×800, light mode)`)
 }
 
 main().catch(console.error)
