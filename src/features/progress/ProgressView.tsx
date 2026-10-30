@@ -3,9 +3,11 @@ import { AlertTriangle, RotateCcw } from 'lucide-react'
 import { progressTracker } from '@/core/progress-engine'
 import { questionRepository } from '@/core/question-engine'
 import { ScoreBar, ProgressBar, Button } from '@/components/common'
+import { useIconSize } from '@/hooks/useIconSize'
 import type { SubjectStats } from '@/types'
 
 export function ProgressView() {
+  const iconSize = useIconSize()
   const [stats, setStats] = useState<SubjectStats | null>(null)
   const [showConfirm, setShowConfirm] = useState(false)
   const [resetting, setResetting] = useState(false)
@@ -94,7 +96,7 @@ export function ProgressView() {
           onClick={() => setShowConfirm(true)}
           className="flex items-center gap-1.5 text-xs text-gray-500 hover:text-red-400 transition-colors"
         >
-          <RotateCcw size={12} />
+          <RotateCcw size={iconSize(12)} />
           Reset all progress
         </button>
       </div>
@@ -104,7 +106,7 @@ export function ProgressView() {
         <div className="absolute inset-0 bg-gray-950/80 backdrop-blur-sm flex items-center justify-center p-6 z-10">
           <div className="bg-gray-900 border border-gray-700 rounded-xl p-5 w-full max-w-xs space-y-4 shadow-xl">
             <div className="flex items-start gap-3">
-              <AlertTriangle size={20} className="text-red-400 shrink-0 mt-0.5" />
+              <AlertTriangle size={iconSize(20)} className="text-red-400 shrink-0 mt-0.5" />
               <div>
                 <p className="text-sm font-semibold text-gray-100">Reset all progress?</p>
                 <p className="text-xs text-gray-400 mt-1 leading-relaxed">

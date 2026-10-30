@@ -4,9 +4,11 @@ import { useNavigationStore } from '@/store'
 import { progressTracker } from '@/core/progress-engine'
 import { questionRepository } from '@/core/question-engine'
 import { ScoreBar } from '@/components/common'
+import { useIconSize } from '@/hooks/useIconSize'
 import type { SubjectStats, WeakArea } from '@/types'
 
 export function DashboardView() {
+  const iconSize = useIconSize()
   const { navigate, currentSubjectId, setCurrentSubject } = useNavigationStore()
   const [stats, setStats] = useState<SubjectStats | null>(null)
   const [weakAreas, setWeakAreas] = useState<WeakArea[]>([])
@@ -47,7 +49,7 @@ export function DashboardView() {
                   <p className="font-medium text-gray-100">{s.name}</p>
                   <p className="text-xs text-gray-500 mt-0.5">{questionRepository.countBySubject(s.id)} questions</p>
                 </div>
-                <ChevronRight size={16} className="text-gray-400" />
+                <ChevronRight size={iconSize(16)} className="text-gray-400" />
               </button>
             ))}
           </div>
@@ -89,7 +91,7 @@ export function DashboardView() {
                 <p className="text-sm font-medium text-gray-200">{t.name}</p>
                 <p className="text-xs text-gray-500">{questionRepository.countByTopic(t.id)} questions</p>
               </div>
-              <ChevronRight size={16} className="text-gray-400" />
+              <ChevronRight size={iconSize(16)} className="text-gray-400" />
             </button>
           ))}
         </div>
@@ -99,7 +101,7 @@ export function DashboardView() {
       {weakAreas.length > 0 && (
         <section>
           <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3 flex items-center gap-1.5">
-            <AlertTriangle size={12} className="text-amber-400" /> Weak Areas
+            <AlertTriangle size={iconSize(12)} className="text-amber-400" /> Weak Areas
           </h2>
           <div className="space-y-2">
             {weakAreas.slice(0, 3).map((area) => (

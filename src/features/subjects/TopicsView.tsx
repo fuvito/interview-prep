@@ -4,11 +4,13 @@ import { useNavigationStore } from '@/store'
 import { questionRepository } from '@/core/question-engine'
 import { progressTracker } from '@/core/progress-engine'
 import { ProgressBar, Button } from '@/components/common'
+import { useIconSize } from '@/hooks/useIconSize'
 import type { TopicStats } from '@/types'
 
 interface Props { subjectId: string }
 
 export function TopicsView({ subjectId }: Props) {
+  const iconSize = useIconSize()
   const { navigate } = useNavigationStore()
   const topics = questionRepository.getTopicsBySubject(subjectId)
   const [statsMap, setStatsMap] = useState<Record<string, TopicStats>>({})
@@ -34,7 +36,7 @@ export function TopicsView({ subjectId }: Props) {
           <p className="text-sm font-medium text-blue-300">Practice Interview</p>
           <p className="text-xs text-blue-400/70">Timed quiz with score tracking</p>
         </div>
-        <Zap size={16} className="text-blue-400 shrink-0" />
+        <Zap size={iconSize(16)} className="text-blue-400 shrink-0" />
       </button>
 
       <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-wider pb-1">Topics</h2>
@@ -67,7 +69,7 @@ export function TopicsView({ subjectId }: Props) {
                 className="flex-1"
                 onClick={() => navigate({ name: 'learning', subjectId, topicId: topic.id })}
               >
-                <BookOpen size={13} /> Study
+                <BookOpen size={iconSize(13)} /> Study
               </Button>
             </div>
           </div>

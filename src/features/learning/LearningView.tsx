@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Bookmark, BookmarkCheck, CheckCircle, XCircle } from 'lucide-react'
 import { useNavigationStore, useLearningStore } from '@/store'
+import { useIconSize } from '@/hooks/useIconSize'
 import { bookmarkEngine } from '@/core/progress-engine'
 import { MarkdownRenderer, DifficultyBadge, TypeBadge, ProgressBar, Button, EmptyState } from '@/components/common'
 import type { EvaluationResult, Question } from '@/types'
@@ -107,6 +108,7 @@ export function LearningView() {
 }
 
 function BookmarkButton({ questionId }: { questionId: string }) {
+  const iconSize = useIconSize()
   const [bookmarked, setBookmarked] = useState(false)
   useEffect(() => {
     void bookmarkEngine.isBookmarked(questionId).then(setBookmarked)
@@ -119,7 +121,7 @@ function BookmarkButton({ questionId }: { questionId: string }) {
 
   return (
     <button onClick={() => void toggle()} className="ml-auto text-gray-400 hover:text-amber-400 transition-colors" title="Bookmark">
-      {bookmarked ? <BookmarkCheck size={16} className="text-amber-400" /> : <Bookmark size={16} />}
+      {bookmarked ? <BookmarkCheck size={iconSize(16)} className="text-amber-400" /> : <Bookmark size={iconSize(16)} />}
     </button>
   )
 }
@@ -162,6 +164,7 @@ function ChoiceOptions({ question }: { question: Question }) {
 }
 
 function ExplanationBlock({ question, result }: { question: Question; result: EvaluationResult | null }) {
+  const iconSize = useIconSize()
   const store = useLearningStore()
   return (
     <div className="border border-gray-700 rounded-lg p-4 space-y-3 bg-gray-900/50">
@@ -169,8 +172,8 @@ function ExplanationBlock({ question, result }: { question: Question; result: Ev
       {result && question.type !== 'text' && (
         <div className={`flex items-center gap-2 font-medium text-sm ${result.isCorrect ? 'text-emerald-400' : 'text-red-400'}`}>
           {result.isCorrect
-            ? <><CheckCircle size={16} /> Correct</>
-            : <><XCircle size={16} /> Incorrect</>}
+            ? <><CheckCircle size={iconSize(16)} /> Correct</>
+            : <><XCircle size={iconSize(16)} /> Incorrect</>}
         </div>
       )}
 
@@ -196,10 +199,10 @@ function ExplanationBlock({ question, result }: { question: Question; result: Ev
       {question.type === 'text' && !result && (
         <div className="flex gap-2 pt-1">
           <Button variant="success" size="sm" className="flex-1" onClick={() => store.selfAssess('correct')}>
-            <CheckCircle size={13} /> I knew this
+            <CheckCircle size={iconSize(13)} /> I knew this
           </Button>
           <Button variant="danger" size="sm" className="flex-1" onClick={() => store.selfAssess('incorrect')}>
-            <XCircle size={13} /> Didn't know
+            <XCircle size={iconSize(13)} /> Didn't know
           </Button>
         </div>
       )}

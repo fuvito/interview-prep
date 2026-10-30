@@ -2,8 +2,10 @@ import { useState } from 'react'
 import { CheckCircle, XCircle, ChevronDown, ChevronUp } from 'lucide-react'
 import { useNavigationStore, useInterviewStore } from '@/store'
 import { MarkdownRenderer, DifficultyBadge, ScoreBar, Button, EmptyState } from '@/components/common'
+import { useIconSize } from '@/hooks/useIconSize'
 
 export function ResultsView() {
+  const iconSize = useIconSize()
   const { navigateRoot } = useNavigationStore()
   const store = useInterviewStore()
   const { completedSession, questions, results } = store
@@ -46,11 +48,11 @@ export function ResultsView() {
                   onClick={() => setExpandedId(isExpanded ? null : q.id)}
                 >
                   {isCorrect
-                    ? <CheckCircle size={15} className="text-emerald-400 shrink-0" />
-                    : <XCircle size={15} className="text-red-400 shrink-0" />}
+                    ? <CheckCircle size={iconSize(15)} className="text-emerald-400 shrink-0" />
+                    : <XCircle size={iconSize(15)} className="text-red-400 shrink-0" />}
                   <span className="text-sm text-gray-200 flex-1 line-clamp-1">{q.question.replace(/`/g, '')}</span>
                   <DifficultyBadge difficulty={q.difficulty} />
-                  {isExpanded ? <ChevronUp size={14} className="text-gray-400 shrink-0" /> : <ChevronDown size={14} className="text-gray-400 shrink-0" />}
+                  {isExpanded ? <ChevronUp size={iconSize(14)} className="text-gray-400 shrink-0" /> : <ChevronDown size={iconSize(14)} className="text-gray-400 shrink-0" />}
                 </button>
 
                 {isExpanded && (

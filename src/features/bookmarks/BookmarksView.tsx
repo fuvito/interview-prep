@@ -2,9 +2,11 @@ import { useEffect, useState } from 'react'
 import { BookmarkX, ChevronDown, ChevronUp } from 'lucide-react'
 import { bookmarkEngine } from '@/core/progress-engine'
 import { MarkdownRenderer, DifficultyBadge, TypeBadge, EmptyState } from '@/components/common'
+import { useIconSize } from '@/hooks/useIconSize'
 import type { Question } from '@/types'
 
 export function BookmarksView() {
+  const iconSize = useIconSize()
   const [questions, setQuestions] = useState<Question[]>([])
   const [expandedId, setExpandedId] = useState<string | null>(null)
 
@@ -35,14 +37,14 @@ export function BookmarksView() {
                 onClick={() => setExpandedId(isExpanded ? null : q.id)}
               >
                 <span className="text-sm text-gray-200 flex-1 line-clamp-2 leading-snug">{q.question.replace(/```[\s\S]*?```/g, '[code]').replace(/`/g, '')}</span>
-                {isExpanded ? <ChevronUp size={14} className="text-gray-400 shrink-0 mt-0.5" /> : <ChevronDown size={14} className="text-gray-400 shrink-0 mt-0.5" />}
+                {isExpanded ? <ChevronUp size={iconSize(14)} className="text-gray-400 shrink-0 mt-0.5" /> : <ChevronDown size={iconSize(14)} className="text-gray-400 shrink-0 mt-0.5" />}
               </button>
               <button
                 onClick={() => void removeBookmark(q.id)}
                 className="text-gray-500 hover:text-red-400 transition-colors shrink-0"
                 title="Remove bookmark"
               >
-                <BookmarkX size={15} />
+                <BookmarkX size={iconSize(15)} />
               </button>
             </div>
 

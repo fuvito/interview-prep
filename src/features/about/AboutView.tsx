@@ -1,4 +1,5 @@
 import { BookOpen, Database, Zap, Shield, Code2 } from 'lucide-react'
+import { useIconSize } from '@/hooks/useIconSize'
 
 const VERSION = '0.1.0'
 
@@ -37,6 +38,7 @@ function FeatureRow({ icon, title, description }: FeatureRowProps) {
 }
 
 export function AboutView() {
+  const iconSize = useIconSize()
   return (
     <div className="flex flex-col h-full overflow-y-auto overflow-x-hidden">
       <div className="p-5 space-y-5">
@@ -73,22 +75,22 @@ export function AboutView() {
           <h2 className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Features</h2>
           <div className="space-y-3.5">
             <FeatureRow
-              icon={<BookOpen size={14} />}
+              icon={<BookOpen size={iconSize(14)} />}
               title="Structured Question Banks"
               description="Curated questions across topics, levels, and types — single choice, multiple select, code output, and open-ended."
             />
             <FeatureRow
-              icon={<Zap size={14} />}
+              icon={<Zap size={iconSize(14)} />}
               title="Interview Simulation"
               description="Timed quiz sessions with scoring, answer review, and session history."
             />
             <FeatureRow
-              icon={<Database size={14} />}
+              icon={<Database size={iconSize(14)} />}
               title="Local-first Persistence"
               description="All progress, bookmarks, and preferences are stored locally in IndexedDB. Nothing leaves your device."
             />
             <FeatureRow
-              icon={<Shield size={14} />}
+              icon={<Shield size={iconSize(14)} />}
               title="No Account Required"
               description="No sign-up, no tracking, no internet connection needed. Works fully offline."
             />
@@ -138,7 +140,7 @@ export function AboutView() {
 
         {/* Footer */}
         <div className="flex items-center justify-center gap-1.5 text-xs text-gray-600 pb-2">
-          <Code2 size={12} />
+          <Code2 size={iconSize(12)} />
           <span>Open source — MIT License</span>
         </div>
 

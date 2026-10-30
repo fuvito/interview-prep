@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { ChevronRight, Upload, Trash2, AlertCircle } from 'lucide-react'
 import { useNavigationStore } from '@/store'
+import { useIconSize } from '@/hooks/useIconSize'
 import { questionRepository } from '@/core/question-engine'
 import { uploadedContentRepository } from '@/database/repositories'
 import { registerUploadedPacks, deregisterUploadedPack } from '@/content'
@@ -8,6 +9,7 @@ import { parseSubjectPack, ImportError } from '@/lib/subjectImporter'
 import type { UploadedSubjectPack } from '@/types'
 
 export function SubjectsView() {
+  const iconSize = useIconSize()
   const { navigate, setCurrentSubject } = useNavigationStore()
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [subjects, setSubjects] = useState(() => questionRepository.getAllSubjects())
@@ -70,7 +72,7 @@ export function SubjectsView() {
                   <div className="flex items-center gap-2">
                     <p className="font-medium text-gray-100">{s.name}</p>
                     {isUploaded && (
-                      <span className="text-[10px] px-1.5 py-0.5 bg-blue-900/40 text-blue-400 border border-blue-800/50 rounded">
+                      <span className="text-[0.6rem] px-1.5 py-0.5 bg-blue-900/40 text-blue-400 border border-blue-800/50 rounded">
                         imported
                       </span>
                     )}
@@ -80,7 +82,7 @@ export function SubjectsView() {
                     {questionRepository.countBySubject(s.id)} questions
                   </p>
                 </div>
-                <ChevronRight size={18} className="text-gray-600 shrink-0 ml-3" />
+                <ChevronRight size={iconSize(18)} className="text-gray-600 shrink-0 ml-3" />
               </button>
               {isUploaded && pack && (
                 <button
@@ -88,7 +90,7 @@ export function SubjectsView() {
                   className="px-3 bg-gray-900 border border-gray-800 rounded-lg text-gray-600 hover:text-red-400 hover:border-red-900/50 transition-colors"
                   aria-label={`Delete ${s.name}`}
                 >
-                  <Trash2 size={15} />
+                  <Trash2 size={iconSize(15)} />
                 </button>
               )}
             </div>
@@ -97,7 +99,7 @@ export function SubjectsView() {
 
         {error && (
           <div className="flex items-start gap-2 p-3 bg-red-950/30 border border-red-900/50 rounded-lg text-xs text-red-400">
-            <AlertCircle size={13} className="shrink-0 mt-0.5" />
+            <AlertCircle size={iconSize(13)} className="shrink-0 mt-0.5" />
             <span>{error}</span>
           </div>
         )}
@@ -107,7 +109,7 @@ export function SubjectsView() {
           disabled={importing}
           className="w-full flex items-center justify-center gap-2 p-3 border border-dashed border-gray-700 rounded-lg text-sm text-gray-500 hover:text-gray-300 hover:border-gray-500 transition-colors disabled:opacity-50"
         >
-          <Upload size={14} />
+          <Upload size={iconSize(14)} />
           {importing ? 'Importing…' : 'Upload Subject JSON'}
         </button>
 
