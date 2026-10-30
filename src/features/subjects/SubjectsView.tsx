@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { ChevronRight, Upload, Trash2, AlertCircle, Download, RefreshCw, CheckCircle, Package, Info, X, Copy, Check, User } from 'lucide-react'
+import { ChevronRight, Upload, Trash2, AlertCircle, Download, RefreshCw, CheckCircle, Package, Info, X, Copy, Check, User, FileDown } from 'lucide-react'
 import { useNavigationStore } from '@/store'
 import { useIconSize } from '@/hooks/useIconSize'
 import { questionRepository } from '@/core/question-engine'
@@ -7,7 +7,7 @@ import { uploadedContentRepository, officialPackRepository } from '@/database/re
 import { registerUploadedPacks, deregisterUploadedPack, registerOfficialPacks, deregisterOfficialPack } from '@/content'
 import { parseSubjectPack, ImportError } from '@/lib/subjectImporter'
 import { Button } from '@/components/common'
-import type { SubjectRegistryEntry, OfficialSubjectPack, UploadedSubjectPack } from '@/types'
+import type { SubjectRegistryEntry, OfficialSubjectPack, UploadedSubjectPack, Subject, Topic, Question } from '@/types'
 import registryData from '../../../public/registry.json'
 
 const REGISTRY = registryData as { subjects: SubjectRegistryEntry[] }
@@ -40,6 +40,42 @@ async function fetchPack(url: string): Promise<OfficialSubjectPack> {
     topics: data.topics as OfficialSubjectPack['topics'],
     questions: data.questions as OfficialSubjectPack['questions'],
   }
+}
+
+function toPackJSON(subject: Subject, topics: Topic[], questions: Question[]) {
+  const topicNameById = new Map(topics.map((t) => [t.id, t.name]))
+  return {
+    subject: {
+      name: subject.name,
+      description: subject.description,
+      version: subject.version,
+      author: subject.author,
+    },
+    topics: topics.map((t) => ({
+      name: t.name,
+      description: t.description,
+      order: t.order,
+    })),
+    questions: questions.map((q) => ({
+      topic: topicNameById.get(q.topicId) ?? q.topicId,
+      type: q.type,
+      difficulty: q.difficulty,
+      question: q.question,
+      codeSnippet: q.codeSnippet,
+      options: q.options,
+      correctAnswers: q.correctAnswers,
+      explanation: q.explanation,
+      codeExample: q.codeExample,
+      keyConcepts: q.keyConcepts,
+      commonInterviewQuestion: q.commonInterviewQuestion,
+    })),
+  }
+}
+
+function triggerJSONDownload(filename: string, data: unknown) {
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' })
+  const url = URL.createObjectURL(blob)
+  void chrome.downloads.download({ url, filename }).then(() => URL.revokeObjectURL(url))
 }
 
 function ManualDownloadDialog({
@@ -218,6 +254,14 @@ export function SubjectsView() {
     navigate({ name: 'topics', subjectId: id })
   }
 
+  function handleExport(subjectId: string) {
+    const subject = questionRepository.getSubjectById(subjectId)
+    if (!subject) return
+    const topics = questionRepository.getTopicsBySubject(subjectId)
+    const questions = questionRepository.getBySubject(subjectId)
+    triggerJSONDownload(`${subjectId}.json`, toPackJSON(subject, topics, questions))
+  }
+
   function triggerUpload() {
     fileInputRef.current?.click()
   }
@@ -301,6 +345,17 @@ export function SubjectsView() {
                   </>
                 )}
 
+                {/* Export button (installed) */}
+                {isInstalled && (
+                  <button
+                    onClick={() => handleExport(entry.id)}
+                    className="px-3 py-2 bg-gray-900 border border-gray-800 rounded-lg text-gray-600 hover:text-blue-400 hover:border-blue-800/50 transition-colors flex items-center justify-center"
+                    title="Export as JSON"
+                  >
+                    <FileDown size={iconSize(14)} />
+                  </button>
+                )}
+
                 {/* Update / remove buttons (already installed) */}
                 {(pack || (isBundled && hasUpdate)) && (
                   <>
@@ -355,13 +410,23 @@ export function SubjectsView() {
               </div>
               <ChevronRight size={iconSize(18)} className="text-gray-600 shrink-0 ml-3" />
             </button>
-            <button
-              onClick={() => void handleDeleteUploaded(pack)}
-              className="px-3 bg-gray-900 border border-gray-800 rounded-lg text-gray-600 hover:text-red-400 hover:border-red-900/50 transition-colors"
-              aria-label={`Delete ${pack.subject.name}`}
-            >
-              <Trash2 size={iconSize(15)} />
-            </button>
+            <div className="flex flex-col gap-1">
+              <button
+                onClick={() => handleExport(pack.subject.id)}
+                className="px-3 py-2 flex-1 bg-gray-900 border border-gray-800 rounded-lg text-gray-600 hover:text-blue-400 hover:border-blue-800/50 transition-colors flex items-center justify-center"
+                title="Export as JSON"
+              >
+                <FileDown size={iconSize(14)} />
+              </button>
+              <button
+                onClick={() => void handleDeleteUploaded(pack)}
+                className="px-3 py-2 flex-1 bg-gray-900 border border-gray-800 rounded-lg text-gray-600 hover:text-red-400 hover:border-red-900/50 transition-colors flex items-center justify-center"
+                aria-label={`Delete ${pack.subject.name}`}
+                title="Delete"
+              >
+                <Trash2 size={iconSize(14)} />
+              </button>
+            </div>
           </div>
         ))}
 
