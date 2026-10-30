@@ -29,7 +29,7 @@ export default function App() {
   }, [load, initCurrentSubject])
 
   const outerClass = isPopup
-    ? 'relative bg-gray-950 text-gray-100 font-sans antialiased ring-1 ring-gray-800'
+    ? 'relative overflow-hidden bg-gray-950 text-gray-100 font-sans antialiased ring-1 ring-gray-800'
     : 'w-full h-screen bg-gray-950 text-gray-100 flex flex-col overflow-hidden font-sans antialiased ring-1 ring-gray-800'
 
   const outerStyle = isPopup ? { width: size.w, height: size.h } : undefined

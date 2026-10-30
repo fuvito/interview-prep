@@ -13,7 +13,7 @@ export function Layout({ children }: Props) {
   return (
     <div className="flex flex-col h-full">
       <TopBar />
-      <main className="flex-1 overflow-y-auto min-h-0">
+      <main className="flex-1 overflow-y-auto overflow-x-hidden min-h-0">
         {children}
       </main>
       {showNav && <BottomNav />}

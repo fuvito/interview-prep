@@ -1,4 +1,4 @@
-import { ArrowLeft, Sun, Moon, Info, ExternalLink, Maximize, Minimize } from 'lucide-react'
+import { ArrowLeft, Sun, Moon, Info, Maximize, Minimize } from 'lucide-react'
 import { useNavigationStore, useThemeStore } from '@/store'
 import { questionRepository } from '@/core/question-engine'
 import { usePopupSize } from '@/hooks/usePopupSize'
@@ -30,10 +30,6 @@ export function TopBar() {
   const canGoBack = stack.length > 0
   const isDashboard = current.name === 'dashboard'
   const hasSubject = isDashboard && currentSubjectId !== null
-
-  function openFullTab() {
-    chrome.tabs.create({ url: chrome.runtime.getURL('index.html?tab=1') })
-  }
 
   const title = getTitle(current, currentSubjectId)
   const btnClass = 'text-blue-300 hover:text-white transition-colors p-0.5'
@@ -103,23 +99,13 @@ export function TopBar() {
         </button>
 
         {isPopup && (
-          <>
-            <button
-              onClick={toggleSize}
-              className={btnClass}
-              aria-label={expanded ? 'Restore width' : 'Expand width'}
-            >
-              {expanded ? <Minimize size={14} /> : <Maximize size={14} />}
-            </button>
-
-            <button
-              onClick={openFullTab}
-              className={btnClass}
-              aria-label="Open in full tab"
-            >
-              <ExternalLink size={14} />
-            </button>
-          </>
+          <button
+            onClick={toggleSize}
+            className={btnClass}
+            aria-label={expanded ? 'Restore width' : 'Expand width'}
+          >
+            {expanded ? <Minimize size={14} /> : <Maximize size={14} />}
+          </button>
         )}
       </div>
     </header>
