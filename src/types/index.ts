@@ -79,6 +79,32 @@ export interface UploadedSubjectPack {
   importedAt: string
 }
 
+export interface SubjectRegistryEntry {
+  id: string
+  name: string
+  description: string
+  version: string
+  questionCount: number
+  topicCount: number
+  bundled: boolean
+  packUrl: string
+}
+
+export interface SubjectRegistry {
+  schemaVersion: number
+  updatedAt: string
+  subjects: SubjectRegistryEntry[]
+}
+
+export interface OfficialSubjectPack {
+  id: string
+  version: string
+  downloadedAt: string
+  subject: Subject
+  topics: Topic[]
+  questions: Question[]
+}
+
 export interface SubjectPackJSON {
   subject: {
     name: string

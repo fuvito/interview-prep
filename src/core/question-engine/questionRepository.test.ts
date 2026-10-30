@@ -3,8 +3,8 @@ import { questionRepository } from './questionRepository'
 
 describe('questionRepository', () => {
   describe('getAll', () => {
-    it('returns all bundled questions', () => {
-      expect(questionRepository.getAll().length).toBeGreaterThanOrEqual(605)
+    it('returns bundled questions', () => {
+      expect(questionRepository.getAll().length).toBeGreaterThanOrEqual(155)
     })
   })
 

@@ -111,6 +111,13 @@ A user can install the extension, use it fully offline, browse TypeScript topics
 
 Run `npm run prerelease` before every release. It executes all automated checks in sequence. After it passes, go through the manual checks below.
 
+### Before Release — Pack & Registry
+
+- Run `npm run generate-packs` to regenerate `packs/*.json` from `src/content/subjects/`
+- Commit updated pack files to the repo — they are served via `raw.githubusercontent.com`
+- Update `public/registry.json` if question counts, topic counts, or versions changed
+- Bump the `version` field in each affected `src/content/subjects/*/subject.json`
+
 ### Automated (`npm run prerelease`)
 
 1. **TypeScript** — `tsc -b` (strict, no `any`, zero errors)

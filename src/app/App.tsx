@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react'
 import { Layout } from '@/components/layout'
 import { Router } from './Router'
 import { useThemeStore, useNavigationStore } from '@/store'
-import { uploadedContentRepository } from '@/database/repositories'
-import { registerUploadedPacks } from '@/content'
+import { uploadedContentRepository, officialPackRepository } from '@/database/repositories'
+import { registerUploadedPacks, registerOfficialPacks } from '@/content'
 import { usePopupSize } from '@/hooks/usePopupSize'
 
 // Detect popup vs full-tab via URL param (width-independent and stable across sizes)
@@ -17,12 +17,14 @@ export default function App() {
 
   useEffect(() => {
     async function init() {
-      const [packs] = await Promise.all([
+      const [uploadedPacks, officialPacks] = await Promise.all([
         uploadedContentRepository.getAll(),
+        officialPackRepository.getAll(),
         load(),
         initCurrentSubject(),
       ])
-      registerUploadedPacks(packs)
+      registerOfficialPacks(officialPacks)
+      registerUploadedPacks(uploadedPacks)
       setReady(true)
     }
     void init()

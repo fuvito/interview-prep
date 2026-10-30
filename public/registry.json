@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 1,
+  "updatedAt": "2026-10-30",
+  "subjects": [
+    {
+      "id": "typescript",
+      "name": "TypeScript",
+      "description": "Master TypeScript's type system, from basic annotations to advanced patterns used in real-world codebases.",
+      "version": "1.0.0",
+      "questionCount": 155,
+      "topicCount": 6,
+      "bundled": true,
+      "packUrl": "https://raw.githubusercontent.com/fuvito/interview-prep/main/packs/typescript.json"
+    },
+    {
+      "id": "nodejs",
+      "name": "Node.js",
+      "description": "Build server-side applications with Node.js — event loop, async patterns, Express.js, streams, and production best practices.",
+      "version": "1.0.0",
+      "questionCount": 150,
+      "topicCount": 6,
+      "bundled": false,
+      "packUrl": "https://raw.githubusercontent.com/fuvito/interview-prep/main/packs/nodejs.json"
+    },
+    {
+      "id": "devops",
+      "name": "DevOps",
+      "description": "Docker, Kubernetes, CI/CD pipelines, Linux, infrastructure as code, and monitoring.",
+      "version": "1.0.0",
+      "questionCount": 150,
+      "topicCount": 6,
+      "bundled": false,
+      "packUrl": "https://raw.githubusercontent.com/fuvito/interview-prep/main/packs/devops.json"
+    },
+    {
+      "id": "java",
+      "name": "Java",
+      "description": "Core Java, OOP, Collections, Concurrency, Java 8+ features, and Spring.",
+      "version": "1.0.0",
+      "questionCount": 150,
+      "topicCount": 6,
+      "bundled": false,
+      "packUrl": "https://raw.githubusercontent.com/fuvito/interview-prep/main/packs/java.json"
+    }
+  ]
+}
