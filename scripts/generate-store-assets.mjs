@@ -9,13 +9,15 @@
  */
 
 import { chromium } from 'playwright'
-import { mkdirSync } from 'fs'
+import { mkdirSync, copyFileSync } from 'fs'
 import { join, dirname } from 'path'
 import { fileURLToPath } from 'url'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const OUT_DIR = join(__dirname, '..', 'store-assets')
+const ICONS_DIR = join(__dirname, '..', 'public', 'icons')
 mkdirSync(OUT_DIR, { recursive: true })
+mkdirSync(ICONS_DIR, { recursive: true })
 
 // ─── Design tokens (light mode) ───────────────────────────────────────────────
 const BG_DEEP     = '#f1f5f9'   // slate-100
@@ -30,13 +32,15 @@ const TEXT_GRAY   = '#64748b'   // slate-500
 const AMBER       = '#f59e0b'
 const BORDER      = '#e2e8f0'   // slate-200
 
-// ─── Icon HTML (renders at any size) ─────────────────────────────────────────
+// ─── Icon HTML — bold, high-contrast, visible at 16 px in Chrome toolbar ─────
 function iconHtml(size) {
-  const r = Math.round(size * 0.18)   // border-radius
-  const pad = Math.round(size * 0.1)
-  const ipSize = Math.round(size * 0.44)
-  const prepSize = Math.round(size * 0.14)
-  const dotSize = Math.round(size * 0.07)
+  const r = Math.round(size * 0.22)
+  const ipSize = size <= 16 ? Math.round(size * 0.56) : Math.round(size * 0.50)
+  const prepSize = Math.round(size * 0.13)
+  const dotR = Math.round(size * 0.10)
+  const dotOff = Math.round(size * 0.06)
+  // Slightly larger text for 16 px readability; tight letter-spacing at all sizes
+  const letterSpacing = size <= 16 ? '-0.02em' : '-0.05em'
 
   return `<!DOCTYPE html><html><head>
   <meta charset="utf-8"/>
@@ -44,48 +48,40 @@ function iconHtml(size) {
     * { margin:0; padding:0; box-sizing:border-box; }
     html, body { width:${size}px; height:${size}px; overflow:hidden; }
     body {
-      background: linear-gradient(145deg, ${BG_NAVY} 0%, ${BG_DEEP} 100%);
+      background: linear-gradient(145deg, #1d4ed8 0%, #2563eb 50%, #1e40af 100%);
       display: flex; flex-direction: column;
       align-items: center; justify-content: center;
       border-radius: ${r}px;
-      font-family: 'Segoe UI', system-ui, sans-serif;
-    }
-    .ring {
-      position: absolute;
-      width: ${Math.round(size * 0.88)}px;
-      height: ${Math.round(size * 0.88)}px;
-      border: ${Math.max(1, Math.round(size * 0.025))}px solid ${BLUE_BRIGHT}22;
-      border-radius: 50%;
+      font-family: 'Segoe UI', Arial, system-ui, sans-serif;
+      position: relative;
     }
     .letters {
       font-size: ${ipSize}px;
       font-weight: 900;
-      letter-spacing: -0.04em;
-      background: linear-gradient(135deg, ${BLUE_BRIGHT} 0%, ${BLUE_LIGHT} 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      letter-spacing: ${letterSpacing};
+      color: #ffffff;
       line-height: 1;
       z-index: 1;
+      text-shadow: 0 1px ${Math.max(1, Math.round(size * 0.04))}px rgba(0,0,0,0.4);
     }
     ${size >= 48 ? `.prep {
       font-size: ${prepSize}px;
       font-weight: 700;
-      letter-spacing: 0.2em;
-      color: ${TEXT_GRAY};
+      letter-spacing: 0.18em;
+      color: rgba(255,255,255,0.70);
       margin-top: ${Math.round(size * 0.02)}px;
       z-index: 1;
     }` : ''}
     .dot {
-      width: ${dotSize}px; height: ${dotSize}px;
+      width: ${dotR}px; height: ${dotR}px;
       background: ${AMBER};
       border-radius: 50%;
       position: absolute;
-      bottom: ${pad}px; right: ${pad}px;
+      bottom: ${dotOff}px; right: ${dotOff}px;
+      box-shadow: 0 0 ${Math.max(2, Math.round(size * 0.06))}px ${AMBER}99;
     }
   </style>
   </head><body>
-    <div class="ring"></div>
     <div class="letters">IP</div>
     ${size >= 48 ? `<div class="prep">PREP</div>` : ''}
     <div class="dot"></div>
@@ -378,14 +374,16 @@ async function main() {
   const browser = await chromium.launch()
   const page = await browser.newPage()
 
-  // Extension icons
+  // Extension icons — written to store-assets/ AND public/icons/
   const iconSizes = [16, 32, 48, 128]
   for (const size of iconSizes) {
     await page.setViewportSize({ width: size, height: size })
     await page.setContent(iconHtml(size), { waitUntil: 'networkidle' })
-    const out = join(OUT_DIR, `icon-${size}.png`)
-    await page.screenshot({ path: out, clip: { x: 0, y: 0, width: size, height: size } })
-    console.log(`✓ icon-${size}.png`)
+    const storeOut = join(OUT_DIR, `icon-${size}.png`)
+    await page.screenshot({ path: storeOut, clip: { x: 0, y: 0, width: size, height: size } })
+    const publicOut = join(ICONS_DIR, `icon-${size}.png`)
+    copyFileSync(storeOut, publicOut)
+    console.log(`✓ icon-${size}.png  →  store-assets/  +  public/icons/`)
   }
 
   // Small promo tile 440×280
