@@ -1,0 +1,6 @@
+{
+  "id": "nodejs",
+  "name": "Node.js",
+  "description": "Build server-side applications with Node.js — from the event loop and async patterns to Express.js, streams, and production best practices.",
+  "version": "1.0.0"
+}

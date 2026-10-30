@@ -1,0 +1,447 @@
+[
+  {
+    "id": "node-core-modules-001",
+    "subjectId": "nodejs",
+    "topicId": "node-core-modules",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is the difference between `fs.readFile()` and `fs.readFileSync()`?",
+    "options": [
+      { "id": "a", "text": "`readFile` reads into memory; `readFileSync` streams the file" },
+      { "id": "b", "text": "`readFile` is async (callback/Promise); `readFileSync` blocks the event loop until the file is read" },
+      { "id": "c", "text": "`readFileSync` is newer and preferred; `readFile` is deprecated" },
+      { "id": "d", "text": "They are identical except `readFileSync` supports larger files" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "- **`fs.readFile(path, options, callback)`** — asynchronous, non-blocking. Accepts a callback (or use `fs.promises.readFile` for Promises).\n- **`fs.readFileSync(path, options)`** — synchronous, **blocks the event loop** until the entire file is read.\n\n```javascript\n// ✓ Async — preferred in servers\nconst data = await fs.promises.readFile('./config.json', 'utf8')\n\n// ✓ Sync — acceptable for startup/config before the server starts\nconst config = JSON.parse(fs.readFileSync('./config.json', 'utf8'))\n\n// ✗ Never use Sync in request handlers — blocks all other requests\n```",
+    "keyConcepts": ["fs.readFile", "fs.readFileSync", "blocking", "non-blocking"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-core-modules-002",
+    "subjectId": "nodejs",
+    "topicId": "node-core-modules",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does `fs.promises` provide and why is it preferred over `util.promisify(fs.readFile)`?",
+    "options": [
+      { "id": "a", "text": "`fs.promises` is a browser polyfill; `util.promisify` is the Node.js-native approach" },
+      { "id": "b", "text": "`fs.promises` is the officially recommended Promise-based API — cleaner, no need to promisify each method individually" },
+      { "id": "c", "text": "They are identical — `fs.promises` uses `util.promisify` internally" },
+      { "id": "d", "text": "`fs.promises` only supports ESM; `util.promisify` works in both CJS and ESM" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`fs.promises` (stable since Node.js 10) exposes a complete Promise-based filesystem API:\n\n```javascript\nimport { promises as fs } from 'fs'\n// or:\nimport fs from 'fs/promises'\n\nconst data = await fs.readFile('./file.txt', 'utf8')\nawait fs.writeFile('./out.txt', data)\nawait fs.mkdir('./newDir', { recursive: true })\nconst entries = await fs.readdir('./src')\nconst stats = await fs.stat('./file.txt')\n```\n\nIt's cleaner than `util.promisify(fs.readFile)` because you don't need to promisify each function, and it includes methods that don't exist in the callback API (like `filehandle.read()`).",
+    "keyConcepts": ["fs.promises", "fs/promises", "async fs", "util.promisify"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-core-modules-003",
+    "subjectId": "nodejs",
+    "topicId": "node-core-modules",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the difference between `path.join()` and `path.resolve()`?",
+    "options": [
+      { "id": "a", "text": "`path.join` handles Windows paths; `path.resolve` handles POSIX paths" },
+      { "id": "b", "text": "`path.join` concatenates segments with the OS separator; `path.resolve` builds an absolute path from the current working directory" },
+      { "id": "c", "text": "`path.resolve` appends segments to `__dirname`; `path.join` appends to `process.cwd()`" },
+      { "id": "d", "text": "They are identical except `path.resolve` normalizes `..` and `.` segments" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "- **`path.join(...segments)`** — joins segments with the OS path separator and normalizes. Does **not** make the path absolute.\n- **`path.resolve(...segments)`** — processes segments right-to-left; stops when it hits an absolute path; resolves from `process.cwd()` if no absolute segment found.\n\n```javascript\npath.join('/foo', 'bar', 'baz')     // '/foo/bar/baz'\npath.join('/foo', '../bar')          // '/bar'\n\npath.resolve('foo', 'bar')           // '/cwd/foo/bar'\npath.resolve('/foo', 'bar')          // '/foo/bar'\npath.resolve('/foo', '/bar', 'baz')  // '/bar/baz' (starts over at /bar)\n```\n\nFor building paths relative to a module file, use `path.join(__dirname, 'data', 'file.json')`.",
+    "keyConcepts": ["path.join", "path.resolve", "absolute path", "OS separator"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-core-modules-004",
+    "subjectId": "nodejs",
+    "topicId": "node-core-modules",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What do `path.basename()`, `path.dirname()`, and `path.extname()` return?",
+    "options": [
+      { "id": "a", "text": "basename=full path, dirname=parent dir, extname=relative path" },
+      { "id": "b", "text": "basename=filename with extension, dirname=parent directory, extname=file extension" },
+      { "id": "c", "text": "basename=file extension, dirname=filename, extname=full path" },
+      { "id": "d", "text": "They all return the same value — parts of the full path" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "```javascript\nconst p = '/home/user/app/src/index.ts'\n\npath.basename(p)          // 'index.ts'\npath.basename(p, '.ts')   // 'index'  (strips extension)\npath.dirname(p)           // '/home/user/app/src'\npath.extname(p)           // '.ts'\n\npath.parse(p)\n// {\n//   root: '/',\n//   dir: '/home/user/app/src',\n//   base: 'index.ts',\n//   ext: '.ts',\n//   name: 'index'\n// }\n```",
+    "keyConcepts": ["path.basename", "path.dirname", "path.extname", "path.parse"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "node-core-modules-005",
+    "subjectId": "nodejs",
+    "topicId": "node-core-modules",
+    "type": "code",
+    "difficulty": "beginner",
+    "question": "What does this HTTP server code do, and what response does a client receive?",
+    "codeSnippet": "import http from 'http'\n\nconst server = http.createServer((req, res) => {\n  res.writeHead(200, { 'Content-Type': 'text/plain' })\n  res.end('Hello, World!')\n})\n\nserver.listen(3000, () => console.log('Listening on port 3000'))",
+    "options": [
+      { "id": "a", "text": "Creates a TCP server that echoes back received data" },
+      { "id": "b", "text": "Creates an HTTP server that responds to all requests with status 200 and body 'Hello, World!'" },
+      { "id": "c", "text": "Creates an HTTPS server — plain `http` always uses TLS" },
+      { "id": "d", "text": "Creates a WebSocket server on port 3000" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`http.createServer(requestListener)` creates an HTTP server. The callback receives `(req: IncomingMessage, res: ServerResponse)` for every incoming request.\n\n- `res.writeHead(statusCode, headers)` — sets status and headers\n- `res.end(body)` — sends the response body and finalizes the response\n\nEvery path and method goes to the same handler here — Express/Fastify add routing on top of this low-level API.\n\n```javascript\n// More complete example:\nconst server = http.createServer((req, res) => {\n  console.log(`${req.method} ${req.url}`)\n  if (req.url === '/health') {\n    res.writeHead(200)\n    res.end('ok')\n  } else {\n    res.writeHead(404)\n    res.end('Not found')\n  }\n})\n```",
+    "keyConcepts": ["http.createServer", "IncomingMessage", "ServerResponse", "res.end"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-core-modules-006",
+    "subjectId": "nodejs",
+    "topicId": "node-core-modules",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the difference between `new URL()` and the legacy `url.parse()`?",
+    "options": [
+      { "id": "a", "text": "`url.parse` is the modern API; `new URL` is for browser compatibility only" },
+      { "id": "b", "text": "`new URL()` follows the WHATWG URL standard with a cleaner API; `url.parse()` is legacy and doesn't support Unicode host names correctly" },
+      { "id": "c", "text": "`url.parse` is async; `new URL` is synchronous" },
+      { "id": "d", "text": "They are identical — `new URL` is just an alias" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`new URL()` implements the **WHATWG URL Standard** (same as browsers). It's the modern approach:\n\n```javascript\n// Modern — WHATWG URL\nconst url = new URL('https://example.com:8080/path?q=1#hash')\nurl.hostname  // 'example.com'\nurl.port      // '8080'\nurl.pathname  // '/path'\nurl.searchParams.get('q') // '1'\nurl.searchParams.set('page', '2')\nconsole.log(url.href) // 'https://example.com:8080/path?q=1&page=2#hash'\n\n// Legacy — url.parse (still works but deprecated)\nconst parsed = url.parse('https://example.com?q=1')\nparsed.query  // '?q=1' (raw string, not parsed)\n```\n\n`URL.searchParams` is a `URLSearchParams` object that makes query string manipulation easy.",
+    "keyConcepts": ["URL", "WHATWG", "url.parse", "searchParams", "URLSearchParams"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-core-modules-007",
+    "subjectId": "nodejs",
+    "topicId": "node-core-modules",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the difference between `Buffer.from()`, `Buffer.alloc()`, and `Buffer.allocUnsafe()`?",
+    "options": [
+      { "id": "a", "text": "`from` creates from a string; `alloc` creates an empty buffer; `allocUnsafe` creates a read-only buffer" },
+      { "id": "b", "text": "`from` creates from existing data; `alloc` creates zero-filled bytes; `allocUnsafe` creates uninitialized bytes (faster but may contain old memory)" },
+      { "id": "c", "text": "`allocUnsafe` is deprecated; use `alloc` for all cases" },
+      { "id": "d", "text": "They are identical — the names are just aliases" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "```javascript\n// Buffer.from — create from existing data\nBuffer.from('hello', 'utf8')         // from string\nBuffer.from([0x48, 0x65, 0x6c])      // from byte array\nBuffer.from(arrayBuffer, offset, len) // from ArrayBuffer\n\n// Buffer.alloc(size) — zero-filled (safe)\nconst buf = Buffer.alloc(10)  // <Buffer 00 00 00 00 00 00 00 00 00 00>\n\n// Buffer.allocUnsafe(size) — uninitialized (faster, but contains old memory!)\nconst fast = Buffer.allocUnsafe(10) // may contain arbitrary bytes\nfast.fill(0) // fill before exposing to untrusted code\n```\n\nUse `allocUnsafe` only when you'll immediately fill the buffer. Never send its contents to users without writing first.",
+    "keyConcepts": ["Buffer.from", "Buffer.alloc", "Buffer.allocUnsafe", "binary data", "security"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-core-modules-008",
+    "subjectId": "nodejs",
+    "topicId": "node-core-modules",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What buffer encodings does Node.js support, and what is the default?",
+    "options": [
+      { "id": "a", "text": "Only 'utf8' is supported" },
+      { "id": "b", "text": "'utf8', 'ascii', 'base64', 'hex', 'binary', 'latin1', 'utf16le' — default is 'utf8'" },
+      { "id": "c", "text": "All standard charsets — controlled via the ICU library; default is 'ascii'" },
+      { "id": "d", "text": "Only binary encodings: 'hex', 'base64', 'binary'" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "Common Node.js buffer encodings:\n\n| Encoding | Use case |\n|---|---|\n| `'utf8'` (default) | Text — most files, JSON, HTML |\n| `'ascii'` | ASCII only — no multi-byte chars |\n| `'base64'` | Binary in JSON, data URLs |\n| `'hex'` | Binary as hex string — crypto hashes |\n| `'binary'` / `'latin1'` | 8-bit encoding |\n| `'utf16le'` | UTF-16 LE (Windows text files) |\n\n```javascript\nconst buf = Buffer.from('hello')\nbuf.toString()         // 'hello'  (default: utf8)\nbuf.toString('hex')    // '68656c6c6f'\nbuf.toString('base64') // 'aGVsbG8='\n```",
+    "keyConcepts": ["Buffer", "encoding", "utf8", "base64", "hex"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "node-core-modules-009",
+    "subjectId": "nodejs",
+    "topicId": "node-core-modules",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does `crypto.createHash()` do and what is a common use case?",
+    "options": [
+      { "id": "a", "text": "Creates a cryptographic key for symmetric encryption" },
+      { "id": "b", "text": "Creates a hash digest (one-way fingerprint) of data; commonly used for checksums and content-based IDs" },
+      { "id": "c", "text": "Creates an HMAC for request signing" },
+      { "id": "d", "text": "Generates a random UUID" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`crypto.createHash()` computes a one-way **hash digest** of data:\n\n```javascript\nimport { createHash } from 'crypto'\n\n// SHA-256 hash of a string\nconst hash = createHash('sha256')\n  .update('my data')\n  .digest('hex')\n// 'e36a9de3...' (64 hex chars)\n\n// File checksum:\nimport { createReadStream } from 'fs'\nconst fileHash = createHash('sha256')\ncreateReadStream('./file.zip').pipe(fileHash)\nfileHash.on('finish', () => console.log(fileHash.digest('hex')))\n```\n\n**Use cases:** file checksums, content-addressable caching, generating IDs from content, verifying data integrity. For passwords, use `crypto.scrypt` or `bcrypt` — SHA-256 is too fast for password hashing.",
+    "keyConcepts": ["crypto.createHash", "SHA-256", "digest", "checksum", "one-way hash"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-core-modules-010",
+    "subjectId": "nodejs",
+    "topicId": "node-core-modules",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the recommended way to hash passwords in Node.js and why not use `crypto.createHash()`?",
+    "options": [
+      { "id": "a", "text": "Use `crypto.createHash('sha512')` — it's the most secure hash algorithm" },
+      { "id": "b", "text": "Use `crypto.scrypt()` or `bcrypt` — they are intentionally slow and include a salt to resist brute-force and rainbow table attacks" },
+      { "id": "c", "text": "Encrypt passwords with AES-256 — reversible encryption is more secure for auth" },
+      { "id": "d", "text": "Use `crypto.createHmac()` with a secret key" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "Password hashing requires an algorithm that is:\n1. **Slow** — to make brute-forcing expensive\n2. **Salted** — to prevent rainbow table attacks\n\n`crypto.createHash('sha256')` is designed to be fast — an attacker can compute billions per second.\n\n**Node.js built-in:**\n```javascript\nimport { scrypt, randomBytes } from 'crypto'\nimport { promisify } from 'util'\n\nconst scryptAsync = promisify(scrypt)\n\nasync function hashPassword(password) {\n  const salt = randomBytes(16).toString('hex')\n  const hash = await scryptAsync(password, salt, 64)\n  return `${salt}:${hash.toString('hex')}`\n}\n```\n\n**Third-party libraries:** `bcrypt`, `argon2` (argon2 is preferred — won the Password Hashing Competition).",
+    "keyConcepts": ["password hashing", "scrypt", "bcrypt", "argon2", "salt", "brute force"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-core-modules-011",
+    "subjectId": "nodejs",
+    "topicId": "node-core-modules",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does `util.promisify()` require from the function it wraps?",
+    "options": [
+      { "id": "a", "text": "The function must return a Promise" },
+      { "id": "b", "text": "The function must follow the error-first callback pattern with `(err, value)` as the last argument" },
+      { "id": "c", "text": "The function must be a built-in Node.js function" },
+      { "id": "d", "text": "The function must be synchronous" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`util.promisify()` wraps functions that use the **Node.js callback convention**: the last argument must be a callback called as `callback(err, value)`.\n\n```javascript\nimport { promisify } from 'util'\nimport { readFile, stat } from 'fs'\n\nconst readFileAsync = promisify(readFile)\nconst statAsync = promisify(stat)\n\nconst data = await readFileAsync('./file.txt', 'utf8')\nconst info = await statAsync('./file.txt')\n```\n\n**Custom `[util.promisify.custom]` symbol:** some functions define a custom promisified version:\n```javascript\nimport { exec } from 'child_process'\nconst execAsync = promisify(exec) // uses built-in custom implementation\nconst { stdout } = await execAsync('ls -la')\n```",
+    "keyConcepts": ["util.promisify", "error-first callback", "Node.js callback convention"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-core-modules-012",
+    "subjectId": "nodejs",
+    "topicId": "node-core-modules",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What does `util.inspect()` do and when is it useful?",
+    "options": [
+      { "id": "a", "text": "Validates that a value conforms to a schema" },
+      { "id": "b", "text": "Returns a string representation of any JavaScript value, including circular references and custom depth" },
+      { "id": "c", "text": "Inspects a running process for memory leaks" },
+      { "id": "d", "text": "Checks if a value is an instance of a built-in type" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`util.inspect(value, options)` produces a human-readable string of any value — similar to what `console.log` uses internally, but with more control:\n\n```javascript\nimport { inspect } from 'util'\n\nconst obj = { a: 1, b: { c: [1, 2, 3] } }\nconsole.log(inspect(obj, { depth: 2, colors: true }))\n\n// Deep objects (default depth=2 is often not enough):\nconsole.log(inspect(complexObj, { depth: null })) // unlimited depth\n\n// Handles circular references:\nconst circ = {}\ncirc.self = circ\nconsole.log(inspect(circ)) // '[Circular *1] { self: [Circular *1] }'\n```\n\nUseful in logging utilities and debugging where `JSON.stringify` would fail (circular refs, BigInt, etc.).",
+    "keyConcepts": ["util.inspect", "circular references", "debugging", "logging"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "node-core-modules-013",
+    "subjectId": "nodejs",
+    "topicId": "node-core-modules",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What information does `os.cpus()` return and why is it used?",
+    "options": [
+      { "id": "a", "text": "Returns the current CPU usage percentage" },
+      { "id": "b", "text": "Returns an array of objects describing each logical CPU core, including model and speeds" },
+      { "id": "c", "text": "Returns only the number of CPU cores as an integer" },
+      { "id": "d", "text": "Returns a list of all running processes and their CPU usage" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`os.cpus()` returns an array of objects, one per logical CPU core:\n\n```javascript\nimport { cpus, totalmem, platform, arch } from 'os'\n\nconsole.log(cpus().length)   // number of cores (e.g., 8)\nconsole.log(cpus()[0].model) // 'Apple M3 Pro'\nconsole.log(totalmem())      // total memory in bytes\nconsole.log(platform())      // 'darwin', 'linux', 'win32'\nconsole.log(arch())          // 'x64', 'arm64'\n```\n\n**Common use:** `cpus().length` to determine how many cluster workers to fork — one per core is a common heuristic:\n```javascript\nfor (let i = 0; i < cpus().length; i++) cluster.fork()\n```",
+    "keyConcepts": ["os.cpus", "os module", "cpu cores", "cluster"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "node-core-modules-014",
+    "subjectId": "nodejs",
+    "topicId": "node-core-modules",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "How do you watch a file or directory for changes in Node.js?",
+    "options": [
+      { "id": "a", "text": "Use `fs.poll()` to check for changes on a timer" },
+      { "id": "b", "text": "Use `fs.watch()` for event-based notifications or `fs.watchFile()` for polling" },
+      { "id": "c", "text": "Use `fs.createReadStream()` in watch mode" },
+      { "id": "d", "text": "File watching is not supported in Node.js without a third-party library" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "Two approaches in Node.js:\n\n**`fs.watch(path, callback)`** — uses OS native file watching (inotify/FSEvents/ReadDirectoryChangesW). More efficient, near-instant.\n```javascript\nfs.watch('./src', { recursive: true }, (event, filename) => {\n  console.log(`${event}: ${filename}`)\n})\n```\n\n**`fs.watchFile(path, callback)`** — polls the file on an interval. More portable but more overhead.\n```javascript\nfs.watchFile('./config.json', { interval: 1000 }, (curr, prev) => {\n  if (curr.mtime !== prev.mtime) reload()\n})\n```\n\nFor production-grade watching (e.g., in dev servers), use libraries like **`chokidar`** which normalize cross-platform quirks of `fs.watch`.",
+    "keyConcepts": ["fs.watch", "fs.watchFile", "chokidar", "file watching"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "node-core-modules-015",
+    "subjectId": "nodejs",
+    "topicId": "node-core-modules",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the `net` module used for?",
+    "options": [
+      { "id": "a", "text": "Making HTTP/HTTPS requests" },
+      { "id": "b", "text": "Creating raw TCP and Unix domain socket servers and clients" },
+      { "id": "c", "text": "Managing network interfaces and IP routing" },
+      { "id": "d", "text": "WebSocket protocol implementation" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "The `net` module provides a low-level TCP/Unix socket API. `http`, `https`, and `tls` modules are all built on top of `net`.\n\n```javascript\nimport net from 'net'\n\n// TCP server\nconst server = net.createServer((socket) => {\n  socket.on('data', (data) => {\n    socket.write(`Echo: ${data}`)\n  })\n  socket.on('end', () => socket.destroy())\n})\nserver.listen(9000)\n\n// TCP client\nconst client = net.createConnection({ port: 9000 }, () => {\n  client.write('Hello!')\n})\nclient.on('data', (data) => console.log(data.toString()))\n```\n\n**Use cases:** custom protocols, database drivers, game servers, proxies, or anything needing raw TCP.",
+    "keyConcepts": ["net module", "TCP", "socket", "low-level networking"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "node-core-modules-016",
+    "subjectId": "nodejs",
+    "topicId": "node-core-modules",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is `crypto.randomBytes()` used for and is it safe for security-sensitive operations?",
+    "options": [
+      { "id": "a", "text": "Generates pseudorandom bytes — not cryptographically secure, only for testing" },
+      { "id": "b", "text": "Generates cryptographically strong random bytes — safe for tokens, nonces, and salts" },
+      { "id": "c", "text": "Generates random numbers using Math.random() under the hood" },
+      { "id": "d", "text": "Generates random bytes only if the OS has enough entropy — otherwise throws" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`crypto.randomBytes(size)` uses the OS's cryptographically secure random number generator (e.g., `/dev/urandom` on Linux). It is **safe** for security-sensitive uses:\n\n```javascript\nimport { randomBytes, randomUUID } from 'crypto'\n\n// Secure token for password reset, email verification, etc.\nconst token = randomBytes(32).toString('hex') // 64-char hex string\n\n// Secure random UUID (v4)\nconst id = randomUUID() // 'a7e5b3c1-...'\n\n// Salt for password hashing\nconst salt = randomBytes(16)\n```\n\n**Never use `Math.random()` for security purposes** — it is not cryptographically secure and its output can be predicted.",
+    "keyConcepts": ["crypto.randomBytes", "CSPRNG", "token generation", "randomUUID", "security"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-core-modules-017",
+    "subjectId": "nodejs",
+    "topicId": "node-core-modules",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does `crypto.createHmac()` do and when would you use it instead of `createHash()`?",
+    "options": [
+      { "id": "a", "text": "HMAC is for encrypting data; createHash is for signing" },
+      { "id": "b", "text": "HMAC uses a secret key to produce a message authentication code — it verifies both integrity and authenticity" },
+      { "id": "c", "text": "HMAC is slower — use createHash unless you specifically need the secret key" },
+      { "id": "d", "text": "They are identical except HMAC uses a different algorithm" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "**HMAC** (Hash-based Message Authentication Code) produces a hash that uses a **secret key**:\n- `createHash` — verifies data **integrity** only (anyone can compute it)\n- `createHmac` — verifies **integrity AND authenticity** (only parties with the key can compute it)\n\n```javascript\nimport { createHmac } from 'crypto'\n\nconst secret = process.env.WEBHOOK_SECRET\n\n// Signing a webhook payload (GitHub-style):\nconst signature = createHmac('sha256', secret)\n  .update(JSON.stringify(payload))\n  .digest('hex')\n\n// Verifying:\nconst expected = createHmac('sha256', secret)\n  .update(rawBody)\n  .digest('hex')\nconst valid = crypto.timingSafeEqual(Buffer.from(signature), Buffer.from(expected))\n```\n\nUse `timingSafeEqual` to prevent timing attacks when comparing HMACs.",
+    "keyConcepts": ["HMAC", "createHmac", "message authentication", "timingSafeEqual", "webhook"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-core-modules-018",
+    "subjectId": "nodejs",
+    "topicId": "node-core-modules",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does `fs.mkdir()` with `{ recursive: true }` do, and why is it useful?",
+    "options": [
+      { "id": "a", "text": "Creates the directory recursively by iterating its parent directories" },
+      { "id": "b", "text": "Creates the directory and any missing parent directories, without throwing if the directory already exists" },
+      { "id": "c", "text": "Creates the directory and sets permissions recursively on all parent directories" },
+      { "id": "d", "text": "Creates the directory structure inside a temporary location first, then moves it" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`{ recursive: true }` makes `fs.mkdir` behave like `mkdir -p`:\n\n```javascript\n// ✗ Without recursive — throws ENOENT if parent doesn't exist,\n//                          EEXIST if directory already exists\nawait fs.promises.mkdir('./output')\n\n// ✓ With recursive — creates all missing parents, no error if exists\nawait fs.promises.mkdir('./output/reports/2024', { recursive: true })\n```\n\nThe Promise version resolves to the first path that was created (or `undefined` if it already existed). This is the idiomatic way to ensure a directory exists before writing files.",
+    "keyConcepts": ["fs.mkdir", "recursive", "mkdir -p", "directory creation"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "node-core-modules-019",
+    "subjectId": "nodejs",
+    "topicId": "node-core-modules",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "How does `http.createServer` handle concurrent connections in Node.js?",
+    "options": [
+      { "id": "a", "text": "It spawns a new thread for each connection" },
+      { "id": "b", "text": "It processes one connection at a time using a queue" },
+      { "id": "c", "text": "It registers the socket with the OS event queue (epoll/kqueue/IOCP) and handles connections via the event loop" },
+      { "id": "d", "text": "It uses libuv's thread pool to handle each connection" }
+    ],
+    "correctAnswers": ["c"],
+    "explanation": "When `server.listen()` is called, Node.js binds the socket and registers it with the OS asynchronous I/O notification system:\n- Linux: `epoll`\n- macOS: `kqueue`\n- Windows: IOCP\n\nThe OS notifies libuv when a new connection arrives. libuv places a callback on the event loop, and the main thread calls your request handler.\n\nSince network I/O is non-blocking, **the event loop can accept and process thousands of connections concurrently** without creating additional threads — each connection just has a callback pending in the queue.\n\nFor CPU-heavy request handling, this model breaks down — consider `cluster` or `worker_threads`.",
+    "keyConcepts": ["epoll", "kqueue", "IOCP", "concurrent connections", "event loop"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "node-core-modules-020",
+    "subjectId": "nodejs",
+    "topicId": "node-core-modules",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does `zlib.gzip()` do and when would you use it in a Node.js server?",
+    "options": [
+      { "id": "a", "text": "Compresses data into a ZIP archive" },
+      { "id": "b", "text": "Compresses data using the gzip algorithm; used to reduce HTTP response sizes" },
+      { "id": "c", "text": "Encrypts data using AES-GZip" },
+      { "id": "d", "text": "Compresses files for deployment to production" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`zlib` provides compression/decompression using gzip, deflate, and brotli algorithms:\n\n```javascript\nimport { gzip, gunzip } from 'zlib'\nimport { promisify } from 'util'\n\nconst gzipAsync = promisify(gzip)\n\n// Or use zlib.promises (Node.js 15+):\nimport { promises as zlibPromises } from 'zlib'\nconst compressed = await zlibPromises.gzip(Buffer.from(jsonString))\n\n// In Express, use the 'compression' middleware:\nimport compression from 'compression'\napp.use(compression()) // auto-gzip responses\n```\n\n**When to use:** compress large JSON API responses, serve pre-compressed static assets, reduce bandwidth. Modern APIs should support both gzip and brotli (brotli provides better compression).",
+    "keyConcepts": ["zlib", "gzip", "compression", "brotli", "HTTP response compression"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "node-core-modules-021",
+    "subjectId": "nodejs",
+    "topicId": "node-core-modules",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is the `dns` module and what is the difference between `dns.lookup()` and `dns.resolve()`?",
+    "options": [
+      { "id": "a", "text": "`dns.lookup` uses the OS resolver (including `/etc/hosts`); `dns.resolve` goes directly to a DNS server" },
+      { "id": "b", "text": "`dns.lookup` is async; `dns.resolve` is synchronous" },
+      { "id": "c", "text": "`dns.resolve` uses the OS resolver; `dns.lookup` queries DNS servers directly" },
+      { "id": "d", "text": "They are identical — both use the OS resolver" }
+    ],
+    "correctAnswers": ["a"],
+    "explanation": "- **`dns.lookup(hostname, callback)`** — uses the **OS resolver** (respects `/etc/hosts`, VPN DNS, system DNS settings). Internally uses libuv's thread pool.\n- **`dns.resolve(hostname, rrtype, callback)`** — directly queries a **DNS nameserver**. Does NOT use the thread pool — uses network I/O.\n\n```javascript\nimport { lookup, resolve4 } from 'dns'\n\n// OS resolver — matches what a browser does\nlookup('example.com', (err, address) => console.log(address))\n\n// Direct DNS query\nresolve4('example.com', (err, addresses) => console.log(addresses))\n// ['93.184.216.34']\n```\n\nFor most production code, `dns.lookup` is appropriate. `dns.resolve` is better when you need to bypass system overrides or query specific record types (MX, TXT, etc.).",
+    "keyConcepts": ["dns.lookup", "dns.resolve", "OS resolver", "/etc/hosts", "DNS"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "node-core-modules-022",
+    "subjectId": "nodejs",
+    "topicId": "node-core-modules",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "How do you make an outgoing HTTP/HTTPS request using only Node.js built-ins (no libraries)?",
+    "options": [
+      { "id": "a", "text": "Use `http.get()` or `https.request()` with streams, or `fetch()` (Node.js 18+)" },
+      { "id": "b", "text": "Use `net.createConnection()` and manually write the HTTP protocol" },
+      { "id": "c", "text": "Built-in HTTP client is not available — you must use `axios` or `node-fetch`" },
+      { "id": "d", "text": "Use `process.httpGet()` for outgoing requests" }
+    ],
+    "correctAnswers": ["a"],
+    "explanation": "Three options:\n\n**1. Native `fetch` (Node.js 18+, recommended):**\n```javascript\nconst res = await fetch('https://api.example.com/data')\nconst json = await res.json()\n```\n\n**2. `https.request()` (streaming, older):**\n```javascript\nimport https from 'https'\nhttps.get('https://api.example.com/data', (res) => {\n  let body = ''\n  res.on('data', (chunk) => (body += chunk))\n  res.on('end', () => console.log(JSON.parse(body)))\n})\n```\n\n**3. Third-party (still widely used):** `axios`, `got`, `undici` (powers Node's fetch).\n\nFor new projects, use native `fetch`. For Node.js < 18, `axios` or `got` are the pragmatic choices.",
+    "keyConcepts": ["fetch", "https.request", "HTTP client", "outgoing requests"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-core-modules-023",
+    "subjectId": "nodejs",
+    "topicId": "node-core-modules",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is `fs.createReadStream()` and when should you use it instead of `fs.readFile()`?",
+    "options": [
+      { "id": "a", "text": "`createReadStream` is for reading binary files; `readFile` is for text files" },
+      { "id": "b", "text": "`createReadStream` reads the file in chunks (memory-efficient for large files); `readFile` loads the entire file into memory" },
+      { "id": "c", "text": "`readFile` is always faster; `createReadStream` is only useful for network responses" },
+      { "id": "d", "text": "They are identical — the difference is only in the API style" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`fs.readFile` loads the **entire file** into a Buffer before calling your callback. For a 1GB file, that's 1GB of RAM.\n\n`fs.createReadStream` reads the file in configurable **chunks** (default 64KB), emitting `'data'` events as it goes:\n\n```javascript\n// Small files: readFile is fine\nconst config = await fs.promises.readFile('./config.json', 'utf8')\n\n// Large files: use streams\nconst input = fs.createReadStream('./huge.csv', { highWaterMark: 128 * 1024 })\nconst output = fs.createWriteStream('./output.csv')\ninput.pipe(transform).pipe(output)\n\n// Serving files in Express — streams to client, never fully buffered:\napp.get('/download', (req, res) => {\n  fs.createReadStream('./file.zip').pipe(res)\n})\n```",
+    "keyConcepts": ["createReadStream", "streaming", "memory efficiency", "large files", "pipe"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-core-modules-024",
+    "subjectId": "nodejs",
+    "topicId": "node-core-modules",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is the `readline` module used for?",
+    "options": [
+      { "id": "a", "text": "Reading files line by line for log processing" },
+      { "id": "b", "text": "Creating interactive command-line interfaces and reading input line by line from any readable stream" },
+      { "id": "c", "text": "Providing a REPL environment for JavaScript evaluation" },
+      { "id": "d", "text": "Formatting terminal output with colors and styles" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`readline` creates an interface for reading a stream one line at a time — useful for interactive CLI prompts or processing line-delimited data:\n\n```javascript\nimport { createInterface } from 'readline'\n\n// Interactive CLI:\nconst rl = createInterface({\n  input: process.stdin,\n  output: process.stdout\n})\nrl.question('What is your name? ', (name) => {\n  console.log(`Hello, ${name}!`)\n  rl.close()\n})\n\n// Process a file line by line:\nconst fileRl = createInterface({\n  input: fs.createReadStream('./data.csv')\n})\nfor await (const line of fileRl) {\n  console.log(line)\n}\n```",
+    "keyConcepts": ["readline", "CLI", "stdin", "line-by-line", "interactive"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "node-core-modules-025",
+    "subjectId": "nodejs",
+    "topicId": "node-core-modules",
+    "type": "text",
+    "difficulty": "advanced",
+    "question": "Explain how `crypto.timingSafeEqual()` works and why it matters for security.",
+    "explanation": "`crypto.timingSafeEqual(a, b)` compares two Buffers (or TypedArrays) in **constant time** — the comparison takes the same amount of time regardless of how many bytes match.\n\n**Why it matters:** Regular string/buffer comparison (`===`, `Buffer.compare`) short-circuits as soon as it finds a mismatch — it returns faster for strings that differ early. An attacker can exploit these tiny timing differences to determine, byte by byte, what the expected value is (a **timing attack**).\n\n```javascript\nimport { timingSafeEqual, createHmac } from 'crypto'\n\n// ✗ Vulnerable to timing attacks:\nif (providedToken === expectedToken) { ... }\n\n// ✓ Constant-time comparison:\nconst a = Buffer.from(providedToken)\nconst b = Buffer.from(expectedToken)\nif (a.length === b.length && timingSafeEqual(a, b)) { ... }\n// Note: length comparison must be done separately (not timing-safe,\n// but length differences are acceptable to leak for tokens)\n```\n\nAlways use `timingSafeEqual` when comparing **secrets**: HMAC signatures, API keys, CSRF tokens, password reset tokens.",
+    "codeExample": "// Safe webhook signature verification:\nfunction verifyWebhook(payload, receivedSig, secret) {\n  const expected = createHmac('sha256', secret)\n    .update(payload)\n    .digest()\n  const received = Buffer.from(receivedSig, 'hex')\n  return received.length === expected.length &&\n    timingSafeEqual(received, expected)\n}",
+    "keyConcepts": ["timingSafeEqual", "timing attack", "constant-time comparison", "security"],
+    "commonInterviewQuestion": true
+  }
+]

@@ -1,0 +1,44 @@
+[
+  {
+    "id": "node-fundamentals",
+    "subjectId": "nodejs",
+    "name": "Node.js Fundamentals",
+    "description": "Runtime architecture, V8, libuv, the global object, process API, and how Node.js handles concurrency.",
+    "order": 1
+  },
+  {
+    "id": "node-modules",
+    "subjectId": "nodejs",
+    "name": "Modules & npm",
+    "description": "CommonJS vs ESM, require caching, package.json, semantic versioning, and the npm ecosystem.",
+    "order": 2
+  },
+  {
+    "id": "async-event-loop",
+    "subjectId": "nodejs",
+    "name": "Async & Event Loop",
+    "description": "Event loop phases, timers, microtasks, callbacks, Promises, async/await, and concurrency patterns.",
+    "order": 3
+  },
+  {
+    "id": "node-core-modules",
+    "subjectId": "nodejs",
+    "name": "Core Modules",
+    "description": "Built-in modules: fs, path, http, crypto, Buffer, url, util, os, and more.",
+    "order": 4
+  },
+  {
+    "id": "node-express",
+    "subjectId": "nodejs",
+    "name": "Express.js",
+    "description": "Building REST APIs with Express: routing, middleware, error handling, and production patterns.",
+    "order": 5
+  },
+  {
+    "id": "node-streams-events",
+    "subjectId": "nodejs",
+    "name": "Streams & Events",
+    "description": "EventEmitter, readable/writable/transform streams, backpressure, and stream.pipeline().",
+    "order": 6
+  }
+]

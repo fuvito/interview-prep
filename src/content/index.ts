@@ -1,7 +1,7 @@
 import type { Subject, Topic, Question, UploadedSubjectPack } from '@/types'
 
-import subjectData from './subjects/typescript/subject.json'
-import topicsData from './subjects/typescript/topics.json'
+import tsSubjectData from './subjects/typescript/subject.json'
+import tsTopicsData from './subjects/typescript/topics.json'
 import tsBasicsData from './subjects/typescript/questions/ts-basics.json'
 import interfacesTypesData from './subjects/typescript/questions/interfaces-types.json'
 import functionsData from './subjects/typescript/questions/functions.json'
@@ -9,9 +9,24 @@ import genericsData from './subjects/typescript/questions/generics.json'
 import classesData from './subjects/typescript/questions/classes.json'
 import advancedTypesData from './subjects/typescript/questions/advanced-types.json'
 
-export const allSubjects: Subject[] = [subjectData as unknown as Subject]
+import nodeSubjectData from './subjects/nodejs/subject.json'
+import nodeTopicsData from './subjects/nodejs/topics.json'
+import nodeFundamentalsData from './subjects/nodejs/questions/node-fundamentals.json'
+import nodeModulesData from './subjects/nodejs/questions/node-modules.json'
+import asyncEventLoopData from './subjects/nodejs/questions/async-event-loop.json'
+import nodeCoreModulesData from './subjects/nodejs/questions/node-core-modules.json'
+import nodeExpressData from './subjects/nodejs/questions/node-express.json'
+import nodeStreamsEventsData from './subjects/nodejs/questions/node-streams-events.json'
 
-export const allTopics: Topic[] = topicsData as unknown as Topic[]
+export const allSubjects: Subject[] = [
+  tsSubjectData as unknown as Subject,
+  nodeSubjectData as unknown as Subject,
+]
+
+export const allTopics: Topic[] = [
+  ...(tsTopicsData as unknown as Topic[]),
+  ...(nodeTopicsData as unknown as Topic[]),
+]
 
 export const allQuestions: Question[] = [
   ...(tsBasicsData as unknown as Question[]),
@@ -20,6 +35,12 @@ export const allQuestions: Question[] = [
   ...(genericsData as unknown as Question[]),
   ...(classesData as unknown as Question[]),
   ...(advancedTypesData as unknown as Question[]),
+  ...(nodeFundamentalsData as unknown as Question[]),
+  ...(nodeModulesData as unknown as Question[]),
+  ...(asyncEventLoopData as unknown as Question[]),
+  ...(nodeCoreModulesData as unknown as Question[]),
+  ...(nodeExpressData as unknown as Question[]),
+  ...(nodeStreamsEventsData as unknown as Question[]),
 ]
 
 export function getSubjectById(id: string): Subject | undefined {

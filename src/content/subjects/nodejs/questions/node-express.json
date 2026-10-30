@@ -1,0 +1,440 @@
+[
+  {
+    "id": "node-express-001",
+    "subjectId": "nodejs",
+    "topicId": "node-express",
+    "type": "text",
+    "difficulty": "beginner",
+    "question": "What is Express.js and what problem does it solve over Node's built-in `http` module?",
+    "explanation": "**Express.js** is a minimal, unopinionated web framework for Node.js. It adds routing, middleware, and convenience helpers on top of Node's raw `http` module.\n\n**Without Express (raw http):**\n```javascript\nhttp.createServer((req, res) => {\n  // Manual URL parsing, method checking, body reading...\n  if (req.method === 'GET' && req.url === '/users') {\n    // manually read query strings, set headers, serialize JSON...\n  }\n})\n```\n\n**With Express:**\n```javascript\nimport express from 'express'\nconst app = express()\n\napp.use(express.json())\n\napp.get('/users', (req, res) => {\n  res.json(users) // automatic serialization + Content-Type\n})\n\napp.listen(3000)\n```\n\nExpress provides: routing (method + path), middleware pipeline, `req`/`res` helpers, error handling conventions, and a rich ecosystem of middleware (cors, helmet, multer, etc.).",
+    "keyConcepts": ["Express", "routing", "middleware", "request", "response"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-express-002",
+    "subjectId": "nodejs",
+    "topicId": "node-express",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is middleware in Express.js?",
+    "options": [
+      { "id": "a", "text": "A function that runs between two route handlers" },
+      { "id": "b", "text": "A function with signature `(req, res, next)` that has access to the request, response, and the next middleware function in the pipeline" },
+      { "id": "c", "text": "A configuration object passed to `app.use()`" },
+      { "id": "d", "text": "A module that connects Express to a database" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "Middleware is a function with signature `(req, res, next)` (or `(err, req, res, next)` for error handlers). It can:\n- Execute code\n- Modify `req` and `res`\n- End the request-response cycle\n- Call `next()` to pass control to the next middleware\n\n```javascript\n// Logger middleware\napp.use((req, res, next) => {\n  console.log(`${req.method} ${req.url}`)\n  next() // pass to next handler\n})\n\n// Auth middleware\napp.use('/api', (req, res, next) => {\n  if (!req.headers.authorization) {\n    return res.status(401).json({ error: 'Unauthorized' })\n  }\n  next()\n})\n```\n\nMiddleware runs in the order it is registered.",
+    "keyConcepts": ["middleware", "req", "res", "next", "pipeline"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-express-003",
+    "subjectId": "nodejs",
+    "topicId": "node-express",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is the difference between `app.use()` and `app.get()`?",
+    "options": [
+      { "id": "a", "text": "`app.use` handles only GET requests; `app.get` handles all methods" },
+      { "id": "b", "text": "`app.use` matches any HTTP method and any path that starts with the given prefix; `app.get` matches only GET requests at an exact path" },
+      { "id": "c", "text": "`app.get` is for routes; `app.use` is only for error handlers" },
+      { "id": "d", "text": "They are identical" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "- **`app.use(path, handler)`** — matches **any HTTP method** and any path that **starts with** `path`. Used for mounting middleware and routers.\n- **`app.get(path, handler)`** — matches only **GET** requests with an **exact** path (supports params).\n\n```javascript\napp.use('/api', authMiddleware)    // runs for GET/POST/DELETE /api/*\napp.get('/users', listUsers)      // only GET /users\napp.post('/users', createUser)    // only POST /users\napp.delete('/users/:id', deleteUser)\n\n// app.use without path = runs for ALL requests:\napp.use(express.json())\napp.use(morgan('tiny'))\n```",
+    "keyConcepts": ["app.use", "app.get", "HTTP methods", "path matching"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-express-004",
+    "subjectId": "nodejs",
+    "topicId": "node-express",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is the difference between `req.params`, `req.query`, and `req.body`?",
+    "options": [
+      { "id": "a", "text": "All three are different names for the same request data" },
+      { "id": "b", "text": "`req.params` = URL path parameters, `req.query` = query string values, `req.body` = request body (POST/PUT data)" },
+      { "id": "c", "text": "`req.body` = URL path parameters, `req.params` = query string, `req.query` = request body" },
+      { "id": "d", "text": "`req.query` is only available for GET requests" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "```javascript\n// Route: GET /users/:id?filter=active\n// URL: GET /users/123?filter=active\n// Body: { name: 'Alice' } (for POST)\n\napp.get('/users/:id', (req, res) => {\n  req.params.id      // '123'    — named URL segment\n  req.query.filter   // 'active' — after the ?\n})\n\napp.post('/users/:id', (req, res) => {\n  req.body.name      // 'Alice'  — JSON/form body\n  // requires express.json() or express.urlencoded() middleware\n})\n```\n\nAll values from `params` and `query` are **strings** — parse numbers/booleans explicitly.",
+    "keyConcepts": ["req.params", "req.query", "req.body", "URL parameters", "query string"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-express-005",
+    "subjectId": "nodejs",
+    "topicId": "node-express",
+    "type": "code",
+    "difficulty": "intermediate",
+    "question": "What is the correct signature for an Express error-handling middleware, and where must it be registered?",
+    "codeSnippet": "// Which of these is a valid Express error handler?\n\n// A:\napp.use((req, res, next) => { ... })\n\n// B:\napp.use((err, req, res, next) => {\n  res.status(500).json({ error: err.message })\n})\n\n// C:\napp.use((err) => { console.error(err) })\n\n// D:\napp.get('/error', (err, req, res, next) => { ... })",
+    "options": [
+      { "id": "a", "text": "A — standard middleware also handles errors" },
+      { "id": "b", "text": "B — error handlers have exactly 4 parameters; the first is the error" },
+      { "id": "c", "text": "C — a single-parameter handler for errors" },
+      { "id": "d", "text": "D — route-specific error handlers take 4 parameters" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "Express error handlers must have **exactly 4 parameters**: `(err, req, res, next)`. Express identifies them by arity.\n\n```javascript\n// ✓ Error handler — 4 params, registered LAST\napp.use((err, req, res, next) => {\n  console.error(err.stack)\n  res.status(err.status ?? 500).json({\n    error: err.message\n  })\n})\n```\n\n**Triggering it:**\n```javascript\napp.get('/users', async (req, res, next) => {\n  try {\n    const users = await getUsers()\n    res.json(users)\n  } catch (err) {\n    next(err) // passes error to the error handler\n  }\n})\n```\n\nError handlers must be registered **after** all routes and regular middleware.",
+    "keyConcepts": ["error handler", "4 parameters", "next(err)", "error middleware"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-express-006",
+    "subjectId": "nodejs",
+    "topicId": "node-express",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "Why does middleware order matter in Express?",
+    "options": [
+      { "id": "a", "text": "It doesn't — Express processes all middleware simultaneously" },
+      { "id": "b", "text": "Express runs middleware in the order it's registered; later middleware can't run if an earlier one doesn't call `next()`" },
+      { "id": "c", "text": "Route handlers run before all middleware regardless of order" },
+      { "id": "d", "text": "Error middleware always runs before route handlers" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "Express processes the middleware stack **in registration order**. Each middleware must either call `next()` (pass control) or send a response. If neither happens, the request hangs.\n\n```javascript\n// ✓ Correct order:\napp.use(express.json())    // 1. Parse body\napp.use(authMiddleware)    // 2. Authenticate\napp.get('/data', handler)  // 3. Handle request\napp.use(errorHandler)      // 4. Catch errors (must be last)\n\n// ✗ Wrong — auth runs BEFORE body is parsed:\napp.use(authMiddleware)\napp.use(express.json())\n// authMiddleware can't access req.body yet\n```\n\n**Common ordering pattern:**\n1. Request logging\n2. Body parsers (`express.json()`, `express.urlencoded()`)\n3. CORS headers\n4. Authentication/authorization\n5. Route handlers\n6. 404 handler\n7. Error handler",
+    "keyConcepts": ["middleware order", "next()", "request pipeline", "registration order"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-express-007",
+    "subjectId": "nodejs",
+    "topicId": "node-express",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What does `express.json()` middleware do?",
+    "options": [
+      { "id": "a", "text": "Automatically serializes route handler return values to JSON" },
+      { "id": "b", "text": "Parses incoming requests with a JSON body and populates `req.body`" },
+      { "id": "c", "text": "Validates that the request body is valid JSON and rejects invalid requests" },
+      { "id": "d", "text": "Sets the `Content-Type: application/json` header on all responses" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`express.json()` is a built-in middleware that reads the incoming request body, parses it as JSON, and attaches the result to `req.body`.\n\n```javascript\napp.use(express.json()) // must be registered before routes that use req.body\n\napp.post('/users', (req, res) => {\n  const { name, email } = req.body // available because of express.json()\n  // ...\n})\n```\n\nWithout it, `req.body` would be `undefined` for JSON requests. It only parses requests where `Content-Type: application/json`.\n\nFor URL-encoded forms (`Content-Type: application/x-www-form-urlencoded`), use `express.urlencoded({ extended: true })`.",
+    "keyConcepts": ["express.json", "body parser", "req.body", "Content-Type"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-express-008",
+    "subjectId": "nodejs",
+    "topicId": "node-express",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is the difference between `res.json()` and `res.send()`?",
+    "options": [
+      { "id": "a", "text": "`res.json()` is for objects; `res.send()` is for strings only" },
+      { "id": "b", "text": "`res.json()` serializes the value with `JSON.stringify` and sets `Content-Type: application/json`; `res.send()` infers the Content-Type from the value type" },
+      { "id": "c", "text": "They are identical — `res.json()` just calls `res.send()` with no difference" },
+      { "id": "d", "text": "`res.send()` buffers the response; `res.json()` streams it" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "- **`res.json(obj)`** — calls `JSON.stringify(obj)`, sets `Content-Type: application/json`, sends. Always use for API responses.\n- **`res.send(value)`** — infers the type: Buffer → `application/octet-stream`, string → `text/html`, object → calls `res.json()` internally.\n\n```javascript\nres.json({ user: 'Alice' })\n// Content-Type: application/json\n// Body: {\"user\":\"Alice\"}\n\nres.send('<h1>Hello</h1>')\n// Content-Type: text/html\n\nres.send(Buffer.from([1, 2, 3]))\n// Content-Type: application/octet-stream\n```\n\nFor REST APIs, always use `res.json()` — it's explicit and avoids Content-Type surprises.",
+    "keyConcepts": ["res.json", "res.send", "Content-Type", "API response"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-express-009",
+    "subjectId": "nodejs",
+    "topicId": "node-express",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is `express.Router()` and why is it useful?",
+    "options": [
+      { "id": "a", "text": "A load balancer that distributes requests across multiple Express app instances" },
+      { "id": "b", "text": "A mini Express app for organizing routes into modular, mountable groups" },
+      { "id": "c", "text": "A middleware that automatically parses route parameters" },
+      { "id": "d", "text": "A built-in reverse proxy for production deployments" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`express.Router()` creates a mini-app with its own route handlers and middleware, which can be mounted at a path prefix in the main app:\n\n```javascript\n// routes/users.js\nimport { Router } from 'express'\nconst router = Router()\n\nrouter.get('/', getUsers)          // GET /users\nrouter.post('/', createUser)       // POST /users\nrouter.get('/:id', getUserById)    // GET /users/:id\nrouter.put('/:id', updateUser)     // PUT /users/:id\nrouter.delete('/:id', deleteUser)  // DELETE /users/:id\n\nexport default router\n\n// app.js\nimport usersRouter from './routes/users.js'\napp.use('/users', usersRouter)\n```\n\nThis keeps the main `app.js` clean and organizes routes by resource.",
+    "keyConcepts": ["Router", "modular routes", "mounting", "route organization"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-express-010",
+    "subjectId": "nodejs",
+    "topicId": "node-express",
+    "type": "code",
+    "difficulty": "intermediate",
+    "question": "What is the problem with this async route handler, and how do you fix it?",
+    "codeSnippet": "app.get('/users/:id', async (req, res) => {\n  const user = await getUserFromDb(req.params.id)\n  res.json(user)\n})",
+    "options": [
+      { "id": "a", "text": "You can't use async functions as route handlers in Express" },
+      { "id": "b", "text": "If `getUserFromDb` throws, the error is an unhandled rejection — Express's error handler is never called" },
+      { "id": "c", "text": "The response must be sent before `await` completes" },
+      { "id": "d", "text": "There is no problem — Express 5 handles async errors automatically" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "In Express 4, if an async route handler throws (or the awaited Promise rejects), the error **does not reach** Express's error handler — it becomes an unhandled rejection.\n\n**Fix — wrap with try/catch and call `next(err)`:**\n```javascript\napp.get('/users/:id', async (req, res, next) => {\n  try {\n    const user = await getUserFromDb(req.params.id)\n    res.json(user)\n  } catch (err) {\n    next(err) // passes to error handler middleware\n  }\n})\n```\n\n**Alternative — async wrapper utility:**\n```javascript\nconst asyncRoute = (fn) => (req, res, next) =>\n  Promise.resolve(fn(req, res, next)).catch(next)\n\napp.get('/users/:id', asyncRoute(async (req, res) => {\n  const user = await getUserFromDb(req.params.id)\n  res.json(user)\n}))\n```\n\n**Express 5** (currently in beta) handles async errors automatically.",
+    "keyConcepts": ["async route handler", "unhandled rejection", "next(err)", "Express 5"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-express-011",
+    "subjectId": "nodejs",
+    "topicId": "node-express",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is CORS and how do you enable it in an Express app?",
+    "options": [
+      { "id": "a", "text": "Cross-Origin Resource Sharing — a browser security mechanism restricting cross-origin requests; enabled via response headers" },
+      { "id": "b", "text": "Content-Origin Request Security — enables HTTPS-only requests" },
+      { "id": "c", "text": "A firewall rule that blocks requests from unknown IP addresses" },
+      { "id": "d", "text": "A feature that compresses cross-origin responses" }
+    ],
+    "correctAnswers": ["a"],
+    "explanation": "**CORS** is a browser security feature that blocks JavaScript from making requests to a different origin (domain/port/scheme) unless the server explicitly allows it via response headers.\n\n**Quickest fix using the `cors` package:**\n```javascript\nimport cors from 'cors'\n\n// Allow all origins (not recommended for production APIs):\napp.use(cors())\n\n// Restrict to specific origins:\napp.use(cors({\n  origin: ['https://myapp.com', 'https://staging.myapp.com'],\n  methods: ['GET', 'POST', 'PUT', 'DELETE'],\n  credentials: true,\n}))\n```\n\nWithout the `cors` middleware, a browser making a fetch to your API from a different domain will get a CORS error. Note: CORS is enforced by the **browser** — curl and Postman are not affected.",
+    "keyConcepts": ["CORS", "cross-origin", "Access-Control-Allow-Origin", "browser security"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-express-012",
+    "subjectId": "nodejs",
+    "topicId": "node-express",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does the `helmet` middleware do?",
+    "options": [
+      { "id": "a", "text": "Provides authentication middleware with JWT validation" },
+      { "id": "b", "text": "Sets various HTTP security headers to protect against common web vulnerabilities" },
+      { "id": "c", "text": "Encrypts the request body using TLS" },
+      { "id": "d", "text": "Provides rate limiting to prevent DDoS attacks" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`helmet` sets several HTTP security headers:\n\n```javascript\nimport helmet from 'helmet'\napp.use(helmet()) // apply all defaults\n```\n\nHeaders it sets (among others):\n| Header | Protects against |\n|---|---|\n| `Content-Security-Policy` | XSS, data injection |\n| `X-Frame-Options` | Clickjacking |\n| `Strict-Transport-Security` | Protocol downgrade, cookie hijacking |\n| `X-Content-Type-Options` | MIME type sniffing |\n| `Referrer-Policy` | Information leakage |\n\nIt's a quick security win — add it early in the middleware stack for every production Express app.",
+    "keyConcepts": ["helmet", "security headers", "CSP", "X-Frame-Options", "HSTS"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-express-013",
+    "subjectId": "nodejs",
+    "topicId": "node-express",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "How do you serve static files (HTML, CSS, JS, images) with Express?",
+    "options": [
+      { "id": "a", "text": "Use `app.file('/path/to/dir')` to mount a directory" },
+      { "id": "b", "text": "Use `express.static(directory)` middleware" },
+      { "id": "c", "text": "Static files must be served by a separate web server like Nginx" },
+      { "id": "d", "text": "Use `res.sendDirectory(path)` in each route handler" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`express.static(root, options)` is built-in middleware that serves files from a directory:\n\n```javascript\n// Serve files from the 'public' directory\napp.use(express.static('public'))\n// GET /index.html → public/index.html\n// GET /css/main.css → public/css/main.css\n\n// With a virtual path prefix:\napp.use('/static', express.static('public'))\n// GET /static/logo.png → public/logo.png\n\n// Options:\napp.use(express.static('public', {\n  maxAge: '1d',     // Cache-Control: max-age=86400\n  etag: true,       // ETag support\n  index: 'index.html'\n}))\n```\n\nIn production, it's better to serve static files via Nginx or a CDN — they're more efficient at it than Node.js.",
+    "keyConcepts": ["express.static", "static files", "serving assets", "public directory"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "node-express-014",
+    "subjectId": "nodejs",
+    "topicId": "node-express",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "Which HTTP status codes should you return for these REST API scenarios: successful creation, resource not found, and validation error?",
+    "options": [
+      { "id": "a", "text": "200 for all success, 404 for not found, 400 for errors" },
+      { "id": "b", "text": "201 for creation, 404 for not found, 422 (or 400) for validation errors" },
+      { "id": "c", "text": "200 for creation, 204 for not found, 500 for validation errors" },
+      { "id": "d", "text": "201 for creation, 204 for not found, 400 for all errors" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "Common REST status codes:\n\n| Code | Meaning | Use case |\n|---|---|---|\n| 200 | OK | GET, PUT success |\n| 201 | Created | POST that creates a resource |\n| 204 | No Content | DELETE success, no body |\n| 400 | Bad Request | Invalid request syntax/format |\n| 401 | Unauthorized | Authentication required |\n| 403 | Forbidden | Authenticated but not authorized |\n| 404 | Not Found | Resource doesn't exist |\n| 409 | Conflict | Duplicate resource |\n| 422 | Unprocessable Entity | Validation error on valid JSON |\n| 500 | Internal Server Error | Unexpected server error |\n\n```javascript\napp.post('/users', async (req, res, next) => {\n  try {\n    const user = await createUser(req.body)\n    res.status(201).json(user)    // 201 Created\n  } catch (err) {\n    if (err.code === 'VALIDATION') res.status(422).json({ errors: err.details })\n    else next(err)\n  }\n})\n```",
+    "keyConcepts": ["HTTP status codes", "201", "404", "422", "400", "REST"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-express-015",
+    "subjectId": "nodejs",
+    "topicId": "node-express",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is rate limiting and how do you implement it in Express?",
+    "options": [
+      { "id": "a", "text": "Limiting the size of request bodies; use `express.json({ limit: '10kb' })`" },
+      { "id": "b", "text": "Limiting the number of requests a client can make in a time window; typically via the `express-rate-limit` package" },
+      { "id": "c", "text": "Limiting database query time to prevent slow queries" },
+      { "id": "d", "text": "Compressing responses to reduce bandwidth usage" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "Rate limiting prevents abuse by restricting how many requests a client (by IP) can make in a time window:\n\n```javascript\nimport rateLimit from 'express-rate-limit'\n\n// General API limit\nconst apiLimiter = rateLimit({\n  windowMs: 15 * 60 * 1000, // 15 minutes\n  max: 100,                  // 100 requests per window per IP\n  standardHeaders: true,     // Return rate limit info in headers\n  legacyHeaders: false,\n  message: 'Too many requests, please try again later.'\n})\n\n// Stricter limit for auth endpoints\nconst authLimiter = rateLimit({\n  windowMs: 60 * 1000, // 1 minute\n  max: 5               // 5 login attempts per minute\n})\n\napp.use('/api', apiLimiter)\napp.use('/auth/login', authLimiter)\n```",
+    "keyConcepts": ["rate limiting", "express-rate-limit", "DDoS protection", "429"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-express-016",
+    "subjectId": "nodejs",
+    "topicId": "node-express",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is the difference between `app.locals` and `res.locals` in Express?",
+    "options": [
+      { "id": "a", "text": "`app.locals` is for JSON data; `res.locals` is for HTML templates" },
+      { "id": "b", "text": "`app.locals` is available for the app's lifetime; `res.locals` is available only for the current request/response cycle" },
+      { "id": "c", "text": "`res.locals` is available to all requests; `app.locals` is specific to one route" },
+      { "id": "d", "text": "They are identical — both are scoped to the current request" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "- **`app.locals`** — properties set here are available throughout the **application's lifetime**. Good for app-wide settings.\n- **`res.locals`** — properties set here are available for the **current request-response cycle** only. Reset with each request.\n\n```javascript\n// app.locals — app-wide constants\napp.locals.appName = 'MyApp'\napp.locals.version = '1.0.0'\n\n// res.locals — per-request data set by middleware\napp.use((req, res, next) => {\n  res.locals.requestId = crypto.randomUUID()\n  res.locals.startTime = Date.now()\n  next()\n})\n\n// Later middleware / routes can read res.locals:\napp.get('/data', (req, res) => {\n  console.log(res.locals.requestId)\n  res.json(data)\n})\n```",
+    "keyConcepts": ["app.locals", "res.locals", "request scope", "app scope"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "node-express-017",
+    "subjectId": "nodejs",
+    "topicId": "node-express",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does `next('route')` do in Express, and how is it different from `next()`?",
+    "options": [
+      { "id": "a", "text": "`next('route')` skips to the error handler; `next()` goes to the next middleware" },
+      { "id": "b", "text": "`next('route')` skips remaining handlers for the current route and moves to the next matching route; `next()` passes to the next handler in the current route stack" },
+      { "id": "c", "text": "They are identical — `next('route')` is just an alias" },
+      { "id": "d", "text": "`next('route')` calls the next route handler by name" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "In a route with multiple handlers, `next()` moves to the next handler in the **current route's stack**, while `next('route')` skips the rest of that route's handlers and moves to the **next matching route**:\n\n```javascript\n// Two handlers on the same route:\napp.get('/users/:id',\n  async (req, res, next) => {\n    // If ID is 'me', hand off to the next matching route\n    if (req.params.id === 'me') return next('route')\n    const user = await getUser(req.params.id)\n    res.json(user)\n  },\n  (req, res) => { // This handler is skipped if next('route') was called\n    res.status(404).json({ error: 'Not found' })\n  }\n)\n\n// This route handles the 'me' case:\napp.get('/users/me', getCurrentUser)\n```",
+    "keyConcepts": ["next('route')", "next()", "route handlers", "middleware chaining"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "node-express-018",
+    "subjectId": "nodejs",
+    "topicId": "node-express",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "How should you validate and sanitize request input in an Express app?",
+    "options": [
+      { "id": "a", "text": "Use `if/else` checks in each route handler" },
+      { "id": "b", "text": "Use a validation library like `zod`, `joi`, or `express-validator` as middleware" },
+      { "id": "c", "text": "Trust all input from the client — validation is done at the database level" },
+      { "id": "d", "text": "Use `JSON.parse()` with a try/catch to validate JSON bodies" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "Inline validation in route handlers is fragile and repetitive. Use a dedicated library:\n\n**With `zod` (TypeScript-friendly):**\n```javascript\nimport { z } from 'zod'\n\nconst CreateUserSchema = z.object({\n  name: z.string().min(1).max(100),\n  email: z.string().email(),\n  age: z.number().int().min(0).optional(),\n})\n\napp.post('/users', (req, res, next) => {\n  const result = CreateUserSchema.safeParse(req.body)\n  if (!result.success) {\n    return res.status(422).json({ errors: result.error.flatten() })\n  }\n  const data = result.data // fully typed and validated\n  // ... create user\n})\n```\n\nAlso sanitize: strip HTML (`sanitize-html`), normalize emails, trim strings.",
+    "keyConcepts": ["validation", "zod", "joi", "express-validator", "sanitization", "422"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-express-019",
+    "subjectId": "nodejs",
+    "topicId": "node-express",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "How do you implement API versioning in Express?",
+    "options": [
+      { "id": "a", "text": "API versioning is automatic in Express based on Accept headers" },
+      { "id": "b", "text": "Mount versioned routers at path prefixes like `/v1`, `/v2`, or use Accept-Version headers" },
+      { "id": "c", "text": "Use separate Express apps and run them on different ports" },
+      { "id": "d", "text": "Express doesn't support API versioning — use a reverse proxy like Nginx" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "Common approaches:\n\n**URL path versioning (most common):**\n```javascript\nimport v1Router from './routes/v1/index.js'\nimport v2Router from './routes/v2/index.js'\n\napp.use('/api/v1', v1Router)\napp.use('/api/v2', v2Router)\n// GET /api/v1/users  — uses v1 handler\n// GET /api/v2/users  — uses v2 handler\n```\n\n**Header versioning:**\n```javascript\napp.use('/api/users', (req, res, next) => {\n  const version = req.headers['api-version'] ?? '1'\n  if (version === '2') return v2Handler(req, res, next)\n  v1Handler(req, res, next)\n})\n```\n\nURL versioning is preferred for REST APIs — it's explicit, cacheable, and easy to test in a browser.",
+    "keyConcepts": ["API versioning", "URL versioning", "router mounting", "v1/v2"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "node-express-020",
+    "subjectId": "nodejs",
+    "topicId": "node-express",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the purpose of `res.status()` and can it be chained?",
+    "options": [
+      { "id": "a", "text": "`res.status()` sends the response with only a status code — it cannot be chained" },
+      { "id": "b", "text": "`res.status()` sets the HTTP status code and returns `res`, so it can be chained with `res.json()`, `res.send()`, etc." },
+      { "id": "c", "text": "`res.status()` sets a global status code for all subsequent responses" },
+      { "id": "d", "text": "`res.status()` is only needed for error responses — 200 is the default and doesn't need to be set" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`res.status(code)` sets the HTTP status code and returns `res` for chaining:\n\n```javascript\n// Chained — most common pattern:\nres.status(201).json({ id: newUser.id, name: newUser.name })\nres.status(404).json({ error: 'User not found' })\nres.status(204).send() // No Content\n\n// Equivalent without chaining:\nres.statusCode = 404\nres.json({ error: 'Not found' })\n```\n\nNote: calling `res.status()` alone does NOT send the response — you must also call `res.json()`, `res.send()`, `res.end()`, etc.",
+    "keyConcepts": ["res.status", "method chaining", "HTTP status code", "res.json"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "node-express-021",
+    "subjectId": "nodejs",
+    "topicId": "node-express",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is the risk of not calling `next()` or sending a response in an Express middleware?",
+    "options": [
+      { "id": "a", "text": "Express throws an error and moves to the error handler" },
+      { "id": "b", "text": "The request hangs indefinitely — the client never receives a response and the connection stays open" },
+      { "id": "c", "text": "Express automatically sends a 200 OK after 30 seconds" },
+      { "id": "d", "text": "The next middleware in the stack is skipped" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "If middleware neither calls `next()` nor sends a response, the request **hangs forever** — the client waits indefinitely until it times out.\n\n```javascript\n// ✗ Dangerous — hangs if condition is not met:\napp.use((req, res, next) => {\n  if (req.user) next() // what if req.user is falsy?\n  // No else clause — request hangs!\n})\n\n// ✓ Always handle the else case:\napp.use((req, res, next) => {\n  if (req.user) {\n    next()\n  } else {\n    res.status(401).json({ error: 'Unauthorized' })\n  }\n})\n```\n\nThis is a common source of **memory leaks** in Express — hanging requests keep sockets open. Monitor with request timeout middleware or set `server.timeout`.",
+    "keyConcepts": ["hanging request", "next()", "middleware", "memory leak", "request timeout"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-express-022",
+    "subjectId": "nodejs",
+    "topicId": "node-express",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "How do you implement request logging in Express for production?",
+    "options": [
+      { "id": "a", "text": "Use `console.log(req.url)` in every route handler" },
+      { "id": "b", "text": "Use a structured logging library like `pino` or `winston` with the `morgan` HTTP logger middleware" },
+      { "id": "c", "text": "Use `app.use(console.log)` to automatically log all requests" },
+      { "id": "d", "text": "Request logging is handled by the reverse proxy — never log in the Node.js app" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "**`morgan`** is the standard HTTP request logger for Express:\n\n```javascript\nimport morgan from 'morgan'\nimport pino from 'pino'\n\nconst logger = pino()\n\n// Development:\napp.use(morgan('dev')) // colored, concise\n\n// Production (JSON logs for log aggregators):\napp.use(morgan('combined', {\n  stream: { write: (msg) => logger.info(msg.trim()) }\n}))\n```\n\n**Why structured logging (`pino`, `winston`):**\n- JSON output — parseable by Datadog, Grafana, CloudWatch\n- Log levels (info, warn, error, debug)\n- Child loggers with request context\n- Better performance than `console.log` (pino is ~5-8x faster)\n\nAlways include: timestamp, request ID, method, path, status, duration.",
+    "keyConcepts": ["morgan", "pino", "winston", "request logging", "structured logging"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "node-express-023",
+    "subjectId": "nodejs",
+    "topicId": "node-express",
+    "type": "text",
+    "difficulty": "intermediate",
+    "question": "What are the REST conventions for designing a users resource API? Give example routes.",
+    "explanation": "**REST** (Representational State Transfer) uses standard HTTP methods to perform CRUD operations on resources. For a `users` resource:\n\n| Method | Path | Action | Status |\n|---|---|---|---|\n| GET | `/users` | List all users | 200 |\n| POST | `/users` | Create a new user | 201 |\n| GET | `/users/:id` | Get a specific user | 200/404 |\n| PUT | `/users/:id` | Replace a user | 200 |\n| PATCH | `/users/:id` | Update fields | 200 |\n| DELETE | `/users/:id` | Delete a user | 204/200 |\n\n**Nested resources:**\n```\nGET  /users/:id/posts        — user's posts\nPOST /users/:id/posts        — create post for user\n```\n\n**Key conventions:**\n- Resources are **nouns**, not verbs (`/users` not `/getUsers`)\n- Use plural nouns (`/users` not `/user`)\n- Return appropriate status codes\n- Paginate collection endpoints: `GET /users?page=1&limit=20`\n- Filter/sort: `GET /users?role=admin&sort=createdAt`",
+    "keyConcepts": ["REST", "CRUD", "HTTP methods", "URL design", "status codes"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-express-024",
+    "subjectId": "nodejs",
+    "topicId": "node-express",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "How do you gracefully shut down an Express server?",
+    "options": [
+      { "id": "a", "text": "Call `process.exit(0)` inside a SIGTERM handler" },
+      { "id": "b", "text": "Call `server.close()` to stop accepting new connections, then wait for existing connections to finish before exiting" },
+      { "id": "c", "text": "Use `app.close()` which is provided by Express" },
+      { "id": "d", "text": "Graceful shutdown is not possible in Node.js — use a reverse proxy" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "A **graceful shutdown** stops accepting new connections but waits for in-flight requests to complete:\n\n```javascript\nconst server = app.listen(3000)\n\nprocess.on('SIGTERM', () => {\n  console.log('SIGTERM received — shutting down gracefully')\n  server.close(() => {\n    // All existing connections have finished\n    db.destroy() // close DB pool\n    console.log('Server closed')\n    process.exit(0)\n  })\n\n  // Force exit after 30s if connections don't close\n  setTimeout(() => {\n    console.error('Forced shutdown')\n    process.exit(1)\n  }, 30_000)\n})\n```\n\nKubernetes sends SIGTERM before killing a pod. Without graceful shutdown, in-flight requests get killed mid-response. The `http-terminator` library handles keep-alive connections that `server.close()` doesn't close automatically.",
+    "keyConcepts": ["graceful shutdown", "SIGTERM", "server.close", "in-flight requests"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-express-025",
+    "subjectId": "nodejs",
+    "topicId": "node-express",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What are common Express security best practices for a production API?",
+    "options": [
+      { "id": "a", "text": "Use HTTPS, disable the X-Powered-By header, validate input, use helmet, rate limit" },
+      { "id": "b", "text": "Only HTTPS is required — Express handles all other security concerns automatically" },
+      { "id": "c", "text": "Use CORS only — it protects against all common attacks" },
+      { "id": "d", "text": "Security is handled by the load balancer — no changes needed in Express" }
+    ],
+    "correctAnswers": ["a"],
+    "explanation": "**Production Express security checklist:**\n\n```javascript\n// 1. Security headers\napp.use(helmet())\n\n// 2. Remove fingerprinting\napp.disable('x-powered-by') // (helmet does this too)\n\n// 3. Limit body size (prevent large payload attacks)\napp.use(express.json({ limit: '10kb' }))\n\n// 4. CORS — restrict origins\napp.use(cors({ origin: process.env.ALLOWED_ORIGINS?.split(',') }))\n\n// 5. Rate limiting\napp.use(rateLimit({ windowMs: 15 * 60 * 1000, max: 100 }))\n\n// 6. Input validation (zod/joi)\n// 7. Parameterized queries (prevent SQL injection)\n// 8. No secret in logs — filter req.body.password\n// 9. HTTPS (TLS termination at load balancer/nginx)\n// 10. Keep dependencies updated (npm audit)\n```",
+    "keyConcepts": ["security", "helmet", "CORS", "rate limiting", "input validation", "x-powered-by"],
+    "commonInterviewQuestion": true
+  }
+]

@@ -1,0 +1,435 @@
+[
+  {
+    "id": "async-event-loop-001",
+    "subjectId": "nodejs",
+    "topicId": "async-event-loop",
+    "type": "text",
+    "difficulty": "beginner",
+    "question": "What is the Node.js event loop and why is it important?",
+    "explanation": "The **event loop** is the mechanism that allows Node.js to perform non-blocking I/O operations despite running on a single thread. It continuously checks for completed asynchronous operations and runs their callbacks.\n\n**How it works:**\n1. Your code runs synchronously\n2. When it encounters async operations (file reads, network calls), they are delegated to the OS or libuv thread pool\n3. When those operations complete, their callbacks are placed in a queue\n4. The event loop picks up callbacks from the queue and executes them\n\nThis is why Node.js can handle thousands of concurrent connections — it's never waiting idle; it's always processing the next available callback.\n\n**The golden rule:** never block the event loop with synchronous CPU-heavy work, or all pending requests will stall.",
+    "keyConcepts": ["event loop", "non-blocking I/O", "callbacks", "concurrency"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "async-event-loop-002",
+    "subjectId": "nodejs",
+    "topicId": "async-event-loop",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "Why does `setTimeout(fn, 0)` not execute immediately after the current synchronous code in all cases?",
+    "options": [
+      { "id": "a", "text": "There's a minimum delay of 1ms enforced by the OS timer resolution" },
+      { "id": "b", "text": "setTimeout callbacks run in the timers phase of the event loop, which comes after the nextTick queue and Promise microtasks" },
+      { "id": "c", "text": "`setTimeout(fn, 0)` is identical to `setImmediate(fn)` — they always run at the same time" },
+      { "id": "d", "text": "The 0ms timer is queued only after all network I/O is processed" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "Even with a 0ms delay, `setTimeout` callbacks don't run until the **timers phase** of the event loop — after all synchronous code, `process.nextTick`, and Promise microtasks have been drained.\n\n```javascript\nconsole.log('1 sync')\nsetTimeout(() => console.log('4 timeout'), 0)\nprocess.nextTick(() => console.log('2 nextTick'))\nPromise.resolve().then(() => console.log('3 promise'))\n// Output: 1, 2, 3, 4\n```\n\nAlso, the Node.js spec allows a minimum timer delay — `setTimeout(fn, 0)` may actually fire after 1ms or more depending on the platform.",
+    "keyConcepts": ["setTimeout", "timers phase", "event loop", "0ms delay"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "async-event-loop-003",
+    "subjectId": "nodejs",
+    "topicId": "async-event-loop",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the microtask queue and what goes into it?",
+    "options": [
+      { "id": "a", "text": "A queue for very small, fast I/O operations" },
+      { "id": "b", "text": "A queue for Promise `.then()`/`.catch()` callbacks and `queueMicrotask()` calls, drained before each event loop phase" },
+      { "id": "c", "text": "A queue equivalent to the nextTick queue — both hold the same callbacks" },
+      { "id": "d", "text": "A queue for `setImmediate()` callbacks" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "The **microtask queue** holds:\n- Promise `.then()`, `.catch()`, `.finally()` callbacks\n- `queueMicrotask()` callbacks\n- `async/await` continuations (which compile to Promises)\n\nThe microtask queue is **drained completely** after each macro-task and between each event loop phase — before the event loop moves on.\n\nOrder of priority:\n1. `process.nextTick` (drained first — before microtasks)\n2. Microtask queue (Promises)\n3. Event loop phases (timers, I/O, check, etc.)\n\n```javascript\nPromise.resolve().then(() => console.log('microtask'))\nprocess.nextTick(() => console.log('nextTick'))\n// Output: nextTick, microtask\n```",
+    "keyConcepts": ["microtask queue", "Promise", "queueMicrotask", "event loop"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "async-event-loop-004",
+    "subjectId": "nodejs",
+    "topicId": "async-event-loop",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What are the three states of a Promise?",
+    "options": [
+      { "id": "a", "text": "loading, resolved, rejected" },
+      { "id": "b", "text": "pending, fulfilled, rejected" },
+      { "id": "c", "text": "waiting, complete, failed" },
+      { "id": "d", "text": "pending, resolved, errored" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "A Promise can be in one of three states:\n\n1. **Pending** — initial state; neither fulfilled nor rejected\n2. **Fulfilled** — operation completed successfully; `.then()` handlers receive the value\n3. **Rejected** — operation failed; `.catch()` handlers receive the reason\n\nOnce a Promise moves from pending to either fulfilled or rejected it is **settled** and its state cannot change.\n\n```javascript\nconst p = new Promise((resolve, reject) => {\n  // call resolve(value) to fulfill\n  // call reject(reason) to reject\n})\n```",
+    "keyConcepts": ["Promise", "pending", "fulfilled", "rejected", "settled"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "async-event-loop-005",
+    "subjectId": "nodejs",
+    "topicId": "async-event-loop",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the difference between `Promise.all()` and `Promise.allSettled()`?",
+    "options": [
+      { "id": "a", "text": "`Promise.all` waits for all to fulfill or any to reject; `Promise.allSettled` waits for all to settle regardless of outcome" },
+      { "id": "b", "text": "`Promise.allSettled` short-circuits on the first rejection; `Promise.all` waits for all" },
+      { "id": "c", "text": "They are identical — both return arrays of results" },
+      { "id": "d", "text": "`Promise.all` returns an array; `Promise.allSettled` returns a single combined value" }
+    ],
+    "correctAnswers": ["a"],
+    "explanation": "- **`Promise.all(promises)`** — resolves when **all** fulfill, **rejects immediately** if any one rejects (fail-fast). Returns an array of fulfilled values.\n- **`Promise.allSettled(promises)`** — waits for **all** to settle (fulfill or reject), **never rejects**. Returns an array of `{status, value/reason}` objects.\n\n```javascript\n// Promise.all — fails if any rejects\nconst [user, posts] = await Promise.all([getUser(), getPosts()])\n\n// Promise.allSettled — reports each outcome\nconst results = await Promise.allSettled([p1, p2, p3])\nresults.forEach((r) => {\n  if (r.status === 'fulfilled') console.log(r.value)\n  else console.error(r.reason)\n})\n```",
+    "keyConcepts": ["Promise.all", "Promise.allSettled", "fail-fast", "concurrent"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "async-event-loop-006",
+    "subjectId": "nodejs",
+    "topicId": "async-event-loop",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the difference between `Promise.race()` and `Promise.any()`?",
+    "options": [
+      { "id": "a", "text": "`Promise.race` resolves with the first fulfillment; `Promise.any` resolves with the fastest value" },
+      { "id": "b", "text": "`Promise.race` settles with the first settled (fulfill or reject); `Promise.any` settles with the first fulfillment, ignoring rejections" },
+      { "id": "c", "text": "They are identical" },
+      { "id": "d", "text": "`Promise.any` rejects immediately on first rejection; `Promise.race` ignores rejections" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "- **`Promise.race(promises)`** — settles with the **first settled** promise, whether that's a fulfillment or rejection.\n- **`Promise.any(promises)`** — settles with the **first fulfilled** promise, ignoring rejections. Only rejects if **all** promises reject (with `AggregateError`).\n\n```javascript\n// race — first to settle wins (could be a rejection)\nconst result = await Promise.race([fastApi(), slowApi(), timeout()])\n\n// any — first SUCCESS wins\nconst fastest = await Promise.any([server1(), server2(), server3()])\n// If all reject: throws AggregateError\n```\n\n`Promise.any` is useful for \"first available\" patterns where you want to ignore temporary failures.",
+    "keyConcepts": ["Promise.race", "Promise.any", "AggregateError", "first settled"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "async-event-loop-007",
+    "subjectId": "nodejs",
+    "topicId": "async-event-loop",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What does `async/await` do under the hood?",
+    "options": [
+      { "id": "a", "text": "It creates native OS threads for each `await` expression" },
+      { "id": "b", "text": "`async` functions return a Promise; `await` pauses the function and schedules the rest as a microtask when the awaited Promise settles" },
+      { "id": "c", "text": "It converts asynchronous code to synchronous code by blocking the event loop" },
+      { "id": "d", "text": "`await` runs the expression in libuv's thread pool" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`async/await` is syntactic sugar over Promises:\n\n- **`async function`** — always returns a Promise (wraps non-Promise return values automatically)\n- **`await expr`** — pauses the function until `expr` settles, then resumes with the value. The rest of the function is scheduled as a microtask.\n\n```javascript\n// This:\nasync function fetchUser(id) {\n  const res = await fetch(`/users/${id}`)\n  return res.json()\n}\n\n// Is roughly equivalent to:\nfunction fetchUser(id) {\n  return fetch(`/users/${id}`).then((res) => res.json())\n}\n```\n\nThe event loop is **not blocked** — while awaiting, other callbacks can run.",
+    "keyConcepts": ["async", "await", "Promise", "microtask", "syntactic sugar"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "async-event-loop-008",
+    "subjectId": "nodejs",
+    "topicId": "async-event-loop",
+    "type": "code",
+    "difficulty": "intermediate",
+    "question": "What does this async error handling code log?",
+    "codeSnippet": "async function fail() {\n  throw new Error('oops')\n}\n\nasync function main() {\n  try {\n    await fail()\n    console.log('success')\n  } catch (err) {\n    console.log('caught:', err.message)\n  }\n}\n\nvoid main()",
+    "options": [
+      { "id": "a", "text": "success" },
+      { "id": "b", "text": "caught: oops" },
+      { "id": "c", "text": "Unhandled promise rejection" },
+      { "id": "d", "text": "Nothing — the error is swallowed" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`try/catch` in an `async` function catches both synchronous throws and rejected Promises from `await`.\n\n`throw new Error('oops')` inside an `async` function causes the returned Promise to reject. `await fail()` then re-throws that rejection in the calling async function, where `try/catch` captures it.\n\n```javascript\n// These are equivalent:\nasync function fn() {\n  try { await riskyOp() } catch (e) { ... }\n}\n\n// ↕ same as:\nfunction fn() {\n  return riskyOp().catch((e) => { ... })\n}\n```",
+    "keyConcepts": ["async/await", "try/catch", "error handling", "rejected Promise"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "async-event-loop-009",
+    "subjectId": "nodejs",
+    "topicId": "async-event-loop",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is the 'error-first callback' pattern in Node.js?",
+    "options": [
+      { "id": "a", "text": "A callback that is called only when an error occurs, not on success" },
+      { "id": "b", "text": "A callback where the first argument is an error (or null on success) and subsequent arguments are results" },
+      { "id": "c", "text": "A try/catch wrapper that converts synchronous errors to callbacks" },
+      { "id": "d", "text": "A callback that throws errors instead of returning them" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "The **error-first callback** (also called 'Node.js callback convention') is a pattern where:\n- **First argument** — an `Error` object if something went wrong, or `null`/`undefined` on success\n- **Subsequent arguments** — the result values on success\n\n```javascript\nfs.readFile('./data.json', 'utf8', (err, data) => {\n  if (err) {\n    console.error('Read failed:', err)\n    return\n  }\n  console.log('Data:', data)\n})\n```\n\nAlways check `err` first before using the result. `util.promisify()` converts error-first callbacks to Promises.",
+    "keyConcepts": ["error-first callback", "callback convention", "null error", "util.promisify"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "async-event-loop-010",
+    "subjectId": "nodejs",
+    "topicId": "async-event-loop",
+    "type": "text",
+    "difficulty": "beginner",
+    "question": "What is callback hell and how do Promises and async/await solve it?",
+    "explanation": "**Callback hell** (also called the 'pyramid of doom') occurs when multiple asynchronous operations are nested inside each other's callbacks, making code hard to read and maintain:\n\n```javascript\n// Callback hell\ngetUser(id, (err, user) => {\n  if (err) return handleError(err)\n  getPosts(user.id, (err, posts) => {\n    if (err) return handleError(err)\n    getComments(posts[0].id, (err, comments) => {\n      if (err) return handleError(err)\n      // deeply nested...\n    })\n  })\n})\n```\n\n**Promises** flatten the nesting:\n```javascript\ngetUser(id)\n  .then((user) => getPosts(user.id))\n  .then((posts) => getComments(posts[0].id))\n  .catch(handleError)\n```\n\n**async/await** makes it read like synchronous code:\n```javascript\ntry {\n  const user = await getUser(id)\n  const posts = await getPosts(user.id)\n  const comments = await getComments(posts[0].id)\n} catch (err) {\n  handleError(err)\n}\n```",
+    "keyConcepts": ["callback hell", "pyramid of doom", "Promises", "async/await", "readability"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "async-event-loop-011",
+    "subjectId": "nodejs",
+    "topicId": "async-event-loop",
+    "type": "code",
+    "difficulty": "intermediate",
+    "question": "What is the difference between these two approaches — which is faster?",
+    "codeSnippet": "// Approach A — sequential\nasync function sequential() {\n  const a = await fetchA()\n  const b = await fetchB()\n  return [a, b]\n}\n\n// Approach B — concurrent\nasync function concurrent() {\n  const [a, b] = await Promise.all([fetchA(), fetchB()])\n  return [a, b]\n}\n",
+    "options": [
+      { "id": "a", "text": "They are identical — `await` always runs operations in parallel" },
+      { "id": "b", "text": "Approach B is faster: `Promise.all` starts both fetches simultaneously; Approach A starts B only after A finishes" },
+      { "id": "c", "text": "Approach A is faster because it avoids the overhead of `Promise.all`" },
+      { "id": "d", "text": "Approach A is safer and faster because it avoids race conditions" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "**Approach A (sequential):** `fetchB()` doesn't start until `fetchA()` completes. Total time ≈ time(A) + time(B).\n\n**Approach B (concurrent):** both requests start at the same time. Total time ≈ max(time(A), time(B)).\n\nIf each request takes 100ms, sequential takes ~200ms; concurrent takes ~100ms.\n\n**Rule of thumb:** use `Promise.all` when operations are **independent**. Use sequential `await` when one depends on the other:\n\n```javascript\n// Sequential when dependent:\nconst user = await getUser(id)\nconst posts = await getPostsFor(user.id) // needs user first\n```",
+    "keyConcepts": ["sequential vs concurrent", "Promise.all", "async/await", "performance"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "async-event-loop-012",
+    "subjectId": "nodejs",
+    "topicId": "async-event-loop",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does `util.promisify()` do?",
+    "options": [
+      { "id": "a", "text": "Converts a Promise into a callback-style function" },
+      { "id": "b", "text": "Wraps a Node.js error-first callback function to return a Promise instead" },
+      { "id": "c", "text": "Makes any function run asynchronously using the thread pool" },
+      { "id": "d", "text": "Converts async/await code to Promise chains" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`util.promisify()` takes a Node.js-style error-first callback function and returns a Promise-returning version:\n\n```javascript\nimport { promisify } from 'util'\nimport { readFile } from 'fs'\n\nconst readFileAsync = promisify(readFile)\n\n// Now use with async/await:\nconst data = await readFileAsync('./data.json', 'utf8')\n```\n\nNote: `fs.promises` and most modern Node.js modules already expose Promise APIs directly, so `promisify` is mainly needed for older or third-party callback APIs.\n\nSome functions have a built-in promisified version accessible via `fn[util.promisify.custom]`.",
+    "keyConcepts": ["util.promisify", "error-first callback", "Promise", "fs.promises"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "async-event-loop-013",
+    "subjectId": "nodejs",
+    "topicId": "async-event-loop",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "How should you handle errors in an async `forEach` loop?",
+    "options": [
+      { "id": "a", "text": "Wrap the `forEach` in a `try/catch` — it propagates async errors automatically" },
+      { "id": "b", "text": "Use `for...of` with `await` inside `try/catch`, or `Promise.all` with mapped async functions" },
+      { "id": "c", "text": "Use `.map()` instead — it handles async errors correctly" },
+      { "id": "d", "text": "Async functions cannot be used inside any loop construct" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`Array.prototype.forEach` does not understand Promises — it fires all async callbacks but ignores their results and doesn't wait for them:\n\n```javascript\n// ✗ BROKEN — errors are not caught, forEach doesn't await\ntry {\n  items.forEach(async (item) => {\n    await processItem(item) // errors lost!\n  })\n} catch (e) { /* never triggered */ }\n\n// ✓ for...of — sequential, errors propagate\nfor (const item of items) {\n  await processItem(item)\n}\n\n// ✓ Promise.all — concurrent\nawait Promise.all(items.map((item) => processItem(item)))\n```",
+    "keyConcepts": ["async forEach", "for...of", "Promise.all", "error handling"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "async-event-loop-014",
+    "subjectId": "nodejs",
+    "topicId": "async-event-loop",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is `AsyncLocalStorage` (from the `async_hooks` module) used for?",
+    "options": [
+      { "id": "a", "text": "A thread-local storage mechanism for worker_threads" },
+      { "id": "b", "text": "A way to propagate context (like a request ID or user session) across async operations without passing it explicitly" },
+      { "id": "c", "text": "A persistent storage layer backed by the local filesystem" },
+      { "id": "d", "text": "A replacement for `process.env` for async-safe configuration" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`AsyncLocalStorage` provides a store that follows the async execution context — like thread-local storage but for async call chains.\n\n**Common use:** propagate a request ID through all async operations in a request without passing it as a parameter:\n\n```javascript\nimport { AsyncLocalStorage } from 'async_hooks'\n\nconst requestContext = new AsyncLocalStorage()\n\n// In middleware:\napp.use((req, res, next) => {\n  requestContext.run({ requestId: req.headers['x-request-id'] }, next)\n})\n\n// Anywhere in the async call chain:\nfunction logSomething() {\n  const ctx = requestContext.getStore()\n  console.log(`[${ctx?.requestId}] doing work`)\n}\n```",
+    "keyConcepts": ["AsyncLocalStorage", "async_hooks", "request context", "tracing"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "async-event-loop-015",
+    "subjectId": "nodejs",
+    "topicId": "async-event-loop",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is `for await...of` and when do you use it?",
+    "options": [
+      { "id": "a", "text": "A way to iterate over an array of Promises in parallel" },
+      { "id": "b", "text": "A loop that consumes an async iterable (like a readable stream or async generator), awaiting each value" },
+      { "id": "c", "text": "A replacement for `Promise.all` that processes items one at a time" },
+      { "id": "d", "text": "A way to iterate over object keys asynchronously" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`for await...of` consumes any object with `Symbol.asyncIterator` — async generators, Node.js Readable streams (v10+), and custom async iterables:\n\n```javascript\n// Reading a file line by line with streams:\nimport { createReadStream } from 'fs'\nimport { createInterface } from 'readline'\n\nconst rl = createInterface({ input: createReadStream('data.csv') })\nfor await (const line of rl) {\n  console.log(line) // processes one line at a time, memory-efficient\n}\n\n// Async generator:\nasync function* paginate(url) {\n  let page = 1\n  while (true) {\n    const data = await fetch(`${url}?page=${page++}`).then(r => r.json())\n    if (!data.length) break\n    yield data\n  }\n}\n\nfor await (const batch of paginate('/api/items')) {\n  process(batch)\n}\n```",
+    "keyConcepts": ["for await of", "async iterable", "async generator", "Symbol.asyncIterator"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "async-event-loop-016",
+    "subjectId": "nodejs",
+    "topicId": "async-event-loop",
+    "type": "code",
+    "difficulty": "intermediate",
+    "question": "What does this code log?",
+    "codeSnippet": "async function main() {\n  console.log('A')\n  const result = await Promise.resolve('B')\n  console.log(result)\n  console.log('C')\n}\n\nmain()\nconsole.log('D')",
+    "options": [
+      { "id": "a", "text": "A, B, C, D" },
+      { "id": "b", "text": "A, D, B, C" },
+      { "id": "c", "text": "D, A, B, C" },
+      { "id": "d", "text": "A, B, D, C" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "Execution order:\n1. `main()` is called — runs synchronously until the first `await`\n2. `console.log('A')` → logs A\n3. `await Promise.resolve('B')` — suspends `main()` and schedules the continuation as a microtask\n4. Control returns to the caller — `console.log('D')` → logs D\n5. Microtask queue drains: `result = 'B'`, logs B, then logs C\n\n**Output: A, D, B, C**\n\nThis is a key interview question — `await` yields control back to the caller, not just to the event loop.",
+    "keyConcepts": ["async/await", "microtask", "execution order", "Promise.resolve"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "async-event-loop-017",
+    "subjectId": "nodejs",
+    "topicId": "async-event-loop",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "How can you implement a concurrency limit when processing an array of async tasks?",
+    "options": [
+      { "id": "a", "text": "`Promise.all` already limits concurrency to the CPU count" },
+      { "id": "b", "text": "Process tasks in batches using `Promise.all` on chunks, or use a semaphore / library like `p-limit`" },
+      { "id": "c", "text": "Use `for...of` with `await` — it automatically limits to one concurrent task" },
+      { "id": "d", "text": "Set `UV_THREADPOOL_SIZE` to the desired concurrency limit" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`Promise.all` runs ALL tasks concurrently — with 1000 items you'd fire 1000 requests at once, overwhelming APIs or databases.\n\n**Chunk approach:**\n```javascript\nconst chunk = (arr, size) =>\n  Array.from({ length: Math.ceil(arr.length / size) },\n    (_, i) => arr.slice(i * size, i * size + size))\n\nfor (const batch of chunk(items, 5)) {\n  await Promise.all(batch.map(processItem)) // max 5 concurrent\n}\n```\n\n**`p-limit` approach (cleaner):**\n```javascript\nimport pLimit from 'p-limit'\nconst limit = pLimit(5)\nconst results = await Promise.all(\n  items.map((item) => limit(() => processItem(item)))\n)\n```",
+    "keyConcepts": ["concurrency limit", "p-limit", "batch processing", "Promise.all"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "async-event-loop-018",
+    "subjectId": "nodejs",
+    "topicId": "async-event-loop",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What happens if you forget `await` before a Promise in an async function?",
+    "options": [
+      { "id": "a", "text": "A syntax error is thrown at compile time" },
+      { "id": "b", "text": "The Promise object itself is used as the value (not the resolved value), and errors are silently swallowed" },
+      { "id": "c", "text": "Node.js automatically awaits all Promises even without the keyword" },
+      { "id": "d", "text": "The function throws an UnhandledPromise error immediately" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "Without `await`, you get the **Promise object**, not its resolved value:\n\n```javascript\nasync function getUser(id) {\n  // ✗ Missing await — returns Promise, not user\n  const user = fetchUser(id)\n  console.log(user) // Promise { <pending> }\n  console.log(user.name) // undefined!\n\n  // Errors from fetchUser() become unhandled rejections\n}\n\nasync function getUser(id) {\n  // ✓ Correct\n  const user = await fetchUser(id)\n  console.log(user.name) // works\n}\n```\n\nTypescript (`@typescript-eslint/no-floating-promises`) and ESLint rules can catch this. Watch for it especially in loops and conditional branches.",
+    "keyConcepts": ["await", "Promise", "floating promise", "missing await"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "async-event-loop-019",
+    "subjectId": "nodejs",
+    "topicId": "async-event-loop",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is `Promise.resolve()` and when is it useful?",
+    "options": [
+      { "id": "a", "text": "It resolves the nearest pending Promise in the current scope" },
+      { "id": "b", "text": "Returns a Promise immediately resolved with the given value; useful for wrapping non-Promise values or testing" },
+      { "id": "c", "text": "It schedules the value to be returned in the next event loop tick" },
+      { "id": "d", "text": "It converts a rejected Promise into a fulfilled one" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`Promise.resolve(value)` returns a Promise that is already fulfilled with `value`. If `value` is itself a Promise (or thenable), it returns that Promise unchanged.\n\n**Use cases:**\n\n```javascript\n// Normalize sync/async return values:\nfunction maybeAsync(val) {\n  return Promise.resolve(val) // always a Promise\n}\n\n// Useful in tests:\nconst mockFetch = jest.fn().mockResolvedValue({ id: 1, name: 'Alice' })\n// equivalent to: mockFetch.mockReturnValue(Promise.resolve(...))\n\n// Short-circuit a cache hit:\nasync function getData(key) {\n  if (cache.has(key)) return Promise.resolve(cache.get(key))\n  const data = await fetchFromDb(key)\n  cache.set(key, data)\n  return data\n}\n```",
+    "keyConcepts": ["Promise.resolve", "normalize", "thenable", "testing"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "async-event-loop-020",
+    "subjectId": "nodejs",
+    "topicId": "async-event-loop",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is a common mistake when using `async/await` inside `try/catch` with multiple awaits?",
+    "options": [
+      { "id": "a", "text": "You can only have one `await` inside a single `try` block" },
+      { "id": "b", "text": "A single `catch` block catches errors from all awaits in the `try` block — you may lose context about which operation failed" },
+      { "id": "c", "text": "`try/catch` does not catch errors from `await` — use `.catch()` instead" },
+      { "id": "d", "text": "Nested `await` calls inside a `try` block are not executed" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "A single `catch` catches errors from any `await` in the `try` block — you lose granularity:\n\n```javascript\n// ✗ Unclear which operation failed:\ntry {\n  const user = await getUser(id)\n  const posts = await getPosts(user.id)\n  await savePosts(posts)\n} catch (err) {\n  console.error('Something failed:', err) // which step?\n}\n\n// ✓ Granular error handling:\nlet user\ntry { user = await getUser(id) }\ncatch (err) { throw new Error(`Failed to get user: ${err.message}`) }\n\nlet posts\ntry { posts = await getPosts(user.id) }\ncatch (err) { throw new Error(`Failed to get posts: ${err.message}`) }\n```\n\nAlternatively, wrap individual awaits in small functions with specific error handling.",
+    "keyConcepts": ["try/catch", "async/await", "error context", "multiple awaits"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "async-event-loop-021",
+    "subjectId": "nodejs",
+    "topicId": "async-event-loop",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is `AbortController` and how is it used with async operations in Node.js?",
+    "options": [
+      { "id": "a", "text": "A process management tool for gracefully shutting down Node.js servers" },
+      { "id": "b", "text": "An API for cancelling ongoing async operations like `fetch` requests or timers" },
+      { "id": "c", "text": "A way to abort the current event loop iteration" },
+      { "id": "d", "text": "A circuit breaker pattern implementation" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`AbortController` (available since Node.js 15) provides a signal that can be used to cancel operations:\n\n```javascript\nconst controller = new AbortController()\nconst { signal } = controller\n\n// Cancel after 5 seconds\nsetTimeout(() => controller.abort(), 5000)\n\ntry {\n  const res = await fetch('https://api.example.com/data', { signal })\n  const data = await res.json()\n} catch (err) {\n  if (err.name === 'AbortError') {\n    console.log('Request was cancelled')\n  }\n}\n```\n\nAlso works with `fs.readFile`, `dns.lookup`, and other Node.js APIs that accept a `signal` option.",
+    "keyConcepts": ["AbortController", "AbortSignal", "cancellation", "fetch", "timeout"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "async-event-loop-022",
+    "subjectId": "nodejs",
+    "topicId": "async-event-loop",
+    "type": "code",
+    "difficulty": "advanced",
+    "question": "What does this code print and why?",
+    "codeSnippet": "async function first() {\n  console.log('first start')\n  await second()\n  console.log('first end')\n}\n\nasync function second() {\n  console.log('second')\n}\n\nfirst()\nconsole.log('sync')",
+    "options": [
+      { "id": "a", "text": "first start → second → first end → sync" },
+      { "id": "b", "text": "first start → second → sync → first end" },
+      { "id": "c", "text": "sync → first start → second → first end" },
+      { "id": "d", "text": "first start → sync → second → first end" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "1. `first()` starts — logs `'first start'`\n2. `await second()` is reached — `second()` is called synchronously, logs `'second'`, returns a resolved Promise\n3. `await` suspends `first()` and schedules its continuation (`'first end'`) as a microtask, yielding to the caller\n4. `console.log('sync')` runs\n5. Microtask queue drains — `'first end'` logs\n\n**Output: first start → second → sync → first end**\n\nKey insight: even `await`ing an already-resolved Promise yields once to allow synchronous code in the caller to finish.",
+    "keyConcepts": ["async/await", "execution order", "microtask", "yield"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "async-event-loop-023",
+    "subjectId": "nodejs",
+    "topicId": "async-event-loop",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is `timers/promises` module and what does it provide?",
+    "options": [
+      { "id": "a", "text": "A polyfill for `setTimeout` that uses Promises in older Node.js versions" },
+      { "id": "b", "text": "Promise-based versions of `setTimeout`, `setInterval`, and `setImmediate`" },
+      { "id": "c", "text": "A module for measuring execution time using high-resolution timers" },
+      { "id": "d", "text": "A way to schedule microtasks at a specific time of day" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`timers/promises` (stable since Node.js 16) provides awaitable versions of timer functions:\n\n```javascript\nimport { setTimeout, setInterval, setImmediate } from 'timers/promises'\n\n// Awaitable delay\nawait setTimeout(1000) // waits 1 second\nawait setTimeout(500, 'done') // resolves with 'done' after 500ms\n\n// Async iteration over interval\nfor await (const _ of setInterval(1000)) {\n  checkForUpdates()\n}\n\n// Works with AbortSignal\nconst ac = new AbortController()\nawait setTimeout(5000, undefined, { signal: ac.signal })\n```\n\nThis avoids wrapping `setTimeout` in a `new Promise(resolve => setTimeout(resolve, ms))` helper.",
+    "keyConcepts": ["timers/promises", "setTimeout", "awaitable", "delay"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "async-event-loop-024",
+    "subjectId": "nodejs",
+    "topicId": "async-event-loop",
+    "type": "text",
+    "difficulty": "intermediate",
+    "question": "Explain the difference between sequential and parallel async operations, with examples of when to use each.",
+    "explanation": "**Sequential** — each operation starts only after the previous completes:\n```javascript\nconst user = await getUser(id)     // starts first\nconst posts = await getPosts(id)   // starts after user is done\n// Total time ≈ t(user) + t(posts)\n```\n**When to use:** when operations depend on each other (you need user before you can fetch their posts).\n\n---\n\n**Parallel (concurrent)** — all operations start at the same time:\n```javascript\nconst [user, posts] = await Promise.all([getUser(id), getPosts(id)])\n// Total time ≈ max(t(user), t(posts))\n```\n**When to use:** when operations are independent and don't need each other's results.\n\n---\n\n**Controlled concurrency** — parallel but with a limit:\n```javascript\nimport pLimit from 'p-limit'\nconst limit = pLimit(3) // max 3 at once\nawait Promise.all(ids.map((id) => limit(() => getUser(id))))\n```\n**When to use:** fetching many items but you don't want to overwhelm the server or database.",
+    "keyConcepts": ["sequential", "parallel", "Promise.all", "concurrency", "p-limit"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "async-event-loop-025",
+    "subjectId": "nodejs",
+    "topicId": "async-event-loop",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is a 'floating promise' and why is it dangerous?",
+    "options": [
+      { "id": "a", "text": "A Promise that resolves with a floating-point number" },
+      { "id": "b", "text": "A Promise that is created but not awaited or caught — errors from it are silently discarded" },
+      { "id": "c", "text": "A Promise that is passed between multiple async functions without resolving" },
+      { "id": "d", "text": "A Promise created inside a `setTimeout` callback" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "A **floating promise** is a Promise whose rejection is never handled. It's created (often accidentally) without `await` or `.catch()`:\n\n```javascript\n// ✗ Floating — if saveUser rejects, it becomes an unhandled rejection\nfunction handleRequest(req) {\n  saveUser(req.body) // no await, no .catch\n  res.sendStatus(202)\n}\n\n// ✓ Fixed:\nasync function handleRequest(req) {\n  await saveUser(req.body)\n  res.sendStatus(202)\n}\n\n// ✓ Or explicit void (intentionally fire-and-forget):\nvoid analytics.track('event') // signals intentional no-await\n```\n\nIn Node.js 15+, unhandled rejections crash the process. Use `void` keyword to explicitly mark intentional fire-and-forget. TypeScript + `@typescript-eslint/no-floating-promises` catches this at compile time.",
+    "keyConcepts": ["floating promise", "unhandled rejection", "void operator", "no-floating-promises"],
+    "commonInterviewQuestion": true
+  }
+]

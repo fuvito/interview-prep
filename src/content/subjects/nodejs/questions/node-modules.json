@@ -1,0 +1,441 @@
+[
+  {
+    "id": "node-modules-001",
+    "subjectId": "nodejs",
+    "topicId": "node-modules",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What does `require()` return when called with a module path in Node.js?",
+    "options": [
+      { "id": "a", "text": "Downloads the module from the npm registry at runtime" },
+      { "id": "b", "text": "Loads and caches the module synchronously, returning its `module.exports` object" },
+      { "id": "c", "text": "Asynchronously loads the module and returns a Promise" },
+      { "id": "d", "text": "Evaluates the module in a sandboxed context without caching" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`require()` is **synchronous** — it blocks until the module is fully loaded. After the first load, the result is cached in `require.cache` so subsequent calls return the same object without re-executing the file.\n\n```javascript\nconst path = require('path')      // built-in module\nconst utils = require('./utils')  // relative file\nconst lodash = require('lodash')  // node_modules package\n```\n\nResolution order: built-in → relative/absolute paths → `node_modules` (walking up to root).",
+    "keyConcepts": ["require", "CommonJS", "module caching", "synchronous"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-modules-002",
+    "subjectId": "nodejs",
+    "topicId": "node-modules",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the difference between `module.exports` and `exports` in CommonJS?",
+    "options": [
+      { "id": "a", "text": "`exports` is an alias for `module.exports`; reassigning `exports` breaks the link" },
+      { "id": "b", "text": "`module.exports` exports an object; `exports` exports individual named values" },
+      { "id": "c", "text": "They are completely identical — reassigning either has the same effect" },
+      { "id": "d", "text": "`exports` is the newer API; `module.exports` is deprecated" }
+    ],
+    "correctAnswers": ["a"],
+    "explanation": "`exports` starts as a **reference to `module.exports`**. Adding properties to `exports` works because they point to the same object — but reassigning `exports` breaks the link:\n\n```javascript\n// ✓ Mutates the shared object\nexports.greet = () => 'hello'\n\n// ✗ Breaks the link — module.exports is still {}\nexports = { greet: () => 'hello' }\n\n// ✓ Correct way to export a single value\nmodule.exports = { greet: () => 'hello' }\n```\n\nWhen in doubt, use `module.exports` directly.",
+    "keyConcepts": ["module.exports", "exports", "CommonJS", "reference aliasing"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-modules-003",
+    "subjectId": "nodejs",
+    "topicId": "node-modules",
+    "type": "code",
+    "difficulty": "intermediate",
+    "question": "What does Node.js's module wrapper function look like, and why does it exist?",
+    "codeSnippet": "// Every CommonJS module is wrapped in:\n(function(exports, require, module, __filename, __dirname) {\n  // your module code\n})",
+    "options": [
+      { "id": "a", "text": "It provides a global scope for all modules to share variables" },
+      { "id": "b", "text": "It injects module-specific variables and keeps top-level variables scoped to the module, not global" },
+      { "id": "c", "text": "It enables async loading of CommonJS modules" },
+      { "id": "d", "text": "It is only used in development — not in production builds" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "Node.js wraps every CommonJS module in this function to:\n1. **Inject** `exports`, `require`, `module`, `__filename`, `__dirname` — that's why they're available without being true globals\n2. **Scope** top-level variables to the module — `var x = 1` doesn't leak to global\n\n```javascript\nconsole.log(typeof require)    // 'function'\nconsole.log(typeof module)     // 'object'\nconsole.log(typeof __dirname)  // 'string'\nconsole.log(typeof __filename) // 'string'\n```\n\nESM modules don't use this wrapper — they have their own scoping and `import.meta` for file metadata.",
+    "keyConcepts": ["module wrapper", "require", "module", "__dirname", "__filename"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-modules-004",
+    "subjectId": "nodejs",
+    "topicId": "node-modules",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "How does `require()` caching work, and what is a practical consequence?",
+    "options": [
+      { "id": "a", "text": "Each `require()` call re-executes the module file to ensure fresh state" },
+      { "id": "b", "text": "The first `require()` executes the module and caches `module.exports`; subsequent calls return the cached value" },
+      { "id": "c", "text": "Modules are cached per-request in a web server context" },
+      { "id": "d", "text": "Caching only applies to built-in modules; user modules are always re-executed" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "After the first `require()`, Node.js stores `module.exports` in `require.cache` keyed by the resolved file path. Subsequent calls return the cached object without re-executing the file.\n\n**Consequence — modules are singletons:**\n```javascript\n// db.js\nexport const pool = new Pool(process.env.DATABASE_URL)\n// ^ runs once; all files share the same pool\n```\n\n**Cache busting** (rarely needed):\n```javascript\ndelete require.cache[require.resolve('./config')]\n```",
+    "keyConcepts": ["require.cache", "singleton", "module caching"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-modules-005",
+    "subjectId": "nodejs",
+    "topicId": "node-modules",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What happens when two CommonJS modules `require` each other (circular dependency)?",
+    "options": [
+      { "id": "a", "text": "Node.js throws a `CircularDependencyError` at startup" },
+      { "id": "b", "text": "The module that is loaded second receives a partially-filled `module.exports` from the first" },
+      { "id": "c", "text": "Node.js detects the cycle and loads both modules fresh each time" },
+      { "id": "d", "text": "Both modules receive `undefined` for each other's exports" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "Node.js handles circular `require()` by returning the **partially-constructed `module.exports`** of the module that hasn't finished loading yet.\n\n```javascript\n// a.js\nexports.a = 1\nconst b = require('./b')\nexports.fromB = b.b\n\n// b.js\nexports.b = 2\nconst a = require('./a') // gets { a: 1 } — 'fromB' not set yet\nconsole.log(a.fromB)    // undefined!\n```\n\nThe result depends on load order and what was set before the circular call. **Best practice:** refactor shared logic into a third module both can import.",
+    "keyConcepts": ["circular dependency", "require caching", "partial exports"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-modules-006",
+    "subjectId": "nodejs",
+    "topicId": "node-modules",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "How do you export and import a named function using ES Modules (ESM) in Node.js?",
+    "options": [
+      { "id": "a", "text": "Use `module.exports.fn = fn` and `const { fn } = require('./mod')`" },
+      { "id": "b", "text": "Use `export function fn(){}` and `import { fn } from './mod.js'`" },
+      { "id": "c", "text": "Use `exports.default = fn` and `import fn from './mod.js'`" },
+      { "id": "d", "text": "Use `global.fn = fn` and `import fn from 'global'`" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "ESM uses `export` and `import` keywords:\n\n```javascript\n// math.js\nexport function add(a, b) { return a + b }\nexport const PI = 3.14159\nexport default class Calculator { ... }\n\n// main.js\nimport Calculator, { add, PI } from './math.js'\n// Note: .js extension required in Node.js ESM imports\n\nimport * as math from './math.js' // namespace import\n```\n\nTo enable ESM: use `.mjs` extension, or set `\"type\": \"module\"` in `package.json`.",
+    "keyConcepts": ["ESM", "export", "import", "named exports", "default export"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-modules-007",
+    "subjectId": "nodejs",
+    "topicId": "node-modules",
+    "type": "multiple",
+    "difficulty": "intermediate",
+    "question": "Which of the following are key differences between CommonJS (CJS) and ES Modules (ESM)?",
+    "options": [
+      { "id": "a", "text": "CJS `require()` is synchronous; ESM `import` is statically analyzed" },
+      { "id": "b", "text": "ESM supports top-level `await`; CJS does not" },
+      { "id": "c", "text": "CJS exports are live bindings; ESM exports are copied at import time" },
+      { "id": "d", "text": "ESM exports are live read-only bindings; CJS exports are mutable object references" }
+    ],
+    "correctAnswers": ["a", "b", "d"],
+    "explanation": "| Feature | CommonJS | ESM |\n|---|---|---|\n| Loading | Synchronous (`require`) | Statically analyzed, async under the hood |\n| Top-level `await` | No | Yes |\n| Exports | Mutable object references | Live read-only bindings |\n| Tree shaking | Poor (dynamic) | Excellent (static) |\n| `__dirname` | Available | Use `import.meta.url` |\n\nOption C is backwards — **ESM** exports are live bindings; **CJS** exports are mutable references.",
+    "keyConcepts": ["CommonJS", "ESM", "top-level await", "live bindings", "tree shaking"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-modules-008",
+    "subjectId": "nodejs",
+    "topicId": "node-modules",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does `\"type\": \"module\"` in `package.json` do?",
+    "options": [
+      { "id": "a", "text": "Enables TypeScript support for the package" },
+      { "id": "b", "text": "Treats all `.js` files in the package as ESM instead of CommonJS" },
+      { "id": "c", "text": "Marks the package as browser-only" },
+      { "id": "d", "text": "Enables strict mode for all files in the package" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "By default Node.js treats `.js` files as CommonJS. `\"type\": \"module\"` switches the default to ESM.\n\n| Extension | `\"type\": \"commonjs\"` (default) | `\"type\": \"module\"` |\n|---|---|---|\n| `.js` | CommonJS | ESM |\n| `.mjs` | ESM | ESM |\n| `.cjs` | CommonJS | CommonJS |\n\n`.mjs` and `.cjs` always override the `type` field, so you can mix both systems by using explicit extensions.",
+    "keyConcepts": ["package.json", "type field", "ESM", "CommonJS", ".mjs", ".cjs"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-modules-009",
+    "subjectId": "nodejs",
+    "topicId": "node-modules",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What do the `^` and `~` prefixes mean in package.json version ranges?",
+    "options": [
+      { "id": "a", "text": "`^` pins to exact version; `~` allows minor updates" },
+      { "id": "b", "text": "`^` allows compatible (same major) updates; `~` allows only patch updates" },
+      { "id": "c", "text": "Both allow any version above the specified one" },
+      { "id": "d", "text": "`~` allows compatible updates; `^` allows only patch updates" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "- **`^1.2.3`** (caret) — allows updates that don't change the leftmost non-zero digit: `>=1.2.3 <2.0.0`. Accepts minor and patch releases.\n- **`~1.2.3`** (tilde) — allows only **patch** updates: `>=1.2.3 <1.3.0`.\n\n```json\n\"lodash\": \"^4.17.15\"  // accepts 4.17.16, 4.18.0 — NOT 5.0.0\n\"express\": \"~4.18.2\"  // accepts 4.18.3 — NOT 4.19.0\n\"react\":   \"18.2.0\"   // exact version, no updates\n```\n\n`package-lock.json` pins exact versions regardless — ranges are used when generating a new lock file.",
+    "keyConcepts": ["semver", "caret", "tilde", "version ranges"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-modules-010",
+    "subjectId": "nodejs",
+    "topicId": "node-modules",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the purpose of `package-lock.json`?",
+    "options": [
+      { "id": "a", "text": "It prevents other developers from modifying `package.json`" },
+      { "id": "b", "text": "It locks the exact installed versions of all dependencies (including transitive) for reproducible installs" },
+      { "id": "c", "text": "It lists packages that should not be updated via `npm update`" },
+      { "id": "d", "text": "It caches package tarballs locally to speed up installs" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`package-lock.json` records the **exact resolved version, download URL, and integrity hash** of every installed package and all transitive dependencies.\n\n**Why it matters:**\n- Ensures every developer and CI environment installs the exact same dependency tree\n- Without it, `^` ranges could resolve to different versions on different machines\n- `npm ci` uses it for clean, reproducible installs\n\n**Commit it to source control** for applications. Libraries typically gitignore it.",
+    "keyConcepts": ["package-lock.json", "reproducible installs", "dependency tree", "npm ci"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-modules-011",
+    "subjectId": "nodejs",
+    "topicId": "node-modules",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the difference between `npm install` and `npm ci`?",
+    "options": [
+      { "id": "a", "text": "`npm ci` installs from the registry; `npm install` installs from the local cache" },
+      { "id": "b", "text": "`npm ci` does a clean install strictly from `package-lock.json`; `npm install` can update the lock file" },
+      { "id": "c", "text": "`npm install` is for production; `npm ci` is for development dependencies only" },
+      { "id": "d", "text": "They are identical except `npm ci` is faster" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "| | `npm install` | `npm ci` |\n|---|---|---|\n| Lock file | May update it | Must match exactly or fails |\n| node_modules | Incremental update | Always deletes and reinstalls |\n| Speed | Slower | Faster for clean installs |\n| Use case | Development | CI/CD, production deploys |\n\n`npm ci` fails with an error if `package.json` and `package-lock.json` are out of sync — a safety check in pipelines.",
+    "keyConcepts": ["npm ci", "npm install", "package-lock.json", "CI/CD"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-modules-012",
+    "subjectId": "nodejs",
+    "topicId": "node-modules",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is the difference between `dependencies` and `devDependencies` in `package.json`?",
+    "options": [
+      { "id": "a", "text": "`dependencies` are installed in development; `devDependencies` are installed in production" },
+      { "id": "b", "text": "`dependencies` are needed at runtime in production; `devDependencies` are only needed during development and testing" },
+      { "id": "c", "text": "`devDependencies` are not installed when running `npm install`" },
+      { "id": "d", "text": "There is no functional difference — it's purely organizational" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "- **`dependencies`** — required at runtime (Express, DB clients, utility libraries)\n- **`devDependencies`** — only needed during development/build/test (Vitest, ESLint, TypeScript, Vite)\n\n```bash\nnpm install express           # → dependencies\nnpm install --save-dev vitest # → devDependencies\n\n# Skip devDeps in production:\nnpm ci --omit=dev\n```\n\nFor published npm packages, `devDependencies` are never installed by consumers.",
+    "keyConcepts": ["dependencies", "devDependencies", "production", "npm install"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-modules-013",
+    "subjectId": "nodejs",
+    "topicId": "node-modules",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What are `peerDependencies` and when should you use them?",
+    "options": [
+      { "id": "a", "text": "Dependencies shared between sibling packages in a monorepo" },
+      { "id": "b", "text": "Dependencies your package requires but expects the consuming app (not your package) to install" },
+      { "id": "c", "text": "Optional dependencies that enhance your package if available" },
+      { "id": "d", "text": "Dependencies that are installed globally on the machine" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`peerDependencies` declare that your package requires a host package to be installed by the consumer, but does **not install it automatically**. Used by plugins and component libraries:\n\n```json\n// A React component library:\n{\n  \"peerDependencies\": {\n    \"react\": \">=17.0.0\",\n    \"react-dom\": \">=17.0.0\"\n  }\n}\n```\n\nThis avoids bundling two copies of React (which breaks hooks). As of **npm v7+**, peer dependencies are automatically installed unless they conflict.",
+    "keyConcepts": ["peerDependencies", "plugins", "React", "npm v7"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-modules-014",
+    "subjectId": "nodejs",
+    "topicId": "node-modules",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What does `npx <command>` do?",
+    "options": [
+      { "id": "a", "text": "Installs a package globally and then runs it" },
+      { "id": "b", "text": "Runs a command from local `node_modules/.bin` or temporarily downloads and runs it without installing globally" },
+      { "id": "c", "text": "Runs a script defined in `package.json`'s scripts field" },
+      { "id": "d", "text": "Executes a Node.js file with elevated privileges" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`npx` first looks for the command in:\n1. Local `node_modules/.bin`\n2. PATH\n3. If not found: downloads temporarily from npm, runs it, then discards it\n\n```bash\nnpx create-react-app my-app  # downloads and runs without global install\nnpx tsc --version            # runs local TypeScript compiler\nnpx prettier --write .       # runs locally installed prettier\n```\n\nAvoids polluting the global npm prefix and ensures you run the project-appropriate version.",
+    "keyConcepts": ["npx", "node_modules/.bin", "temporary execution"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "node-modules-015",
+    "subjectId": "nodejs",
+    "topicId": "node-modules",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "In an ES Module, how do you get the equivalent of CommonJS's `__dirname` and `__filename`?",
+    "options": [
+      { "id": "a", "text": "They are still available as global variables in ESM files" },
+      { "id": "b", "text": "Use `import.meta.url` and derive them with `fileURLToPath` and `dirname`" },
+      { "id": "c", "text": "Use `process.cwd()` as a drop-in replacement" },
+      { "id": "d", "text": "Use `import.meta.dirname` (available in all Node.js versions)" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`__dirname` and `__filename` are injected by the CJS module wrapper — they don't exist in ESM. Use `import.meta.url`:\n\n```javascript\nimport { fileURLToPath } from 'url'\nimport { dirname } from 'path'\n\nconst __filename = fileURLToPath(import.meta.url)\nconst __dirname = dirname(__filename)\n```\n\nAs of **Node.js 21.2 / 22**, `import.meta.dirname` and `import.meta.filename` are available natively — but the `fileURLToPath` approach is more portable for older versions.",
+    "keyConcepts": ["import.meta.url", "fileURLToPath", "__dirname", "ESM"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-modules-016",
+    "subjectId": "nodejs",
+    "topicId": "node-modules",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is the `exports` field (exports map) in `package.json` and why is it preferred over `main`?",
+    "options": [
+      { "id": "a", "text": "It lists all files to include when publishing the package" },
+      { "id": "b", "text": "It defines conditional entry points per environment (require/import/browser) and restricts which internal files can be imported" },
+      { "id": "c", "text": "It replaces `peerDependencies` for declaring optional host packages" },
+      { "id": "d", "text": "It configures tree-shaking hints for bundlers" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "The `exports` field (Node.js 12+) is more powerful than `main`:\n\n```json\n{\n  \"exports\": {\n    \".\": {\n      \"import\": \"./dist/index.mjs\",\n      \"require\": \"./dist/index.cjs\"\n    },\n    \"./utils\": \"./dist/utils.js\"\n  }\n}\n```\n\n**Advantages:**\n- Serve different files for `import` (ESM) vs `require` (CJS)\n- Serve different builds for `node` vs `browser`\n- **Encapsulate internals** — unlisted paths throw `ERR_PACKAGE_PATH_NOT_EXPORTED`\n\n```javascript\nimport utils from 'my-pkg/utils'         // ✓ exported\nimport x from 'my-pkg/src/internal'     // ✗ blocked\n```",
+    "keyConcepts": ["exports map", "package.json", "conditional exports", "CJS/ESM dual package"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-modules-017",
+    "subjectId": "nodejs",
+    "topicId": "node-modules",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "How does Node.js resolve `require('lodash')` — where does it look?",
+    "options": [
+      { "id": "a", "text": "Only in the project root's `node_modules` directory" },
+      { "id": "b", "text": "In `node_modules` directories starting from the current file's directory, walking up to the root" },
+      { "id": "c", "text": "In the global npm modules directory only" },
+      { "id": "d", "text": "In a fixed list of directories defined in `NODE_PATH`" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "For bare specifiers like `'lodash'`, Node.js walks up the directory tree:\n\nFor a file at `/app/src/routes/api.js`:\n```\n/app/src/routes/node_modules/lodash\n/app/src/node_modules/lodash\n/app/node_modules/lodash         ← typically found here\n/node_modules/lodash\n```\n\nThis is why monorepos work — packages hoist to the root `node_modules` and are found by sub-packages walking up.",
+    "keyConcepts": ["module resolution", "node_modules", "require", "hoisting"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "node-modules-018",
+    "subjectId": "nodejs",
+    "topicId": "node-modules",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is dynamic `import()` and how does it differ from static `import`?",
+    "options": [
+      { "id": "a", "text": "Dynamic `import()` is a CommonJS feature; static `import` is ESM only" },
+      { "id": "b", "text": "Dynamic `import()` returns a Promise and can be used conditionally; static `import` is synchronous and top-level only" },
+      { "id": "c", "text": "They are identical — `import()` is just shorthand for `import`" },
+      { "id": "d", "text": "Dynamic `import()` skips the module cache; static `import` uses it" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "**Static `import`** is resolved at parse time — hoisted, top-level only.\n\n**Dynamic `import()`** is a function call returning `Promise<module>` — can appear anywhere:\n\n```javascript\n// Static (top-level only)\nimport { add } from './math.js'\n\n// Dynamic (conditional, lazy)\nasync function loadPlugin(name) {\n  const mod = await import(`./plugins/${name}.js`)\n  return mod.default\n}\n\n// Code splitting (Vite, webpack)\nbutton.addEventListener('click', async () => {\n  const { Chart } = await import('./chart.js') // loaded on demand\n})\n```\n\nBoth use the module cache — the same module is only evaluated once.",
+    "keyConcepts": ["dynamic import", "static import", "code splitting", "lazy loading"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-modules-019",
+    "subjectId": "nodejs",
+    "topicId": "node-modules",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does it mean for a module to be a 'singleton' in Node.js, and why does it matter?",
+    "options": [
+      { "id": "a", "text": "Each module can only export a single value" },
+      { "id": "b", "text": "A module's code runs once and its exports are cached, so all importers share the same instance" },
+      { "id": "c", "text": "Node.js prevents multiple versions of the same module from being loaded" },
+      { "id": "d", "text": "A module can only be required by one other module" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "Because of `require.cache`, every module is effectively a **singleton**.\n\n**Useful:**\n```javascript\n// db.js — pool created once, shared everywhere\nexport const pool = new Pool({ connectionString: process.env.DATABASE_URL })\n```\n\n**Trap — shared mutable state:**\n```javascript\n// counter.js\nexport let count = 0\nexport const increment = () => ++count\n\n// a.js — increments shared counter\nimport { increment } from './counter.js'\nincrement() // count becomes 1\n\n// b.js — sees the mutated value\nimport { count } from './counter.js'\nconsole.log(count) // 1\n```\n\nThis is a common testing pitfall — module state persists between tests unless explicitly reset.",
+    "keyConcepts": ["singleton", "module cache", "shared state", "require.cache"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-modules-020",
+    "subjectId": "nodejs",
+    "topicId": "node-modules",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is tree shaking, and which module system enables it?",
+    "options": [
+      { "id": "a", "text": "Removing unused `node_modules` folders; works with both CJS and ESM" },
+      { "id": "b", "text": "Eliminating unused exports at build time; requires ESM static `import`/`export`" },
+      { "id": "c", "text": "Lazily loading modules only when first accessed; requires dynamic `import()`" },
+      { "id": "d", "text": "Automatically inlining small modules; works with CommonJS `require()`" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "**Tree shaking** is dead-code elimination — bundlers (Rollup, webpack, esbuild, Vite) remove exports that are never imported. It requires **ESM** because `import`/`export` are **static** — the bundler can analyze the dependency graph at build time.\n\nCommonJS `require()` is dynamic — the bundler can't know at build time what will be used, so it must include everything.\n\n```javascript\n// utils.js (ESM)\nexport function used() { ... }\nexport function unused() { ... } // ← removed from bundle\n\nimport { used } from './utils.js' // only 'used' included\n```",
+    "keyConcepts": ["tree shaking", "ESM", "dead code elimination", "bundlers"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-modules-021",
+    "subjectId": "nodejs",
+    "topicId": "node-modules",
+    "type": "text",
+    "difficulty": "intermediate",
+    "question": "What is a barrel export (index file) and what are the trade-offs?",
+    "explanation": "A **barrel export** is an `index.js` file that re-exports items from multiple modules, providing a single clean import path:\n\n```javascript\n// components/index.js\nexport { Button } from './Button.js'\nexport { Input } from './Input.js'\nexport { Modal } from './Modal.js'\n\n// Consumer\nimport { Button, Modal } from './components' // single import\n```\n\n**Pros:** cleaner import paths, easier to refactor file locations, explicit public API.\n\n**Cons:**\n- **Hurts tree shaking** — bundlers may include the entire barrel even if only one export is used (unless `sideEffects: false` is set in `package.json`)\n- **Circular dependency risk** — barrels often create cycles\n- **Slower startup** in Node.js — loads many modules eagerly\n\nFor libraries: use barrels for the public API. For large apps: avoid deep barrel nesting.",
+    "codeExample": "// package.json — help bundlers tree-shake barrels:\n{\n  \"sideEffects\": false\n  // tells bundlers all files are side-effect-free → safe to remove unused exports\n}",
+    "keyConcepts": ["barrel exports", "index.js", "tree shaking", "circular dependencies", "sideEffects"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "node-modules-022",
+    "subjectId": "nodejs",
+    "topicId": "node-modules",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What are npm workspaces and what problem do they solve?",
+    "options": [
+      { "id": "a", "text": "A way to run multiple npm commands in parallel" },
+      { "id": "b", "text": "A monorepo feature that manages multiple packages in one repository with a shared root `node_modules`" },
+      { "id": "c", "text": "A sandboxed environment for testing packages before publishing" },
+      { "id": "d", "text": "A feature to share `devDependencies` between projects on the same machine" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "**npm workspaces** (npm v7+) is a built-in monorepo feature:\n\n```json\n// root package.json\n{ \"workspaces\": [\"packages/*\", \"apps/*\"] }\n```\n\n**Benefits:**\n- Single `npm install` installs all packages\n- Shared `node_modules` — no duplicate installs\n- Cross-package symlinks — sub-packages reference each other by name\n- `npm run --workspaces test` runs scripts across all packages\n\nAlternatives: Yarn workspaces, pnpm workspaces, Turborepo, Nx.",
+    "keyConcepts": ["workspaces", "monorepo", "npm v7", "hoisting", "symlinks"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "node-modules-023",
+    "subjectId": "nodejs",
+    "topicId": "node-modules",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "How do you run a script defined in `package.json`?",
+    "options": [
+      { "id": "a", "text": "`node package.json scripts.test`" },
+      { "id": "b", "text": "`npm run <script-name>` (or `npm test` / `npm start` for built-in names)" },
+      { "id": "c", "text": "`npx run <script-name>`" },
+      { "id": "d", "text": "`npm exec <script-name>`" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "```json\n{\n  \"scripts\": {\n    \"start\": \"node server.js\",\n    \"dev\":   \"nodemon server.js\",\n    \"test\":  \"vitest\",\n    \"build\": \"tsc\",\n    \"lint\":  \"eslint src\"\n  }\n}\n```\n\n```bash\nnpm run dev   # runs nodemon server.js\nnpm test      # shorthand for 'npm run test'\nnpm start     # shorthand for 'npm run start'\n```\n\nScripts have `node_modules/.bin` in their PATH — you can call local CLIs directly without `npx`.",
+    "keyConcepts": ["npm scripts", "npm run", "package.json"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "node-modules-024",
+    "subjectId": "nodejs",
+    "topicId": "node-modules",
+    "type": "text",
+    "difficulty": "advanced",
+    "question": "Explain how to write a package that works as both CommonJS and ESM (a 'dual package').",
+    "explanation": "A **dual CJS/ESM package** ships two builds and uses the `exports` field to serve the right one:\n\n```json\n{\n  \"name\": \"my-lib\",\n  \"exports\": {\n    \".\": {\n      \"import\": \"./dist/index.mjs\",\n      \"require\": \"./dist/index.cjs\"\n    }\n  },\n  \"main\": \"./dist/index.cjs\"\n}\n```\n\n**Build with `tsup`:**\n```bash\ntsup src/index.ts --format esm,cjs --dts\n# outputs: dist/index.mjs, dist/index.cjs, dist/index.d.ts\n```\n\n**The dual package hazard:** if both builds are instantiated in the same app (one dep uses `require`, another `import`), you get **two separate instances** — singletons, `instanceof` checks, and shared state all break. This is a known Node.js limitation.",
+    "codeExample": "// tsup.config.ts\nimport { defineConfig } from 'tsup'\nexport default defineConfig({\n  entry: ['src/index.ts'],\n  format: ['cjs', 'esm'],\n  dts: true,\n  clean: true,\n})",
+    "keyConcepts": ["dual package", "exports map", "tsup", "dual package hazard"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "node-modules-025",
+    "subjectId": "nodejs",
+    "topicId": "node-modules",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is `package.json`'s `engines` field used for?",
+    "options": [
+      { "id": "a", "text": "It specifies which npm scripts to run automatically on install" },
+      { "id": "b", "text": "It declares the Node.js (and npm) version range the package is compatible with" },
+      { "id": "c", "text": "It lists the JavaScript engines that can run the package (V8, SpiderMonkey, etc.)" },
+      { "id": "d", "text": "It configures the build tool (webpack, esbuild) for the package" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "The `engines` field declares which versions of Node.js (and npm) the package supports:\n\n```json\n{\n  \"engines\": {\n    \"node\": \">=18.0.0\",\n    \"npm\": \">=9.0.0\"\n  }\n}\n```\n\nBy default this is **advisory** — npm warns but doesn't block installation. To enforce it, users can set `engine-strict=true` in `.npmrc`, or you can use it in `package.json`:\n```json\n{ \"engineStrict\": true }\n```\n\nUseful for packages that use newer Node.js APIs (like native `fetch`, top-level await, or `--env-file`).",
+    "keyConcepts": ["engines", "package.json", "Node.js version", "compatibility"],
+    "commonInterviewQuestion": false
+  }
+]

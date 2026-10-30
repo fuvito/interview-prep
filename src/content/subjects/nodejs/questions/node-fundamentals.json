@@ -1,0 +1,439 @@
+[
+  {
+    "id": "node-fundamentals-001",
+    "subjectId": "nodejs",
+    "topicId": "node-fundamentals",
+    "type": "text",
+    "difficulty": "beginner",
+    "question": "What is Node.js and what problem does it solve?",
+    "explanation": "Node.js is an open-source, cross-platform JavaScript runtime built on Chrome's V8 engine. It executes JavaScript outside the browser, primarily on the server.\n\nThe core problem it solves: traditional servers created a new thread per request, wasting memory waiting for I/O. Node.js uses a **single thread with non-blocking I/O** and an event loop. Instead of blocking on disk reads or network calls, it registers a callback and processes the next request — making it extremely efficient for I/O-heavy workloads.\n\n**Ideal for:** REST APIs, real-time apps (chat, notifications), streaming, CLI tools.\n\n**Not ideal for:** CPU-intensive work (image processing, heavy computation) since that blocks the single thread.",
+    "keyConcepts": ["runtime", "V8", "non-blocking I/O", "event loop", "single thread"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-fundamentals-002",
+    "subjectId": "nodejs",
+    "topicId": "node-fundamentals",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "Which JavaScript engine does Node.js use to execute code?",
+    "options": [
+      { "id": "a", "text": "SpiderMonkey" },
+      { "id": "b", "text": "V8" },
+      { "id": "c", "text": "JavaScriptCore" },
+      { "id": "d", "text": "Chakra" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "Node.js is built on **V8**, the open-source JavaScript engine developed by Google and used in Chrome. V8 compiles JavaScript directly to native machine code using JIT (Just-In-Time) compilation.\n\nThe other engines: SpiderMonkey (Firefox), JavaScriptCore/Nitro (Safari), Chakra (legacy Edge/IE).",
+    "keyConcepts": ["V8", "JavaScript engine", "JIT compilation"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "node-fundamentals-003",
+    "subjectId": "nodejs",
+    "topicId": "node-fundamentals",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is libuv and what role does it play in Node.js?",
+    "options": [
+      { "id": "a", "text": "A JavaScript bundler that packages Node.js modules for the browser" },
+      { "id": "b", "text": "A cross-platform C library that provides the event loop, thread pool, and async I/O" },
+      { "id": "c", "text": "A package manager that replaces npm" },
+      { "id": "d", "text": "A V8 extension that adds browser APIs to Node.js" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "**libuv** is a multi-platform C library originally written for Node.js. It provides:\n- **The event loop** — coordinates asynchronous operations\n- **Thread pool** — offloads blocking ops (file I/O, DNS lookups, crypto) to worker threads\n- **Async network I/O** — TCP/UDP, DNS\n- **File system operations** and **child processes**\n\nWhen you call `fs.readFile()`, Node.js hands the work to libuv's thread pool. When done, libuv posts the callback to the event loop for the main thread to execute.",
+    "keyConcepts": ["libuv", "event loop", "thread pool", "async I/O"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-fundamentals-004",
+    "subjectId": "nodejs",
+    "topicId": "node-fundamentals",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What does 'non-blocking I/O' mean in the context of Node.js?",
+    "options": [
+      { "id": "a", "text": "I/O operations run in parallel using multiple JavaScript threads" },
+      { "id": "b", "text": "I/O operations are initiated and the thread is free to do other work while waiting for the result" },
+      { "id": "c", "text": "I/O operations complete instantly without any waiting" },
+      { "id": "d", "text": "I/O operations are queued and executed in batches at regular intervals" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "**Non-blocking I/O** means the main thread initiates an I/O operation and immediately returns — it does not wait ('block') for the result. When I/O completes, a callback is placed on the event queue.\n\n```javascript\n// Blocking — thread waits here\nconst data = fs.readFileSync('file.txt')\n\n// Non-blocking — thread is free immediately\nfs.readFile('file.txt', (err, data) => {\n  console.log(data) // called when I/O is done\n})\nconsole.log('runs before file is read')\n```\n\nThis allows Node.js to handle thousands of concurrent connections with a single thread.",
+    "keyConcepts": ["non-blocking", "I/O", "callbacks", "event loop"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-fundamentals-005",
+    "subjectId": "nodejs",
+    "topicId": "node-fundamentals",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "Is Node.js truly single-threaded?",
+    "options": [
+      { "id": "a", "text": "Yes, Node.js runs entirely on one thread including all I/O" },
+      { "id": "b", "text": "No, Node.js creates a new thread for each incoming request" },
+      { "id": "c", "text": "The JavaScript execution is single-threaded, but libuv uses a thread pool for blocking operations" },
+      { "id": "d", "text": "Node.js is multi-threaded but only exposes a single-threaded API" }
+    ],
+    "correctAnswers": ["c"],
+    "explanation": "Node.js has a **single main thread** for executing JavaScript (the event loop thread). However, libuv maintains a **thread pool** (default 4 threads) to handle inherently blocking operations:\n- File system I/O\n- DNS resolution (`dns.lookup`)\n- Crypto operations (`crypto.pbkdf2`, `crypto.randomBytes`)\n- `zlib` compression\n\nWhen these complete, the result is posted back to the event loop thread via a callback. `worker_threads` (Node.js 10.5+) also lets you run JavaScript on additional threads for CPU-heavy work.",
+    "keyConcepts": ["single thread", "libuv thread pool", "worker_threads", "concurrency"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-fundamentals-006",
+    "subjectId": "nodejs",
+    "topicId": "node-fundamentals",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What does `process.env` contain in Node.js?",
+    "options": [
+      { "id": "a", "text": "The current Node.js version and platform information" },
+      { "id": "b", "text": "The environment variables of the current process" },
+      { "id": "c", "text": "The contents of the `.env` file in the project root (loaded automatically)" },
+      { "id": "d", "text": "The list of installed npm packages" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`process.env` is an object containing the **environment variables of the shell** that started the Node.js process. It does **not** automatically read `.env` files — that requires a library like `dotenv` or Node's built-in `--env-file` flag (v20.6+).\n\n```javascript\nconst port = process.env.PORT ?? 3000\nconst dbUrl = process.env.DATABASE_URL\nconst isProd = process.env.NODE_ENV === 'production'\n```",
+    "keyConcepts": ["process.env", "environment variables", "dotenv", "configuration"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-fundamentals-007",
+    "subjectId": "nodejs",
+    "topicId": "node-fundamentals",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the difference between `__dirname` and `process.cwd()`?",
+    "options": [
+      { "id": "a", "text": "They are identical — both return the current working directory" },
+      { "id": "b", "text": "`__dirname` is the directory of the current module file; `process.cwd()` is the directory from which Node.js was launched" },
+      { "id": "c", "text": "`__dirname` is only available in ESM modules; `process.cwd()` works in both" },
+      { "id": "d", "text": "`process.cwd()` returns the module directory; `__dirname` returns the project root" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "- **`__dirname`**: The absolute path of the **directory containing the current source file**. Available in CommonJS. Fixed — same no matter where you launch Node from.\n- **`process.cwd()`**: The **working directory** of the Node.js process — wherever the shell was when you ran `node server.js`.\n\n```javascript\n// In /home/user/app/src/utils.js, launched from /home/user/app:\nconsole.log(__dirname)      // '/home/user/app/src'\nconsole.log(process.cwd())  // '/home/user/app'\n```\n\nFor paths relative to the source file, use `__dirname`. For paths relative to where the user invoked the command, use `process.cwd()`.",
+    "keyConcepts": ["__dirname", "process.cwd()", "file paths", "module-relative paths"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-fundamentals-008",
+    "subjectId": "nodejs",
+    "topicId": "node-fundamentals",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does `process.nextTick()` do, and when does its callback execute?",
+    "options": [
+      { "id": "a", "text": "Schedules a callback at the end of the current event loop iteration, after all I/O callbacks" },
+      { "id": "b", "text": "Schedules a callback to run after the current synchronous operation, before the event loop moves to the next phase" },
+      { "id": "c", "text": "Schedules a callback equivalent to `setTimeout(fn, 0)`" },
+      { "id": "d", "text": "Schedules a callback to run at the start of the next full event loop tick" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`process.nextTick()` schedules a callback to run **after the current synchronous code, before the event loop moves to any phase** (before any I/O, timers, or `setImmediate`).\n\n```javascript\nconsole.log('1 sync')\nprocess.nextTick(() => console.log('3 nextTick'))\nsetImmediate(() => console.log('4 setImmediate'))\nconsole.log('2 sync')\n// Output: 1, 2, 3, 4\n```\n\n**Use case:** allowing a constructor to finish before emitting an event, or deferring an error after a caller has had a chance to attach a listener.",
+    "keyConcepts": ["process.nextTick", "event loop", "nextTick queue", "microtasks"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-fundamentals-009",
+    "subjectId": "nodejs",
+    "topicId": "node-fundamentals",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the difference between `process.nextTick()` and `setImmediate()`?",
+    "options": [
+      { "id": "a", "text": "They are equivalent — both execute before the next event loop iteration" },
+      { "id": "b", "text": "`process.nextTick` fires before the event loop's next phase; `setImmediate` fires in the check phase" },
+      { "id": "c", "text": "`setImmediate` fires before `process.nextTick` in all cases" },
+      { "id": "d", "text": "`process.nextTick` is deprecated; prefer `setImmediate`" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "- **`process.nextTick()`** — runs immediately after the current synchronous code, **before** the event loop moves to any phase. The nextTick queue is fully drained before I/O or timers.\n- **`setImmediate()`** — runs in the **check phase** of the event loop (after the poll/I/O phase).\n\n```javascript\nsetImmediate(() => console.log('setImmediate'))\nprocess.nextTick(() => console.log('nextTick'))\n// Output: nextTick, setImmediate\n```\n\nThe Node.js docs recommend `setImmediate` to avoid starving the I/O event loop — recursive `nextTick` calls can block I/O indefinitely.",
+    "keyConcepts": ["process.nextTick", "setImmediate", "event loop phases", "check phase"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-fundamentals-010",
+    "subjectId": "nodejs",
+    "topicId": "node-fundamentals",
+    "type": "code",
+    "difficulty": "intermediate",
+    "question": "What is the output order of this code?",
+    "codeSnippet": "setTimeout(() => console.log('timeout'), 0)\nsetImmediate(() => console.log('immediate'))\nprocess.nextTick(() => console.log('nextTick'))\nPromise.resolve().then(() => console.log('promise'))\nconsole.log('sync')",
+    "options": [
+      { "id": "a", "text": "sync → timeout → immediate → nextTick → promise" },
+      { "id": "b", "text": "sync → nextTick → promise → timeout → immediate (or timeout/immediate order may vary)" },
+      { "id": "c", "text": "sync → promise → nextTick → timeout → immediate" },
+      { "id": "d", "text": "sync → nextTick → promise → immediate → timeout (always)" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "Order:\n1. **Sync** → `'sync'`\n2. **nextTick queue** → `'nextTick'`\n3. **Microtask queue** (Promises) → `'promise'`\n4. **Timers / Check phases** → `'timeout'` and `'immediate'` (relative order non-deterministic outside I/O)\n\nThe relative order of `setTimeout(fn, 0)` and `setImmediate` when called from the main module is non-deterministic due to process timing. Inside an I/O callback, `setImmediate` always runs before `setTimeout`.",
+    "keyConcepts": ["event loop", "nextTick", "microtasks", "timers", "setImmediate"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-fundamentals-011",
+    "subjectId": "nodejs",
+    "topicId": "node-fundamentals",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What are the main phases of the Node.js event loop, in order?",
+    "options": [
+      { "id": "a", "text": "timers → I/O callbacks → idle/prepare → poll → check → close callbacks" },
+      { "id": "b", "text": "poll → timers → I/O callbacks → check → close callbacks" },
+      { "id": "c", "text": "microtasks → timers → I/O → setImmediate → close" },
+      { "id": "d", "text": "timers → microtasks → I/O → setImmediate → close" }
+    ],
+    "correctAnswers": ["a"],
+    "explanation": "The Node.js event loop has six phases:\n\n1. **timers** — `setTimeout` / `setInterval` callbacks whose delay has elapsed\n2. **I/O callbacks** — callbacks deferred from the previous iteration (mostly system error callbacks)\n3. **idle, prepare** — internal use only\n4. **poll** — retrieves new I/O events; blocks here when the queue is empty\n5. **check** — `setImmediate()` callbacks\n6. **close callbacks** — e.g., `socket.on('close', ...)`\n\nBetween each phase, Node.js drains the **nextTick queue** and **microtask queue** (Promises).",
+    "keyConcepts": ["event loop phases", "timers", "poll", "check", "close callbacks"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-fundamentals-012",
+    "subjectId": "nodejs",
+    "topicId": "node-fundamentals",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is the `worker_threads` module and when should you use it?",
+    "options": [
+      { "id": "a", "text": "It replaces the cluster module for load balancing HTTP servers" },
+      { "id": "b", "text": "It allows running JavaScript on separate threads for CPU-intensive tasks, sharing memory via SharedArrayBuffer" },
+      { "id": "c", "text": "It provides a thread pool for I/O operations similar to libuv" },
+      { "id": "d", "text": "It spawns child processes for isolating crash-prone code" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`worker_threads` (stable since Node.js 12) lets you run JavaScript on **true OS threads** within the same process. Unlike child processes, workers can share memory through `SharedArrayBuffer`.\n\n**Use for:** CPU-intensive computation (compression, parsing, ML inference, heavy crypto) that would block the event loop.\n\n**Not for:** I/O — the event loop handles I/O efficiently without threads.\n\n```javascript\nimport { Worker, isMainThread, parentPort } from 'worker_threads'\n\nif (isMainThread) {\n  const worker = new Worker(new URL(import.meta.url))\n  worker.on('message', (result) => console.log(result))\n} else {\n  parentPort.postMessage(heavyComputation())\n}\n```",
+    "keyConcepts": ["worker_threads", "CPU-bound", "SharedArrayBuffer", "threads"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-fundamentals-013",
+    "subjectId": "nodejs",
+    "topicId": "node-fundamentals",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What does the `cluster` module do and how does it improve performance?",
+    "options": [
+      { "id": "a", "text": "It enables in-process worker threads to share the event loop" },
+      { "id": "b", "text": "It forks multiple child processes that share the same server port, utilizing all CPU cores" },
+      { "id": "c", "text": "It connects multiple Node.js servers into a distributed cluster over the network" },
+      { "id": "d", "text": "It manages a pool of database connections across multiple requests" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "Node.js uses a single CPU core by default. The `cluster` module forks **multiple child processes**, each running the same server code and sharing the same TCP port.\n\n```javascript\nimport cluster from 'cluster'\nimport { cpus } from 'os'\nimport http from 'http'\n\nif (cluster.isPrimary) {\n  for (let i = 0; i < cpus().length; i++) cluster.fork()\n  cluster.on('exit', () => cluster.fork()) // restart crashed workers\n} else {\n  http.createServer((req, res) => res.end('ok')).listen(3000)\n}\n```\n\nEach worker has its own memory. In production, **PM2** is commonly used instead of manual clustering.",
+    "keyConcepts": ["cluster", "multi-core", "load balancing", "fork", "PM2"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-fundamentals-014",
+    "subjectId": "nodejs",
+    "topicId": "node-fundamentals",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the difference between `child_process.spawn()` and `child_process.exec()`?",
+    "options": [
+      { "id": "a", "text": "`spawn` buffers the entire output; `exec` streams it back incrementally" },
+      { "id": "b", "text": "`exec` buffers all output in memory and calls back with strings; `spawn` streams stdout/stderr" },
+      { "id": "c", "text": "`spawn` runs shell commands; `exec` runs executables directly" },
+      { "id": "d", "text": "They are identical except `spawn` supports async/await" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "- **`exec(command, callback)`** — runs the command in a **shell**, **buffers** all output, calls back with `(error, stdout, stderr)` strings. Limited by `maxBuffer` (default 1MB). Good for short commands.\n- **`spawn(command, args)`** — runs the executable **directly** (no shell), returning a `ChildProcess` with **streaming** stdin/stdout/stderr. Better for large output or long-running processes.\n\n```javascript\n// exec: simple, buffered\nexec('ls -la', (err, stdout) => console.log(stdout))\n\n// spawn: streaming\nconst ls = spawn('ls', ['-la'])\nls.stdout.on('data', (chunk) => process.stdout.write(chunk))\n```",
+    "keyConcepts": ["child_process", "spawn", "exec", "streaming", "shell"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "node-fundamentals-015",
+    "subjectId": "nodejs",
+    "topicId": "node-fundamentals",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "How should you handle CPU-intensive tasks in Node.js without blocking the event loop?",
+    "options": [
+      { "id": "a", "text": "Use async/await — it automatically runs code in parallel threads" },
+      { "id": "b", "text": "Increase the libuv thread pool size to offload the computation" },
+      { "id": "c", "text": "Offload to worker_threads, a child process, or an external service/queue" },
+      { "id": "d", "text": "Use setImmediate() to split the work across multiple event loop ticks" }
+    ],
+    "correctAnswers": ["c"],
+    "explanation": "CPU-intensive code (sorting large datasets, image processing, crypto, ML) **blocks the event loop** — no other requests are served during that time.\n\n**Solutions:**\n1. **`worker_threads`** — run in a separate JS thread, communicate via `postMessage`\n2. **`child_process.fork()`** — spawn a separate Node.js process; good for isolation\n3. **Job queue** — offload to a background worker service (Bull, BullMQ)\n4. **Native addons (N-API)** — write the hot path in C++ using libuv's thread pool\n\n`setImmediate` splitting (option D) can help with large loops but doesn't parallelize — it just yields to I/O between chunks.",
+    "keyConcepts": ["event loop blocking", "worker_threads", "child_process", "CPU-bound"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-fundamentals-016",
+    "subjectId": "nodejs",
+    "topicId": "node-fundamentals",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What happens when an `uncaughtException` is not handled in Node.js?",
+    "options": [
+      { "id": "a", "text": "The error is swallowed and execution continues normally" },
+      { "id": "b", "text": "Node.js automatically restarts the process" },
+      { "id": "c", "text": "Node.js prints a stack trace and exits with a non-zero code" },
+      { "id": "d", "text": "The error is logged and the current request is aborted, but the server keeps running" }
+    ],
+    "correctAnswers": ["c"],
+    "explanation": "By default, an unhandled exception causes Node.js to **print a stack trace and exit with code 1**.\n\nYou can listen for it to perform cleanup before exiting:\n\n```javascript\nprocess.on('uncaughtException', (err) => {\n  console.error('Uncaught:', err)\n  // DO cleanup, THEN exit — do not try to resume:\n  process.exit(1)\n})\n```\n\n**Critical:** after an uncaught exception the application is in an **unknown state** — resources may be leaked. The Node.js docs say this handler is for **synchronous cleanup and logging only**, then exit. Use PM2 or similar to restart the process.",
+    "keyConcepts": ["uncaughtException", "error handling", "process stability"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-fundamentals-017",
+    "subjectId": "nodejs",
+    "topicId": "node-fundamentals",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does the `unhandledRejection` event on `process` indicate?",
+    "options": [
+      { "id": "a", "text": "A synchronous error that was not caught with try/catch" },
+      { "id": "b", "text": "A Promise that was rejected without a .catch() or try/catch to handle it" },
+      { "id": "c", "text": "An EventEmitter that emitted an 'error' event with no listener" },
+      { "id": "d", "text": "A rejected HTTP request from an external API call" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`'unhandledRejection'` fires when a Promise is rejected and no rejection handler is attached.\n\n```javascript\nprocess.on('unhandledRejection', (reason, promise) => {\n  console.error('Unhandled rejection:', reason)\n  process.exit(1)\n})\n\nPromise.reject(new Error('oops')) // triggers the event\n```\n\nAs of **Node.js 15+**, unhandled rejections **crash the process by default** (exit code 1). In older versions they only logged a warning — but relying on that behavior was always a bug.",
+    "keyConcepts": ["unhandledRejection", "Promise", "error handling", "Node.js 15"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-fundamentals-018",
+    "subjectId": "nodejs",
+    "topicId": "node-fundamentals",
+    "type": "multiple",
+    "difficulty": "intermediate",
+    "question": "Which of the following are differences between Node.js and browser JavaScript?",
+    "options": [
+      { "id": "a", "text": "Node.js has no `window` or `document` global objects" },
+      { "id": "b", "text": "Node.js provides access to the file system, OS, and network APIs" },
+      { "id": "c", "text": "Browser JS supports `require()` natively; Node.js does not" },
+      { "id": "d", "text": "Node.js uses `global` instead of `window` as the global object" }
+    ],
+    "correctAnswers": ["a", "b", "d"],
+    "explanation": "| Feature | Browser | Node.js |\n|---|---|---|\n| Global object | `window` | `global` / `globalThis` |\n| DOM/BOM APIs | Yes | No |\n| File system | No | Yes (`fs`) |\n| `require()` | No (native) | Yes (CommonJS) |\n| Modules | ESM native | CommonJS + ESM |\n\nOption C is wrong — browsers do **not** natively support `require()`. Bundlers (webpack, esbuild) simulate it at build time.",
+    "keyConcepts": ["global", "window", "DOM", "Node vs browser", "environment"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "node-fundamentals-019",
+    "subjectId": "nodejs",
+    "topicId": "node-fundamentals",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is a `Buffer` in Node.js?",
+    "options": [
+      { "id": "a", "text": "A temporary in-memory store for JavaScript objects waiting to be processed" },
+      { "id": "b", "text": "A fixed-size chunk of memory outside the V8 heap for handling binary data" },
+      { "id": "c", "text": "A stream buffer that queues writes until the writable stream is ready" },
+      { "id": "d", "text": "An alias for `ArrayBuffer` in the browser" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`Buffer` is a Node.js class representing a **fixed-length sequence of raw bytes** allocated outside the V8 garbage-collected heap. Used to handle binary data (files, network packets, crypto operations).\n\n```javascript\nconst buf = Buffer.from('hello', 'utf8') // from string\nconst buf2 = Buffer.alloc(10)            // zero-filled, 10 bytes\nconst buf3 = Buffer.allocUnsafe(10)      // faster, may contain garbage\n\nbuf.toString('hex')  // '68656c6c6f'\nbuf.toString('utf8') // 'hello'\n```\n\n`Buffer` is a subclass of `Uint8Array` — you can pass it wherever a `Uint8Array` is expected.",
+    "keyConcepts": ["Buffer", "binary data", "Uint8Array", "encoding"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-fundamentals-020",
+    "subjectId": "nodejs",
+    "topicId": "node-fundamentals",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does `require.main === module` check in a CommonJS file?",
+    "options": [
+      { "id": "a", "text": "Whether the module has been loaded from node_modules" },
+      { "id": "b", "text": "Whether the current file is the entry point — run directly with `node`, not `require()`d by another file" },
+      { "id": "c", "text": "Whether the module has finished loading all its dependencies" },
+      { "id": "d", "text": "Whether the module is the main export of its package" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`require.main` is the `Module` object for the file directly executed by Node.js. `module` is the current module's object.\n\n```javascript\n// server.js\nif (require.main === module) {\n  // Run directly: node server.js\n  app.listen(3000)\n}\n// Can also be require()'d by tests without starting the server\nmodule.exports = app\n```\n\nSimilar to Python's `if __name__ == '__main__':` — lets a file be both a **library** and a **runnable script**.",
+    "keyConcepts": ["require.main", "module", "entry point", "dual-use module"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-fundamentals-021",
+    "subjectId": "nodejs",
+    "topicId": "node-fundamentals",
+    "type": "multiple",
+    "difficulty": "beginner",
+    "question": "Which of the following are valid use cases where Node.js excels?",
+    "options": [
+      { "id": "a", "text": "Real-time chat applications and WebSocket servers" },
+      { "id": "b", "text": "REST APIs with high I/O concurrency" },
+      { "id": "c", "text": "Heavy machine learning model training" },
+      { "id": "d", "text": "CLI tools and build scripts" }
+    ],
+    "correctAnswers": ["a", "b", "d"],
+    "explanation": "Node.js excels at **I/O-bound, high-concurrency** workloads:\n- **Real-time apps** — event loop handles thousands of WebSocket connections\n- **REST/GraphQL APIs** — fast, low memory, great ecosystem (Express, Fastify, NestJS)\n- **CLI tools** — npm ecosystem, fast startup\n- **Streaming** — file processing, media pipelines\n\n**Avoid for CPU-bound work** like ML training, video encoding — these block the single thread. Python (PyTorch, TensorFlow) or native apps are better suited.",
+    "keyConcepts": ["use cases", "I/O-bound", "real-time", "CPU-bound"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-fundamentals-022",
+    "subjectId": "nodejs",
+    "topicId": "node-fundamentals",
+    "type": "text",
+    "difficulty": "advanced",
+    "question": "Explain the libuv thread pool: what operations use it, what is the default size, and how can you change it?",
+    "explanation": "libuv's **thread pool** handles operations that cannot be done asynchronously at the OS level:\n\n**Uses the thread pool:**\n- `fs.*` file system operations\n- `dns.lookup()` (not `dns.resolve()` — that uses OS async API)\n- `crypto.pbkdf2()`, `crypto.randomFill()`, `crypto.scrypt()`\n- `zlib` compression\n\n**Does NOT use the thread pool** (uses OS async I/O directly):\n- TCP/UDP networking (`net`, `http`, `https`)\n- `dns.resolve()`\n\n**Default size:** 4 threads\n\n**How to change:**\n```bash\nUV_THREADPOOL_SIZE=16 node server.js\n```\nOr in code (must be set before any async operations):\n```javascript\nprocess.env.UV_THREADPOOL_SIZE = '16'\n```\n\nIncreasing above CPU core count rarely helps for CPU-bound tasks, but can improve throughput for concurrent I/O operations like many simultaneous `fs.readFile` calls.",
+    "keyConcepts": ["libuv thread pool", "UV_THREADPOOL_SIZE", "dns.lookup", "crypto", "fs"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-fundamentals-023",
+    "subjectId": "nodejs",
+    "topicId": "node-fundamentals",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What does `process.argv` contain?",
+    "options": [
+      { "id": "a", "text": "The list of all environment variables" },
+      { "id": "b", "text": "An array: index 0 = node path, index 1 = script path, index 2+ = command-line arguments" },
+      { "id": "c", "text": "Only the custom arguments passed after the script name" },
+      { "id": "d", "text": "The parsed arguments as a key-value object" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "```javascript\n// Run: node script.js hello 42\nconsole.log(process.argv)\n// [\n//   '/usr/bin/node',    // [0] node executable\n//   '/home/user/script.js', // [1] script path\n//   'hello',            // [2] first arg\n//   '42'               // [3] second arg\n// ]\n\nconst args = process.argv.slice(2) // ['hello', '42']\n```\n\nFor complex CLI argument parsing, use libraries like `yargs` or Node's built-in `util.parseArgs()`.",
+    "keyConcepts": ["process.argv", "CLI arguments", "command-line"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "node-fundamentals-024",
+    "subjectId": "nodejs",
+    "topicId": "node-fundamentals",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What does `process.exit(0)` vs `process.exit(1)` signal?",
+    "options": [
+      { "id": "a", "text": "`process.exit(0)` exits slowly after cleanup; `process.exit(1)` exits immediately" },
+      { "id": "b", "text": "Exit code 0 signals success; exit code 1 (or any non-zero) signals an error or failure" },
+      { "id": "c", "text": "`process.exit(0)` runs cleanup handlers; `process.exit(1)` does not" },
+      { "id": "d", "text": "They are identical — the argument is ignored" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "By Unix convention:\n- **Exit code 0** — success / normal termination\n- **Non-zero exit code** (1, 2, …) — failure or error\n\nShells and CI systems check the exit code: a non-zero code fails a script or pipeline.\n\n```javascript\nif (!configFile) {\n  console.error('Missing config')\n  process.exit(1) // signals failure to the shell\n}\n```\n\nNote: `process.exit()` terminates immediately — pending async operations are abandoned.",
+    "keyConcepts": ["process.exit", "exit codes", "Unix conventions", "CI"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "node-fundamentals-025",
+    "subjectId": "nodejs",
+    "topicId": "node-fundamentals",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "How do you check the version of Node.js running the current process?",
+    "options": [
+      { "id": "a", "text": "`node.version`" },
+      { "id": "b", "text": "`process.version`" },
+      { "id": "c", "text": "`process.env.NODE_VERSION`" },
+      { "id": "d", "text": "`runtime.version`" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`process.version` returns a string like `'v20.11.0'`.\n\n```javascript\nconsole.log(process.version)        // 'v20.11.0'\nconsole.log(process.versions.node)  // '20.11.0' (without 'v')\nconsole.log(process.versions.v8)    // V8 engine version\nconsole.log(process.platform)       // 'linux', 'darwin', 'win32'\nconsole.log(process.arch)           // 'x64', 'arm64'\n```",
+    "keyConcepts": ["process.version", "process.versions", "runtime introspection"],
+    "commonInterviewQuestion": false
+  }
+]

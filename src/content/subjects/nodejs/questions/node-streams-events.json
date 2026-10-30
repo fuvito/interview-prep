@@ -1,0 +1,425 @@
+[
+  {
+    "id": "node-streams-events-001",
+    "subjectId": "nodejs",
+    "topicId": "node-streams-events",
+    "type": "text",
+    "difficulty": "beginner",
+    "question": "What is the EventEmitter and how does it work?",
+    "explanation": "`EventEmitter` (from the `events` module) is the core pub/sub mechanism in Node.js. Most built-in objects (streams, HTTP server, `process`) extend EventEmitter.\n\n```javascript\nimport { EventEmitter } from 'events'\n\nconst emitter = new EventEmitter()\n\n// Register a listener\nemitter.on('data', (payload) => {\n  console.log('Received:', payload)\n})\n\n// Emit an event\nemitter.emit('data', { value: 42 })\n// Output: Received: { value: 42 }\n```\n\n**Key methods:**\n- `.on(event, listener)` — add persistent listener\n- `.once(event, listener)` — add one-time listener\n- `.emit(event, ...args)` — synchronously trigger all listeners\n- `.off(event, listener)` / `.removeListener()` — remove listener\n- `.listeners(event)` — list registered listeners\n\nEmitting is **synchronous** — listeners execute in the order they were registered, in the same tick.",
+    "keyConcepts": ["EventEmitter", "on", "emit", "pub/sub", "events"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-streams-events-002",
+    "subjectId": "nodejs",
+    "topicId": "node-streams-events",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is the difference between `emitter.on()` and `emitter.once()`?",
+    "options": [
+      { "id": "a", "text": "`once` fires the event once per second; `on` fires continuously" },
+      { "id": "b", "text": "`on` registers a permanent listener; `once` registers a listener that removes itself after the first invocation" },
+      { "id": "c", "text": "`once` is for synchronous events; `on` is for asynchronous events" },
+      { "id": "d", "text": "They are identical — `once` is just an alias for `on`" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "- **`.on(event, listener)`** — the listener is called every time the event is emitted.\n- **`.once(event, listener)`** — the listener is called the first time the event is emitted, then automatically removed.\n\n```javascript\nconst server = net.createServer()\n\n// Fires every time a connection is made:\nserver.on('connection', (socket) => {\n  console.log('New connection')\n})\n\n// Fires only for the FIRST connection:\nserver.once('connection', (socket) => {\n  console.log('First connection ever')\n})\n\n// Practical use:\nprocess.once('beforeExit', async () => {\n  await db.close() // cleanup on shutdown\n})\n```",
+    "keyConcepts": ["on", "once", "EventEmitter", "one-time listener"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-streams-events-003",
+    "subjectId": "nodejs",
+    "topicId": "node-streams-events",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "Why is the `'error'` event special in EventEmitter?",
+    "options": [
+      { "id": "a", "text": "The 'error' event is automatically caught and logged by Node.js" },
+      { "id": "b", "text": "If 'error' is emitted and there are no listeners, Node.js throws the error and crashes the process" },
+      { "id": "c", "text": "'error' events are queued and processed in the next event loop tick" },
+      { "id": "d", "text": "The 'error' event can only be emitted once per EventEmitter instance" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "The `'error'` event has special semantics in Node.js: if it is emitted with no listeners attached, Node.js **throws the error as an uncaught exception**, which crashes the process.\n\n```javascript\nconst emitter = new EventEmitter()\n\n// ✗ Dangerous — crashes if 'error' is emitted:\nemitter.emit('error', new Error('something went wrong'))\n// Throws: Error: something went wrong\n\n// ✓ Always attach an 'error' listener:\nemitter.on('error', (err) => {\n  console.error('Handled error:', err.message)\n})\n\n// This is why streams require error handlers:\nfs.createReadStream('nonexistent.txt')\n  .on('error', (err) => console.error(err)) // required!\n  .pipe(process.stdout)\n```",
+    "keyConcepts": ["error event", "EventEmitter", "uncaught exception", "error handling"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-streams-events-004",
+    "subjectId": "nodejs",
+    "topicId": "node-streams-events",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does `emitter.setMaxListeners()` do and when should you change it?",
+    "options": [
+      { "id": "a", "text": "Limits the number of events that can be emitted per second" },
+      { "id": "b", "text": "Sets a threshold above which Node.js warns about possible memory leaks from too many listeners on an event" },
+      { "id": "c", "text": "Sets the maximum number of events an emitter can have in its queue" },
+      { "id": "d", "text": "Limits how many times a single listener can be called" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "By default, Node.js warns if more than **10 listeners** are added to a single event — this is usually a sign of a memory leak (e.g., adding listeners in a loop without removing them).\n\n```javascript\nemitter.setMaxListeners(20) // increase limit\nemitter.setMaxListeners(0)  // unlimited (use with caution)\n\n// Or check the current count:\nconsole.log(emitter.listenerCount('data'))\n```\n\n**When to increase:** legitimate use cases with many listeners (e.g., a broadcast system, an event bus with many components). Most of the time, the warning is pointing to a real bug — fix the leak instead of increasing the limit.",
+    "keyConcepts": ["setMaxListeners", "memory leak", "listener count", "EventEmitter"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "node-streams-events-005",
+    "subjectId": "nodejs",
+    "topicId": "node-streams-events",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "How do you properly remove an event listener from an EventEmitter?",
+    "options": [
+      { "id": "a", "text": "Call `emitter.removeAll('event')` with the event name" },
+      { "id": "b", "text": "Keep a reference to the listener function and call `emitter.off('event', listenerFn)` or `emitter.removeListener()`" },
+      { "id": "c", "text": "Listeners are removed automatically after being called once" },
+      { "id": "d", "text": "Call `emitter.on('event', null)` to unregister" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "You must keep a **reference** to the function to remove it — anonymous functions cannot be removed:\n\n```javascript\n// ✗ Cannot remove — anonymous function:\nemitter.on('data', (d) => process(d))\n\n// ✓ Keep the reference:\nconst handleData = (d) => process(d)\nemitter.on('data', handleData)\n\n// Later, to remove:\nemitter.off('data', handleData)        // Node.js 10+\nemitter.removeListener('data', handleData) // older API\n\n// Remove ALL listeners for an event:\nemitter.removeAllListeners('data')\n\n// Remove ALL listeners for ALL events:\nemitter.removeAllListeners()\n```\n\nFailing to remove listeners is the primary cause of **memory leaks** in long-running Node.js applications.",
+    "keyConcepts": ["removeListener", "off", "memory leak", "listener reference"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-streams-events-006",
+    "subjectId": "nodejs",
+    "topicId": "node-streams-events",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "How do you extend EventEmitter to create a custom event-emitting class?",
+    "options": [
+      { "id": "a", "text": "Wrap an EventEmitter instance in a closure" },
+      { "id": "b", "text": "Extend the `EventEmitter` class and call `super()` in the constructor" },
+      { "id": "c", "text": "Use `Object.assign(MyClass.prototype, EventEmitter.prototype)`" },
+      { "id": "d", "text": "Pass the class to `EventEmitter.mixin()`" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "```javascript\nimport { EventEmitter } from 'events'\n\nclass FileWatcher extends EventEmitter {\n  constructor(path) {\n    super() // required\n    this.path = path\n  }\n\n  start() {\n    fs.watch(this.path, (event, filename) => {\n      this.emit('change', { event, filename }) // use inherited emit\n    })\n  }\n}\n\nconst watcher = new FileWatcher('./config.json')\nwatcher.on('change', ({ filename }) => {\n  console.log(`${filename} changed — reloading config`)\n  loadConfig()\n})\nwatcher.start()\n```\n\nThis pattern is used throughout Node.js core: `http.Server`, `fs.ReadStream`, `net.Socket` all extend EventEmitter.",
+    "keyConcepts": ["EventEmitter", "extends", "super()", "custom events"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-streams-events-007",
+    "subjectId": "nodejs",
+    "topicId": "node-streams-events",
+    "type": "text",
+    "difficulty": "beginner",
+    "question": "What are streams in Node.js and why are they useful?",
+    "explanation": "**Streams** are objects that let you read or write data **piece by piece** (chunks) instead of loading everything into memory at once.\n\n**Why they matter:**\n- **Memory efficiency** — process a 10GB file with constant memory (e.g., 64KB at a time)\n- **Time efficiency** — start processing before all data is available\n- **Composability** — pipe streams together like Unix pipes\n\n**Without streams:**\n```javascript\n// Reads entire file into memory — bad for large files\nconst data = await fs.promises.readFile('huge.csv')\nprocess(data)\n```\n\n**With streams:**\n```javascript\n// Processes file in 64KB chunks — constant memory\nfs.createReadStream('huge.csv')\n  .pipe(csvParser())\n  .pipe(transformStream)\n  .pipe(fs.createWriteStream('output.csv'))\n```\n\nStreams are used throughout Node.js: HTTP request/response, file I/O, `process.stdin`/`stdout`, database cursors, compression.",
+    "keyConcepts": ["streams", "memory efficiency", "chunks", "pipe", "backpressure"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-streams-events-008",
+    "subjectId": "nodejs",
+    "topicId": "node-streams-events",
+    "type": "multiple",
+    "difficulty": "beginner",
+    "question": "What are the four types of streams in Node.js?",
+    "options": [
+      { "id": "a", "text": "Readable — data can be read from it" },
+      { "id": "b", "text": "Writable — data can be written to it" },
+      { "id": "c", "text": "Duplex — both readable and writable" },
+      { "id": "d", "text": "Transform — a duplex stream that can modify data as it passes through" }
+    ],
+    "correctAnswers": ["a", "b", "c", "d"],
+    "explanation": "All four are correct — Node.js has four stream types:\n\n| Type | Description | Examples |\n|---|---|---|\n| **Readable** | Read data from a source | `fs.createReadStream`, `http.IncomingMessage`, `process.stdin` |\n| **Writable** | Write data to a destination | `fs.createWriteStream`, `http.ServerResponse`, `process.stdout` |\n| **Duplex** | Both readable and writable (independent sides) | `net.Socket`, `crypto.Cipher` |\n| **Transform** | Duplex that transforms data — output is derived from input | `zlib.createGzip()`, CSV parsers, encryption streams |\n\nA Transform stream is a special Duplex where reading and writing are connected through a transform function.",
+    "keyConcepts": ["Readable", "Writable", "Duplex", "Transform", "stream types"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-streams-events-009",
+    "subjectId": "nodejs",
+    "topicId": "node-streams-events",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does `readable.pipe(writable)` do?",
+    "options": [
+      { "id": "a", "text": "Copies the readable stream's internal buffer to the writable stream" },
+      { "id": "b", "text": "Connects the readable stream's output to the writable stream's input, automatically managing backpressure" },
+      { "id": "c", "text": "Creates a new Transform stream that sits between the two" },
+      { "id": "d", "text": "Merges two streams into a single Duplex stream" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`pipe()` connects a Readable to a Writable and **manages backpressure** automatically:\n\n```javascript\n// Serve a file without loading it into memory:\napp.get('/download', (req, res) => {\n  fs.createReadStream('./large-file.zip').pipe(res)\n})\n\n// Compress a file while copying:\nfs.createReadStream('input.txt')\n  .pipe(zlib.createGzip())\n  .pipe(fs.createWriteStream('output.txt.gz'))\n```\n\n`pipe()` automatically:\n- Reads from the source when the destination is ready\n- Pauses the source when the destination's buffer is full (backpressure)\n- Handles `'end'` events and closes the writable\n\n**Note:** `pipe()` does not forward errors — use `stream.pipeline()` for proper error handling.",
+    "keyConcepts": ["pipe", "backpressure", "readable", "writable", "streaming"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-streams-events-010",
+    "subjectId": "nodejs",
+    "topicId": "node-streams-events",
+    "type": "text",
+    "difficulty": "advanced",
+    "question": "What is backpressure in streams and why is it important?",
+    "explanation": "**Backpressure** is the mechanism that prevents a fast data source from overwhelming a slow data destination, which would cause unbounded memory growth.\n\n**The problem:**\n```javascript\n// Network is slow, disk is fast:\n// readStream produces data at 1GB/s\n// But the HTTP response can only send 1MB/s\n// Without backpressure: 999MB buffered in memory → OOM crash\n```\n\n**How streams handle it:**\n1. When you write to a Writable, `write()` returns `false` if the internal buffer is full (above `highWaterMark`)\n2. The Writable emits `'drain'` when the buffer empties\n3. The Readable should pause until `'drain'` fires\n\n**`pipe()` handles this automatically.** When doing manual stream handling:\n```javascript\nreadable.on('data', (chunk) => {\n  const canContinue = writable.write(chunk)\n  if (!canContinue) {\n    readable.pause() // stop reading until drain\n    writable.once('drain', () => readable.resume())\n  }\n})\n```\n\n**`stream.pipeline()`** is the recommended way to pipe multiple streams — it handles both backpressure and errors.",
+    "keyConcepts": ["backpressure", "highWaterMark", "drain", "pause", "resume", "memory"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-streams-events-011",
+    "subjectId": "nodejs",
+    "topicId": "node-streams-events",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is `stream.pipeline()` and why is it preferred over `pipe()`?",
+    "options": [
+      { "id": "a", "text": "`stream.pipeline()` is older and less efficient than `pipe()`" },
+      { "id": "b", "text": "`stream.pipeline()` properly handles errors and cleanup across all streams in a chain; `pipe()` silently leaks on errors" },
+      { "id": "c", "text": "They are identical — `pipeline` is just a Promise version of `pipe`" },
+      { "id": "d", "text": "`pipeline` adds compression automatically; `pipe` does not" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`pipe()` does **not** forward errors between streams — if the first stream errors, the second keeps going and may leak.\n\n`stream.pipeline()` automatically destroys all streams in the chain if any one errors:\n\n```javascript\nimport { pipeline } from 'stream/promises'\nimport { createReadStream, createWriteStream } from 'fs'\nimport { createGzip } from 'zlib'\n\n// ✓ pipeline — proper error handling + cleanup\ntry {\n  await pipeline(\n    createReadStream('./input.txt'),\n    createGzip(),\n    createWriteStream('./output.gz')\n  )\n  console.log('Done!')\n} catch (err) {\n  console.error('Pipeline failed:', err)\n}\n\n// ✗ pipe — no error handling:\ncreateReadStream('./input.txt')\n  .pipe(createGzip())\n  .pipe(createWriteStream('./output.gz'))\n// If readStream errors, gzip and writeStream are NOT destroyed\n```",
+    "keyConcepts": ["stream.pipeline", "pipe", "error handling", "stream cleanup"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-streams-events-012",
+    "subjectId": "nodejs",
+    "topicId": "node-streams-events",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is `highWaterMark` in a stream?",
+    "options": [
+      { "id": "a", "text": "The maximum file size a stream can handle" },
+      { "id": "b", "text": "The internal buffer size threshold above which a writable returns false (or a readable stops reading from the source)" },
+      { "id": "c", "text": "The maximum memory allowed for a Node.js process" },
+      { "id": "d", "text": "The number of concurrent stream operations allowed" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`highWaterMark` is the **buffer threshold** that triggers backpressure:\n\n- **Readable** — reads data until its buffer reaches `highWaterMark`, then pauses\n- **Writable** — `write()` returns `false` when its buffer reaches `highWaterMark`, signaling the producer to slow down\n\n```javascript\n// Default: 16KB for byte streams, 16 objects for objectMode\nconst readable = fs.createReadStream('file.txt', {\n  highWaterMark: 64 * 1024 // 64KB chunks\n})\n\nconst writable = new Writable({\n  highWaterMark: 32 * 1024, // signals backpressure at 32KB\n  write(chunk, encoding, callback) {\n    // process chunk\n    callback()\n  }\n})\n```\n\nLarger `highWaterMark` → more memory used per stream but fewer context switches. Smaller → more I/O overhead but less memory.",
+    "keyConcepts": ["highWaterMark", "buffer", "backpressure", "stream tuning"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "node-streams-events-013",
+    "subjectId": "nodejs",
+    "topicId": "node-streams-events",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is `objectMode` in a Node.js stream?",
+    "options": [
+      { "id": "a", "text": "A mode that streams only JavaScript objects, not Buffers or strings" },
+      { "id": "b", "text": "Allows the stream to pass JavaScript objects instead of Buffers/strings, with `highWaterMark` counting objects not bytes" },
+      { "id": "c", "text": "Enables JSON parsing of incoming stream data" },
+      { "id": "d", "text": "A mode where stream events emit plain objects instead of EventEmitter instances" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "By default, streams work with `Buffer` and `string`. In `objectMode`, a stream can pass any JavaScript object:\n\n```javascript\nimport { Transform } from 'stream'\n\n// CSV parser — reads strings, emits plain objects:\nconst csvParser = new Transform({\n  readableObjectMode: true, // downstream gets objects\n  transform(chunk, encoding, callback) {\n    const line = chunk.toString()\n    const [name, age] = line.split(',')\n    this.push({ name, age: parseInt(age) }) // push JS object\n    callback()\n  }\n})\n\nfs.createReadStream('data.csv')\n  .pipe(csvParser)\n  .on('data', (row) => console.log(row)) // { name: 'Alice', age: 30 }\n```\n\nIn `objectMode`, `highWaterMark` counts **objects** (default: 16 objects), not bytes.",
+    "keyConcepts": ["objectMode", "Transform stream", "objects vs buffers", "highWaterMark"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "node-streams-events-014",
+    "subjectId": "nodejs",
+    "topicId": "node-streams-events",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What events does a Readable stream emit, and what do they mean?",
+    "options": [
+      { "id": "a", "text": "'read', 'done', 'fail'" },
+      { "id": "b", "text": "'data', 'end', 'error', 'close', 'readable'" },
+      { "id": "c", "text": "'chunk', 'finish', 'error'" },
+      { "id": "d", "text": "'open', 'data', 'complete', 'error'" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "Key Readable stream events:\n\n| Event | When |\n|---|---|\n| `'data'` | A chunk is available; attaching this listener switches stream to flowing mode |\n| `'end'` | No more data — all data has been consumed |\n| `'error'` | An error occurred; if unhandled, throws |\n| `'close'` | Stream and any underlying resources (file descriptor) are closed |\n| `'readable'` | Data is available to read; used in paused mode with `stream.read()` |\n\n```javascript\nconst stream = fs.createReadStream('./file.txt')\n\nstream.on('data', (chunk) => console.log('Got chunk:', chunk.length))\nstream.on('end', () => console.log('Done reading'))\nstream.on('error', (err) => console.error('Error:', err))\n```",
+    "keyConcepts": ["Readable events", "data", "end", "error", "close", "flowing mode"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-streams-events-015",
+    "subjectId": "nodejs",
+    "topicId": "node-streams-events",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the difference between the 'end' event and the 'finish' event in streams?",
+    "options": [
+      { "id": "a", "text": "They are the same — 'finish' is just an alias for 'end'" },
+      { "id": "b", "text": "'end' is emitted by Readable streams when there's no more data; 'finish' is emitted by Writable streams when all data has been flushed" },
+      { "id": "c", "text": "'end' is for async streams; 'finish' is for sync streams" },
+      { "id": "d", "text": "'finish' fires when the stream is created; 'end' fires when it's destroyed" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "- **`'end'`** — emitted by **Readable** streams when there is no more data to consume\n- **`'finish'`** — emitted by **Writable** streams when all data has been flushed and the stream is closed\n\n```javascript\nconst readable = fs.createReadStream('./file.txt')\nconst writable = fs.createWriteStream('./copy.txt')\n\nreadable.on('end', () => console.log('Readable: no more data'))\nwritable.on('finish', () => console.log('Writable: all data flushed to disk'))\n\nreadable.pipe(writable)\n```\n\nA **Duplex/Transform** stream can emit both — `'end'` for its readable side and `'finish'` for its writable side.",
+    "keyConcepts": ["end event", "finish event", "Readable", "Writable", "stream lifecycle"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-streams-events-016",
+    "subjectId": "nodejs",
+    "topicId": "node-streams-events",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "How do you create a custom Transform stream?",
+    "options": [
+      { "id": "a", "text": "Extend `Stream` and implement a `transform()` method" },
+      { "id": "b", "text": "Extend `Transform` and implement the `_transform(chunk, encoding, callback)` method" },
+      { "id": "c", "text": "Create an EventEmitter and emit 'data' events with modified chunks" },
+      { "id": "d", "text": "Use `stream.pipe()` with a function instead of a stream" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "Extend `Transform` and implement `_transform()`:\n\n```javascript\nimport { Transform } from 'stream'\n\nclass UpperCaseTransform extends Transform {\n  _transform(chunk, encoding, callback) {\n    // Push transformed data to the readable side:\n    this.push(chunk.toString().toUpperCase())\n    callback() // signal that processing is done\n  }\n\n  // Optional: called when the writable side is finished\n  _flush(callback) {\n    // Push any remaining data\n    callback()\n  }\n}\n\nprocess.stdin\n  .pipe(new UpperCaseTransform())\n  .pipe(process.stdout)\n\n// Or using the constructor API (no class):\nconst upperCase = new Transform({\n  transform(chunk, encoding, callback) {\n    this.push(chunk.toString().toUpperCase())\n    callback()\n  }\n})\n```",
+    "keyConcepts": ["Transform stream", "_transform", "_flush", "callback", "custom stream"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-streams-events-017",
+    "subjectId": "nodejs",
+    "topicId": "node-streams-events",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is a Duplex stream and how does it differ from a Transform stream?",
+    "options": [
+      { "id": "a", "text": "Duplex and Transform are identical — they are different names for the same type" },
+      { "id": "b", "text": "A Duplex stream has independent readable and writable sides; a Transform's readable side is derived from its writable side" },
+      { "id": "c", "text": "Duplex streams are for network protocols; Transform streams are for file processing" },
+      { "id": "d", "text": "Transform streams are bidirectional; Duplex streams are unidirectional" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "- **`Duplex`** — has both a readable and a writable side that are **independent**. What you write is NOT related to what you read. Example: `net.Socket` — you write HTTP requests and read HTTP responses; they're different data streams.\n\n- **`Transform`** — a Duplex where the **readable output is derived from the writable input**. Data flows through and gets transformed. Example: `zlib.createGzip()` — you write raw bytes, you read compressed bytes.\n\n```\nDuplex:    [write] → internal   [read]\n                  (independent)\n\nTransform: [write] → _transform → [read]\n                  (connected)\n```\n\nAll Transform streams are Duplex, but not all Duplex streams are Transform.",
+    "keyConcepts": ["Duplex", "Transform", "independent sides", "data transformation"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "node-streams-events-018",
+    "subjectId": "nodejs",
+    "topicId": "node-streams-events",
+    "type": "code",
+    "difficulty": "intermediate",
+    "question": "What does this code do? Is there a better way to write it?",
+    "codeSnippet": "const readable = fs.createReadStream('./input.txt')\nconst writable = fs.createWriteStream('./output.txt')\n\nreadable.pipe(writable)\n\n// No error handling",
+    "options": [
+      { "id": "a", "text": "Copies input.txt to output.txt — the code is complete and production-ready" },
+      { "id": "b", "text": "Copies input.txt to output.txt — but missing error handling; `pipe` silently leaks on errors; use `stream.pipeline()`" },
+      { "id": "c", "text": "Fails immediately — `pipe` requires a Transform stream between Readable and Writable" },
+      { "id": "d", "text": "Loads the entire file into memory before writing" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "The code copies the file correctly, but `pipe()` has two problems:\n1. Errors from `readable` don't automatically destroy `writable` — resource leak\n2. There's no error handler at all\n\n**Better with `stream.pipeline()`:**\n```javascript\nimport { pipeline } from 'stream/promises'\nimport { createReadStream, createWriteStream } from 'fs'\n\ntry {\n  await pipeline(\n    createReadStream('./input.txt'),\n    createWriteStream('./output.txt')\n  )\n  console.log('Copy complete')\n} catch (err) {\n  console.error('Copy failed:', err)\n  // pipeline automatically destroys both streams on error\n}\n```\n\nFor a simpler one-off copy, `fs.promises.copyFile()` is the cleanest option.",
+    "keyConcepts": ["pipe", "pipeline", "error handling", "stream cleanup", "fs.copyFile"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-streams-events-019",
+    "subjectId": "nodejs",
+    "topicId": "node-streams-events",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "How can you consume a Readable stream as an async iterator?",
+    "options": [
+      { "id": "a", "text": "Streams don't support async iteration — use 'data' events instead" },
+      { "id": "b", "text": "Node.js streams implement `Symbol.asyncIterator`, so you can use `for await...of` to iterate chunks" },
+      { "id": "c", "text": "Use `stream.toAsyncIterator()` to convert first" },
+      { "id": "d", "text": "Only Transform streams support async iteration" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "Node.js Readable streams implement `Symbol.asyncIterator` (since Node.js 10), making them directly usable with `for await...of`:\n\n```javascript\n// Process a file line by line:\nimport { createReadStream } from 'fs'\nimport { createInterface } from 'readline'\n\nconst rl = createInterface({\n  input: createReadStream('./large.csv'),\n  crlfDelay: Infinity\n})\n\nfor await (const line of rl) {\n  const row = parseCSV(line)\n  await saveToDb(row)\n}\n\n// Process raw chunks:\nconst stream = fs.createReadStream('./data.bin')\nfor await (const chunk of stream) {\n  process(chunk) // chunk is a Buffer\n}\n```\n\nThis is cleaner than the `'data'`/`'end'` event pattern and works well with backpressure — the stream pauses if the loop body is slow.",
+    "keyConcepts": ["async iterator", "Symbol.asyncIterator", "for await...of", "Readable"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "node-streams-events-020",
+    "subjectId": "nodejs",
+    "topicId": "node-streams-events",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the difference between paused mode and flowing mode for a Readable stream?",
+    "options": [
+      { "id": "a", "text": "Paused mode buffers all data in memory; flowing mode discards data not processed immediately" },
+      { "id": "b", "text": "Paused mode holds data in the internal buffer until `.read()` is called; flowing mode emits 'data' events as data arrives" },
+      { "id": "c", "text": "Flowing mode requires `pipe()`; paused mode requires event listeners" },
+      { "id": "d", "text": "They are identical — the mode only affects error handling" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "Readable streams have two modes:\n\n**Paused (default):**\n- Data is buffered internally\n- Consumer calls `stream.read(n)` to pull chunks\n- Emits `'readable'` when data is available\n\n```javascript\nstream.on('readable', () => {\n  let chunk\n  while ((chunk = stream.read()) !== null) {\n    process(chunk)\n  }\n})\n```\n\n**Flowing:**\n- Data is emitted via `'data'` events as fast as it arrives\n- Switched to automatically when you add a `'data'` listener or call `stream.resume()`\n\n```javascript\nstream.on('data', (chunk) => process(chunk))\nstream.on('end', () => console.log('done'))\n```\n\n**`pipe()` and `for await...of`** both handle mode switching automatically.",
+    "keyConcepts": ["paused mode", "flowing mode", "readable event", "data event", "resume"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "node-streams-events-021",
+    "subjectId": "nodejs",
+    "topicId": "node-streams-events",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "How do you convert a stream to a Buffer (or string) without using 3rd party libraries?",
+    "options": [
+      { "id": "a", "text": "Call `stream.toBuffer()` which is built into all Readable streams" },
+      { "id": "b", "text": "Collect 'data' chunks into an array and concatenate, or use `stream.promises.pipeline` with a collector" },
+      { "id": "c", "text": "Use `Buffer.from(stream)` directly" },
+      { "id": "d", "text": "Pipe the stream to a string variable" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "```javascript\n// Classic approach — collect chunks:\nasync function streamToBuffer(readable) {\n  const chunks = []\n  for await (const chunk of readable) {\n    chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk))\n  }\n  return Buffer.concat(chunks)\n}\n\nconst buf = await streamToBuffer(fs.createReadStream('./file.bin'))\n\n// For strings:\nasync function streamToString(readable, encoding = 'utf8') {\n  const chunks = []\n  for await (const chunk of readable) chunks.push(chunk)\n  return chunks.join('')\n}\n\n// Node.js 17+ has a built-in:\nconst { buffer } = await import('node:stream/consumers')\nconst buf = await buffer(fs.createReadStream('./file.bin'))\n// or: text(stream), json(stream), blob(stream)\n```",
+    "keyConcepts": ["stream to buffer", "collect chunks", "stream consumers", "for await...of"],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "node-streams-events-022",
+    "subjectId": "nodejs",
+    "topicId": "node-streams-events",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is a PassThrough stream and when would you use it?",
+    "options": [
+      { "id": "a", "text": "A stream that discards all input (like /dev/null)" },
+      { "id": "b", "text": "A Transform stream that passes data through unchanged — useful for tapping into a pipeline or as a placeholder" },
+      { "id": "c", "text": "A stream that converts between different encodings" },
+      { "id": "d", "text": "A proxy stream that forwards data to multiple destinations" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`PassThrough` is a Transform that applies no transformation — it passes data through unchanged. Useful for:\n\n**1. Tapping into a pipeline** (logging, hashing without blocking):\n```javascript\nimport { createHash } from 'crypto'\nimport { PassThrough } from 'stream'\n\nconst hasher = new PassThrough()\nconst hash = createHash('sha256')\nhasher.on('data', (chunk) => hash.update(chunk))\nhasher.on('end', () => console.log('SHA256:', hash.digest('hex')))\n\nawait pipeline(\n  createReadStream('./file.bin'),\n  hasher,  // compute hash while passing data through\n  createWriteStream('./copy.bin')\n)\n```\n\n**2. Placeholder** in a conditional pipeline:\n```javascript\nconst transform = shouldCompress ? createGzip() : new PassThrough()\nawait pipeline(source, transform, dest)\n```",
+    "keyConcepts": ["PassThrough", "Transform", "pipeline tap", "placeholder stream"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "node-streams-events-023",
+    "subjectId": "nodejs",
+    "topicId": "node-streams-events",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is `process.stdin` and `process.stdout` in Node.js?",
+    "options": [
+      { "id": "a", "text": "Functions for reading from and writing to a file" },
+      { "id": "b", "text": "Readable and Writable streams connected to the terminal's standard input and output" },
+      { "id": "c", "text": "Buffers containing the command-line arguments and environment variables" },
+      { "id": "d", "text": "Deprecated APIs replaced by `readline`" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`process.stdin` is a **Readable stream** connected to standard input (keyboard or piped data).\n`process.stdout` is a **Writable stream** connected to standard output.\n`process.stderr` is a **Writable stream** for error output.\n\n```javascript\n// Cat implementation — pipe stdin to stdout:\nprocess.stdin.pipe(process.stdout)\n\n// Read from stdin manually:\nprocess.stdin.setEncoding('utf8')\nprocess.stdin.on('data', (chunk) => {\n  process.stdout.write(`Echo: ${chunk}`)\n})\n\n// console.log calls process.stdout.write internally\nconsole.log('hello') // equivalent to process.stdout.write('hello\\n')\n```\n\nBecause they're streams, you can pipe `process.stdin` to any writable and pipe any readable to `process.stdout`.",
+    "keyConcepts": ["process.stdin", "process.stdout", "process.stderr", "streams", "CLI"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "node-streams-events-024",
+    "subjectId": "nodejs",
+    "topicId": "node-streams-events",
+    "type": "text",
+    "difficulty": "advanced",
+    "question": "Explain how to implement a streaming file upload to S3 using Node.js streams.",
+    "explanation": "A streaming upload sends file data to S3 **as it's received**, without buffering the entire file in memory:\n\n```javascript\nimport { S3Client, PutObjectCommand } from '@aws-sdk/client-s3'\nimport { Upload } from '@aws-sdk/lib-storage'\nimport { pipeline } from 'stream/promises'\nimport { createReadStream } from 'fs'\n\nconst s3 = new S3Client({ region: 'us-east-1' })\n\n// Stream from disk to S3:\nasync function uploadFileToS3(localPath, bucket, key) {\n  const fileStream = createReadStream(localPath)\n\n  const upload = new Upload({\n    client: s3,\n    params: {\n      Bucket: bucket,\n      Key: key,\n      Body: fileStream, // stream directly — no buffering\n    },\n    queueSize: 4,       // concurrent multipart upload parts\n    partSize: 5 * 1024 * 1024, // 5MB parts\n  })\n\n  await upload.done()\n}\n\n// Express: stream the request body directly to S3:\napp.post('/upload', async (req, res, next) => {\n  try {\n    const upload = new Upload({\n      client: s3,\n      params: { Bucket: 'my-bucket', Key: req.headers['x-filename'], Body: req },\n      // req is a Readable stream\n    })\n    const result = await upload.done()\n    res.json({ url: result.Location })\n  } catch (err) { next(err) }\n})\n```\n\nThis handles files of any size with constant memory usage.",
+    "keyConcepts": ["S3 streaming upload", "multipart upload", "createReadStream", "memory efficiency"],
+    "commonInterviewQuestion": false
+  },
+  {
+    "id": "node-streams-events-025",
+    "subjectId": "nodejs",
+    "topicId": "node-streams-events",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is `stream.destroy()` and when should you call it?",
+    "options": [
+      { "id": "a", "text": "Removes the stream object from memory immediately" },
+      { "id": "b", "text": "Destroys the stream, optionally with an error — closes the underlying resource and emits 'close'" },
+      { "id": "c", "text": "Flushes all buffered data and then closes the stream" },
+      { "id": "d", "text": "Pauses the stream and clears its buffer" }
+    ],
+    "correctAnswers": ["b"],
+    "explanation": "`stream.destroy([error])` immediately destroys the stream and its underlying resource (file descriptor, socket, etc.):\n\n```javascript\n// Cancel a download when the client disconnects:\napp.get('/file', (req, res) => {\n  const fileStream = fs.createReadStream('./large-file.zip')\n  fileStream.pipe(res)\n\n  // If the client disconnects, stop reading the file:\n  req.on('close', () => {\n    fileStream.destroy() // frees the file descriptor\n  })\n})\n\n// Destroy with an error:\nstream.destroy(new Error('timeout'))\n// emits 'error' then 'close'\n\n// After destroy:\nconsole.log(stream.destroyed) // true\n```\n\nCall `destroy()` when you need to abort a stream before it naturally ends — prevents resource leaks (open file descriptors, hanging sockets).",
+    "keyConcepts": ["destroy", "stream cleanup", "file descriptor", "resource leak", "cancel"],
+    "commonInterviewQuestion": false
+  }
+]
