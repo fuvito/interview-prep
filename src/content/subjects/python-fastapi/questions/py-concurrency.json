@@ -1,0 +1,362 @@
+[
+  {
+    "id": "py-async-01",
+    "subjectId": "python-fastapi",
+    "topicId": "py-concurrency",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is the main purpose of `async def` in Python?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Create a new operating-system process"
+      },
+      {
+        "id": "b",
+        "text": "Start a thread immediately"
+      },
+      {
+        "id": "c",
+        "text": "Define a coroutine function that can be awaited"
+      },
+      {
+        "id": "d",
+        "text": "Make every statement execute in parallel"
+      }
+    ],
+    "correctAnswers": [
+      "c"
+    ],
+    "explanation": "Calling an async function produces a coroutine object. It must be awaited or scheduled on an event loop to execute.",
+    "keyConcepts": [
+      "async def",
+      "coroutines",
+      "asyncio"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-async-02",
+    "subjectId": "python-fastapi",
+    "topicId": "py-concurrency",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What does `await` do inside a coroutine?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Blocks the entire operating system"
+      },
+      {
+        "id": "b",
+        "text": "Creates a new process"
+      },
+      {
+        "id": "c",
+        "text": "Converts a function to a generator permanently"
+      },
+      {
+        "id": "d",
+        "text": "Suspends the coroutine until an awaitable produces a result, allowing other tasks to run"
+      }
+    ],
+    "correctAnswers": [
+      "d"
+    ],
+    "explanation": "`await` yields control to the event loop while the awaited operation is pending, enabling cooperative concurrency.",
+    "keyConcepts": [
+      "await",
+      "event loop",
+      "cooperative concurrency"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-async-03",
+    "subjectId": "python-fastapi",
+    "topicId": "py-concurrency",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "Which module provides Python's standard asynchronous I/O framework?",
+    "options": [
+      {
+        "id": "a",
+        "text": "asyncio"
+      },
+      {
+        "id": "b",
+        "text": "threading"
+      },
+      {
+        "id": "c",
+        "text": "multiprocessing"
+      },
+      {
+        "id": "d",
+        "text": "subprocess"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "`asyncio` provides event loops, tasks, futures, and coroutine scheduling for asynchronous I/O workloads.",
+    "keyConcepts": [
+      "asyncio",
+      "event loop",
+      "async I/O"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-async-04",
+    "subjectId": "python-fastapi",
+    "topicId": "py-concurrency",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is a thread commonly useful for in Python?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Guaranteeing CPU-bound Python bytecode runs on all cores under the standard GIL build"
+      },
+      {
+        "id": "b",
+        "text": "Overlapping I/O-bound work such as network or file operations"
+      },
+      {
+        "id": "c",
+        "text": "Replacing the interpreter"
+      },
+      {
+        "id": "d",
+        "text": "Persisting data to disk"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "Threads can overlap blocking I/O operations. Under conventional CPython builds with the GIL, CPU-bound Python bytecode generally does not scale across threads in the same way as multiprocessing.",
+    "keyConcepts": [
+      "threading",
+      "I/O-bound",
+      "GIL"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-async-05",
+    "subjectId": "python-fastapi",
+    "topicId": "py-concurrency",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is multiprocessing commonly used for?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Sharing one Python stack across all tasks"
+      },
+      {
+        "id": "b",
+        "text": "Replacing asynchronous network I/O"
+      },
+      {
+        "id": "c",
+        "text": "Running CPU-bound work in separate processes that can execute on multiple CPU cores"
+      },
+      {
+        "id": "d",
+        "text": "Avoiding all inter-process communication"
+      }
+    ],
+    "correctAnswers": [
+      "c"
+    ],
+    "explanation": "Multiprocessing uses separate processes and can achieve CPU parallelism, with additional overhead for process startup and data transfer.",
+    "keyConcepts": [
+      "multiprocessing",
+      "CPU-bound",
+      "parallelism"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-async-06",
+    "subjectId": "python-fastapi",
+    "topicId": "py-concurrency",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the Global Interpreter Lock (GIL) in conventional CPython builds?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A lock that prevents multiple processes from running"
+      },
+      {
+        "id": "b",
+        "text": "A database transaction lock"
+      },
+      {
+        "id": "c",
+        "text": "A lock used only by asyncio"
+      },
+      {
+        "id": "d",
+        "text": "A lock that historically allows only one thread at a time to execute Python bytecode within an interpreter"
+      }
+    ],
+    "correctAnswers": [
+      "d"
+    ],
+    "explanation": "The GIL has historically constrained CPU-bound parallel execution of Python threads in standard CPython builds. Free-threaded builds and other Python implementations change this landscape.",
+    "keyConcepts": [
+      "GIL",
+      "CPython",
+      "threading"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-async-07",
+    "subjectId": "python-fastapi",
+    "topicId": "py-concurrency",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the difference between concurrency and parallelism?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Concurrency is managing overlapping tasks; parallelism is executing tasks at the same time"
+      },
+      {
+        "id": "b",
+        "text": "They are always identical"
+      },
+      {
+        "id": "c",
+        "text": "Concurrency requires multiple CPU cores; parallelism does not"
+      },
+      {
+        "id": "d",
+        "text": "Parallelism is only possible with asyncio"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "Concurrency concerns structuring multiple tasks so they make progress over overlapping periods. Parallelism means tasks execute simultaneously, often on multiple cores.",
+    "keyConcepts": [
+      "concurrency",
+      "parallelism",
+      "execution"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-async-08",
+    "subjectId": "python-fastapi",
+    "topicId": "py-concurrency",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does `asyncio.gather()` commonly do?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Create multiple operating-system processes"
+      },
+      {
+        "id": "b",
+        "text": "Schedule or await multiple awaitables and collect their results"
+      },
+      {
+        "id": "c",
+        "text": "Convert a list into a thread-safe queue"
+      },
+      {
+        "id": "d",
+        "text": "Run synchronous code in a database transaction"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "`asyncio.gather` runs awaitables concurrently and returns their results in input order when they complete successfully, subject to its exception behavior and options.",
+    "keyConcepts": [
+      "asyncio.gather",
+      "tasks",
+      "concurrency"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-async-09",
+    "subjectId": "python-fastapi",
+    "topicId": "py-concurrency",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "Why is calling a blocking function directly inside an async endpoint problematic?",
+    "options": [
+      {
+        "id": "a",
+        "text": "It automatically creates a background task"
+      },
+      {
+        "id": "b",
+        "text": "It turns the endpoint into a synchronous endpoint"
+      },
+      {
+        "id": "c",
+        "text": "It blocks the event-loop thread and delays other coroutines on that loop"
+      },
+      {
+        "id": "d",
+        "text": "It improves concurrency by default"
+      }
+    ],
+    "correctAnswers": [
+      "c"
+    ],
+    "explanation": "Blocking work prevents the event loop from scheduling other tasks while the call is running. Use async-compatible libraries or isolate blocking work in a thread/process executor as appropriate.",
+    "keyConcepts": [
+      "blocking I/O",
+      "event loop",
+      "asyncio"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-async-10",
+    "subjectId": "python-fastapi",
+    "topicId": "py-concurrency",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "When is multiprocessing generally a better fit than asyncio?",
+    "options": [
+      {
+        "id": "a",
+        "text": "For waiting on thousands of nonblocking sockets"
+      },
+      {
+        "id": "b",
+        "text": "For simple sequential file reads only"
+      },
+      {
+        "id": "c",
+        "text": "Whenever a function contains `await`"
+      },
+      {
+        "id": "d",
+        "text": "For CPU-bound work that benefits from executing on multiple cores"
+      }
+    ],
+    "correctAnswers": [
+      "d"
+    ],
+    "explanation": "Multiprocessing can distribute CPU-intensive computations across processes. Asyncio is particularly effective for high-concurrency I/O when libraries support nonblocking operations.",
+    "keyConcepts": [
+      "multiprocessing",
+      "CPU-bound",
+      "asyncio"
+    ],
+    "commonInterviewQuestion": true
+  }
+]

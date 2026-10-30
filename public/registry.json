@@ -59,6 +59,20 @@
       }
     },
     {
+      "id": "python-fastapi",
+      "name": "Python & FastAPI",
+      "description": "Comprehensive interview preparation covering Python language fundamentals, object-oriented programming, typing, standard library, testing, performance, concurrency, and building production APIs with FastAPI.",
+      "version": "1.0.0",
+      "questionCount": 200,
+      "topicCount": 20,
+      "bundled": false,
+      "packUrl": "https://raw.githubusercontent.com/fuvito/interview-prep/main/packs/python-fastapi.json",
+      "author": {
+        "name": "Fuat Yazar",
+        "email": "fyazar@gmail.com"
+      }
+    },
+    {
       "id": "reactjs",
       "name": "React",
       "description": "Prepare for React interviews, from fundamentals and component design to state, Hooks, forms, performance, routing, testing, accessibility, and modern React patterns.",

@@ -1,0 +1,142 @@
+[
+  {
+    "id": "py-fundamentals",
+    "subjectId": "python-fastapi",
+    "name": "Python Fundamentals",
+    "description": "Syntax, variables, data types, operators, control flow, and basic language behavior.",
+    "order": 1
+  },
+  {
+    "id": "py-collections",
+    "subjectId": "python-fastapi",
+    "name": "Strings, Collections & Comprehensions",
+    "description": "Strings, lists, tuples, dictionaries, sets, slicing, and comprehensions.",
+    "order": 2
+  },
+  {
+    "id": "py-functions",
+    "subjectId": "python-fastapi",
+    "name": "Functions, Scope & Functional Features",
+    "description": "Function definitions, arguments, scope, closures, decorators, lambdas, and functional tools.",
+    "order": 3
+  },
+  {
+    "id": "py-oop",
+    "subjectId": "python-fastapi",
+    "name": "Object-Oriented Programming",
+    "description": "Classes, objects, inheritance, composition, polymorphism, properties, and special methods.",
+    "order": 4
+  },
+  {
+    "id": "py-exceptions",
+    "subjectId": "python-fastapi",
+    "name": "Exceptions & Error Handling",
+    "description": "Exception hierarchy, custom exceptions, handling strategies, and context managers.",
+    "order": 5
+  },
+  {
+    "id": "py-modules",
+    "subjectId": "python-fastapi",
+    "name": "Modules, Packages & Environments",
+    "description": "Imports, packages, virtual environments, dependency management, and project organization.",
+    "order": 6
+  },
+  {
+    "id": "py-iterators",
+    "subjectId": "python-fastapi",
+    "name": "Iterators, Generators & Context Managers",
+    "description": "Iteration protocol, generators, yield, context management, and resource cleanup.",
+    "order": 7
+  },
+  {
+    "id": "py-typing",
+    "subjectId": "python-fastapi",
+    "name": "Typing, Dataclasses & Modern Python",
+    "description": "Type hints, generics, protocols, dataclasses, enums, and modern Python features.",
+    "order": 8
+  },
+  {
+    "id": "py-files",
+    "subjectId": "python-fastapi",
+    "name": "Files, Serialization & Standard Library",
+    "description": "File operations, JSON, CSV, pathlib, logging, datetime, and useful standard-library modules.",
+    "order": 9
+  },
+  {
+    "id": "py-concurrency",
+    "subjectId": "python-fastapi",
+    "name": "Concurrency, Asyncio & Multiprocessing",
+    "description": "Threads, processes, asyncio, coroutines, event loops, and concurrency trade-offs.",
+    "order": 10
+  },
+  {
+    "id": "py-testing",
+    "subjectId": "python-fastapi",
+    "name": "Testing, Debugging & Code Quality",
+    "description": "pytest, unittest, mocking, debugging, linting, formatting, and maintainable code.",
+    "order": 11
+  },
+  {
+    "id": "py-performance",
+    "subjectId": "python-fastapi",
+    "name": "Performance, Memory & Python Internals",
+    "description": "Big-O, profiling, memory behavior, garbage collection, GIL, and optimization.",
+    "order": 12
+  },
+  {
+    "id": "fapi-fundamentals",
+    "subjectId": "python-fastapi",
+    "name": "FastAPI Fundamentals & Application Setup",
+    "description": "FastAPI application structure, routing, path operations, ASGI, and application lifecycle.",
+    "order": 13
+  },
+  {
+    "id": "fapi-pydantic",
+    "subjectId": "python-fastapi",
+    "name": "Pydantic, Validation & Data Models",
+    "description": "Request and response models, validation, serialization, field constraints, and Pydantic behavior.",
+    "order": 14
+  },
+  {
+    "id": "fapi-di",
+    "subjectId": "python-fastapi",
+    "name": "Dependency Injection & Application Architecture",
+    "description": "Depends, dependency scopes, reusable dependencies, app structure, and configuration.",
+    "order": 15
+  },
+  {
+    "id": "fapi-async",
+    "subjectId": "python-fastapi",
+    "name": "Async Endpoints & Background Tasks",
+    "description": "Async/await in endpoints, blocking work, background tasks, and concurrency considerations.",
+    "order": 16
+  },
+  {
+    "id": "fapi-db",
+    "subjectId": "python-fastapi",
+    "name": "Databases, SQLAlchemy & Persistence",
+    "description": "Database sessions, SQLAlchemy integration, transactions, repository patterns, and migrations.",
+    "order": 17
+  },
+  {
+    "id": "fapi-auth",
+    "subjectId": "python-fastapi",
+    "name": "Authentication, Authorization & Security",
+    "description": "OAuth2 password flow, JWT concepts, password hashing, scopes, CORS, and security practices.",
+    "order": 18
+  },
+  {
+    "id": "fapi-middleware",
+    "subjectId": "python-fastapi",
+    "name": "Errors, Middleware & API Design",
+    "description": "Exception handlers, middleware, status codes, response models, pagination, and API contracts.",
+    "order": 19
+  },
+  {
+    "id": "fapi-deployment",
+    "subjectId": "python-fastapi",
+    "name": "Testing, Deployment & Production FastAPI",
+    "description": "TestClient, dependency overrides, lifespan, ASGI servers, containers, observability, and deployment.",
+    "order": 20
+  }
+]

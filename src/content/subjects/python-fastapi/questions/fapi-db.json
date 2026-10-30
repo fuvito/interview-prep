@@ -1,0 +1,362 @@
+[
+  {
+    "id": "fapi-db-01",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-db",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is SQLAlchemy commonly used for in a FastAPI application?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Database access through SQL expression and ORM capabilities"
+      },
+      {
+        "id": "b",
+        "text": "HTTP routing"
+      },
+      {
+        "id": "c",
+        "text": "JWT signing"
+      },
+      {
+        "id": "d",
+        "text": "Frontend rendering"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "SQLAlchemy provides SQL toolkit and ORM functionality. FastAPI does not mandate a particular database library.",
+    "keyConcepts": [
+      "SQLAlchemy",
+      "ORM",
+      "persistence"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "fapi-db-02",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-db",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is the purpose of a database session in SQLAlchemy?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Represent an HTTP request body"
+      },
+      {
+        "id": "b",
+        "text": "Represent a unit of work for interacting with the database and tracking ORM changes"
+      },
+      {
+        "id": "c",
+        "text": "Store user login sessions in the browser"
+      },
+      {
+        "id": "d",
+        "text": "Start the ASGI server"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "A Session manages ORM identity state and transaction interaction. It should have a deliberate lifecycle and should not be shared indiscriminately across concurrent requests.",
+    "keyConcepts": [
+      "SQLAlchemy Session",
+      "unit of work",
+      "transaction"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "fapi-db-03",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-db",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "Why should a database session generally be closed or otherwise cleaned up after request processing?",
+    "options": [
+      {
+        "id": "a",
+        "text": "To delete all database tables"
+      },
+      {
+        "id": "b",
+        "text": "To clear Python's module cache"
+      },
+      {
+        "id": "c",
+        "text": "To release connection and transactional resources back to the pool"
+      },
+      {
+        "id": "d",
+        "text": "To restart FastAPI"
+      }
+    ],
+    "correctAnswers": [
+      "c"
+    ],
+    "explanation": "A session dependency commonly yields a session and closes it in cleanup, ensuring resources are not leaked.",
+    "keyConcepts": [
+      "session lifecycle",
+      "connection pool",
+      "cleanup"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "fapi-db-04",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-db",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is a database migration?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A copy of an API response"
+      },
+      {
+        "id": "b",
+        "text": "A Python virtual environment"
+      },
+      {
+        "id": "c",
+        "text": "A log rotation policy"
+      },
+      {
+        "id": "d",
+        "text": "A versioned change to database schema or data structure"
+      }
+    ],
+    "correctAnswers": [
+      "d"
+    ],
+    "explanation": "Migrations record and apply schema changes over time. Alembic is commonly used with SQLAlchemy.",
+    "keyConcepts": [
+      "migrations",
+      "Alembic",
+      "schema evolution"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "fapi-db-05",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-db",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is the purpose of a repository layer in a backend application?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Encapsulate data access operations behind an application-facing interface"
+      },
+      {
+        "id": "b",
+        "text": "Render HTML templates"
+      },
+      {
+        "id": "c",
+        "text": "Configure CORS headers"
+      },
+      {
+        "id": "d",
+        "text": "Manage browser localStorage"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "A repository can isolate persistence details from business logic. It is a design choice, not a mandatory FastAPI feature.",
+    "keyConcepts": [
+      "repository pattern",
+      "data access",
+      "separation of concerns"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "fapi-db-06",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-db",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "Why should a SQLAlchemy Session generally not be shared across concurrent requests or asyncio tasks?",
+    "options": [
+      {
+        "id": "a",
+        "text": "It is an immutable global singleton"
+      },
+      {
+        "id": "b",
+        "text": "It is mutable unit-of-work state and is not designed for unrestricted concurrent use"
+      },
+      {
+        "id": "c",
+        "text": "It can only execute SELECT queries"
+      },
+      {
+        "id": "d",
+        "text": "It automatically serializes every operation"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "A Session tracks identity-map and transaction state and is not safe for concurrent use. Use one session per request/task unit of work; async applications use the appropriate AsyncSession pattern.",
+    "keyConcepts": [
+      "SQLAlchemy Session",
+      "concurrency",
+      "unit of work"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "fapi-db-07",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-db",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the purpose of `commit()` in a SQLAlchemy session?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Close the Python interpreter"
+      },
+      {
+        "id": "b",
+        "text": "Refresh all API routes"
+      },
+      {
+        "id": "c",
+        "text": "Commit the current database transaction"
+      },
+      {
+        "id": "d",
+        "text": "Generate a migration file"
+      }
+    ],
+    "correctAnswers": [
+      "c"
+    ],
+    "explanation": "`commit()` flushes pending changes and commits the current transaction. If a transaction fails, the session usually needs rollback before reuse.",
+    "keyConcepts": [
+      "commit",
+      "transactions",
+      "SQLAlchemy"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "fapi-db-08",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-db",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the difference between `flush()` and `commit()`?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Flush closes the session; commit keeps it open"
+      },
+      {
+        "id": "b",
+        "text": "Flush rolls back changes; commit validates Pydantic"
+      },
+      {
+        "id": "c",
+        "text": "They are identical"
+      },
+      {
+        "id": "d",
+        "text": "Flush sends pending changes to the database within the current transaction; commit makes the transaction durable"
+      }
+    ],
+    "correctAnswers": [
+      "d"
+    ],
+    "explanation": "A flush synchronizes pending ORM changes with the database but does not commit the transaction. Commit finalizes the transaction.",
+    "keyConcepts": [
+      "flush",
+      "commit",
+      "transaction"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "fapi-db-09",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-db",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is Alembic used for?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Database schema migration management, commonly with SQLAlchemy"
+      },
+      {
+        "id": "b",
+        "text": "API documentation generation"
+      },
+      {
+        "id": "c",
+        "text": "Async task scheduling"
+      },
+      {
+        "id": "d",
+        "text": "Password hashing"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "Alembic tracks schema changes through migration scripts that can be applied and rolled back in controlled deployment workflows.",
+    "keyConcepts": [
+      "Alembic",
+      "migrations",
+      "SQLAlchemy"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "fapi-db-10",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-db",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "Why is it often preferable to keep database transactions short in web APIs?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Short transactions disable ACID"
+      },
+      {
+        "id": "b",
+        "text": "Long transactions hold resources and locks longer, increasing contention and reducing throughput"
+      },
+      {
+        "id": "c",
+        "text": "Long transactions always improve consistency"
+      },
+      {
+        "id": "d",
+        "text": "Short transactions prevent rollback"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "Transactions should cover the atomic business operation without unnecessary network waits or long-running work. This limits lock duration and connection occupancy.",
+    "keyConcepts": [
+      "transaction duration",
+      "locking",
+      "throughput"
+    ],
+    "commonInterviewQuestion": true
+  }
+]

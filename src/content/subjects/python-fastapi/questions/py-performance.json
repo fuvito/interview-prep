@@ -1,0 +1,362 @@
+[
+  {
+    "id": "py-perf-01",
+    "subjectId": "python-fastapi",
+    "topicId": "py-performance",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What does Big-O notation describe?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The exact execution time on every computer"
+      },
+      {
+        "id": "b",
+        "text": "The number of Python modules imported"
+      },
+      {
+        "id": "c",
+        "text": "How an algorithm's resource use grows as input size grows"
+      },
+      {
+        "id": "d",
+        "text": "The memory address of an object"
+      }
+    ],
+    "correctAnswers": [
+      "c"
+    ],
+    "explanation": "Big-O expresses asymptotic growth, commonly for time or space complexity. It abstracts away machine-specific constant factors.",
+    "keyConcepts": [
+      "Big-O",
+      "complexity",
+      "algorithms"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-perf-02",
+    "subjectId": "python-fastapi",
+    "topicId": "py-performance",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is the average-case time complexity of dictionary lookup by key?",
+    "options": [
+      {
+        "id": "a",
+        "text": "O(log n)"
+      },
+      {
+        "id": "b",
+        "text": "O(n)"
+      },
+      {
+        "id": "c",
+        "text": "O(n log n)"
+      },
+      {
+        "id": "d",
+        "text": "O(1)"
+      }
+    ],
+    "correctAnswers": [
+      "d"
+    ],
+    "explanation": "Dictionary lookup is average-case constant time under normal hashing assumptions, though worst-case behavior can degrade with collisions.",
+    "keyConcepts": [
+      "dictionary",
+      "hash table",
+      "complexity"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-perf-03",
+    "subjectId": "python-fastapi",
+    "topicId": "py-performance",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "Which tool is commonly used to measure execution time of small Python code snippets?",
+    "options": [
+      {
+        "id": "a",
+        "text": "timeit"
+      },
+      {
+        "id": "b",
+        "text": "pickle"
+      },
+      {
+        "id": "c",
+        "text": "venv"
+      },
+      {
+        "id": "d",
+        "text": "pathlib"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "`timeit` provides a repeatable way to time small snippets while reducing some measurement noise.",
+    "keyConcepts": [
+      "timeit",
+      "benchmarking",
+      "performance"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-perf-04",
+    "subjectId": "python-fastapi",
+    "topicId": "py-performance",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is profiling used for?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Automatically rewrite code in a faster language"
+      },
+      {
+        "id": "b",
+        "text": "Identify where a program spends time or other resources"
+      },
+      {
+        "id": "c",
+        "text": "Encrypt runtime memory"
+      },
+      {
+        "id": "d",
+        "text": "Generate API documentation"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "Profilers provide evidence about function call counts and execution time, helping focus optimization on actual bottlenecks.",
+    "keyConcepts": [
+      "profiling",
+      "cProfile",
+      "optimization"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-perf-05",
+    "subjectId": "python-fastapi",
+    "topicId": "py-performance",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What does garbage collection help manage in Python?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Delete every variable at the end of each function"
+      },
+      {
+        "id": "b",
+        "text": "Compress all Python objects"
+      },
+      {
+        "id": "c",
+        "text": "Reclaim memory used by objects that are no longer reachable, including cycles handled by cyclic GC"
+      },
+      {
+        "id": "d",
+        "text": "Persist objects to disk"
+      }
+    ],
+    "correctAnswers": [
+      "c"
+    ],
+    "explanation": "CPython primarily uses reference counting and supplements it with cyclic garbage collection to handle reference cycles.",
+    "keyConcepts": [
+      "garbage collection",
+      "reference counting",
+      "memory"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-perf-06",
+    "subjectId": "python-fastapi",
+    "topicId": "py-performance",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "Why can repeated string concatenation in a loop be inefficient?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Strings are mutable and cannot be concatenated"
+      },
+      {
+        "id": "b",
+        "text": "The loop always runs in parallel"
+      },
+      {
+        "id": "c",
+        "text": "The interpreter converts strings to files"
+      },
+      {
+        "id": "d",
+        "text": "It may repeatedly allocate and copy strings; joining collected parts is often more efficient"
+      }
+    ],
+    "correctAnswers": [
+      "d"
+    ],
+    "explanation": "Strings are immutable. Repeated concatenation can create many intermediate objects. Building a list and using `''.join(parts)` is often more efficient.",
+    "keyConcepts": [
+      "string immutability",
+      "join",
+      "performance"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-perf-07",
+    "subjectId": "python-fastapi",
+    "topicId": "py-performance",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the purpose of `__slots__` in a class?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Restrict allowed instance attributes and potentially reduce per-instance memory overhead"
+      },
+      {
+        "id": "b",
+        "text": "Make all methods static"
+      },
+      {
+        "id": "c",
+        "text": "Prevent class inheritance in every case"
+      },
+      {
+        "id": "d",
+        "text": "Automatically serialize the object"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "`__slots__` can avoid the usual per-instance `__dict__` and restrict dynamic attributes, but it has trade-offs involving inheritance, weak references, and flexibility.",
+    "keyConcepts": [
+      "__slots__",
+      "memory",
+      "object layout"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-perf-08",
+    "subjectId": "python-fastapi",
+    "topicId": "py-performance",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is a common reason a Python program uses more memory than expected when processing a large file?",
+    "options": [
+      {
+        "id": "a",
+        "text": "It uses a generator"
+      },
+      {
+        "id": "b",
+        "text": "It reads or materializes the entire file or dataset instead of streaming it"
+      },
+      {
+        "id": "c",
+        "text": "It uses pathlib"
+      },
+      {
+        "id": "d",
+        "text": "It closes the file with a context manager"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "Streaming line by line or processing chunks avoids retaining the entire dataset in memory.",
+    "keyConcepts": [
+      "streaming",
+      "memory usage",
+      "generators"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-perf-09",
+    "subjectId": "python-fastapi",
+    "topicId": "py-performance",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the purpose of `tracemalloc`?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Trace HTTP routes"
+      },
+      {
+        "id": "b",
+        "text": "Measure network bandwidth"
+      },
+      {
+        "id": "c",
+        "text": "Trace Python memory allocations to help investigate memory usage"
+      },
+      {
+        "id": "d",
+        "text": "Profile SQL query plans"
+      }
+    ],
+    "correctAnswers": [
+      "c"
+    ],
+    "explanation": "`tracemalloc` tracks Python memory allocations and can compare snapshots to identify allocation sources.",
+    "keyConcepts": [
+      "tracemalloc",
+      "memory profiling",
+      "allocations"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-perf-10",
+    "subjectId": "python-fastapi",
+    "topicId": "py-performance",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "Why should developers avoid optimizing code based only on intuition?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Python performance is always predictable from source length"
+      },
+      {
+        "id": "b",
+        "text": "Profilers cannot measure Python code"
+      },
+      {
+        "id": "c",
+        "text": "Optimization always improves maintainability"
+      },
+      {
+        "id": "d",
+        "text": "The perceived bottleneck may not be the actual bottleneck, and changes can add complexity without measurable benefit"
+      }
+    ],
+    "correctAnswers": [
+      "d"
+    ],
+    "explanation": "Measure representative workloads first, identify the bottleneck, optimize the relevant part, and benchmark again to confirm improvement.",
+    "keyConcepts": [
+      "measurement",
+      "profiling",
+      "optimization"
+    ],
+    "commonInterviewQuestion": true
+  }
+]

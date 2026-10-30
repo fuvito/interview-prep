@@ -1,0 +1,362 @@
+[
+  {
+    "id": "py-mod-01",
+    "subjectId": "python-fastapi",
+    "topicId": "py-modules",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is a Python module?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A virtual machine"
+      },
+      {
+        "id": "b",
+        "text": "A database schema"
+      },
+      {
+        "id": "c",
+        "text": "A Python file that can define functions, classes, and variables"
+      },
+      {
+        "id": "d",
+        "text": "A compiled container image"
+      }
+    ],
+    "correctAnswers": [
+      "c"
+    ],
+    "explanation": "A module is commonly a `.py` file that can be imported by other Python code.",
+    "keyConcepts": [
+      "modules",
+      "imports",
+      "Python files"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-mod-02",
+    "subjectId": "python-fastapi",
+    "topicId": "py-modules",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is a Python package traditionally represented by?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A single executable JAR"
+      },
+      {
+        "id": "b",
+        "text": "A JSON file only"
+      },
+      {
+        "id": "c",
+        "text": "A virtual environment folder only"
+      },
+      {
+        "id": "d",
+        "text": "A directory containing modules and commonly an `__init__.py` file"
+      }
+    ],
+    "correctAnswers": [
+      "d"
+    ],
+    "explanation": "Regular packages commonly contain `__init__.py`. Python also supports namespace packages that can span directories without that file.",
+    "keyConcepts": [
+      "packages",
+      "__init__.py",
+      "namespace packages"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-mod-03",
+    "subjectId": "python-fastapi",
+    "topicId": "py-modules",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is the purpose of `if __name__ == '__main__':`?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Run code only when the module is executed as the main program"
+      },
+      {
+        "id": "b",
+        "text": "Run code only when imported"
+      },
+      {
+        "id": "c",
+        "text": "Declare a package namespace"
+      },
+      {
+        "id": "d",
+        "text": "Enable type checking"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "When a file is executed directly, its `__name__` is set to `__main__`. When imported, it is set to the module name.",
+    "keyConcepts": [
+      "__main__",
+      "module execution",
+      "imports"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-mod-04",
+    "subjectId": "python-fastapi",
+    "topicId": "py-modules",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "Why use a virtual environment for a Python project?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Make Python code run without an interpreter"
+      },
+      {
+        "id": "b",
+        "text": "Isolate project dependencies from other projects and the system Python environment"
+      },
+      {
+        "id": "c",
+        "text": "Encrypt installed packages"
+      },
+      {
+        "id": "d",
+        "text": "Automatically deploy the project"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "Virtual environments provide an isolated installation context, helping projects use different dependency versions without interfering with one another.",
+    "keyConcepts": [
+      "venv",
+      "dependency isolation",
+      "environment"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-mod-05",
+    "subjectId": "python-fastapi",
+    "topicId": "py-modules",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "Which command commonly creates a virtual environment named `.venv`?",
+    "options": [
+      {
+        "id": "a",
+        "text": "`pip install venv .venv`"
+      },
+      {
+        "id": "b",
+        "text": "`python --new-env .venv`"
+      },
+      {
+        "id": "c",
+        "text": "`python -m venv .venv`"
+      },
+      {
+        "id": "d",
+        "text": "`venv create python .venv`"
+      }
+    ],
+    "correctAnswers": [
+      "c"
+    ],
+    "explanation": "`venv` is part of the Python standard library and is commonly invoked as a module.",
+    "keyConcepts": [
+      "venv",
+      "virtual environment",
+      "CLI"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-mod-06",
+    "subjectId": "python-fastapi",
+    "topicId": "py-modules",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the purpose of `__init__.py` in a regular package?",
+    "options": [
+      {
+        "id": "a",
+        "text": "It is always the application's entry point"
+      },
+      {
+        "id": "b",
+        "text": "It installs dependencies automatically"
+      },
+      {
+        "id": "c",
+        "text": "It defines every class in the package"
+      },
+      {
+        "id": "d",
+        "text": "It marks the directory as a package and can contain package initialization code"
+      }
+    ],
+    "correctAnswers": [
+      "d"
+    ],
+    "explanation": "`__init__.py` can be empty or expose package-level names and initialization behavior. Namespace packages are an exception to the requirement.",
+    "keyConcepts": [
+      "__init__.py",
+      "package initialization",
+      "imports"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-mod-07",
+    "subjectId": "python-fastapi",
+    "topicId": "py-modules",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is a circular import?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Two or more modules depend on each other through imports, potentially observing partially initialized modules"
+      },
+      {
+        "id": "b",
+        "text": "An import that downloads a package repeatedly"
+      },
+      {
+        "id": "c",
+        "text": "An import of a package with no functions"
+      },
+      {
+        "id": "d",
+        "text": "An import that uses a relative path"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "Circular imports can occur when modules depend on each other during initialization. Refactoring shared definitions or moving imports to narrower scopes can help.",
+    "keyConcepts": [
+      "circular imports",
+      "module initialization",
+      "architecture"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-mod-08",
+    "subjectId": "python-fastapi",
+    "topicId": "py-modules",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does `pip install -r requirements.txt` do?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Exports installed packages to a file"
+      },
+      {
+        "id": "b",
+        "text": "Installs packages listed in the requirements file"
+      },
+      {
+        "id": "c",
+        "text": "Runs the test suite"
+      },
+      {
+        "id": "d",
+        "text": "Creates a virtual environment"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "`pip install -r` reads package requirements and installs them into the active environment.",
+    "keyConcepts": [
+      "pip",
+      "requirements.txt",
+      "dependencies"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-mod-09",
+    "subjectId": "python-fastapi",
+    "topicId": "py-modules",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the benefit of pinning dependency versions?",
+    "options": [
+      {
+        "id": "a",
+        "text": "It guarantees packages have no vulnerabilities"
+      },
+      {
+        "id": "b",
+        "text": "It prevents package updates forever"
+      },
+      {
+        "id": "c",
+        "text": "It improves reproducibility by controlling which package versions are installed"
+      },
+      {
+        "id": "d",
+        "text": "It removes transitive dependencies"
+      }
+    ],
+    "correctAnswers": [
+      "c"
+    ],
+    "explanation": "Pinned or constrained versions reduce unexpected dependency drift. They do not guarantee security; dependency updates and vulnerability review remain necessary.",
+    "keyConcepts": [
+      "dependency pinning",
+      "reproducibility",
+      "package management"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-mod-10",
+    "subjectId": "python-fastapi",
+    "topicId": "py-modules",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is the main difference between an absolute import and a relative import?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Absolute imports work only on Windows"
+      },
+      {
+        "id": "b",
+        "text": "Relative imports cannot import sibling modules"
+      },
+      {
+        "id": "c",
+        "text": "They are identical in all cases"
+      },
+      {
+        "id": "d",
+        "text": "An absolute import names a module from its package/import root; a relative import uses leading dots relative to the current package"
+      }
+    ],
+    "correctAnswers": [
+      "d"
+    ],
+    "explanation": "Absolute imports are explicit from the import root. Relative imports use dot notation to refer to the current package and its parents.",
+    "keyConcepts": [
+      "absolute imports",
+      "relative imports",
+      "package structure"
+    ],
+    "commonInterviewQuestion": true
+  }
+]

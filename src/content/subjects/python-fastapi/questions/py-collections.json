@@ -1,0 +1,362 @@
+[
+  {
+    "id": "py-col-01",
+    "subjectId": "python-fastapi",
+    "topicId": "py-collections",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "Which Python collection is ordered and mutable?",
+    "options": [
+      {
+        "id": "a",
+        "text": "tuple"
+      },
+      {
+        "id": "b",
+        "text": "str"
+      },
+      {
+        "id": "c",
+        "text": "list"
+      },
+      {
+        "id": "d",
+        "text": "frozenset"
+      }
+    ],
+    "correctAnswers": [
+      "c"
+    ],
+    "explanation": "Lists preserve order and can be modified after creation. Tuples and strings are immutable; frozensets are immutable sets.",
+    "keyConcepts": [
+      "list",
+      "mutability",
+      "collections"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-col-02",
+    "subjectId": "python-fastapi",
+    "topicId": "py-collections",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "Which collection is typically used to store unique elements?",
+    "options": [
+      {
+        "id": "a",
+        "text": "list"
+      },
+      {
+        "id": "b",
+        "text": "tuple"
+      },
+      {
+        "id": "c",
+        "text": "str"
+      },
+      {
+        "id": "d",
+        "text": "set"
+      }
+    ],
+    "correctAnswers": [
+      "d"
+    ],
+    "explanation": "A set stores distinct hashable elements and supports efficient membership checks on average.",
+    "keyConcepts": [
+      "set",
+      "uniqueness",
+      "hashing"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-col-03",
+    "subjectId": "python-fastapi",
+    "topicId": "py-collections",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "How do you access the first element of a list named `items`?",
+    "options": [
+      {
+        "id": "a",
+        "text": "`items[0]`"
+      },
+      {
+        "id": "b",
+        "text": "`items[1]`"
+      },
+      {
+        "id": "c",
+        "text": "`items.first()`"
+      },
+      {
+        "id": "d",
+        "text": "`items[-0]`"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "Python sequences use zero-based indexing, so index 0 refers to the first element. `items[-0]` is also index 0, but is not the usual expression.",
+    "keyConcepts": [
+      "indexing",
+      "list",
+      "zero-based"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-col-04",
+    "subjectId": "python-fastapi",
+    "topicId": "py-collections",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "Which syntax creates a tuple containing one element?",
+    "options": [
+      {
+        "id": "a",
+        "text": "`(5)`"
+      },
+      {
+        "id": "b",
+        "text": "`(5,)`"
+      },
+      {
+        "id": "c",
+        "text": "`[5]`"
+      },
+      {
+        "id": "d",
+        "text": "`{5}`"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "The trailing comma makes it a one-element tuple. Parentheses alone do not create a tuple; `(5)` is just the integer 5.",
+    "keyConcepts": [
+      "tuple",
+      "single-element tuple",
+      "comma"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-col-05",
+    "subjectId": "python-fastapi",
+    "topicId": "py-collections",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "Which method adds one element to the end of a list?",
+    "options": [
+      {
+        "id": "a",
+        "text": "`add()`"
+      },
+      {
+        "id": "b",
+        "text": "`push()`"
+      },
+      {
+        "id": "c",
+        "text": "`append()`"
+      },
+      {
+        "id": "d",
+        "text": "`insertEnd()`"
+      }
+    ],
+    "correctAnswers": [
+      "c"
+    ],
+    "explanation": "`list.append(value)` adds one item at the end. `extend` adds elements from an iterable.",
+    "keyConcepts": [
+      "list methods",
+      "append",
+      "mutation"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-col-06",
+    "subjectId": "python-fastapi",
+    "topicId": "py-collections",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does the slice `values[1:4]` return?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Elements at indexes 1 through 4 inclusive"
+      },
+      {
+        "id": "b",
+        "text": "Only the element at index 4"
+      },
+      {
+        "id": "c",
+        "text": "The list in reverse order"
+      },
+      {
+        "id": "d",
+        "text": "Elements at indexes 1, 2, and 3"
+      }
+    ],
+    "correctAnswers": [
+      "d"
+    ],
+    "explanation": "The start index is included and the stop index is excluded. Slicing creates a new list for a list input.",
+    "keyConcepts": [
+      "slicing",
+      "exclusive stop",
+      "sequences"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-col-07",
+    "subjectId": "python-fastapi",
+    "topicId": "py-collections",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is a dictionary key required to be?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Hashable"
+      },
+      {
+        "id": "b",
+        "text": "Always a string"
+      },
+      {
+        "id": "c",
+        "text": "Always an integer"
+      },
+      {
+        "id": "d",
+        "text": "Mutable"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "Dictionary keys must be hashable so Python can compute a stable hash. Common keys include strings, numbers, and tuples of hashable values.",
+    "keyConcepts": [
+      "dict",
+      "hashable",
+      "keys"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-col-08",
+    "subjectId": "python-fastapi",
+    "topicId": "py-collections",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the main difference between `list.sort()` and `sorted(list_value)`?",
+    "options": [
+      {
+        "id": "a",
+        "text": "`sorted()` modifies the original list; `sort()` returns a new list"
+      },
+      {
+        "id": "b",
+        "text": "`list.sort()` modifies the list in place; `sorted()` returns a new sorted list"
+      },
+      {
+        "id": "c",
+        "text": "Both always return the same new list"
+      },
+      {
+        "id": "d",
+        "text": "`sort()` works only on tuples"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "`list.sort()` sorts the list in place and returns `None`. `sorted()` accepts an iterable and returns a new list.",
+    "keyConcepts": [
+      "sort",
+      "sorted",
+      "in-place mutation"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-col-09",
+    "subjectId": "python-fastapi",
+    "topicId": "py-collections",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does a list comprehension produce?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A generator that can only be consumed once"
+      },
+      {
+        "id": "b",
+        "text": "A dictionary in every case"
+      },
+      {
+        "id": "c",
+        "text": "A new list built by evaluating an expression for each item in an iterable"
+      },
+      {
+        "id": "d",
+        "text": "A function definition"
+      }
+    ],
+    "correctAnswers": [
+      "c"
+    ],
+    "explanation": "A list comprehension creates a list. Generator expressions use parentheses and produce values lazily.",
+    "keyConcepts": [
+      "list comprehension",
+      "iterables",
+      "generator expression"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-col-10",
+    "subjectId": "python-fastapi",
+    "topicId": "py-collections",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "Why can a tuple be used as a dictionary key only when its contents are hashable?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Tuples are always mutable"
+      },
+      {
+        "id": "b",
+        "text": "Dictionary keys cannot be tuples"
+      },
+      {
+        "id": "c",
+        "text": "Python hashes only the first tuple element"
+      },
+      {
+        "id": "d",
+        "text": "A tuple's hashability depends on the hashability of all its elements"
+      }
+    ],
+    "correctAnswers": [
+      "d"
+    ],
+    "explanation": "A tuple is hashable only if all its elements are hashable. A tuple containing a list, for example, cannot be used as a dictionary key.",
+    "keyConcepts": [
+      "hashability",
+      "tuple",
+      "dictionary keys"
+    ],
+    "commonInterviewQuestion": true
+  }
+]

@@ -1,0 +1,362 @@
+[
+  {
+    "id": "py-func-01",
+    "subjectId": "python-fastapi",
+    "topicId": "py-functions",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "Which keyword defines a function in Python?",
+    "options": [
+      {
+        "id": "a",
+        "text": "def"
+      },
+      {
+        "id": "b",
+        "text": "func"
+      },
+      {
+        "id": "c",
+        "text": "function"
+      },
+      {
+        "id": "d",
+        "text": "lambda"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "`def` begins a function definition. `lambda` creates a small anonymous function expression.",
+    "keyConcepts": [
+      "functions",
+      "def",
+      "syntax"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-func-02",
+    "subjectId": "python-fastapi",
+    "topicId": "py-functions",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is the purpose of a `return` statement?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Print a value to the terminal"
+      },
+      {
+        "id": "b",
+        "text": "Send a result back to the caller and end the function execution"
+      },
+      {
+        "id": "c",
+        "text": "Pause the function until the next call"
+      },
+      {
+        "id": "d",
+        "text": "Declare a global variable"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "`return` exits the current function and optionally provides a value. A function without an explicit return yields `None`.",
+    "keyConcepts": [
+      "return",
+      "function result",
+      "control flow"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-func-03",
+    "subjectId": "python-fastapi",
+    "topicId": "py-functions",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What does `*args` collect in a function definition?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Extra keyword arguments as a dictionary"
+      },
+      {
+        "id": "b",
+        "text": "All local variables"
+      },
+      {
+        "id": "c",
+        "text": "Extra positional arguments as a tuple"
+      },
+      {
+        "id": "d",
+        "text": "Only integer arguments"
+      }
+    ],
+    "correctAnswers": [
+      "c"
+    ],
+    "explanation": "`*args` gathers additional positional arguments into a tuple.",
+    "keyConcepts": [
+      "args",
+      "variadic arguments",
+      "tuples"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-func-04",
+    "subjectId": "python-fastapi",
+    "topicId": "py-functions",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What does `**kwargs` collect in a function definition?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Extra positional arguments as a list"
+      },
+      {
+        "id": "b",
+        "text": "The function's return value"
+      },
+      {
+        "id": "c",
+        "text": "Global variables"
+      },
+      {
+        "id": "d",
+        "text": "Extra keyword arguments as a dictionary"
+      }
+    ],
+    "correctAnswers": [
+      "d"
+    ],
+    "explanation": "`**kwargs` gathers additional keyword arguments into a dictionary.",
+    "keyConcepts": [
+      "kwargs",
+      "keyword arguments",
+      "dictionary"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-func-05",
+    "subjectId": "python-fastapi",
+    "topicId": "py-functions",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is a lambda expression in Python?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A small anonymous function expression"
+      },
+      {
+        "id": "b",
+        "text": "A class constructor"
+      },
+      {
+        "id": "c",
+        "text": "A module import alias"
+      },
+      {
+        "id": "d",
+        "text": "A context manager"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "A lambda creates a function from a single expression and is often used for short callbacks or sort keys.",
+    "keyConcepts": [
+      "lambda",
+      "anonymous function",
+      "functional programming"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-func-06",
+    "subjectId": "python-fastapi",
+    "topicId": "py-functions",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "Why are mutable default arguments such as `def f(items=[])` often a bug?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Python copies the list on every call"
+      },
+      {
+        "id": "b",
+        "text": "The same list object is reused across calls when the default is not supplied"
+      },
+      {
+        "id": "c",
+        "text": "Lists cannot be function defaults"
+      },
+      {
+        "id": "d",
+        "text": "The function becomes asynchronous"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "Default argument expressions are evaluated once when the function is defined. Use `None` as a sentinel and create a new list inside the function when needed.",
+    "keyConcepts": [
+      "mutable defaults",
+      "function definition",
+      "None sentinel"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-func-07",
+    "subjectId": "python-fastapi",
+    "topicId": "py-functions",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does the `nonlocal` keyword do?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Declares a variable as module-global"
+      },
+      {
+        "id": "b",
+        "text": "Makes a variable immutable"
+      },
+      {
+        "id": "c",
+        "text": "Allows assignment to a variable in an enclosing function scope"
+      },
+      {
+        "id": "d",
+        "text": "Imports a name from another module"
+      }
+    ],
+    "correctAnswers": [
+      "c"
+    ],
+    "explanation": "`nonlocal` binds a name to the nearest enclosing function scope in which it is defined.",
+    "keyConcepts": [
+      "nonlocal",
+      "closures",
+      "scope"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-func-08",
+    "subjectId": "python-fastapi",
+    "topicId": "py-functions",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is a closure?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A function that always returns None"
+      },
+      {
+        "id": "b",
+        "text": "A class without methods"
+      },
+      {
+        "id": "c",
+        "text": "A module that cannot be imported"
+      },
+      {
+        "id": "d",
+        "text": "A function that retains access to variables from its enclosing lexical scope"
+      }
+    ],
+    "correctAnswers": [
+      "d"
+    ],
+    "explanation": "A closure captures references to variables from an enclosing scope, even after that outer function has returned.",
+    "keyConcepts": [
+      "closures",
+      "lexical scope",
+      "functions"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-func-09",
+    "subjectId": "python-fastapi",
+    "topicId": "py-functions",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does a decorator commonly do?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Wrap or transform a function or class to add behavior"
+      },
+      {
+        "id": "b",
+        "text": "Convert Python code to machine code"
+      },
+      {
+        "id": "c",
+        "text": "Create a database index"
+      },
+      {
+        "id": "d",
+        "text": "Make a function run in a separate process"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "A decorator takes a callable or class and returns a replacement, often wrapping behavior such as logging, authorization, caching, or timing.",
+    "keyConcepts": [
+      "decorators",
+      "higher-order functions",
+      "wrapping"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-func-10",
+    "subjectId": "python-fastapi",
+    "topicId": "py-functions",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is the purpose of `functools.wraps` inside a decorator?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Make the wrapped function asynchronous"
+      },
+      {
+        "id": "b",
+        "text": "Preserve important metadata from the wrapped function"
+      },
+      {
+        "id": "c",
+        "text": "Cache the function result"
+      },
+      {
+        "id": "d",
+        "text": "Prevent exceptions from escaping"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "`functools.wraps` copies metadata such as the name, docstring, and annotations and sets `__wrapped__`, improving introspection and documentation.",
+    "keyConcepts": [
+      "functools.wraps",
+      "decorators",
+      "metadata"
+    ],
+    "commonInterviewQuestion": true
+  }
+]

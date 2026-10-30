@@ -1,0 +1,362 @@
+[
+  {
+    "id": "fapi-dep-01",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-deployment",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "Which test client is commonly used to test FastAPI endpoints without starting a real network server?",
+    "options": [
+      {
+        "id": "a",
+        "text": "BrowserClient"
+      },
+      {
+        "id": "b",
+        "text": "FastAPIConsole"
+      },
+      {
+        "id": "c",
+        "text": "TestClient"
+      },
+      {
+        "id": "d",
+        "text": "UvicornTest"
+      }
+    ],
+    "correctAnswers": [
+      "c"
+    ],
+    "explanation": "`TestClient` provides an HTTPX/Starlette-based interface for making requests against the ASGI application in tests.",
+    "keyConcepts": [
+      "TestClient",
+      "testing",
+      "ASGI"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "fapi-dep-02",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-deployment",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is the purpose of `pytest` in a FastAPI project?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Run the production ASGI server"
+      },
+      {
+        "id": "b",
+        "text": "Manage database schema migrations"
+      },
+      {
+        "id": "c",
+        "text": "Generate JWT signing keys"
+      },
+      {
+        "id": "d",
+        "text": "Run automated tests and provide fixtures, parametrization, and assertions"
+      }
+    ],
+    "correctAnswers": [
+      "d"
+    ],
+    "explanation": "Pytest is a popular test runner and framework for unit and integration tests in Python projects.",
+    "keyConcepts": [
+      "pytest",
+      "testing",
+      "fixtures"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "fapi-dep-03",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-deployment",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What does a health endpoint commonly communicate?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Whether the application or selected dependencies are healthy"
+      },
+      {
+        "id": "b",
+        "text": "The full database contents"
+      },
+      {
+        "id": "c",
+        "text": "The source code version of every dependency"
+      },
+      {
+        "id": "d",
+        "text": "The caller's password"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "Health endpoints support monitoring and orchestration. Liveness and readiness should be designed to answer different operational questions.",
+    "keyConcepts": [
+      "health check",
+      "operations",
+      "monitoring"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "fapi-dep-04",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-deployment",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is Docker commonly used for when deploying a FastAPI service?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Replace Python type checking"
+      },
+      {
+        "id": "b",
+        "text": "Package the application and its runtime dependencies into a container image"
+      },
+      {
+        "id": "c",
+        "text": "Generate OpenAPI automatically"
+      },
+      {
+        "id": "d",
+        "text": "Manage JWT scopes"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "A container image packages the application and required runtime layers so it can run consistently in supported container environments.",
+    "keyConcepts": [
+      "Docker",
+      "containerization",
+      "deployment"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "fapi-dep-05",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-deployment",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is the role of an ASGI server in production?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Compile Pydantic models"
+      },
+      {
+        "id": "b",
+        "text": "Create database migrations"
+      },
+      {
+        "id": "c",
+        "text": "Accept network connections and run the ASGI application"
+      },
+      {
+        "id": "d",
+        "text": "Store user passwords"
+      }
+    ],
+    "correctAnswers": [
+      "c"
+    ],
+    "explanation": "An ASGI server such as Uvicorn or Hypercorn hosts the application and handles the server protocol interface.",
+    "keyConcepts": [
+      "ASGI server",
+      "Uvicorn",
+      "deployment"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "fapi-dep-06",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-deployment",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "How can a FastAPI test replace the real database dependency with a test implementation?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Change the endpoint URL to `/test-db`"
+      },
+      {
+        "id": "b",
+        "text": "Edit the production database connection at runtime"
+      },
+      {
+        "id": "c",
+        "text": "Disable all validation"
+      },
+      {
+        "id": "d",
+        "text": "Override the dependency using `app.dependency_overrides`"
+      }
+    ],
+    "correctAnswers": [
+      "d"
+    ],
+    "explanation": "Dependency overrides make it possible to inject a test session or fake repository without changing the endpoint implementation.",
+    "keyConcepts": [
+      "dependency_overrides",
+      "test database",
+      "isolation"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "fapi-dep-07",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-deployment",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the purpose of FastAPI's lifespan mechanism?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Manage application startup and shutdown resources such as clients and connection pools"
+      },
+      {
+        "id": "b",
+        "text": "Define URL path parameters"
+      },
+      {
+        "id": "c",
+        "text": "Validate every query parameter"
+      },
+      {
+        "id": "d",
+        "text": "Replace Pydantic"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "Lifespan handlers provide startup and shutdown logic for application-scoped resources. They are a good place to initialize and close long-lived clients or pools.",
+    "keyConcepts": [
+      "lifespan",
+      "startup",
+      "shutdown"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "fapi-dep-08",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-deployment",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "Why should secrets be injected through environment or secret-management systems rather than committed in source code?",
+    "options": [
+      {
+        "id": "a",
+        "text": "FastAPI cannot read environment variables"
+      },
+      {
+        "id": "b",
+        "text": "Committed secrets can leak through source control, build artifacts, and developer copies"
+      },
+      {
+        "id": "c",
+        "text": "Secrets cannot be strings"
+      },
+      {
+        "id": "d",
+        "text": "Environment variables are automatically encrypted in all deployments"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "Use secret managers or secure deployment-time injection. If a secret is exposed, rotate it; deleting it from the latest commit does not remove repository history.",
+    "keyConcepts": [
+      "secrets management",
+      "environment variables",
+      "security"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "fapi-dep-09",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-deployment",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is a common reason to run multiple worker processes for a FastAPI service?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Share one in-memory Python object across all workers"
+      },
+      {
+        "id": "b",
+        "text": "Avoid configuring database pools"
+      },
+      {
+        "id": "c",
+        "text": "Use multiple processes to handle concurrent requests and utilize multiple CPU cores"
+      },
+      {
+        "id": "d",
+        "text": "Make all endpoints execute in one event loop"
+      }
+    ],
+    "correctAnswers": [
+      "c"
+    ],
+    "explanation": "Multiple workers can use multiple cores and improve throughput, but each process has its own memory and resource pools. Capacity planning must account for total database connections and memory.",
+    "keyConcepts": [
+      "workers",
+      "multiprocessing",
+      "capacity planning"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "fapi-dep-10",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-deployment",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "Why is in-memory state in a FastAPI process unreliable for shared application state in a multi-worker deployment?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Python dictionaries cannot be modified"
+      },
+      {
+        "id": "b",
+        "text": "FastAPI deletes all global variables after each request"
+      },
+      {
+        "id": "c",
+        "text": "Uvicorn converts global state to SQL automatically"
+      },
+      {
+        "id": "d",
+        "text": "Each worker has separate process memory, so updates are not automatically shared across workers"
+      }
+    ],
+    "correctAnswers": [
+      "d"
+    ],
+    "explanation": "Workers are separate processes. Shared state that must be consistent across workers or instances belongs in an external system such as a database, cache, or message broker.",
+    "keyConcepts": [
+      "multi-process deployment",
+      "shared state",
+      "distributed systems"
+    ],
+    "commonInterviewQuestion": true
+  }
+]

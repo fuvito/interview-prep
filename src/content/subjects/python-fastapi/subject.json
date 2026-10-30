@@ -1,0 +1,10 @@
+{
+  "id": "python-fastapi",
+  "name": "Python & FastAPI",
+  "description": "Comprehensive interview preparation covering Python language fundamentals, object-oriented programming, typing, standard library, testing, performance, concurrency, and building production APIs with FastAPI.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Fuat Yazar",
+    "email": "fyazar@gmail.com"
+  }
+}

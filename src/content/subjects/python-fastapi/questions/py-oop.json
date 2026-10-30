@@ -1,0 +1,362 @@
+[
+  {
+    "id": "py-oop-01",
+    "subjectId": "python-fastapi",
+    "topicId": "py-oop",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is an instance of a Python class?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A module imported by the class"
+      },
+      {
+        "id": "b",
+        "text": "A global variable"
+      },
+      {
+        "id": "c",
+        "text": "An object created from that class"
+      },
+      {
+        "id": "d",
+        "text": "A decorator applied to a method"
+      }
+    ],
+    "correctAnswers": [
+      "c"
+    ],
+    "explanation": "A class defines behavior and structure; an instance is a concrete object created from it.",
+    "keyConcepts": [
+      "classes",
+      "objects",
+      "instances"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-oop-02",
+    "subjectId": "python-fastapi",
+    "topicId": "py-oop",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is the conventional first parameter name for an instance method?",
+    "options": [
+      {
+        "id": "a",
+        "text": "this"
+      },
+      {
+        "id": "b",
+        "text": "instance"
+      },
+      {
+        "id": "c",
+        "text": "cls"
+      },
+      {
+        "id": "d",
+        "text": "self"
+      }
+    ],
+    "correctAnswers": [
+      "d"
+    ],
+    "explanation": "`self` refers to the current instance by convention. Python passes the instance automatically when an instance method is called through an object.",
+    "keyConcepts": [
+      "self",
+      "instance methods",
+      "convention"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-oop-03",
+    "subjectId": "python-fastapi",
+    "topicId": "py-oop",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "Which method is commonly used to initialize a newly created instance?",
+    "options": [
+      {
+        "id": "a",
+        "text": "`__init__`"
+      },
+      {
+        "id": "b",
+        "text": "`__newclass__`"
+      },
+      {
+        "id": "c",
+        "text": "`constructor`"
+      },
+      {
+        "id": "d",
+        "text": "`initialize`"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "`__init__` initializes an instance after it has been created. Object creation itself is handled by `__new__`.",
+    "keyConcepts": [
+      "__init__",
+      "object initialization",
+      "dunder methods"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-oop-04",
+    "subjectId": "python-fastapi",
+    "topicId": "py-oop",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What does inheritance allow a class to do?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Run without an interpreter"
+      },
+      {
+        "id": "b",
+        "text": "Reuse and specialize behavior from a parent class"
+      },
+      {
+        "id": "c",
+        "text": "Convert instance attributes into global variables"
+      },
+      {
+        "id": "d",
+        "text": "Automatically persist itself to a database"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "Inheritance models an is-a relationship and allows a subclass to extend or override parent behavior.",
+    "keyConcepts": [
+      "inheritance",
+      "subclass",
+      "reuse"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-oop-05",
+    "subjectId": "python-fastapi",
+    "topicId": "py-oop",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is the purpose of `super()`?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Create a new superclass dynamically"
+      },
+      {
+        "id": "b",
+        "text": "Call every method in the module"
+      },
+      {
+        "id": "c",
+        "text": "Access methods or behavior from the next class in the method resolution order"
+      },
+      {
+        "id": "d",
+        "text": "Make an object immutable"
+      }
+    ],
+    "correctAnswers": [
+      "c"
+    ],
+    "explanation": "`super()` provides a proxy for calling the next implementation in the MRO, which is especially important in cooperative multiple inheritance.",
+    "keyConcepts": [
+      "super",
+      "MRO",
+      "inheritance"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-oop-06",
+    "subjectId": "python-fastapi",
+    "topicId": "py-oop",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the difference between a class variable and an instance variable?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A class variable is always private"
+      },
+      {
+        "id": "b",
+        "text": "An instance variable is shared by all objects"
+      },
+      {
+        "id": "c",
+        "text": "They are identical"
+      },
+      {
+        "id": "d",
+        "text": "A class variable is shared through the class; an instance variable belongs to a particular object"
+      }
+    ],
+    "correctAnswers": [
+      "d"
+    ],
+    "explanation": "Class attributes are stored on the class and may be shared unless shadowed. Instance attributes are usually assigned through `self`.",
+    "keyConcepts": [
+      "class attributes",
+      "instance attributes",
+      "state"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-oop-07",
+    "subjectId": "python-fastapi",
+    "topicId": "py-oop",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does `@property` allow a class to define?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A method that can be accessed using attribute syntax"
+      },
+      {
+        "id": "b",
+        "text": "A static method that cannot access state"
+      },
+      {
+        "id": "c",
+        "text": "A class that cannot be instantiated"
+      },
+      {
+        "id": "d",
+        "text": "A method that always runs asynchronously"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "`property` supports managed attributes with getter, setter, and deleter behavior while preserving attribute-style access.",
+    "keyConcepts": [
+      "property",
+      "encapsulation",
+      "descriptors"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-oop-08",
+    "subjectId": "python-fastapi",
+    "topicId": "py-oop",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is method overriding?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A method calls itself recursively"
+      },
+      {
+        "id": "b",
+        "text": "A subclass provides its own implementation of an inherited method"
+      },
+      {
+        "id": "c",
+        "text": "A class defines two variables with the same value"
+      },
+      {
+        "id": "d",
+        "text": "A method becomes static automatically"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "Overriding lets a subclass customize inherited behavior while preserving a compatible method contract.",
+    "keyConcepts": [
+      "overriding",
+      "polymorphism",
+      "inheritance"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-oop-09",
+    "subjectId": "python-fastapi",
+    "topicId": "py-oop",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is composition in object-oriented design?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Making every class inherit from one base class"
+      },
+      {
+        "id": "b",
+        "text": "Copying all methods into each class"
+      },
+      {
+        "id": "c",
+        "text": "Building an object by combining or delegating to other objects"
+      },
+      {
+        "id": "d",
+        "text": "Defining only static methods"
+      }
+    ],
+    "correctAnswers": [
+      "c"
+    ],
+    "explanation": "Composition models has-a relationships and can reduce tight coupling compared with deep inheritance hierarchies.",
+    "keyConcepts": [
+      "composition",
+      "delegation",
+      "design"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-oop-10",
+    "subjectId": "python-fastapi",
+    "topicId": "py-oop",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What does Python's method resolution order (MRO) determine?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The order in which modules are installed"
+      },
+      {
+        "id": "b",
+        "text": "The order in which object fields are serialized"
+      },
+      {
+        "id": "c",
+        "text": "The order in which threads execute"
+      },
+      {
+        "id": "d",
+        "text": "The order in which base classes are searched for attributes and methods"
+      }
+    ],
+    "correctAnswers": [
+      "d"
+    ],
+    "explanation": "Python uses C3 linearization to calculate an MRO, providing a consistent lookup order for multiple inheritance.",
+    "keyConcepts": [
+      "MRO",
+      "multiple inheritance",
+      "C3 linearization"
+    ],
+    "commonInterviewQuestion": true
+  }
+]

@@ -1,0 +1,362 @@
+[
+  {
+    "id": "fapi-auth-01",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-auth",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is authentication?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Determining whether a caller can access a specific resource"
+      },
+      {
+        "id": "b",
+        "text": "Validating a JSON schema"
+      },
+      {
+        "id": "c",
+        "text": "Verifying the identity of a caller"
+      },
+      {
+        "id": "d",
+        "text": "Encrypting a database backup"
+      }
+    ],
+    "correctAnswers": [
+      "c"
+    ],
+    "explanation": "Authentication establishes who the caller is. Authorization determines what that identity is allowed to do.",
+    "keyConcepts": [
+      "authentication",
+      "identity",
+      "security"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "fapi-auth-02",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-auth",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is authorization?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Verifying a password hash only"
+      },
+      {
+        "id": "b",
+        "text": "Creating a JWT"
+      },
+      {
+        "id": "c",
+        "text": "Parsing query parameters"
+      },
+      {
+        "id": "d",
+        "text": "Determining what an authenticated identity is permitted to access or perform"
+      }
+    ],
+    "correctAnswers": [
+      "d"
+    ],
+    "explanation": "Authorization evaluates permissions, roles, or scopes for a requested operation or resource.",
+    "keyConcepts": [
+      "authorization",
+      "permissions",
+      "security"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "fapi-auth-03",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-auth",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "Why should passwords not be stored as plaintext?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A database leak would expose users' original passwords directly"
+      },
+      {
+        "id": "b",
+        "text": "Plaintext passwords cannot be queried"
+      },
+      {
+        "id": "c",
+        "text": "Passwords must be stored in JWT payloads"
+      },
+      {
+        "id": "d",
+        "text": "Plaintext passwords prevent HTTPS"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "Store passwords using a dedicated password-hashing algorithm with salts and appropriate work factors. Never store or log plaintext passwords.",
+    "keyConcepts": [
+      "password hashing",
+      "credential storage",
+      "security"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "fapi-auth-04",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-auth",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is a JWT commonly used for in an API?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Encrypt every database row automatically"
+      },
+      {
+        "id": "b",
+        "text": "Represent signed claims that can be presented as an access token"
+      },
+      {
+        "id": "c",
+        "text": "Replace HTTPS"
+      },
+      {
+        "id": "d",
+        "text": "Store server-side session state by default"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "A JWT can carry claims and be signed so a resource server can validate its integrity. A signed JWT is not necessarily encrypted.",
+    "keyConcepts": [
+      "JWT",
+      "access token",
+      "claims"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "fapi-auth-05",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-auth",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What does CORS control?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Which users can query the database"
+      },
+      {
+        "id": "b",
+        "text": "Whether passwords are hashed"
+      },
+      {
+        "id": "c",
+        "text": "Which browser origins are allowed to make cross-origin requests under the browser's CORS policy"
+      },
+      {
+        "id": "d",
+        "text": "Whether an API uses JSON"
+      }
+    ],
+    "correctAnswers": [
+      "c"
+    ],
+    "explanation": "CORS is a browser-enforced cross-origin resource sharing mechanism. It is not authentication or authorization and does not prevent non-browser clients from calling an API.",
+    "keyConcepts": [
+      "CORS",
+      "origin",
+      "browser security"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "fapi-auth-06",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-auth",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the role of `OAuth2PasswordBearer` in FastAPI?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Validate a JWT signature automatically in every configuration"
+      },
+      {
+        "id": "b",
+        "text": "Hash user passwords"
+      },
+      {
+        "id": "c",
+        "text": "Create a user in the database"
+      },
+      {
+        "id": "d",
+        "text": "Extract a bearer token from the Authorization header and integrate the OAuth2 password flow scheme into dependencies and OpenAPI"
+      }
+    ],
+    "correctAnswers": [
+      "d"
+    ],
+    "explanation": "`OAuth2PasswordBearer` extracts the bearer token and declares an OAuth2 security scheme. Token verification, user lookup, and authorization logic still need to be implemented.",
+    "keyConcepts": [
+      "OAuth2PasswordBearer",
+      "bearer token",
+      "dependency"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "fapi-auth-07",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-auth",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What should a JWT resource server validate?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Signature and relevant claims such as issuer, audience, expiration, and allowed algorithms"
+      },
+      {
+        "id": "b",
+        "text": "Only the decoded payload text"
+      },
+      {
+        "id": "c",
+        "text": "Only the username claim"
+      },
+      {
+        "id": "d",
+        "text": "Only that the token has three segments"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "A JWT payload is not trusted simply because it can be decoded. Verify signature and enforce issuer, audience, expiration, and algorithm policy appropriate to the system.",
+    "keyConcepts": [
+      "JWT validation",
+      "signature",
+      "claims"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "fapi-auth-08",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-auth",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "Why is password hashing with a purpose-built algorithm such as Argon2 or bcrypt preferred over plain SHA-256?",
+    "options": [
+      {
+        "id": "a",
+        "text": "SHA-256 cannot hash strings"
+      },
+      {
+        "id": "b",
+        "text": "Password hashing algorithms are designed to make large-scale guessing expensive through configurable work factors and salts"
+      },
+      {
+        "id": "c",
+        "text": "Argon2 encrypts passwords reversibly"
+      },
+      {
+        "id": "d",
+        "text": "bcrypt is a JWT standard"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "General-purpose hashes are too fast for password storage. Use a password hashing/KDF algorithm with salts and suitable cost parameters, following current security guidance.",
+    "keyConcepts": [
+      "Argon2",
+      "bcrypt",
+      "password hashing"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "fapi-auth-09",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-auth",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the purpose of OAuth2 scopes?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Define database column types"
+      },
+      {
+        "id": "b",
+        "text": "Configure CORS origins"
+      },
+      {
+        "id": "c",
+        "text": "Represent granular permissions associated with an access token"
+      },
+      {
+        "id": "d",
+        "text": "Select Python interpreter versions"
+      }
+    ],
+    "correctAnswers": [
+      "c"
+    ],
+    "explanation": "Scopes express permissions such as `orders:read` or `orders:write`, allowing APIs to enforce fine-grained authorization.",
+    "keyConcepts": [
+      "OAuth2 scopes",
+      "authorization",
+      "least privilege"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "fapi-auth-10",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-auth",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "Why should an API avoid trusting user IDs or roles supplied directly in request bodies for authorization decisions?",
+    "options": [
+      {
+        "id": "a",
+        "text": "JSON does not support integers"
+      },
+      {
+        "id": "b",
+        "text": "Request bodies are always encrypted by FastAPI"
+      },
+      {
+        "id": "c",
+        "text": "The database cannot store roles"
+      },
+      {
+        "id": "d",
+        "text": "Clients can alter request data, so authorization must be based on verified identity and trusted server-side policy"
+      }
+    ],
+    "correctAnswers": [
+      "d"
+    ],
+    "explanation": "Authorization must derive from authenticated principal information and server-side ownership/permission checks. User-provided fields are untrusted input.",
+    "keyConcepts": [
+      "authorization",
+      "trusted identity",
+      "IDOR"
+    ],
+    "commonInterviewQuestion": true
+  }
+]

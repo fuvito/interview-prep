@@ -1,0 +1,362 @@
+[
+  {
+    "id": "py-fund-01",
+    "subjectId": "python-fastapi",
+    "topicId": "py-fundamentals",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "Which statement best describes Python?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A high-level, general-purpose programming language with a dynamic type system"
+      },
+      {
+        "id": "b",
+        "text": "A database engine"
+      },
+      {
+        "id": "c",
+        "text": "A markup language"
+      },
+      {
+        "id": "d",
+        "text": "A language that runs only in web browsers"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "Python is a general-purpose language with dynamic typing and a broad ecosystem. It is commonly used for backend services, automation, data work, scripting, and many other domains.",
+    "keyConcepts": [
+      "Python",
+      "dynamic typing",
+      "general-purpose language"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-fund-02",
+    "subjectId": "python-fastapi",
+    "topicId": "py-fundamentals",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "Which built-in type represents a whole number in Python?",
+    "options": [
+      {
+        "id": "a",
+        "text": "float"
+      },
+      {
+        "id": "b",
+        "text": "int"
+      },
+      {
+        "id": "c",
+        "text": "str"
+      },
+      {
+        "id": "d",
+        "text": "bool"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "The `int` type represents integers. Python integers have arbitrary precision subject to available memory.",
+    "keyConcepts": [
+      "int",
+      "numeric types",
+      "built-in types"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-fund-03",
+    "subjectId": "python-fastapi",
+    "topicId": "py-fundamentals",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is the result of `type(3.5)`?",
+    "options": [
+      {
+        "id": "a",
+        "text": "`int`"
+      },
+      {
+        "id": "b",
+        "text": "`decimal`"
+      },
+      {
+        "id": "c",
+        "text": "`float`"
+      },
+      {
+        "id": "d",
+        "text": "`double`"
+      }
+    ],
+    "correctAnswers": [
+      "c"
+    ],
+    "explanation": "A decimal-point numeric literal such as `3.5` is a Python `float`, typically implemented using double-precision floating-point.",
+    "keyConcepts": [
+      "type",
+      "float",
+      "numeric literals"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-fund-04",
+    "subjectId": "python-fastapi",
+    "topicId": "py-fundamentals",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "Which value represents the absence of a value in Python?",
+    "options": [
+      {
+        "id": "a",
+        "text": "null"
+      },
+      {
+        "id": "b",
+        "text": "undefined"
+      },
+      {
+        "id": "c",
+        "text": "void"
+      },
+      {
+        "id": "d",
+        "text": "None"
+      }
+    ],
+    "correctAnswers": [
+      "d"
+    ],
+    "explanation": "`None` is Python's singleton value commonly used to represent absence or no result. Python does not use JavaScript's `null` keyword.",
+    "keyConcepts": [
+      "None",
+      "singleton",
+      "absence"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-fund-05",
+    "subjectId": "python-fastapi",
+    "topicId": "py-fundamentals",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "Which operator performs integer floor division?",
+    "options": [
+      {
+        "id": "a",
+        "text": "`//`"
+      },
+      {
+        "id": "b",
+        "text": "`/`"
+      },
+      {
+        "id": "c",
+        "text": "`%`"
+      },
+      {
+        "id": "d",
+        "text": "`**`"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "`//` performs floor division. Unlike `/`, it rounds the quotient down toward negative infinity, which matters for negative operands.",
+    "keyConcepts": [
+      "floor division",
+      "operators",
+      "numeric behavior"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-fund-06",
+    "subjectId": "python-fastapi",
+    "topicId": "py-fundamentals",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the result of `bool([])`?",
+    "options": [
+      {
+        "id": "a",
+        "text": "`True`"
+      },
+      {
+        "id": "b",
+        "text": "`False`"
+      },
+      {
+        "id": "c",
+        "text": "`None`"
+      },
+      {
+        "id": "d",
+        "text": "It raises TypeError"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "Empty containers are falsey in Python. Non-empty lists, tuples, dictionaries, and sets are truthy.",
+    "keyConcepts": [
+      "truthiness",
+      "empty containers",
+      "bool"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-fund-07",
+    "subjectId": "python-fastapi",
+    "topicId": "py-fundamentals",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does the `is` operator test?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Whether two objects have equal values"
+      },
+      {
+        "id": "b",
+        "text": "Whether two objects have the same type"
+      },
+      {
+        "id": "c",
+        "text": "Whether two references point to the same object"
+      },
+      {
+        "id": "d",
+        "text": "Whether one value is contained in another"
+      }
+    ],
+    "correctAnswers": [
+      "c"
+    ],
+    "explanation": "`is` tests object identity. Use `==` to compare values. Identity checks are commonly appropriate for singletons such as `None`.",
+    "keyConcepts": [
+      "identity",
+      "equality",
+      "is versus =="
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-fund-08",
+    "subjectId": "python-fastapi",
+    "topicId": "py-fundamentals",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does `enumerate(items)` commonly provide when iterating over a sequence?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A sorted copy of the sequence"
+      },
+      {
+        "id": "b",
+        "text": "Only the sequence's indexes"
+      },
+      {
+        "id": "c",
+        "text": "A dictionary mapping items to indexes"
+      },
+      {
+        "id": "d",
+        "text": "Pairs containing an index and the corresponding item"
+      }
+    ],
+    "correctAnswers": [
+      "d"
+    ],
+    "explanation": "`enumerate` yields index-item pairs and avoids manually maintaining a counter.",
+    "keyConcepts": [
+      "enumerate",
+      "iteration",
+      "index"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-fund-09",
+    "subjectId": "python-fastapi",
+    "topicId": "py-fundamentals",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the purpose of the `pass` statement?",
+    "options": [
+      {
+        "id": "a",
+        "text": "It is a no-operation placeholder statement"
+      },
+      {
+        "id": "b",
+        "text": "It exits the current function"
+      },
+      {
+        "id": "c",
+        "text": "It skips to the next loop iteration"
+      },
+      {
+        "id": "d",
+        "text": "It raises an exception"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "`pass` performs no action and is useful where Python syntax requires a statement but implementation is intentionally empty.",
+    "keyConcepts": [
+      "pass",
+      "control flow",
+      "placeholder"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-fund-10",
+    "subjectId": "python-fastapi",
+    "topicId": "py-fundamentals",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What does Python's LEGB rule describe?",
+    "options": [
+      {
+        "id": "a",
+        "text": "The order in which modules are installed"
+      },
+      {
+        "id": "b",
+        "text": "The order used to resolve names: Local, Enclosing, Global, Built-in"
+      },
+      {
+        "id": "c",
+        "text": "The order of exception handling"
+      },
+      {
+        "id": "d",
+        "text": "The lifecycle of a generator"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "LEGB describes lexical name lookup across local, enclosing function, global module, and built-in scopes.",
+    "keyConcepts": [
+      "LEGB",
+      "name resolution",
+      "scope"
+    ],
+    "commonInterviewQuestion": true
+  }
+]

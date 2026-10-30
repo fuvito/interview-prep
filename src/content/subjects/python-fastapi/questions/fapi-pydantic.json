@@ -1,0 +1,362 @@
+[
+  {
+    "id": "fapi-pyd-01",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-pydantic",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What role does Pydantic play in a typical FastAPI application?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Serve HTTP requests"
+      },
+      {
+        "id": "b",
+        "text": "Manage operating-system processes"
+      },
+      {
+        "id": "c",
+        "text": "Define data models and validate/serialize input and output data"
+      },
+      {
+        "id": "d",
+        "text": "Replace Python type hints"
+      }
+    ],
+    "correctAnswers": [
+      "c"
+    ],
+    "explanation": "FastAPI integrates closely with Pydantic models for parsing, validation, and schema generation.",
+    "keyConcepts": [
+      "Pydantic",
+      "validation",
+      "serialization"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "fapi-pyd-02",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-pydantic",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "How do you declare a Pydantic model field as an integer?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Use `IntegerField()` from FastAPI"
+      },
+      {
+        "id": "b",
+        "text": "Declare it only in SQLAlchemy"
+      },
+      {
+        "id": "c",
+        "text": "Use a Java primitive"
+      },
+      {
+        "id": "d",
+        "text": "Annotate it with `int` in a `BaseModel` subclass"
+      }
+    ],
+    "correctAnswers": [
+      "d"
+    ],
+    "explanation": "Pydantic models use Python annotations to describe field types and validate input data accordingly.",
+    "keyConcepts": [
+      "BaseModel",
+      "type annotations",
+      "Pydantic"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "fapi-pyd-03",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-pydantic",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What happens when a request body fails FastAPI's normal validation?",
+    "options": [
+      {
+        "id": "a",
+        "text": "FastAPI returns a 422 validation error response by default"
+      },
+      {
+        "id": "b",
+        "text": "The application always returns 200"
+      },
+      {
+        "id": "c",
+        "text": "The server process exits"
+      },
+      {
+        "id": "d",
+        "text": "The request is silently ignored"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "FastAPI validates request data before calling the path operation. Validation failures are normally returned as HTTP 422 with structured details.",
+    "keyConcepts": [
+      "validation error",
+      "422",
+      "request body"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "fapi-pyd-04",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-pydantic",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is the purpose of `response_model` on a FastAPI path operation?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Define the database transaction isolation level"
+      },
+      {
+        "id": "b",
+        "text": "Validate, document, and serialize the response according to a declared schema"
+      },
+      {
+        "id": "c",
+        "text": "Configure the request method"
+      },
+      {
+        "id": "d",
+        "text": "Enable CORS"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "`response_model` defines the public response schema and helps filter/serialize returned data, which can prevent accidental exposure of internal fields.",
+    "keyConcepts": [
+      "response_model",
+      "response validation",
+      "API contract"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "fapi-pyd-05",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-pydantic",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "How can a Pydantic field be made optional in a model?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Use `OptionalField()` from FastAPI"
+      },
+      {
+        "id": "b",
+        "text": "Prefix the field with `?`"
+      },
+      {
+        "id": "c",
+        "text": "Use a union with None, such as `str | None`, and provide a default when appropriate"
+      },
+      {
+        "id": "d",
+        "text": "Make the field name uppercase"
+      }
+    ],
+    "correctAnswers": [
+      "c"
+    ],
+    "explanation": "A type such as `str | None` allows None as a value. In Pydantic v2, whether the field is required is distinct from whether it accepts None; a default such as `= None` makes it non-required.",
+    "keyConcepts": [
+      "Optional",
+      "Pydantic v2",
+      "required fields"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "fapi-pyd-06",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-pydantic",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the purpose of `Field()` in Pydantic?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Register a FastAPI route"
+      },
+      {
+        "id": "b",
+        "text": "Open a database connection"
+      },
+      {
+        "id": "c",
+        "text": "Create an authentication token"
+      },
+      {
+        "id": "d",
+        "text": "Add field metadata, constraints, aliases, defaults, and schema information"
+      }
+    ],
+    "correctAnswers": [
+      "d"
+    ],
+    "explanation": "`Field` can define constraints such as minimum length, descriptions, aliases, and other schema metadata. Exact constraint APIs depend on the Pydantic version.",
+    "keyConcepts": [
+      "Field",
+      "constraints",
+      "schema"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "fapi-pyd-07",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-pydantic",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the difference between a request model and a response model?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A request model defines accepted input; a response model defines the public output contract"
+      },
+      {
+        "id": "b",
+        "text": "A request model is always a database entity; a response model is always a DTO"
+      },
+      {
+        "id": "c",
+        "text": "They must contain identical fields"
+      },
+      {
+        "id": "d",
+        "text": "Only response models are validated"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "Separate models allow input validation and output exposure to evolve independently, helping prevent clients from setting server-controlled fields or seeing sensitive data.",
+    "keyConcepts": [
+      "request DTO",
+      "response DTO",
+      "API contract"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "fapi-pyd-08",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-pydantic",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is Pydantic's `model_dump()` used for in Pydantic v2?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Validate an HTTP route"
+      },
+      {
+        "id": "b",
+        "text": "Convert a model into a Python dictionary representation"
+      },
+      {
+        "id": "c",
+        "text": "Create a JSON Web Token"
+      },
+      {
+        "id": "d",
+        "text": "Start a database transaction"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "`model_dump()` returns a dictionary representation and supports options for aliases, excluded fields, and serialization behavior. `model_dump_json()` returns JSON text.",
+    "keyConcepts": [
+      "model_dump",
+      "Pydantic v2",
+      "serialization"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "fapi-pyd-09",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-pydantic",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the purpose of a Pydantic field validator?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Register an HTTP middleware"
+      },
+      {
+        "id": "b",
+        "text": "Create a SQL index"
+      },
+      {
+        "id": "c",
+        "text": "Apply custom validation or transformation logic to a field's value"
+      },
+      {
+        "id": "d",
+        "text": "Configure Uvicorn workers"
+      }
+    ],
+    "correctAnswers": [
+      "c"
+    ],
+    "explanation": "Field validators provide custom rules for individual fields. Model validators can enforce rules involving multiple fields.",
+    "keyConcepts": [
+      "field_validator",
+      "custom validation",
+      "Pydantic"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "fapi-pyd-10",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-pydantic",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "Why should a Pydantic model not automatically be treated as a trusted domain entity?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Pydantic models cannot contain methods"
+      },
+      {
+        "id": "b",
+        "text": "Pydantic models are always mutable database rows"
+      },
+      {
+        "id": "c",
+        "text": "FastAPI skips all validation"
+      },
+      {
+        "id": "d",
+        "text": "It validates an external data shape, but domain invariants and authorization rules may require separate application logic"
+      }
+    ],
+    "correctAnswers": [
+      "d"
+    ],
+    "explanation": "Request models protect the API boundary. Business rules, authorization, and persistence invariants belong in appropriate application/domain layers and must not rely solely on request parsing.",
+    "keyConcepts": [
+      "API boundary",
+      "domain model",
+      "validation"
+    ],
+    "commonInterviewQuestion": true
+  }
+]

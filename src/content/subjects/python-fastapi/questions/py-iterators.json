@@ -1,0 +1,362 @@
+[
+  {
+    "id": "py-iter-01",
+    "subjectId": "python-fastapi",
+    "topicId": "py-iterators",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is an iterable?",
+    "options": [
+      {
+        "id": "a",
+        "text": "An object that can provide an iterator, commonly through `iter()`"
+      },
+      {
+        "id": "b",
+        "text": "An object that must be a list"
+      },
+      {
+        "id": "c",
+        "text": "A function that always returns a string"
+      },
+      {
+        "id": "d",
+        "text": "An object that can only be used once"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "An iterable can be passed to `iter()` to obtain an iterator. Lists, tuples, strings, dictionaries, and generators are common examples.",
+    "keyConcepts": [
+      "iterable",
+      "iterator protocol",
+      "iter"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-iter-02",
+    "subjectId": "python-fastapi",
+    "topicId": "py-iterators",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What does `next(iterator)` do?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Restarts the iterator"
+      },
+      {
+        "id": "b",
+        "text": "Requests the next item from an iterator"
+      },
+      {
+        "id": "c",
+        "text": "Sorts all remaining items"
+      },
+      {
+        "id": "d",
+        "text": "Converts the iterator to a list"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "`next()` asks an iterator for another value. When exhausted, the iterator raises `StopIteration`.",
+    "keyConcepts": [
+      "next",
+      "iterator",
+      "StopIteration"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-iter-03",
+    "subjectId": "python-fastapi",
+    "topicId": "py-iterators",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "Which keyword makes a function produce a generator?",
+    "options": [
+      {
+        "id": "a",
+        "text": "await"
+      },
+      {
+        "id": "b",
+        "text": "emit"
+      },
+      {
+        "id": "c",
+        "text": "yield"
+      },
+      {
+        "id": "d",
+        "text": "return*"
+      }
+    ],
+    "correctAnswers": [
+      "c"
+    ],
+    "explanation": "`yield` suspends a generator function and produces a value. Execution can resume later from the suspended point.",
+    "keyConcepts": [
+      "yield",
+      "generator",
+      "lazy evaluation"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-iter-04",
+    "subjectId": "python-fastapi",
+    "topicId": "py-iterators",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is a key characteristic of a generator?",
+    "options": [
+      {
+        "id": "a",
+        "text": "It always stores all values in memory"
+      },
+      {
+        "id": "b",
+        "text": "It can be iterated only through indexing"
+      },
+      {
+        "id": "c",
+        "text": "It executes in a separate process"
+      },
+      {
+        "id": "d",
+        "text": "It produces values lazily as they are requested"
+      }
+    ],
+    "correctAnswers": [
+      "d"
+    ],
+    "explanation": "Generators are iterators that compute values on demand, often reducing memory usage for large or streaming data.",
+    "keyConcepts": [
+      "generator",
+      "lazy evaluation",
+      "memory"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-iter-05",
+    "subjectId": "python-fastapi",
+    "topicId": "py-iterators",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "Which statement begins a context-managed block?",
+    "options": [
+      {
+        "id": "a",
+        "text": "with"
+      },
+      {
+        "id": "b",
+        "text": "using"
+      },
+      {
+        "id": "c",
+        "text": "manage"
+      },
+      {
+        "id": "d",
+        "text": "trywith"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "`with` invokes a context manager's enter and exit protocol and ensures exit handling when the block ends.",
+    "keyConcepts": [
+      "with",
+      "context manager",
+      "resource handling"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-iter-06",
+    "subjectId": "python-fastapi",
+    "topicId": "py-iterators",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the difference between an iterator and an iterable?",
+    "options": [
+      {
+        "id": "a",
+        "text": "An iterator must be a dictionary; an iterable must be a list"
+      },
+      {
+        "id": "b",
+        "text": "An iterable can produce an iterator; an iterator maintains iteration state and implements `__next__`"
+      },
+      {
+        "id": "c",
+        "text": "An iterable can only be used once; an iterator can be reused"
+      },
+      {
+        "id": "d",
+        "text": "They are exactly the same protocol"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "An iterator implements `__iter__` returning itself and `__next__` to produce values. An iterable need only provide an iterator.",
+    "keyConcepts": [
+      "iterable",
+      "iterator",
+      "protocol"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-iter-07",
+    "subjectId": "python-fastapi",
+    "topicId": "py-iterators",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What happens when a generator function reaches `return`?",
+    "options": [
+      {
+        "id": "a",
+        "text": "It restarts from the beginning"
+      },
+      {
+        "id": "b",
+        "text": "It yields None indefinitely"
+      },
+      {
+        "id": "c",
+        "text": "The generator finishes and raises StopIteration to its caller"
+      },
+      {
+        "id": "d",
+        "text": "It becomes a coroutine automatically"
+      }
+    ],
+    "correctAnswers": [
+      "c"
+    ],
+    "explanation": "Returning from a generator ends iteration. A return value may be carried as the StopIteration value, though normal for-loops ignore it.",
+    "keyConcepts": [
+      "generator termination",
+      "StopIteration",
+      "return"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-iter-08",
+    "subjectId": "python-fastapi",
+    "topicId": "py-iterators",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the purpose of `contextlib.contextmanager`?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Convert any function into an async function"
+      },
+      {
+        "id": "b",
+        "text": "Cache the output of a generator"
+      },
+      {
+        "id": "c",
+        "text": "Create a thread pool"
+      },
+      {
+        "id": "d",
+        "text": "Allow a generator function to define a context manager around a yield point"
+      }
+    ],
+    "correctAnswers": [
+      "d"
+    ],
+    "explanation": "`@contextmanager` turns a generator into a context manager. Code before yield performs setup; code after yield performs cleanup, typically in a try/finally structure.",
+    "keyConcepts": [
+      "contextlib",
+      "contextmanager",
+      "generator"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-iter-09",
+    "subjectId": "python-fastapi",
+    "topicId": "py-iterators",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "Why might a generator be preferable to building a very large list?",
+    "options": [
+      {
+        "id": "a",
+        "text": "It can process values incrementally without storing the entire result in memory"
+      },
+      {
+        "id": "b",
+        "text": "Generators always execute faster than lists"
+      },
+      {
+        "id": "c",
+        "text": "Generators support random indexing"
+      },
+      {
+        "id": "d",
+        "text": "Generators automatically parallelize processing"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "Lazy iteration can reduce peak memory use for large data streams. It may not be faster in every workload and does not support ordinary random indexing.",
+    "keyConcepts": [
+      "generators",
+      "memory efficiency",
+      "streaming"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-iter-10",
+    "subjectId": "python-fastapi",
+    "topicId": "py-iterators",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is the purpose of `yield from`?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Yield a value from another thread"
+      },
+      {
+        "id": "b",
+        "text": "Delegate iteration to a sub-iterator or subgenerator"
+      },
+      {
+        "id": "c",
+        "text": "Create a new Python module"
+      },
+      {
+        "id": "d",
+        "text": "Return all values as a list"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "`yield from` delegates iteration and generator control flow to a sub-iterator, including forwarding values and exceptions in generator contexts.",
+    "keyConcepts": [
+      "yield from",
+      "delegation",
+      "generators"
+    ],
+    "commonInterviewQuestion": true
+  }
+]

@@ -1,0 +1,362 @@
+[
+  {
+    "id": "py-exc-01",
+    "subjectId": "python-fastapi",
+    "topicId": "py-exceptions",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "Which block is used to handle an exception in Python?",
+    "options": [
+      {
+        "id": "a",
+        "text": "except"
+      },
+      {
+        "id": "b",
+        "text": "catch"
+      },
+      {
+        "id": "c",
+        "text": "handle"
+      },
+      {
+        "id": "d",
+        "text": "rescue"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "Python uses `try` with one or more `except` clauses to handle exceptions.",
+    "keyConcepts": [
+      "exceptions",
+      "try",
+      "except"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-exc-02",
+    "subjectId": "python-fastapi",
+    "topicId": "py-exceptions",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What does the `finally` block do?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Runs only when no exception occurs"
+      },
+      {
+        "id": "b",
+        "text": "Runs cleanup code whether or not an exception occurred"
+      },
+      {
+        "id": "c",
+        "text": "Runs only for ValueError"
+      },
+      {
+        "id": "d",
+        "text": "Prevents the exception from propagating"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "`finally` is intended for cleanup and normally executes whether the try block succeeds or fails.",
+    "keyConcepts": [
+      "finally",
+      "cleanup",
+      "exception handling"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-exc-03",
+    "subjectId": "python-fastapi",
+    "topicId": "py-exceptions",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "Which exception is raised when a dictionary key is not found using indexing?",
+    "options": [
+      {
+        "id": "a",
+        "text": "IndexError"
+      },
+      {
+        "id": "b",
+        "text": "ValueError"
+      },
+      {
+        "id": "c",
+        "text": "KeyError"
+      },
+      {
+        "id": "d",
+        "text": "AttributeError"
+      }
+    ],
+    "correctAnswers": [
+      "c"
+    ],
+    "explanation": "Dictionary subscription with a missing key raises `KeyError`. `dict.get()` can be used when a default value is preferable.",
+    "keyConcepts": [
+      "KeyError",
+      "dictionary",
+      "exceptions"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-exc-04",
+    "subjectId": "python-fastapi",
+    "topicId": "py-exceptions",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "Which exception is commonly raised when converting an invalid string to an integer?",
+    "options": [
+      {
+        "id": "a",
+        "text": "TypeError"
+      },
+      {
+        "id": "b",
+        "text": "KeyError"
+      },
+      {
+        "id": "c",
+        "text": "ImportError"
+      },
+      {
+        "id": "d",
+        "text": "ValueError"
+      }
+    ],
+    "correctAnswers": [
+      "d"
+    ],
+    "explanation": "`int('abc')` raises `ValueError` because the argument has the right general type but an invalid value for conversion.",
+    "keyConcepts": [
+      "ValueError",
+      "type conversion",
+      "exceptions"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-exc-05",
+    "subjectId": "python-fastapi",
+    "topicId": "py-exceptions",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What does `raise` do?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Explicitly raises an exception"
+      },
+      {
+        "id": "b",
+        "text": "Suppresses all exceptions"
+      },
+      {
+        "id": "c",
+        "text": "Retries the previous statement"
+      },
+      {
+        "id": "d",
+        "text": "Defines a custom class"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "`raise` triggers an exception. It can raise a new exception or re-raise the currently handled exception with a bare `raise`.",
+    "keyConcepts": [
+      "raise",
+      "exceptions",
+      "control flow"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-exc-06",
+    "subjectId": "python-fastapi",
+    "topicId": "py-exceptions",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "Why should exception handlers generally catch specific exception types rather than use a bare `except`?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Bare except is invalid syntax"
+      },
+      {
+        "id": "b",
+        "text": "Specific handlers avoid accidentally swallowing unrelated failures and make recovery behavior clearer"
+      },
+      {
+        "id": "c",
+        "text": "Specific exceptions are always faster"
+      },
+      {
+        "id": "d",
+        "text": "None of the above"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "A bare except also catches system-exiting exceptions such as KeyboardInterrupt. Catch only errors the code can meaningfully handle.",
+    "keyConcepts": [
+      "exception specificity",
+      "error handling",
+      "KeyboardInterrupt"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-exc-07",
+    "subjectId": "python-fastapi",
+    "topicId": "py-exceptions",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does `raise NewError() from original_error` provide?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A retry of the original operation"
+      },
+      {
+        "id": "b",
+        "text": "A way to ignore the original error"
+      },
+      {
+        "id": "c",
+        "text": "Explicit exception chaining that preserves the underlying cause"
+      },
+      {
+        "id": "d",
+        "text": "A way to convert the exception to a warning"
+      }
+    ],
+    "correctAnswers": [
+      "c"
+    ],
+    "explanation": "Exception chaining records the causal relationship and helps diagnostics distinguish a high-level failure from its underlying cause.",
+    "keyConcepts": [
+      "exception chaining",
+      "raise from",
+      "diagnostics"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-exc-08",
+    "subjectId": "python-fastapi",
+    "topicId": "py-exceptions",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is a custom exception commonly based on?",
+    "options": [
+      {
+        "id": "a",
+        "text": "BaseObject"
+      },
+      {
+        "id": "b",
+        "text": "Runtime"
+      },
+      {
+        "id": "c",
+        "text": "Throwable"
+      },
+      {
+        "id": "d",
+        "text": "Exception"
+      }
+    ],
+    "correctAnswers": [
+      "d"
+    ],
+    "explanation": "Application-specific exceptions typically subclass `Exception` or a more specific built-in exception class.",
+    "keyConcepts": [
+      "custom exceptions",
+      "Exception",
+      "hierarchy"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-exc-09",
+    "subjectId": "python-fastapi",
+    "topicId": "py-exceptions",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the purpose of a context manager when working with files?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Ensure the file is closed when the managed block exits"
+      },
+      {
+        "id": "b",
+        "text": "Automatically encrypt the file"
+      },
+      {
+        "id": "c",
+        "text": "Keep the file open for the entire process"
+      },
+      {
+        "id": "d",
+        "text": "Convert the file into a generator"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "The `with` statement invokes context-manager methods so resources can be reliably acquired and released, including when exceptions occur.",
+    "keyConcepts": [
+      "context manager",
+      "with",
+      "resource cleanup"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-exc-10",
+    "subjectId": "python-fastapi",
+    "topicId": "py-exceptions",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "Why is catching `Exception` at a process boundary sometimes appropriate but risky deep inside business logic?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Exception can only be caught in main()"
+      },
+      {
+        "id": "b",
+        "text": "A top-level boundary can log and translate unexpected failures, while broad inner catches may hide bugs or break error semantics"
+      },
+      {
+        "id": "c",
+        "text": "It guarantees that no error is lost"
+      },
+      {
+        "id": "d",
+        "text": "It converts all exceptions to checked exceptions"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "Broad catches may be useful at a boundary that logs, reports, and safely terminates or responds. Inside business logic, catch only failures with a defined recovery path.",
+    "keyConcepts": [
+      "exception boundaries",
+      "logging",
+      "error semantics"
+    ],
+    "commonInterviewQuestion": true
+  }
+]

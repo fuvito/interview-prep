@@ -1,0 +1,362 @@
+[
+  {
+    "id": "fapi-di-01",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-di",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "Which function is commonly used to declare a FastAPI dependency?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Depends"
+      },
+      {
+        "id": "b",
+        "text": "Inject"
+      },
+      {
+        "id": "c",
+        "text": "Autowired"
+      },
+      {
+        "id": "d",
+        "text": "ProvideBean"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "`Depends` declares a dependency that FastAPI resolves when invoking a path operation or another dependency.",
+    "keyConcepts": [
+      "Depends",
+      "dependency injection",
+      "FastAPI"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "fapi-di-02",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-di",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What can a FastAPI dependency provide to an endpoint?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Only string path parameters"
+      },
+      {
+        "id": "b",
+        "text": "Reusable values or services such as a database session, current user, or configuration"
+      },
+      {
+        "id": "c",
+        "text": "Only HTML templates"
+      },
+      {
+        "id": "d",
+        "text": "Only response status codes"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "Dependencies can encapsulate reusable logic, resources, and authorization checks, and can themselves depend on other dependencies.",
+    "keyConcepts": [
+      "dependency injection",
+      "reuse",
+      "database session"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "fapi-di-03",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-di",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "How is a dependency commonly declared in a path operation parameter?",
+    "options": [
+      {
+        "id": "a",
+        "text": "`db = @Inject(get_db)`"
+      },
+      {
+        "id": "b",
+        "text": "`db: get_db()`"
+      },
+      {
+        "id": "c",
+        "text": "`db = Depends(get_db)`"
+      },
+      {
+        "id": "d",
+        "text": "`db <- get_db`"
+      }
+    ],
+    "correctAnswers": [
+      "c"
+    ],
+    "explanation": "FastAPI calls the dependency and injects its result into the endpoint parameter.",
+    "keyConcepts": [
+      "Depends",
+      "dependency declaration",
+      "injection"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "fapi-di-04",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-di",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is the purpose of `APIRouter`?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Manage SQL transactions"
+      },
+      {
+        "id": "b",
+        "text": "Create a separate Python interpreter"
+      },
+      {
+        "id": "c",
+        "text": "Replace Pydantic"
+      },
+      {
+        "id": "d",
+        "text": "Group related path operations into reusable routers that can be included in an application"
+      }
+    ],
+    "correctAnswers": [
+      "d"
+    ],
+    "explanation": "`APIRouter` helps organize endpoints by feature or resource and can apply prefixes, tags, dependencies, and response configuration.",
+    "keyConcepts": [
+      "APIRouter",
+      "routing",
+      "application structure"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "fapi-di-05",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-di",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "Why is separating routers, schemas, services, and repositories useful?",
+    "options": [
+      {
+        "id": "a",
+        "text": "It creates clearer boundaries between HTTP handling, validation, business logic, and data access"
+      },
+      {
+        "id": "b",
+        "text": "FastAPI requires exactly four directories"
+      },
+      {
+        "id": "c",
+        "text": "It makes every function asynchronous"
+      },
+      {
+        "id": "d",
+        "text": "It removes the need for tests"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "Layered organization helps maintainability and testability. The exact architecture should match project complexity rather than follow a rigid folder count.",
+    "keyConcepts": [
+      "application architecture",
+      "separation of concerns",
+      "service layer"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "fapi-di-06",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-di",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is dependency caching behavior in a typical FastAPI request?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Dependencies are cached forever across all users"
+      },
+      {
+        "id": "b",
+        "text": "The same dependency is generally called once per request and its result reused for repeated dependency declarations unless caching is disabled"
+      },
+      {
+        "id": "c",
+        "text": "Dependencies are never cached"
+      },
+      {
+        "id": "d",
+        "text": "Every dependency is executed in a separate process"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "FastAPI normally caches dependency results within a request. `use_cache=False` can request a fresh resolution for a particular dependency declaration.",
+    "keyConcepts": [
+      "dependency cache",
+      "request scope",
+      "Depends"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "fapi-di-07",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-di",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "How can a dependency be overridden in a FastAPI test?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Edit the dependency source file before every test"
+      },
+      {
+        "id": "b",
+        "text": "Set a global environment variable only"
+      },
+      {
+        "id": "c",
+        "text": "Use `app.dependency_overrides` to map the original dependency to a test dependency"
+      },
+      {
+        "id": "d",
+        "text": "Use `response_model`"
+      }
+    ],
+    "correctAnswers": [
+      "c"
+    ],
+    "explanation": "FastAPI exposes a dependency override mapping that allows tests to replace database, authentication, or external-service dependencies.",
+    "keyConcepts": [
+      "dependency_overrides",
+      "testing",
+      "dependency injection"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "fapi-di-08",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-di",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the purpose of a dependency that uses `yield`?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Return multiple HTTP responses"
+      },
+      {
+        "id": "b",
+        "text": "Create a generator endpoint automatically"
+      },
+      {
+        "id": "c",
+        "text": "Disable dependency caching"
+      },
+      {
+        "id": "d",
+        "text": "Provide setup and teardown around the request's use of a resource"
+      }
+    ],
+    "correctAnswers": [
+      "d"
+    ],
+    "explanation": "A yield dependency can acquire a resource before yielding it and perform cleanup afterward, commonly for database sessions. Scope and lifecycle details depend on FastAPI version and dependency configuration.",
+    "keyConcepts": [
+      "yield dependency",
+      "resource cleanup",
+      "database session"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "fapi-di-09",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-di",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is a good practice for sharing application-wide configuration in FastAPI?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Load and validate settings through a dedicated settings object and provide it through a controlled dependency or app state"
+      },
+      {
+        "id": "b",
+        "text": "Read environment variables independently in every endpoint"
+      },
+      {
+        "id": "c",
+        "text": "Hard-code secrets in each router"
+      },
+      {
+        "id": "d",
+        "text": "Store configuration in request query parameters"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "A centralized settings model makes configuration consistent and testable. Secrets should come from secure environment or secret-management mechanisms, not source control.",
+    "keyConcepts": [
+      "settings",
+      "configuration",
+      "dependency injection"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "fapi-di-10",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-di",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "Why can creating a database engine or network client at module import time complicate testing and application lifecycle?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Python does not allow global objects"
+      },
+      {
+        "id": "b",
+        "text": "It creates side effects during import and can make resource initialization, cleanup, and test isolation harder to control"
+      },
+      {
+        "id": "c",
+        "text": "FastAPI cannot import modules with classes"
+      },
+      {
+        "id": "d",
+        "text": "It automatically disables dependency injection"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "Managing resources through application lifespan or a deliberate provider makes startup/shutdown explicit and simplifies test setup and cleanup.",
+    "keyConcepts": [
+      "application lifespan",
+      "resource management",
+      "testability"
+    ],
+    "commonInterviewQuestion": true
+  }
+]

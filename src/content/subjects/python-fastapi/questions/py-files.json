@@ -1,0 +1,362 @@
+[
+  {
+    "id": "py-files-01",
+    "subjectId": "python-fastapi",
+    "topicId": "py-files",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "Which mode opens a file for reading text?",
+    "options": [
+      {
+        "id": "a",
+        "text": "`r`"
+      },
+      {
+        "id": "b",
+        "text": "`w`"
+      },
+      {
+        "id": "c",
+        "text": "`a`"
+      },
+      {
+        "id": "d",
+        "text": "`x`"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "`r` opens an existing file for reading. `w` truncates or creates, `a` appends, and `x` creates exclusively.",
+    "keyConcepts": [
+      "file I/O",
+      "open modes",
+      "reading"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-files-02",
+    "subjectId": "python-fastapi",
+    "topicId": "py-files",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "Why is `with open(path) as file:` preferred?",
+    "options": [
+      {
+        "id": "a",
+        "text": "It automatically compresses the file"
+      },
+      {
+        "id": "b",
+        "text": "It ensures the file is closed when the block exits"
+      },
+      {
+        "id": "c",
+        "text": "It reads the whole file into a list"
+      },
+      {
+        "id": "d",
+        "text": "It prevents file permission errors"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "The file object is a context manager. The `with` block closes it reliably, including when an exception occurs.",
+    "keyConcepts": [
+      "with",
+      "file handling",
+      "resource cleanup"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-files-03",
+    "subjectId": "python-fastapi",
+    "topicId": "py-files",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "Which standard library module is commonly used to work with JSON?",
+    "options": [
+      {
+        "id": "a",
+        "text": "csv"
+      },
+      {
+        "id": "b",
+        "text": "pickle"
+      },
+      {
+        "id": "c",
+        "text": "json"
+      },
+      {
+        "id": "d",
+        "text": "pathlib"
+      }
+    ],
+    "correctAnswers": [
+      "c"
+    ],
+    "explanation": "The `json` module provides `dump`, `dumps`, `load`, and `loads` for JSON serialization and parsing.",
+    "keyConcepts": [
+      "json",
+      "serialization",
+      "standard library"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-files-04",
+    "subjectId": "python-fastapi",
+    "topicId": "py-files",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "Which module provides an object-oriented interface for filesystem paths?",
+    "options": [
+      {
+        "id": "a",
+        "text": "sys"
+      },
+      {
+        "id": "b",
+        "text": "re"
+      },
+      {
+        "id": "c",
+        "text": "math"
+      },
+      {
+        "id": "d",
+        "text": "pathlib"
+      }
+    ],
+    "correctAnswers": [
+      "d"
+    ],
+    "explanation": "`pathlib.Path` provides convenient path manipulation and filesystem operations across platforms.",
+    "keyConcepts": [
+      "pathlib",
+      "filesystem",
+      "paths"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-files-05",
+    "subjectId": "python-fastapi",
+    "topicId": "py-files",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "Which standard library module is commonly used to read and write CSV files?",
+    "options": [
+      {
+        "id": "a",
+        "text": "csv"
+      },
+      {
+        "id": "b",
+        "text": "json"
+      },
+      {
+        "id": "c",
+        "text": "pickle"
+      },
+      {
+        "id": "d",
+        "text": "argparse"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "The `csv` module provides readers, writers, and dictionary-based helpers for CSV data.",
+    "keyConcepts": [
+      "csv",
+      "file formats",
+      "standard library"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-files-06",
+    "subjectId": "python-fastapi",
+    "topicId": "py-files",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the difference between `json.dumps()` and `json.dump()`?",
+    "options": [
+      {
+        "id": "a",
+        "text": "`dump()` returns a string; `dumps()` writes to a file"
+      },
+      {
+        "id": "b",
+        "text": "`dumps()` returns a JSON string; `dump()` writes JSON to a file-like object"
+      },
+      {
+        "id": "c",
+        "text": "Both write only to standard output"
+      },
+      {
+        "id": "d",
+        "text": "`dumps()` parses JSON while `dump()` validates it"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "`dumps` serializes to a string; `dump` serializes to a file-like object.",
+    "keyConcepts": [
+      "json.dumps",
+      "json.dump",
+      "serialization"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-files-07",
+    "subjectId": "python-fastapi",
+    "topicId": "py-files",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the purpose of Python's `logging` module?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Replace all exception handling"
+      },
+      {
+        "id": "b",
+        "text": "Compile log statements into bytecode"
+      },
+      {
+        "id": "c",
+        "text": "Provide configurable application logging with levels, handlers, and formatters"
+      },
+      {
+        "id": "d",
+        "text": "Automatically send logs to a cloud provider"
+      }
+    ],
+    "correctAnswers": [
+      "c"
+    ],
+    "explanation": "The logging module supports levels, handlers, formatters, and logger hierarchies, allowing output to be routed to files, streams, or integrations.",
+    "keyConcepts": [
+      "logging",
+      "handlers",
+      "log levels"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-files-08",
+    "subjectId": "python-fastapi",
+    "topicId": "py-files",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does `datetime.now()` return when called without a timezone argument?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A UTC-aware datetime in every environment"
+      },
+      {
+        "id": "b",
+        "text": "A Unix timestamp integer"
+      },
+      {
+        "id": "c",
+        "text": "A date without a time"
+      },
+      {
+        "id": "d",
+        "text": "A naive datetime representing the local system time"
+      }
+    ],
+    "correctAnswers": [
+      "d"
+    ],
+    "explanation": "Without a timezone argument, `datetime.now()` returns a naive datetime. For timezone-aware application logic, use explicit timezone information such as `datetime.now(timezone.utc)`.",
+    "keyConcepts": [
+      "datetime",
+      "timezone-aware",
+      "naive datetime"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-files-09",
+    "subjectId": "python-fastapi",
+    "topicId": "py-files",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the purpose of `argparse`?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Parse command-line arguments for Python programs"
+      },
+      {
+        "id": "b",
+        "text": "Parse SQL query plans"
+      },
+      {
+        "id": "c",
+        "text": "Read YAML configuration only"
+      },
+      {
+        "id": "d",
+        "text": "Create HTTP routes"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "`argparse` supports command-line options, positional arguments, help messages, and validation of CLI input.",
+    "keyConcepts": [
+      "argparse",
+      "CLI",
+      "standard library"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-files-10",
+    "subjectId": "python-fastapi",
+    "topicId": "py-files",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "Why is `pickle` unsafe for untrusted input?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Pickle cannot serialize Python objects"
+      },
+      {
+        "id": "b",
+        "text": "Unpickling can execute arbitrary code during deserialization"
+      },
+      {
+        "id": "c",
+        "text": "Pickle always truncates files"
+      },
+      {
+        "id": "d",
+        "text": "Pickle data is automatically encrypted"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "Pickle is Python-specific and deserialization can invoke constructors or other callables. Never unpickle data from untrusted sources; prefer safer formats such as JSON for interchange.",
+    "keyConcepts": [
+      "pickle",
+      "deserialization",
+      "security"
+    ],
+    "commonInterviewQuestion": true
+  }
+]

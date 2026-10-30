@@ -1,0 +1,362 @@
+[
+  {
+    "id": "py-test-01",
+    "subjectId": "python-fastapi",
+    "topicId": "py-testing",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is the purpose of an assertion in a test?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Verify that an observed result matches an expected condition"
+      },
+      {
+        "id": "b",
+        "text": "Install test dependencies"
+      },
+      {
+        "id": "c",
+        "text": "Start a web server"
+      },
+      {
+        "id": "d",
+        "text": "Generate random test data only"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "Assertions encode expected behavior. A failing assertion indicates that the test's expectation was not met.",
+    "keyConcepts": [
+      "assertions",
+      "testing",
+      "expected behavior"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-test-02",
+    "subjectId": "python-fastapi",
+    "topicId": "py-testing",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "Which Python testing framework is included in the standard library?",
+    "options": [
+      {
+        "id": "a",
+        "text": "pytest"
+      },
+      {
+        "id": "b",
+        "text": "unittest"
+      },
+      {
+        "id": "c",
+        "text": "nose2"
+      },
+      {
+        "id": "d",
+        "text": "tox"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "`unittest` is included with Python. Pytest is a widely used third-party framework with a concise fixture and assertion model.",
+    "keyConcepts": [
+      "unittest",
+      "standard library",
+      "testing"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-test-03",
+    "subjectId": "python-fastapi",
+    "topicId": "py-testing",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is a fixture in pytest commonly used for?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Define a production database table"
+      },
+      {
+        "id": "b",
+        "text": "Replace all assertions"
+      },
+      {
+        "id": "c",
+        "text": "Set up and provide reusable test dependencies or state"
+      },
+      {
+        "id": "d",
+        "text": "Compile test files"
+      }
+    ],
+    "correctAnswers": [
+      "c"
+    ],
+    "explanation": "Fixtures provide reusable setup and teardown for tests, such as temporary directories, clients, test data, or database sessions.",
+    "keyConcepts": [
+      "pytest",
+      "fixtures",
+      "test setup"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-test-04",
+    "subjectId": "python-fastapi",
+    "topicId": "py-testing",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is mocking used for in unit tests?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Run tests against production data"
+      },
+      {
+        "id": "b",
+        "text": "Make every test asynchronous"
+      },
+      {
+        "id": "c",
+        "text": "Measure CPU cache misses"
+      },
+      {
+        "id": "d",
+        "text": "Replace a dependency with a controlled test double"
+      }
+    ],
+    "correctAnswers": [
+      "d"
+    ],
+    "explanation": "Mocks and other test doubles isolate the unit under test from external systems and allow tests to verify interactions or simulate conditions.",
+    "keyConcepts": [
+      "mocking",
+      "test doubles",
+      "isolation"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-test-05",
+    "subjectId": "python-fastapi",
+    "topicId": "py-testing",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is the purpose of a linter?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Detect potential issues and enforce code-quality rules"
+      },
+      {
+        "id": "b",
+        "text": "Run database migrations"
+      },
+      {
+        "id": "c",
+        "text": "Package a Python application"
+      },
+      {
+        "id": "d",
+        "text": "Serve HTTP requests"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "Linters analyze source code for style issues, suspicious patterns, and potential bugs. Examples include Ruff and Pylint.",
+    "keyConcepts": [
+      "linting",
+      "Ruff",
+      "code quality"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-test-06",
+    "subjectId": "python-fastapi",
+    "topicId": "py-testing",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the difference between a unit test and an integration test?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A unit test always requires a database; an integration test never does"
+      },
+      {
+        "id": "b",
+        "text": "A unit test focuses on a small unit in isolation; an integration test checks interactions between components or systems"
+      },
+      {
+        "id": "c",
+        "text": "They are identical"
+      },
+      {
+        "id": "d",
+        "text": "An integration test cannot use mocks"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "Unit tests isolate a small piece of logic. Integration tests exercise boundaries such as repositories, HTTP layers, databases, or external integrations.",
+    "keyConcepts": [
+      "unit testing",
+      "integration testing",
+      "test scope"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-test-07",
+    "subjectId": "python-fastapi",
+    "topicId": "py-testing",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "Why should tests avoid depending on execution order?",
+    "options": [
+      {
+        "id": "a",
+        "text": "pytest requires tests to run alphabetically"
+      },
+      {
+        "id": "b",
+        "text": "Tests cannot share fixtures"
+      },
+      {
+        "id": "c",
+        "text": "Order dependence creates hidden shared-state coupling and makes test runs less reliable"
+      },
+      {
+        "id": "d",
+        "text": "It prevents code coverage measurement"
+      }
+    ],
+    "correctAnswers": [
+      "c"
+    ],
+    "explanation": "Independent tests are easier to run in parallel, repeat, and debug. Shared mutable state should be isolated or reset between tests.",
+    "keyConcepts": [
+      "test isolation",
+      "determinism",
+      "shared state"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-test-08",
+    "subjectId": "python-fastapi",
+    "topicId": "py-testing",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is test parametrization useful for?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Run tests only in production"
+      },
+      {
+        "id": "b",
+        "text": "Generate documentation from classes"
+      },
+      {
+        "id": "c",
+        "text": "Skip all failing test cases"
+      },
+      {
+        "id": "d",
+        "text": "Run the same test logic against multiple input and expected-output combinations"
+      }
+    ],
+    "correctAnswers": [
+      "d"
+    ],
+    "explanation": "Parametrization reduces duplication and makes edge-case coverage clearer by supplying multiple cases to one test function.",
+    "keyConcepts": [
+      "pytest.mark.parametrize",
+      "test cases",
+      "coverage"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-test-09",
+    "subjectId": "python-fastapi",
+    "topicId": "py-testing",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does code coverage measure?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Which parts of the code were executed during a test run"
+      },
+      {
+        "id": "b",
+        "text": "How fast the code runs in production"
+      },
+      {
+        "id": "c",
+        "text": "How many developers reviewed the code"
+      },
+      {
+        "id": "d",
+        "text": "How many dependencies are installed"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "Coverage tools report executed lines, branches, or other units. High coverage does not guarantee that tests assert meaningful behavior.",
+    "keyConcepts": [
+      "coverage",
+      "testing",
+      "quality"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-test-10",
+    "subjectId": "python-fastapi",
+    "topicId": "py-testing",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "Why is a test that only asserts a mocked dependency was called sometimes insufficient?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Mocks cannot be used in Python"
+      },
+      {
+        "id": "b",
+        "text": "It may verify implementation details without proving the externally observable behavior is correct"
+      },
+      {
+        "id": "c",
+        "text": "A mock always executes the real implementation"
+      },
+      {
+        "id": "d",
+        "text": "It guarantees integration behavior"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "Interaction assertions can be valuable, but tests should also verify important outputs and behavior. Excessive mocking can make tests brittle and miss integration defects.",
+    "keyConcepts": [
+      "mocking",
+      "behavioral tests",
+      "test quality"
+    ],
+    "commonInterviewQuestion": true
+  }
+]

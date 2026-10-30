@@ -1,0 +1,362 @@
+[
+  {
+    "id": "fapi-async-01",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-async",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is the purpose of declaring a FastAPI endpoint with `async def`?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Make CPU-heavy Python code automatically parallel"
+      },
+      {
+        "id": "b",
+        "text": "Run the endpoint in a new process"
+      },
+      {
+        "id": "c",
+        "text": "Allow the endpoint to await nonblocking asynchronous operations"
+      },
+      {
+        "id": "d",
+        "text": "Guarantee faster execution for every function"
+      }
+    ],
+    "correctAnswers": [
+      "c"
+    ],
+    "explanation": "Async endpoints can yield control while awaiting asynchronous I/O. They do not make blocking or CPU-bound code automatically nonblocking.",
+    "keyConcepts": [
+      "async def",
+      "await",
+      "FastAPI"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "fapi-async-02",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-async",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What should an async endpoint use for a nonblocking HTTP request to another service?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A synchronous client called repeatedly in a tight loop"
+      },
+      {
+        "id": "b",
+        "text": "A subprocess for every request"
+      },
+      {
+        "id": "c",
+        "text": "A SQL schema migration"
+      },
+      {
+        "id": "d",
+        "text": "An asynchronous HTTP client"
+      }
+    ],
+    "correctAnswers": [
+      "d"
+    ],
+    "explanation": "An async-compatible client such as HTTPX's `AsyncClient` allows the event loop to manage concurrent network waits.",
+    "keyConcepts": [
+      "HTTPX",
+      "async I/O",
+      "downstream calls"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "fapi-async-03",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-async",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is the purpose of FastAPI's `BackgroundTasks`?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Schedule small tasks to run after the response is sent"
+      },
+      {
+        "id": "b",
+        "text": "Create durable distributed jobs with guaranteed retries"
+      },
+      {
+        "id": "c",
+        "text": "Run a task before request validation"
+      },
+      {
+        "id": "d",
+        "text": "Replace a message broker for all workloads"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "BackgroundTasks are useful for lightweight post-response work. They are not a durable job queue and do not provide the guarantees of a dedicated worker system.",
+    "keyConcepts": [
+      "BackgroundTasks",
+      "post-response work",
+      "task queues"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "fapi-async-04",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-async",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "Why should a CPU-intensive function not run directly on the asyncio event loop?",
+    "options": [
+      {
+        "id": "a",
+        "text": "It automatically becomes a database transaction"
+      },
+      {
+        "id": "b",
+        "text": "It can block the event loop and prevent other coroutines from making progress"
+      },
+      {
+        "id": "c",
+        "text": "It is always slower than a thread"
+      },
+      {
+        "id": "d",
+        "text": "It cancels all other tasks permanently"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "CPU-heavy synchronous work occupies the event-loop thread. Use a process pool or separate worker for CPU-bound workloads when parallelism is required.",
+    "keyConcepts": [
+      "event loop",
+      "CPU-bound",
+      "blocking"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "fapi-async-05",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-async",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What does `await` require in Python?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Any integer value"
+      },
+      {
+        "id": "b",
+        "text": "A SQLAlchemy model"
+      },
+      {
+        "id": "c",
+        "text": "An awaitable object, such as a coroutine, Task, or Future"
+      },
+      {
+        "id": "d",
+        "text": "A FastAPI router"
+      }
+    ],
+    "correctAnswers": [
+      "c"
+    ],
+    "explanation": "`await` is used with awaitables. A normal synchronous function result cannot simply be awaited.",
+    "keyConcepts": [
+      "await",
+      "awaitable",
+      "coroutines"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "fapi-async-06",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-async",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the practical difference between a synchronous `def` endpoint and an `async def` endpoint in FastAPI?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Both always run in separate processes"
+      },
+      {
+        "id": "b",
+        "text": "A def endpoint cannot use dependencies"
+      },
+      {
+        "id": "c",
+        "text": "An async endpoint always uses a thread pool"
+      },
+      {
+        "id": "d",
+        "text": "FastAPI runs normal def path operations in a thread pool, while async def path operations run on the event loop"
+      }
+    ],
+    "correctAnswers": [
+      "d"
+    ],
+    "explanation": "FastAPI offloads normal synchronous path operations to a thread pool so blocking work does not directly block the event loop. Async endpoints should use nonblocking operations or explicitly offload blocking work.",
+    "keyConcepts": [
+      "sync endpoints",
+      "async endpoints",
+      "thread pool"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "fapi-async-07",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-async",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "When is FastAPI's `BackgroundTasks` not an adequate solution?",
+    "options": [
+      {
+        "id": "a",
+        "text": "When work needs durable delivery, retries, scheduling, or execution independent of the web process"
+      },
+      {
+        "id": "b",
+        "text": "When sending a small best-effort email after a response"
+      },
+      {
+        "id": "c",
+        "text": "When adding a response header"
+      },
+      {
+        "id": "d",
+        "text": "When logging a simple event"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "For durable or resource-intensive jobs, use a task queue or worker architecture such as Celery, RQ, Dramatiq, or a broker-backed worker.",
+    "keyConcepts": [
+      "BackgroundTasks",
+      "durability",
+      "task queue"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "fapi-async-08",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-async",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the purpose of an async context manager for an HTTP client?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Make every request synchronous"
+      },
+      {
+        "id": "b",
+        "text": "Ensure the client is closed after its asynchronous use"
+      },
+      {
+        "id": "c",
+        "text": "Persist response data to SQL automatically"
+      },
+      {
+        "id": "d",
+        "text": "Convert HTTP to WebSocket"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "Async context managers support deterministic acquisition and cleanup of asynchronous resources, for example `async with AsyncClient() as client`.",
+    "keyConcepts": [
+      "async context manager",
+      "HTTP client",
+      "resource cleanup"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "fapi-async-09",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-async",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "Why should an application avoid creating a new HTTP client for every outbound request?",
+    "options": [
+      {
+        "id": "a",
+        "text": "HTTP clients cannot be instantiated more than once"
+      },
+      {
+        "id": "b",
+        "text": "It disables TLS validation"
+      },
+      {
+        "id": "c",
+        "text": "It prevents effective connection pooling and adds connection setup overhead"
+      },
+      {
+        "id": "d",
+        "text": "It makes response models invalid"
+      }
+    ],
+    "correctAnswers": [
+      "c"
+    ],
+    "explanation": "Reusing a properly managed client allows connection pooling and resource reuse. Manage the client lifecycle at application scope where appropriate.",
+    "keyConcepts": [
+      "connection pooling",
+      "HTTPX",
+      "lifespan"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "fapi-async-10",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-async",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is a common strategy for isolating a blocking library call inside an async FastAPI workflow?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Call it directly and assume asyncio detects blocking code"
+      },
+      {
+        "id": "b",
+        "text": "Wrap it in `async def` without changing the call"
+      },
+      {
+        "id": "c",
+        "text": "Use `time.sleep()` instead of awaiting"
+      },
+      {
+        "id": "d",
+        "text": "Run it in a worker thread or process using an appropriate offloading mechanism"
+      }
+    ],
+    "correctAnswers": [
+      "d"
+    ],
+    "explanation": "Declaring a function async does not make its internal blocking calls nonblocking. Offload blocking I/O to a thread and CPU-heavy work to a process or external worker, as appropriate.",
+    "keyConcepts": [
+      "blocking calls",
+      "thread offloading",
+      "asyncio"
+    ],
+    "commonInterviewQuestion": true
+  }
+]

@@ -1,0 +1,362 @@
+[
+  {
+    "id": "fapi-fund-01",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-fundamentals",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is FastAPI?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A Python framework for building APIs using standard Python type hints"
+      },
+      {
+        "id": "b",
+        "text": "A relational database"
+      },
+      {
+        "id": "c",
+        "text": "A JavaScript UI library"
+      },
+      {
+        "id": "d",
+        "text": "A Python package manager"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "FastAPI is a modern Python web framework for APIs. It uses type hints and integrates with Pydantic for data validation and OpenAPI documentation.",
+    "keyConcepts": [
+      "FastAPI",
+      "type hints",
+      "API framework"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "fapi-fund-02",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-fundamentals",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "Which ASGI server is commonly used to run a FastAPI application locally?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Gunicorn only without workers"
+      },
+      {
+        "id": "b",
+        "text": "Uvicorn"
+      },
+      {
+        "id": "c",
+        "text": "Apache Maven"
+      },
+      {
+        "id": "d",
+        "text": "Tomcat"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "Uvicorn is a commonly used ASGI server for running FastAPI. Production deployments may use Uvicorn workers or another ASGI server configuration.",
+    "keyConcepts": [
+      "Uvicorn",
+      "ASGI",
+      "server"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "fapi-fund-03",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-fundamentals",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "How is a basic FastAPI application instance commonly created?",
+    "options": [
+      {
+        "id": "a",
+        "text": "`app = Flask()`"
+      },
+      {
+        "id": "b",
+        "text": "`app = Django()`"
+      },
+      {
+        "id": "c",
+        "text": "`app = FastAPI()`"
+      },
+      {
+        "id": "d",
+        "text": "`app = ASGI.run()`"
+      }
+    ],
+    "correctAnswers": [
+      "c"
+    ],
+    "explanation": "The `FastAPI` class creates the application object to which path operations, middleware, exception handlers, and lifecycle configuration are attached.",
+    "keyConcepts": [
+      "FastAPI",
+      "application instance",
+      "setup"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "fapi-fund-04",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-fundamentals",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "Which decorator defines a GET endpoint in FastAPI?",
+    "options": [
+      {
+        "id": "a",
+        "text": "`@app.route.get(\"/items\")`"
+      },
+      {
+        "id": "b",
+        "text": "`@app.GET(\"/items\")`"
+      },
+      {
+        "id": "c",
+        "text": "`@get(\"/items\")`"
+      },
+      {
+        "id": "d",
+        "text": "`@app.get(\"/items\")`"
+      }
+    ],
+    "correctAnswers": [
+      "d"
+    ],
+    "explanation": "FastAPI provides decorators such as `@app.get`, `@app.post`, `@app.put`, and `@app.delete` to register path operations.",
+    "keyConcepts": [
+      "path operation",
+      "GET",
+      "routing"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "fapi-fund-05",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-fundamentals",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is an ASGI application?",
+    "options": [
+      {
+        "id": "a",
+        "text": "An application interface designed for asynchronous-capable Python web servers and frameworks"
+      },
+      {
+        "id": "b",
+        "text": "A database connection pool"
+      },
+      {
+        "id": "c",
+        "text": "A Python static type checker"
+      },
+      {
+        "id": "d",
+        "text": "A Java servlet container"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "ASGI is the asynchronous successor/interface alongside WSGI, supporting HTTP and other protocols with async application call semantics.",
+    "keyConcepts": [
+      "ASGI",
+      "Uvicorn",
+      "web server"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "fapi-fund-06",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-fundamentals",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the purpose of FastAPI's automatic OpenAPI schema generation?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Generate database migrations"
+      },
+      {
+        "id": "b",
+        "text": "Describe API paths, parameters, request bodies, responses, and schemas for documentation and tooling"
+      },
+      {
+        "id": "c",
+        "text": "Compile Python into native code"
+      },
+      {
+        "id": "d",
+        "text": "Replace authentication"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "FastAPI derives an OpenAPI schema from path operations, dependencies, and Pydantic models. This powers interactive docs and client-generation tooling.",
+    "keyConcepts": [
+      "OpenAPI",
+      "schema",
+      "API documentation"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "fapi-fund-07",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-fundamentals",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What are the default interactive API documentation routes in a typical FastAPI app?",
+    "options": [
+      {
+        "id": "a",
+        "text": "`/swagger` and `/api-docs`"
+      },
+      {
+        "id": "b",
+        "text": "`/openapi` and `/schema`"
+      },
+      {
+        "id": "c",
+        "text": "`/docs` for Swagger UI and `/redoc` for ReDoc"
+      },
+      {
+        "id": "d",
+        "text": "`/admin` and `/health`"
+      }
+    ],
+    "correctAnswers": [
+      "c"
+    ],
+    "explanation": "A typical FastAPI application exposes Swagger UI at `/docs`, ReDoc at `/redoc`, and the OpenAPI JSON schema at `/openapi.json`, unless configured otherwise.",
+    "keyConcepts": [
+      "Swagger UI",
+      "ReDoc",
+      "OpenAPI"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "fapi-fund-08",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-fundamentals",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the difference between a path parameter and a query parameter?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A path parameter is always JSON; a query parameter is always a header"
+      },
+      {
+        "id": "b",
+        "text": "They are parsed only by the database"
+      },
+      {
+        "id": "c",
+        "text": "There is no distinction"
+      },
+      {
+        "id": "d",
+        "text": "A path parameter is part of the URL path; a query parameter follows the `?` in the URL"
+      }
+    ],
+    "correctAnswers": [
+      "d"
+    ],
+    "explanation": "For `/users/{user_id}`, `user_id` is a path parameter. In `/users?active=true`, `active` is a query parameter.",
+    "keyConcepts": [
+      "path parameters",
+      "query parameters",
+      "routing"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "fapi-fund-09",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-fundamentals",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does FastAPI generally use to infer a request body model?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A Pydantic model type declared as a path operation parameter"
+      },
+      {
+        "id": "b",
+        "text": "A variable name beginning with `body_` only"
+      },
+      {
+        "id": "c",
+        "text": "A SQLAlchemy model in every case"
+      },
+      {
+        "id": "d",
+        "text": "A global dictionary"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "A Pydantic model parameter is interpreted as request body data and validated before the endpoint function receives it.",
+    "keyConcepts": [
+      "request body",
+      "Pydantic",
+      "validation"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "fapi-fund-10",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-fundamentals",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is the key difference between WSGI and ASGI relevant to FastAPI?",
+    "options": [
+      {
+        "id": "a",
+        "text": "WSGI supports Python but ASGI supports Java"
+      },
+      {
+        "id": "b",
+        "text": "ASGI supports asynchronous application execution and protocols such as WebSockets, while traditional WSGI is synchronous"
+      },
+      {
+        "id": "c",
+        "text": "ASGI requires a database"
+      },
+      {
+        "id": "d",
+        "text": "WSGI is a browser API"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "FastAPI is built for ASGI, enabling async request handling and protocols such as WebSockets. WSGI has a synchronous callable interface.",
+    "keyConcepts": [
+      "ASGI",
+      "WSGI",
+      "async"
+    ],
+    "commonInterviewQuestion": true
+  }
+]

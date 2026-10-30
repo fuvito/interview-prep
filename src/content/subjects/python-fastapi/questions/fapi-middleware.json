@@ -1,0 +1,362 @@
+[
+  {
+    "id": "fapi-mw-01",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-middleware",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "How do you return an HTTP error from a FastAPI endpoint?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Raise `HTTPException` with an appropriate status code and detail"
+      },
+      {
+        "id": "b",
+        "text": "Return a Python exception object"
+      },
+      {
+        "id": "c",
+        "text": "Call `sys.exit()`"
+      },
+      {
+        "id": "d",
+        "text": "Use `print()`"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "FastAPI's `HTTPException` is raised to terminate the request with a specified HTTP status and detail payload.",
+    "keyConcepts": [
+      "HTTPException",
+      "HTTP status",
+      "error handling"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "fapi-mw-02",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-middleware",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is middleware in a FastAPI application?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A database entity"
+      },
+      {
+        "id": "b",
+        "text": "Code that can process requests and responses around the application"
+      },
+      {
+        "id": "c",
+        "text": "A Pydantic field type"
+      },
+      {
+        "id": "d",
+        "text": "A background task queue"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "Middleware wraps request/response processing and is useful for cross-cutting concerns such as request IDs, timing, and headers.",
+    "keyConcepts": [
+      "middleware",
+      "request lifecycle",
+      "cross-cutting concerns"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "fapi-mw-03",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-middleware",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "Which status code is commonly used when a resource is successfully created?",
+    "options": [
+      {
+        "id": "a",
+        "text": "200 OK in every situation"
+      },
+      {
+        "id": "b",
+        "text": "204 No Content"
+      },
+      {
+        "id": "c",
+        "text": "201 Created"
+      },
+      {
+        "id": "d",
+        "text": "302 Found"
+      }
+    ],
+    "correctAnswers": [
+      "c"
+    ],
+    "explanation": "201 Created indicates successful resource creation and may include a Location header pointing to the new resource.",
+    "keyConcepts": [
+      "201 Created",
+      "REST",
+      "HTTP status"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "fapi-mw-04",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-middleware",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "Which status code indicates that the caller is not authenticated or has not supplied valid authentication credentials?",
+    "options": [
+      {
+        "id": "a",
+        "text": "403 Forbidden"
+      },
+      {
+        "id": "b",
+        "text": "404 Not Found"
+      },
+      {
+        "id": "c",
+        "text": "409 Conflict"
+      },
+      {
+        "id": "d",
+        "text": "401 Unauthorized"
+      }
+    ],
+    "correctAnswers": [
+      "d"
+    ],
+    "explanation": "401 indicates missing or invalid authentication credentials. 403 generally means the caller is authenticated but not permitted to perform the operation.",
+    "keyConcepts": [
+      "401",
+      "authentication",
+      "HTTP status"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "fapi-mw-05",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-middleware",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is the purpose of pagination in a collection endpoint?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Limit response size and support retrieval of large result sets in manageable portions"
+      },
+      {
+        "id": "b",
+        "text": "Encrypt response fields"
+      },
+      {
+        "id": "c",
+        "text": "Avoid all database indexes"
+      },
+      {
+        "id": "d",
+        "text": "Guarantee that records never change"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "Pagination improves API usability and controls query and payload sizes. Stable ordering is important; cursor pagination can help with large or changing datasets.",
+    "keyConcepts": [
+      "pagination",
+      "API design",
+      "scalability"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "fapi-mw-06",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-middleware",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "How can an application register a custom exception handler in FastAPI?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Use `@app.database_handler`"
+      },
+      {
+        "id": "b",
+        "text": "Use `app.exception_handler(ExceptionType)` as a decorator or register a handler explicitly"
+      },
+      {
+        "id": "c",
+        "text": "Add the exception to a Pydantic model"
+      },
+      {
+        "id": "d",
+        "text": "Configure a CORS middleware"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "FastAPI supports exception handlers that translate specific exception types into consistent HTTP responses.",
+    "keyConcepts": [
+      "exception_handler",
+      "error contract",
+      "FastAPI"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "fapi-mw-07",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-middleware",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is a common purpose of request ID middleware?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Generate a primary key for every database table"
+      },
+      {
+        "id": "b",
+        "text": "Authenticate all users without credentials"
+      },
+      {
+        "id": "c",
+        "text": "Attach or propagate a correlation identifier so logs for one request can be related"
+      },
+      {
+        "id": "d",
+        "text": "Cache all endpoint responses"
+      }
+    ],
+    "correctAnswers": [
+      "c"
+    ],
+    "explanation": "A correlation or request ID helps connect logs and traces across the request lifecycle and downstream services. Avoid trusting arbitrary IDs without validation or policy.",
+    "keyConcepts": [
+      "request ID",
+      "correlation",
+      "logging"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "fapi-mw-08",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-middleware",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "Why should an API return a stable error response schema?",
+    "options": [
+      {
+        "id": "a",
+        "text": "It makes every request return status 200"
+      },
+      {
+        "id": "b",
+        "text": "It removes the need for server logs"
+      },
+      {
+        "id": "c",
+        "text": "It guarantees no errors occur"
+      },
+      {
+        "id": "d",
+        "text": "Clients can handle errors consistently without depending on internal exception text or implementation details"
+      }
+    ],
+    "correctAnswers": [
+      "d"
+    ],
+    "explanation": "A consistent error contract improves client integration and allows internal implementation to change without breaking consumers.",
+    "keyConcepts": [
+      "error schema",
+      "API contract",
+      "client integration"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "fapi-mw-09",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-middleware",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the purpose of a response status code such as 204 No Content?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Indicate successful processing with no response body"
+      },
+      {
+        "id": "b",
+        "text": "Indicate that authentication is missing"
+      },
+      {
+        "id": "c",
+        "text": "Indicate that the server is unavailable"
+      },
+      {
+        "id": "d",
+        "text": "Indicate that the resource was created with a body"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "204 indicates successful completion without a response body. Clients should not expect a JSON response payload.",
+    "keyConcepts": [
+      "204",
+      "HTTP status",
+      "REST"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "fapi-mw-10",
+    "subjectId": "python-fastapi",
+    "topicId": "fapi-middleware",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "Why should middleware be used selectively for business logic?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Middleware cannot access request headers"
+      },
+      {
+        "id": "b",
+        "text": "Middleware is cross-cutting and often lacks resource-specific context; business rules are usually clearer in dependencies or service-layer code"
+      },
+      {
+        "id": "c",
+        "text": "Middleware always runs after the response is sent"
+      },
+      {
+        "id": "d",
+        "text": "FastAPI middleware is only for static files"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "Middleware is appropriate for concerns spanning requests. Domain authorization and business workflows are generally easier to test and reason about in explicit dependencies and services.",
+    "keyConcepts": [
+      "middleware",
+      "separation of concerns",
+      "business logic"
+    ],
+    "commonInterviewQuestion": true
+  }
+]

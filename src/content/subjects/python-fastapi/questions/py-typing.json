@@ -1,0 +1,362 @@
+[
+  {
+    "id": "py-type-01",
+    "subjectId": "python-fastapi",
+    "topicId": "py-typing",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is the main purpose of Python type hints?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Enforce every type at runtime automatically"
+      },
+      {
+        "id": "b",
+        "text": "Replace Python's dynamic type system"
+      },
+      {
+        "id": "c",
+        "text": "Document expected types and enable static analysis tools to detect potential type errors"
+      },
+      {
+        "id": "d",
+        "text": "Compile Python into Java"
+      }
+    ],
+    "correctAnswers": [
+      "c"
+    ],
+    "explanation": "Type hints improve readability and tooling, but Python generally does not enforce them at runtime without additional validation tools.",
+    "keyConcepts": [
+      "type hints",
+      "static analysis",
+      "typing"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-type-02",
+    "subjectId": "python-fastapi",
+    "topicId": "py-typing",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "How do you annotate a function parameter as an integer?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Use `def f(value int):`"
+      },
+      {
+        "id": "b",
+        "text": "Use `int def f(value):`"
+      },
+      {
+        "id": "c",
+        "text": "Use `def f(int value):`"
+      },
+      {
+        "id": "d",
+        "text": "Use `def f(value: int):`"
+      }
+    ],
+    "correctAnswers": [
+      "d"
+    ],
+    "explanation": "Python annotations use a colon after the parameter name. A return annotation follows `->`.",
+    "keyConcepts": [
+      "annotations",
+      "function typing",
+      "int"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-type-03",
+    "subjectId": "python-fastapi",
+    "topicId": "py-typing",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What does `Optional[str]` traditionally mean in Python typing?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A value that can be a string or None"
+      },
+      {
+        "id": "b",
+        "text": "A string that may be empty only"
+      },
+      {
+        "id": "c",
+        "text": "A value that must be omitted"
+      },
+      {
+        "id": "d",
+        "text": "A list of strings"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "`Optional[str]` is equivalent to `str | None` in modern Python versions that support union type syntax.",
+    "keyConcepts": [
+      "Optional",
+      "Union",
+      "None"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-type-04",
+    "subjectId": "python-fastapi",
+    "topicId": "py-typing",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "What is a dataclass commonly used for?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Creating database servers"
+      },
+      {
+        "id": "b",
+        "text": "Reducing boilerplate for classes primarily used to store structured data"
+      },
+      {
+        "id": "c",
+        "text": "Replacing every Pydantic model"
+      },
+      {
+        "id": "d",
+        "text": "Running asynchronous tasks"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "`@dataclass` can generate methods such as `__init__`, `__repr__`, and equality methods based on annotated fields.",
+    "keyConcepts": [
+      "dataclasses",
+      "boilerplate",
+      "data classes"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-type-05",
+    "subjectId": "python-fastapi",
+    "topicId": "py-typing",
+    "type": "single",
+    "difficulty": "beginner",
+    "question": "Which module provides the standard `Enum` base class?",
+    "options": [
+      {
+        "id": "a",
+        "text": "typing"
+      },
+      {
+        "id": "b",
+        "text": "collections"
+      },
+      {
+        "id": "c",
+        "text": "enum"
+      },
+      {
+        "id": "d",
+        "text": "inspect"
+      }
+    ],
+    "correctAnswers": [
+      "c"
+    ],
+    "explanation": "The `enum` module provides `Enum`, `IntEnum`, and related types for representing named constants.",
+    "keyConcepts": [
+      "Enum",
+      "standard library",
+      "constants"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-type-06",
+    "subjectId": "python-fastapi",
+    "topicId": "py-typing",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is the difference between `list[int]` and `Sequence[int]` as type annotations?",
+    "options": [
+      {
+        "id": "a",
+        "text": "`Sequence[int]` always means a generator"
+      },
+      {
+        "id": "b",
+        "text": "`list[int]` is checked at runtime but `Sequence[int]` is not"
+      },
+      {
+        "id": "c",
+        "text": "They are interchangeable in all API contracts"
+      },
+      {
+        "id": "d",
+        "text": "`list[int]` describes a list specifically; `Sequence[int]` accepts a broader read-only sequence interface"
+      }
+    ],
+    "correctAnswers": [
+      "d"
+    ],
+    "explanation": "Use a concrete type when mutability or list-specific behavior is required. An abstract interface such as `Sequence` allows tuples and other sequence implementations.",
+    "keyConcepts": [
+      "typing",
+      "Sequence",
+      "abstraction"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-type-07",
+    "subjectId": "python-fastapi",
+    "topicId": "py-typing",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is a `Protocol` in Python typing used for?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Define structural interfaces based on the operations an object provides"
+      },
+      {
+        "id": "b",
+        "text": "Create a network protocol implementation automatically"
+      },
+      {
+        "id": "c",
+        "text": "Enforce inheritance from a specific base class at runtime"
+      },
+      {
+        "id": "d",
+        "text": "Serialize objects to JSON"
+      }
+    ],
+    "correctAnswers": [
+      "a"
+    ],
+    "explanation": "Protocols support structural subtyping: a type can satisfy a protocol by providing the required members without explicitly inheriting from it.",
+    "keyConcepts": [
+      "Protocol",
+      "structural typing",
+      "typing"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-type-08",
+    "subjectId": "python-fastapi",
+    "topicId": "py-typing",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What does `@dataclass(frozen=True)` provide?",
+    "options": [
+      {
+        "id": "a",
+        "text": "A class that can never be instantiated"
+      },
+      {
+        "id": "b",
+        "text": "A dataclass with attribute assignment blocked after initialization"
+      },
+      {
+        "id": "c",
+        "text": "A class whose fields are all deleted after use"
+      },
+      {
+        "id": "d",
+        "text": "A class that is automatically persisted"
+      }
+    ],
+    "correctAnswers": [
+      "b"
+    ],
+    "explanation": "Frozen dataclasses emulate immutability by preventing ordinary attribute reassignment. They are not deeply immutable if fields reference mutable objects.",
+    "keyConcepts": [
+      "dataclass",
+      "frozen",
+      "immutability"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-type-09",
+    "subjectId": "python-fastapi",
+    "topicId": "py-typing",
+    "type": "single",
+    "difficulty": "intermediate",
+    "question": "What is a generic type variable useful for?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Generating random values"
+      },
+      {
+        "id": "b",
+        "text": "Defining environment variables"
+      },
+      {
+        "id": "c",
+        "text": "Expressing relationships between input and output types in reusable typed functions or classes"
+      },
+      {
+        "id": "d",
+        "text": "Enforcing database constraints"
+      }
+    ],
+    "correctAnswers": [
+      "c"
+    ],
+    "explanation": "Generics allow a function or class to preserve type relationships, such as returning the same type that was passed in.",
+    "keyConcepts": [
+      "generics",
+      "TypeVar",
+      "static typing"
+    ],
+    "commonInterviewQuestion": true
+  },
+  {
+    "id": "py-type-10",
+    "subjectId": "python-fastapi",
+    "topicId": "py-typing",
+    "type": "single",
+    "difficulty": "advanced",
+    "question": "What is the difference between static typing and runtime validation?",
+    "options": [
+      {
+        "id": "a",
+        "text": "They are identical features"
+      },
+      {
+        "id": "b",
+        "text": "Runtime validation only runs in the IDE"
+      },
+      {
+        "id": "c",
+        "text": "Static typing always validates JSON received over HTTP"
+      },
+      {
+        "id": "d",
+        "text": "Static typing analyzes code and annotations before execution; runtime validation checks actual values while the program runs"
+      }
+    ],
+    "correctAnswers": [
+      "d"
+    ],
+    "explanation": "Mypy, Pyright, and similar tools analyze type consistency statically. Runtime validators such as Pydantic inspect actual data values during execution.",
+    "keyConcepts": [
+      "static typing",
+      "runtime validation",
+      "Pydantic"
+    ],
+    "commonInterviewQuestion": true
+  }
+]
