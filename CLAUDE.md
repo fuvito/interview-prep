@@ -104,3 +104,29 @@ Difficulty: `beginner`, `intermediate`, `advanced`
 ## MVP Acceptance Criteria
 
 A user can install the extension, use it fully offline, browse TypeScript topics, study questions with explanations, run interview simulations, review results, bookmark questions, track progress, and reopen Chrome without losing data.
+
+---
+
+## Pre-Release Checklist
+
+Run `npm run prerelease` before every release. It executes all automated checks in sequence. After it passes, go through the manual checks below.
+
+### Automated (`npm run prerelease`)
+
+1. **TypeScript** — `tsc -b` (strict, no `any`, zero errors)
+2. **Lint** — `eslint src` (zero warnings or errors)
+3. **Unit tests** — `vitest run` (all pass)
+4. **E2E tests** — `playwright test` (all pass)
+5. **Production build** — `vite build` (must succeed, check bundle size)
+
+### Manual (do before submitting to Chrome Web Store)
+
+- **Content accuracy** — verify question counts in store listing copy match actual totals from `src/content/index.ts` (currently 605+)
+- **Screenshots** — regenerate with `node scripts/generate-screenshots.mjs`; must reflect current UI, light mode, correct subject/topic names and question counts
+- **Promo images** — regenerate with `node scripts/generate-store-assets.mjs`; same content accuracy requirements
+- **Popup sizing** — test both normal (480×600) and expanded (800×600) modes; no scrollbars, no blank gaps
+- **Font size scaling** — step through all 8 sizes (xs→4xl); all text, icons, and bottom nav must scale
+- **Theme toggle** — verify dark and light modes across all screens
+- **Offline** — disable network in Chrome DevTools; all features must work without errors
+- **Fresh install** — load unpacked in a clean Chrome profile; no console errors on first run
+- **Manifest version** — bump `version` in `manifest.json` and `package.json` before tagging
