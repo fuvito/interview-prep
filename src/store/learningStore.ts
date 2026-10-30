@@ -3,6 +3,7 @@ import type { Answer, EvaluationResult, Question, QuestionFilter } from '@/types
 import { questionRepository } from '@/core/question-engine'
 import { evaluate } from '@/core/assessment-engine'
 import { progressTracker } from '@/core/progress-engine'
+import { questionProgressRepository } from '@/database/repositories'
 
 type LearningPhase = 'answering' | 'revealed'
 
@@ -14,7 +15,7 @@ interface LearningState {
   textInput: string
   evaluationResult: EvaluationResult | null
 
-  load: (subjectId: string, topicId: string, filter?: QuestionFilter) => void
+  load: (subjectId: string, topicId: string, filter?: QuestionFilter) => Promise<void>
   selectAnswer: (optionId: string) => void
   setTextInput: (text: string) => void
   submitAnswer: () => void
@@ -33,9 +34,12 @@ export const useLearningStore = create<LearningState>((set, get) => ({
   textInput: '',
   evaluationResult: null,
 
-  load: (_subjectId, topicId, filter) => {
+  load: async (_subjectId, topicId, filter) => {
     const questions = questionRepository.getByTopic(topicId, filter)
-    set({ questions, currentIndex: 0, phase: 'answering', selectedAnswerIds: [], textInput: '', evaluationResult: null })
+    const progressList = await questionProgressRepository.getByIds(questions.map((q) => q.id))
+    const attemptsById = new Map(progressList.map((p) => [p.questionId, p.attempts]))
+    const sorted = [...questions].sort((a, b) => (attemptsById.get(a.id) ?? 0) - (attemptsById.get(b.id) ?? 0))
+    set({ questions: sorted, currentIndex: 0, phase: 'answering', selectedAnswerIds: [], textInput: '', evaluationResult: null })
   },
 
   selectAnswer: (optionId) => {

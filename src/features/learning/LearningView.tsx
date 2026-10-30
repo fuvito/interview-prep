@@ -12,7 +12,7 @@ export function LearningView() {
   const store = useLearningStore()
 
   useEffect(() => {
-    store.load(view.subjectId, view.topicId)
+    void store.load(view.subjectId, view.topicId)
     return () => store.reset()
   }, [view.subjectId, view.topicId])
 
