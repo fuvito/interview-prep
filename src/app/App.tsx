@@ -12,7 +12,7 @@ export default function App() {
   const { load } = useThemeStore()
   const { initCurrentSubject } = useNavigationStore()
   const [ready, setReady] = useState(false)
-  const { size, handles } = useResizable()
+  const { handles } = useResizable()
 
   useEffect(() => {
     async function init() {
@@ -27,15 +27,16 @@ export default function App() {
     void init()
   }, [load, initCurrentSubject])
 
-  const style = isPopup ? { width: size.w, height: size.h } : undefined
+  // In popup mode the container fills document.body (which useResizable sizes).
+  // In dev/tab mode it fills the viewport as before.
   const outerClass = isPopup
-    ? 'relative bg-gray-950 text-gray-100 font-sans antialiased ring-1 ring-gray-800'
+    ? 'relative w-full h-full bg-gray-950 text-gray-100 font-sans antialiased ring-1 ring-gray-800'
     : 'w-full h-screen bg-gray-950 text-gray-100 flex flex-col overflow-hidden font-sans antialiased ring-1 ring-gray-800'
 
-  if (!ready) return <div className={outerClass} style={style} />
+  if (!ready) return <div className={outerClass} />
 
   return (
-    <div className={outerClass} style={style}>
+    <div className={outerClass}>
       {isPopup && handles.map(h => (
         <div key={h.dir} style={h.style} onMouseDown={h.onMouseDown} />
       ))}

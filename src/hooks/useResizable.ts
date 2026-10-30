@@ -50,10 +50,21 @@ export interface ResizeHandle {
   onMouseDown: (e: MouseEvent) => void
 }
 
+function applyToBody(w: number, h: number) {
+  document.body.style.width = `${w}px`
+  document.body.style.height = `${h}px`
+  document.body.style.overflow = 'hidden'
+}
+
 export function useResizable() {
   const [size, setSize] = useState(loadSize)
   const sizeRef = useRef(size)
   sizeRef.current = size
+
+  // Sync size → document.body so Chrome resizes the popup window
+  useEffect(() => {
+    applyToBody(size.w, size.h)
+  }, [size])
 
   const drag = useRef<{
     dir: Dir
