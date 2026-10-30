@@ -21,7 +21,7 @@ function applyTheme(theme: Theme) {
 }
 
 function applyFontSize(size: FontSize) {
-  document.documentElement.style.setProperty('--app-font-size', `${FONT_PX[size]}px`)
+  document.documentElement.style.fontSize = `${FONT_PX[size]}px`
 }
 
 export const useThemeStore = create<ThemeState>((set, get) => ({
