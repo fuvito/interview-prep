@@ -11,6 +11,7 @@ export type View =
   | { name: 'results' }
   | { name: 'progress' }
   | { name: 'bookmarks' }
+  | { name: 'about' }
 
 interface NavigationState {
   current: View

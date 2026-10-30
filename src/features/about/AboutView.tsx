@@ -1,0 +1,121 @@
+import { BookOpen, Database, Zap, Shield, Code2 } from 'lucide-react'
+
+const VERSION = '0.1.0'
+
+interface FeatureRowProps {
+  icon: React.ReactNode
+  title: string
+  description: string
+}
+
+function FeatureRow({ icon, title, description }: FeatureRowProps) {
+  return (
+    <div className="flex items-start gap-3">
+      <div className="w-8 h-8 rounded-lg bg-gray-800 border border-gray-700 flex items-center justify-center shrink-0 text-blue-400">
+        {icon}
+      </div>
+      <div>
+        <p className="text-sm font-medium text-gray-200">{title}</p>
+        <p className="text-xs text-gray-400 mt-0.5 leading-relaxed">{description}</p>
+      </div>
+    </div>
+  )
+}
+
+export function AboutView() {
+  return (
+    <div className="flex flex-col h-full overflow-y-auto">
+      <div className="p-5 space-y-6">
+
+        {/* Hero */}
+        <div className="text-center space-y-2 pt-2">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-900/30 border border-blue-800/50 rounded-full">
+            <span className="text-xs font-bold tracking-widest text-blue-400 uppercase">IP</span>
+            <span className="text-xs text-blue-300 font-medium">InterviewPrep</span>
+          </div>
+          <p className="text-xs text-gray-400">v{VERSION}</p>
+          <p className="text-sm text-gray-300 leading-relaxed max-w-xs mx-auto">
+            Offline-first technical interview preparation for software developers.
+          </p>
+        </div>
+
+        <hr className="border-gray-800" />
+
+        {/* Features */}
+        <section className="space-y-4">
+          <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Features</h2>
+          <div className="space-y-4">
+            <FeatureRow
+              icon={<BookOpen size={15} />}
+              title="Structured Question Banks"
+              description="Curated questions across topics, levels, and types — single choice, multiple select, code output, and open-ended."
+            />
+            <FeatureRow
+              icon={<Zap size={15} />}
+              title="Interview Simulation"
+              description="Timed quiz sessions with scoring, answer review, and session history."
+            />
+            <FeatureRow
+              icon={<Database size={15} />}
+              title="Local-first Persistence"
+              description="All progress, bookmarks, and preferences are stored locally in IndexedDB. Nothing leaves your device."
+            />
+            <FeatureRow
+              icon={<Shield size={15} />}
+              title="No Account Required"
+              description="No sign-up, no tracking, no internet connection needed. Works fully offline."
+            />
+          </div>
+        </section>
+
+        <hr className="border-gray-800" />
+
+        {/* Content */}
+        <section className="space-y-2">
+          <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Content</h2>
+          <div className="bg-gray-900 border border-gray-800 rounded-lg p-3 space-y-2">
+            <div className="flex justify-between items-center">
+              <span className="text-sm text-gray-200">TypeScript</span>
+              <span className="text-xs text-blue-400 font-mono">155 questions</span>
+            </div>
+            <div className="flex gap-1.5 flex-wrap">
+              {['Basics', 'Interfaces & Types', 'Functions', 'Generics', 'Classes', 'Advanced Types'].map((t) => (
+                <span key={t} className="text-xs px-2 py-0.5 bg-gray-800 text-gray-400 rounded border border-gray-700">{t}</span>
+              ))}
+            </div>
+          </div>
+          <p className="text-xs text-gray-500 pt-1">More subjects coming in future releases.</p>
+        </section>
+
+        <hr className="border-gray-800" />
+
+        {/* Stack */}
+        <section className="space-y-3">
+          <h2 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Built With</h2>
+          <div className="grid grid-cols-2 gap-1.5 text-xs">
+            {[
+              ['React 19', 'UI'],
+              ['TypeScript 5.7', 'Language'],
+              ['Vite 6', 'Build'],
+              ['Tailwind CSS v4', 'Styling'],
+              ['Dexie / IndexedDB', 'Storage'],
+              ['Zustand', 'State'],
+            ].map(([name, role]) => (
+              <div key={name} className="flex justify-between items-center bg-gray-900 border border-gray-800 rounded px-2.5 py-1.5">
+                <span className="text-gray-200">{name}</span>
+                <span className="text-gray-500">{role}</span>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Footer */}
+        <div className="flex items-center justify-center gap-1.5 text-xs text-gray-600 pb-2">
+          <Code2 size={12} />
+          <span>Open source — MIT License</span>
+        </div>
+
+      </div>
+    </div>
+  )
+}
