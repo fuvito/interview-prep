@@ -8,7 +8,7 @@ import type { EvaluationResult, Question } from '@/types'
 import type { View } from '@/store'
 
 export function LearningView() {
-  const { current } = useNavigationStore()
+  const { current, goBack } = useNavigationStore()
   const view = current as Extract<View, { name: 'learning' }>
   const store = useLearningStore()
 
@@ -78,31 +78,39 @@ export function LearningView() {
       </div>
 
       {/* Footer navigation */}
-      <div className="px-4 py-3 border-t border-gray-800 flex gap-2 shrink-0">
-        <Button variant="ghost" size="sm" onClick={store.previous} disabled={isFirst} className="flex-1">
-          ← Prev
-        </Button>
-
-        {store.phase === 'answering' && isChoice && (
-          <Button size="sm" onClick={store.submitAnswer} disabled={!canSubmit} className="flex-1">
-            Submit
+      <div className="px-4 py-3 border-t border-gray-800 shrink-0 space-y-2">
+        <div className="flex gap-2">
+          <Button variant="ghost" size="sm" onClick={store.previous} disabled={isFirst} className="flex-1">
+            ← Prev
           </Button>
-        )}
-        {store.phase === 'answering' && !isChoice && (
-          <Button size="sm" onClick={store.revealAnswer} className="flex-1">
-            Reveal Answer
-          </Button>
-        )}
 
-        <Button
-          variant={store.phase === 'revealed' ? 'primary' : 'ghost'}
-          size="sm"
-          onClick={store.next}
-          disabled={isLast}
-          className="flex-1"
+          {store.phase === 'answering' && isChoice && (
+            <Button size="sm" onClick={store.submitAnswer} disabled={!canSubmit} className="flex-1">
+              Submit
+            </Button>
+          )}
+          {store.phase === 'answering' && !isChoice && (
+            <Button size="sm" onClick={store.revealAnswer} className="flex-1">
+              Reveal Answer
+            </Button>
+          )}
+
+          <Button
+            variant={store.phase === 'revealed' ? 'primary' : 'ghost'}
+            size="sm"
+            onClick={store.next}
+            disabled={isLast}
+            className="flex-1"
+          >
+            Next →
+          </Button>
+        </div>
+        <button
+          onClick={goBack}
+          className="w-full text-xs text-gray-600 hover:text-gray-400 transition-colors py-0.5"
         >
-          Next →
-        </Button>
+          ✕ Stop studying
+        </button>
       </div>
     </div>
   )

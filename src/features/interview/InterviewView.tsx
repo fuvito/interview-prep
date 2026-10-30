@@ -1,10 +1,12 @@
+import { useState } from 'react'
 import { useNavigationStore, useInterviewStore } from '@/store'
 import { MarkdownRenderer, DifficultyBadge, TypeBadge, ProgressBar, Button, EmptyState } from '@/components/common'
 import type { Question } from '@/types'
 
 export function InterviewView() {
-  const { navigate } = useNavigationStore()
+  const { navigate, goBack } = useNavigationStore()
   const store = useInterviewStore()
+  const [confirmStop, setConfirmStop] = useState(false)
 
   if (store.questions.length === 0) {
     return <EmptyState title="No session" message="Start a new interview from the Subjects screen." />
@@ -20,8 +22,13 @@ export function InterviewView() {
     if (done) navigate({ name: 'results' })
   }
 
+  const handleStop = () => {
+    store.reset()
+    goBack()
+  }
+
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-full relative">
       {/* Header */}
       <div className="px-4 py-2.5 border-b border-gray-800">
         <div className="flex justify-between text-xs text-gray-500 mb-1.5">
@@ -51,18 +58,48 @@ export function InterviewView() {
       </div>
 
       {/* Footer */}
-      <div className="px-4 py-3 border-t border-gray-800 flex gap-2 shrink-0">
-        {!answered && (
-          <Button onClick={store.submitAnswer} disabled={!canSubmit} className="flex-1">
-            Submit Answer
-          </Button>
-        )}
-        {answered && (
-          <Button onClick={() => void handleNext()} className="flex-1">
-            {isLast ? 'Finish Interview' : 'Next →'}
-          </Button>
-        )}
+      <div className="px-4 py-3 border-t border-gray-800 shrink-0 space-y-2">
+        <div className="flex gap-2">
+          {!answered && (
+            <Button onClick={store.submitAnswer} disabled={!canSubmit} className="flex-1">
+              Submit Answer
+            </Button>
+          )}
+          {answered && (
+            <Button onClick={() => void handleNext()} className="flex-1">
+              {isLast ? 'Finish Interview' : 'Next →'}
+            </Button>
+          )}
+        </div>
+        <button
+          onClick={() => setConfirmStop(true)}
+          className="w-full text-xs text-gray-600 hover:text-gray-400 transition-colors py-0.5"
+        >
+          ✕ Stop interview
+        </button>
       </div>
+
+      {/* Stop confirmation overlay */}
+      {confirmStop && (
+        <div className="absolute inset-0 bg-gray-950/80 backdrop-blur-sm flex items-center justify-center p-6 z-10">
+          <div className="bg-gray-900 border border-gray-700 rounded-xl p-5 w-full max-w-xs space-y-4 shadow-xl">
+            <div>
+              <p className="text-sm font-semibold text-gray-100">Stop this interview?</p>
+              <p className="text-xs text-gray-400 mt-1 leading-relaxed">
+                Progress for this session will be lost. Your overall question attempt history is not affected.
+              </p>
+            </div>
+            <div className="flex gap-2">
+              <Button variant="secondary" size="sm" className="flex-1" onClick={() => setConfirmStop(false)}>
+                Continue
+              </Button>
+              <Button variant="danger" size="sm" className="flex-1" onClick={handleStop}>
+                Stop
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
