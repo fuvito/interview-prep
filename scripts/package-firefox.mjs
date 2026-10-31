@@ -2,9 +2,10 @@
  * Packages the dist/ folder as a Firefox Add-on ZIP.
  *
  * Differences from the Chrome build:
- *  - Injects browser_specific_settings.gecko into manifest.json so Firefox
- *    assigns a stable extension ID. Without a stable ID, Firefox regenerates
- *    a random ID on every install, which wipes IndexedDB between updates.
+ *  - Injects browser_specific_settings.gecko — stable extension ID so Firefox
+ *    doesn't wipe IndexedDB between updates.
+ *  - Injects data_collection_permissions — required by Firefox MV3 / AMO
+ *    validation. Declared empty because this extension collects no user data.
  */
 import { existsSync } from 'fs'
 import { writeFile, readFile } from 'fs/promises'
@@ -33,6 +34,11 @@ entries = entries.map((entry) => {
       id: 'interviewprep@fyazar.com',
       strict_min_version: '128.0',
     },
+  }
+
+  manifest.data_collection_permissions = {
+    required: [],
+    optional: [],
   }
 
   return {
