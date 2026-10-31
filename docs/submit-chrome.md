@@ -160,7 +160,6 @@ On the **Privacy practices** tab:
 
 | Permission | Reason |
 |---|---|
-| `tabs` | Opens documentation and repository links in a new tab from the About screen |
 | `downloads` | Saves subject pack exports as JSON files to the user's Downloads folder |
 | `host_permissions: https://raw.githubusercontent.com/*` | Fetches optional official subject packs (Java, Node.js, etc.) from the project's GitHub repository when the user chooses to install them |
 
