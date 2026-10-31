@@ -119,6 +119,7 @@ No data ever leaves your device. No account, no telemetry, no analytics, and no 
 
 ## Open Source
 
+Project website: https://www.fuatyazar.com/interviewprep
 Source code: https://github.com/fuvito/interview-prep
 ```
 
@@ -126,6 +127,18 @@ Source code: https://github.com/fuvito/interview-prep
 
 ```
 Education
+```
+
+### Homepage URL
+
+```
+https://www.fuatyazar.com/interviewprep
+```
+
+### Support URL
+
+```
+https://www.fuatyazar.com/interviewprep
 ```
 
 ### Support Email

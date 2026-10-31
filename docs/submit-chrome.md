@@ -107,7 +107,8 @@ when you choose to install them.
 
 ─── OPEN SOURCE ────────────────────────────────────────
 
-Source code is available on GitHub: https://github.com/fuvito/interview-prep
+Project website: https://www.fuatyazar.com/interviewprep
+Source code: https://github.com/fuvito/interview-prep
 ```
 
 ### Category
@@ -120,6 +121,12 @@ Education
 
 ```
 English
+```
+
+### Homepage URL
+
+```
+https://www.fuatyazar.com/interviewprep
 ```
 
 ### Screenshots
