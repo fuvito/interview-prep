@@ -1,6 +1,6 @@
 {
   "name": "interview-prep",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -16,7 +16,8 @@
     "e2e:ui": "playwright test --ui",
     "generate-packs": "node scripts/generate-packs.mjs",
     "prerelease": "tsc -b && eslint src && vitest run && playwright test && vite build",
-    "package": "node scripts/package-extension.mjs"
+    "package": "node scripts/package-extension.mjs",
+    "package:firefox": "node scripts/package-firefox.mjs"
   },
   "dependencies": {
     "dexie": "^4.4.7",

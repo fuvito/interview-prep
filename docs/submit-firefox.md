@@ -10,63 +10,38 @@ Firefox supports Manifest V3 but has some differences from Chrome. This guide co
 
 ---
 
-## 1. Adapt the Manifest for Firefox
-
-Firefox MV3 requires a few additions to `public/manifest.json`.
-
-Add a `browser_specific_settings` block:
-
-```json
-{
-  "browser_specific_settings": {
-    "gecko": {
-      "id": "interview-prep@fuvito.com",
-      "strict_min_version": "109.0"
-    }
-  }
-}
-```
-
-> Firefox requires an explicit extension ID for signing. Use a unique email-style string.
-
-### Known Differences
+## 1. Known Differences from Chrome
 
 | Feature | Chrome | Firefox |
 |---|---|---|
 | `chrome.*` API | native | polyfill needed (`webextension-polyfill`) |
 | `service_worker` | supported | supported in MV3 (FF 109+) |
-| `host_permissions` | supported | supported |
+| `host_permissions` | supported | supported (FF 128+) |
 | IndexedDB | supported | supported |
 
-The codebase uses only `chrome.storage` via Dexie (IndexedDB), which works natively in Firefox. No API polyfill is needed unless `chrome.*` APIs are called directly.
+The codebase uses only `chrome.downloads` and Dexie (IndexedDB), which both work natively in Firefox. No API polyfill is currently needed.
+
+> The Firefox package script (`npm run package:firefox`) automatically injects `browser_specific_settings.gecko` with a stable extension ID (`interviewprep@fyazar.com`, `strict_min_version: "128.0"`) into the bundled `manifest.json`. The source `public/manifest.json` is not modified.
 
 ---
 
 ## 2. Build
 
 ```bash
-npm run build
-```
-
-Create a ZIP of the `dist/` folder:
-
-```bash
-# macOS / Linux
-zip -r interview-prep-firefox-v1.0.0.zip dist/
-
-# Windows (PowerShell)
-Compress-Archive -Path dist\* -DestinationPath interview-prep-firefox-v1.0.0.zip
+npm run prerelease         # run all checks first
+npm run build              # produces dist/
+npm run package:firefox    # produces dist/interview-prep-v<version>-firefox.zip
 ```
 
 Firefox AMO also requires a ZIP of the **source code** for review:
 
 ```bash
-# macOS / Linux  
-zip -r interview-prep-source-v1.0.0.zip . \
+# macOS / Linux
+zip -r interview-prep-source-v<version>.zip . \
   --exclude "node_modules/*" --exclude "dist/*" --exclude ".git/*"
 
 # Windows (PowerShell)
-Get-ChildItem -Exclude node_modules,dist,.git | Compress-Archive -DestinationPath interview-prep-source-v1.0.0.zip
+Get-ChildItem -Exclude node_modules,dist,.git | Compress-Archive -DestinationPath interview-prep-source-v<version>.zip
 ```
 
 ---

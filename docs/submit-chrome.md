@@ -13,16 +13,7 @@
 ```bash
 npm run prerelease   # run all checks first
 npm run build        # produces dist/
-```
-
-Create a ZIP of the `dist/` folder:
-
-```bash
-# macOS / Linux
-zip -r interview-prep-v1.0.0.zip dist/
-
-# Windows (PowerShell)
-Compress-Archive -Path dist\* -DestinationPath interview-prep-v1.0.0.zip
+npm run package      # produces dist/interview-prep-v<version>.zip
 ```
 
 ---
@@ -87,7 +78,7 @@ Once approved you will receive an email. The item becomes publicly listed on the
 
 1. Bump `version` in `manifest.json` and `package.json`
 2. Run `npm run prerelease`
-3. Run `npm run build` and create a new ZIP
+3. Run `npm run build && npm run package`
 4. Go to the Developer Dashboard → your item → **Package** tab → upload the new ZIP
 5. Click **Submit for review**
 
