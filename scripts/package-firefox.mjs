@@ -33,12 +33,11 @@ entries = entries.map((entry) => {
     gecko: {
       id: 'interviewprep@fyazar.com',
       strict_min_version: '128.0',
+      data_collection_permissions: {
+        required: [],
+        optional: [],
+      },
     },
-  }
-
-  manifest.data_collection_permissions = {
-    required: [],
-    optional: [],
   }
 
   return {
