@@ -34,7 +34,7 @@ entries = entries.map((entry) => {
       id: 'interviewprep@fyazar.com',
       strict_min_version: '128.0',
       data_collection_permissions: {
-        required: [],
+        required: ['none'],
         optional: [],
       },
     },
